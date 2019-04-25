@@ -1,3 +1,10 @@
+# Bot
+bot.owner.id=TODO
+bot.prefix.default=>
+bot.prefix.mention=false
+bot.prefix.name=Nevini
+bot.server.invite=TODO
+
 # Datasource
 spring.datasource.driver-class-name=org.h2.Driver
 spring.datasource.url=jdbc:h2:file:./nevini
@@ -14,9 +21,3 @@ jda.token=TODO
 
 # JPA
 spring.jpa.hibernate.ddl-auto=validate
-
-# Nevini
-nevini.owner=TODO
-nevini.prefix.default=N>
-nevini.prefix.mention=true
-nevini.prefix.name=Nevini

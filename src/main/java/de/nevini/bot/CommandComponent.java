@@ -5,16 +5,11 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
 
-/**
- * Indicates that an annotated class listens for JDA events.
- *
- * @see net.dv8tion.jda.core.hooks.SubscribeEvent
- */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface ShardEventListener {
+public @interface CommandComponent {
 
     /**
      * The value may indicate a suggestion for a logical component name,
