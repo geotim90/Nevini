@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -40,15 +41,19 @@ public class PrefixService {
     }
 
     public Collection<String> getGuildPrefixes(Guild guild) {
-        return Arrays.asList(
-                getGuildPrefix(guild),
-                getSelfMention(guild),
-                getSelfName(guild)
-        );
+        if (isMentionAllowed()) {
+            return Arrays.asList(
+                    getGuildPrefix(guild),
+                    getSelfMention(guild),
+                    getSelfName(guild)
+            );
+        } else {
+            return Collections.singleton(getGuildPrefix(guild));
+        }
     }
 
     public String getGuildPrefix(Guild guild) {
-        Optional<PrefixData> data = prefixRepository.findById(guild.getIdLong());
+        Optional<PrefixData> data = guild != null ? prefixRepository.findById(guild.getIdLong()) : Optional.empty();
         return data.isPresent() ? data.get().getPrefix() : getDefaultPrefix();
     }
 

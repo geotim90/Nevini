@@ -1,7 +1,7 @@
 # Bot
 bot.owner.id=TODO
 bot.prefix.default=>
-bot.prefix.mention=false
+bot.prefix.mention=true
 bot.prefix.name=Nevini
 bot.server.invite=TODO
 

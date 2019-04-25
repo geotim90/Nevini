@@ -18,18 +18,16 @@ public class PrefixSetCommand extends Command {
         this.arguments = "<prefix>";
         this.guildOnly = true;
         this.userPermissions = new Permission[]{Permission.MANAGE_SERVER};
-        this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE};
+        this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION};
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        final String prefix = event.getArgs();
+        String prefix = event.getArgs();
         if (prefix.isEmpty()) {
-            event.reactError();
-            event.reply("you did not provide a prefix to set...");
+            event.reply(":shrug: You did not provide a prefix to set...");
         } else if (prefix.length() > MAX_PREFIX_LENGTH) {
-            event.reactError();
-            event.reply("The prefix you provided is too long! " +
+            event.reply(":x: The prefix you provided is too long! " +
                     "Please choose one that no more than " + MAX_PREFIX_LENGTH + " characters long.");
         } else {
             prefixService.setGuildPrefix(event.getGuild(), prefix);

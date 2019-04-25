@@ -37,12 +37,15 @@ public class CommandClientFactory {
     }
 
     public CommandClient createCommandClient() {
-        final CommandClientBuilder builder = new CommandClientBuilder();
+        CommandClientBuilder builder = new CommandClientBuilder();
         configureOwnerId(builder);
         configurePrefix(builder);
+        configureHelp(builder);
         configureServerInvite(builder);
         configureEmojis(builder);
+        configureGame(builder);
         configureCommands(builder);
+        configureListener(builder);
         return builder.build();
     }
 
@@ -52,8 +55,12 @@ public class CommandClientFactory {
 
     private void configurePrefix(CommandClientBuilder builder) {
         builder.setPrefix(prefixService.getDefaultPrefix());
-        builder.setAlternativePrefix('@' + prefixService.getDefaultName());
+        if (prefixService.isMentionAllowed()) builder.setAlternativePrefix('@' + prefixService.getDefaultName());
         builder.setGuildSettingsManager(this::createGuildPrefixProvider);
+    }
+
+    private void configureHelp(CommandClientBuilder builder) {
+        builder.useHelpBuilder(false);
     }
 
     private void configureServerInvite(CommandClientBuilder builder) {
@@ -64,11 +71,19 @@ public class CommandClientFactory {
         builder.setEmojis("✅", "⚠️", "❌");
     }
 
+    private void configureGame(CommandClientBuilder builder) {
+        builder.setGame(null);
+    }
+
     private void configureCommands(CommandClientBuilder builder) {
-        final Map<String, Object> shardEventListeners = applicationContext.getBeansWithAnnotation(CommandComponent.class);
+        Map<String, Object> shardEventListeners = applicationContext.getBeansWithAnnotation(CommandComponent.class);
         shardEventListeners.values().stream()
                 .filter(e -> e instanceof Command)
                 .forEach(command -> builder.addCommand((Command) command));
+    }
+
+    private void configureListener(CommandClientBuilder builder) {
+        builder.setListener(new CommandLogger());
     }
 
     private GuildSettingsProvider createGuildPrefixProvider(Guild guild) {

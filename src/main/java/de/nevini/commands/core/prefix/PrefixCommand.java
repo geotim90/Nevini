@@ -22,7 +22,6 @@ public class PrefixCommand extends Command {
         this.category = coreCategory;
         this.arguments = "( get | set <prefix> )";
         this.guildOnly = true;
-        this.userPermissions = new Permission[]{Permission.MANAGE_SERVER};
         this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE};
         this.children = new Command[]{
                 getCommand = new PrefixGetCommand(prefixService),

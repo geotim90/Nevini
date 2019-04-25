@@ -20,7 +20,7 @@ public class ShardManager {
     ) throws LoginException {
         if (active && token != null && shards > 0) {
             log.info("Configuring JDABuilder");
-            final JDABuilder shardBuilder = new JDABuilder();
+            JDABuilder shardBuilder = new JDABuilder();
 
             log.info("Authenticating using token");
             shardBuilder.setToken(token);
