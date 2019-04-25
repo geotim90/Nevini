@@ -51,6 +51,7 @@ public class HelpCommand extends AbstractCommand {
                 builder.append("\n").append(prefix).append(" **").append(command.getName()).append("** - ").append(command.getHelp());
             }
         }
+        builder.append("\n\nTo add me to your server, use <https://discordapp.com/oauth2/authorize?client_id=570972920692736002&scope=bot&permissions=519232>");
         builder.append("\n\nFor additional help, join ").append(event.getClient().getServerInvite());
         replyInDm(event, builder.toString());
     }
