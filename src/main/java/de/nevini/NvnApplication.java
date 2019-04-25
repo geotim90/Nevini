@@ -4,10 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NeviniApplication {
+public class NvnApplication
+{
 
 	public static void main(String[] args) {
-		SpringApplication.run(NeviniApplication.class, args);
+		SpringApplication.run(NvnApplication.class, args);
 	}
 
 }

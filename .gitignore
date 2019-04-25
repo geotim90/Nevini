@@ -28,3 +28,7 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+### Nevini ###
+application.properties
+nevini.*.db
