@@ -76,7 +76,7 @@ public class HelpCommand extends AbstractCommand {
                 builder.append("\n\n__Usage__\n`").append(prefix).append(" ").append(command.getName()).append(" ").append(command.getArguments()).append("`");
             }
             if (command.getAliases().length > 0) {
-                builder.append("\n\n__Aliases__\n`").append("for **").append(command.getName()).append("** - **")
+                builder.append("\n\n__Aliases__\n").append("**").append(command.getName()).append("** | **")
                         .append(StringUtils.join(command.getAliases(), "** | **")).append("**");
             }
             if (command.getChildren().length > 0) {
