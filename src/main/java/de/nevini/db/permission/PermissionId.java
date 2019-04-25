@@ -1,36 +1,24 @@
 package de.nevini.db.permission;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(NvnPermissionId.class)
-@Entity
-public class NvnPermission
-{
-	
-	@Id
+public class PermissionId implements Serializable {
+
 	private Long guild;
-	
-	@Id
+
 	private Long channel;
-	
-	@Id
+
 	private Byte type;
-	
-	@Id
+
 	private Long id;
-	
-	@Id
+
 	private String node;
-	
-	private Byte flag;
-	
+
 }

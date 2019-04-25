@@ -1,10 +1,9 @@
-package de.nevini.db.prefix;
+package de.nevini.db.module;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NvnPrefixRepository extends CrudRepository<NvnPrefix, Long>
-{
+public interface ModuleRepository extends CrudRepository<ModuleData, ModuleId> {
 
 }
