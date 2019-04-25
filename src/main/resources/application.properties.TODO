@@ -1,8 +1,6 @@
 # Bot
 bot.owner.id=TODO
-bot.prefix.default=>
-bot.prefix.mention=true
-bot.prefix.name=Nevini
+bot.prefix.default=NVN>
 bot.server.invite=TODO
 
 # Datasource

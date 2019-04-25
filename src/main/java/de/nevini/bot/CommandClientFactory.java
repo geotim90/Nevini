@@ -6,13 +6,13 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.command.GuildSettingsProvider;
 import de.nevini.services.PrefixService;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Guild;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -53,12 +53,6 @@ public class CommandClientFactory {
         builder.setOwnerId(ownerId);
     }
 
-    private void configurePrefix(CommandClientBuilder builder) {
-        builder.setPrefix(prefixService.getDefaultPrefix());
-        if (prefixService.isMentionAllowed()) builder.setAlternativePrefix('@' + prefixService.getDefaultName());
-        builder.setGuildSettingsManager(this::createGuildPrefixProvider);
-    }
-
     private void configureHelp(CommandClientBuilder builder) {
         builder.useHelpBuilder(false);
     }
@@ -86,13 +80,13 @@ public class CommandClientFactory {
         builder.setListener(new CommandLogger());
     }
 
-    private GuildSettingsProvider createGuildPrefixProvider(Guild guild) {
-        return new GuildSettingsProvider() {
+    private void configurePrefix(CommandClientBuilder builder) {
+        builder.setGuildSettingsManager(guild -> new GuildSettingsProvider() {
             @Override
             public Collection<String> getPrefixes() {
-                return prefixService.getGuildPrefixes(guild);
+                return Collections.singleton(prefixService.getGuildPrefix(guild));
             }
-        };
+        });
     }
 
 }
