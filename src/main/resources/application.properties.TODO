@@ -8,7 +8,7 @@ spring.datasource.password=TODO
 spring.h2.console.enabled=false
 
 # JDA
-jda.active=true
+jda.active=TODO
 jda.shards=TODO (1 shard per 1000 guilds is recommended)
 jda.token=TODO
 
@@ -16,6 +16,7 @@ jda.token=TODO
 spring.jpa.hibernate.ddl-auto=validate
 
 # Nevini
+nevini.owner=TODO
 nevini.prefix.default=N>
 nevini.prefix.mention=true
 nevini.prefix.name=Nevini
