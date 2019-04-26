@@ -2,12 +2,12 @@ package de.nevini.commands.core.prefix;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import de.nevini.bot.AbstractCommand;
-import de.nevini.bot.CommandComponent;
 import de.nevini.commands.core.CoreCategory;
 import de.nevini.services.PrefixService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@CommandComponent
+@Component
 public class PrefixCommand extends AbstractCommand {
 
     public PrefixCommand(

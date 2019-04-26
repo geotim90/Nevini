@@ -34,7 +34,9 @@ public class PrefixService {
     }
 
     public void setGuildPrefix(Guild guild, String prefix) {
-        prefixRepository.save(new PrefixData(guild.getIdLong(), prefix));
+        PrefixData data = new PrefixData(guild.getIdLong(), prefix);
+        log.info("Save data: {}", data);
+        prefixRepository.save(data);
     }
 
 }

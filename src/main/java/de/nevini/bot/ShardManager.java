@@ -16,7 +16,8 @@ public class ShardManager {
             @Value("${jda.active:false}") boolean active,
             @Value("${jda.token:null}") String token,
             @Value("${jda.shards:1}") int shards,
-            @Autowired CommandClientFactory commandClientFactory
+            @Autowired CommandClientFactory commandClientFactory,
+            @Autowired EventDispatcher eventDispatcher
     ) throws LoginException {
         if (active && token != null && shards > 0) {
             log.info("Configuring JDABuilder");
@@ -27,6 +28,9 @@ public class ShardManager {
 
             log.info("Building command client");
             shardBuilder.addEventListener(commandClientFactory.createCommandClient());
+
+            log.info("Adding event dispatcher");
+            shardBuilder.addEventListener(eventDispatcher);
 
             for (int shard = 0; shard < shards; ++shard) {
                 log.info("Building shard {} ({} of {})", shard, shard + 1, shards);

@@ -3,17 +3,17 @@ package de.nevini.commands.core.help;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import de.nevini.bot.AbstractCommand;
-import de.nevini.bot.CommandComponent;
 import de.nevini.commands.core.CoreCategory;
 import de.nevini.services.PrefixService;
 import net.dv8tion.jda.core.entities.ChannelType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-@CommandComponent
+@Component
 public class HelpCommand extends AbstractCommand {
 
     private final PrefixService prefixService;

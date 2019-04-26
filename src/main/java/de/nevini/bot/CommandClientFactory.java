@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -69,10 +70,9 @@ public class CommandClientFactory {
     }
 
     private void configureCommands(CommandClientBuilder builder) {
-        Map<String, Object> shardEventListeners = applicationContext.getBeansWithAnnotation(CommandComponent.class);
-        shardEventListeners.values().stream()
-                .filter(e -> e instanceof AbstractCommand)
-                .forEach(command -> builder.addCommand((AbstractCommand) command));
+        Map<String, AbstractCommand> commands = applicationContext.getBeansOfType(AbstractCommand.class);
+        log.info("Adding commands: {}", commands.values().stream().map(e -> e.getClass().getSimpleName()).collect(Collectors.joining(", ")));
+        commands.values().forEach(builder::addCommand);
     }
 
     private void configureListener(CommandClientBuilder builder) {

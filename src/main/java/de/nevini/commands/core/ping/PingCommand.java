@@ -2,17 +2,17 @@ package de.nevini.commands.core.ping;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import de.nevini.bot.AbstractCommand;
-import de.nevini.bot.CommandComponent;
 import de.nevini.commands.core.CoreCategory;
 import net.dv8tion.jda.core.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.temporal.ChronoUnit;
 
 /**
  * @see com.jagrosh.jdautilities.examples.command.PingCommand
  */
-@CommandComponent
+@Component
 public class PingCommand extends AbstractCommand {
 
     public PingCommand(@Autowired CoreCategory category) {
