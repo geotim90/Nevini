@@ -20,7 +20,7 @@ public class SelfDestructCommand extends AbstractCommand {
         this.guildOnly = false;
         this.cooldown = 60;
         this.botPermissions = new Permission[]{Permission.MESSAGE_MANAGE};
-        this.aliases = new String[]{"selfdesctruct", "auto-destruct", "autodestruct"};
+        this.aliases = new String[]{"selfdestruct", "auto-destruct", "autodestruct"};
         this.cooldownScope = CooldownScope.GLOBAL;
     }
 
