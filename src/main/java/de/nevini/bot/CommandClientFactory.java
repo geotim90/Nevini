@@ -1,6 +1,5 @@
 package de.nevini.bot;
 
-import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.command.GuildSettingsProvider;
@@ -72,8 +71,8 @@ public class CommandClientFactory {
     private void configureCommands(CommandClientBuilder builder) {
         Map<String, Object> shardEventListeners = applicationContext.getBeansWithAnnotation(CommandComponent.class);
         shardEventListeners.values().stream()
-                .filter(e -> e instanceof Command)
-                .forEach(command -> builder.addCommand((Command) command));
+                .filter(e -> e instanceof AbstractCommand)
+                .forEach(command -> builder.addCommand((AbstractCommand) command));
     }
 
     private void configureListener(CommandClientBuilder builder) {

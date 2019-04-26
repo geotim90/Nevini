@@ -10,11 +10,10 @@ public class PrefixGetCommand extends Command {
     private final PrefixService prefixService;
 
     public PrefixGetCommand(PrefixService prefixService) {
-        this.prefixService = prefixService;
         this.name = "get";
         this.help = "displays the bot's prefix";
-        this.guildOnly = true;
         this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE};
+        this.prefixService = prefixService;
     }
 
     @Override

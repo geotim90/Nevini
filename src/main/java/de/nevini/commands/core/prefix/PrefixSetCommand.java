@@ -12,22 +12,21 @@ public class PrefixSetCommand extends Command {
     private final PrefixService prefixService;
 
     public PrefixSetCommand(PrefixService prefixService) {
-        this.prefixService = prefixService;
         this.name = "set";
         this.help = "configures the bot's prefix";
         this.arguments = "<prefix>";
-        this.guildOnly = true;
         this.userPermissions = new Permission[]{Permission.MANAGE_SERVER};
         this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION};
+        this.prefixService = prefixService;
     }
 
     @Override
     protected void execute(CommandEvent event) {
         String prefix = event.getArgs();
         if (prefix.isEmpty()) {
-            event.reply(":shrug: You did not provide a prefix to set...");
+            event.replyWarning(event.getAuthor().getAsMention() + ", you did not provide a prefix to set...");
         } else if (prefix.length() > MAX_PREFIX_LENGTH) {
-            event.reply(":x: The prefix you provided is too long! " +
+            event.replyError(event.getAuthor().getAsMention() + ", the prefix you provided is too long! " +
                     "Please choose one that no more than " + MAX_PREFIX_LENGTH + " characters long.");
         } else {
             prefixService.setGuildPrefix(event.getGuild(), prefix);

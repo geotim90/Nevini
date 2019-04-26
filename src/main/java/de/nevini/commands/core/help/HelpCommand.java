@@ -2,6 +2,7 @@ package de.nevini.commands.core.help;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import de.nevini.bot.AbstractCommand;
 import de.nevini.bot.CommandComponent;
 import de.nevini.commands.core.CoreCategory;
 import de.nevini.services.PrefixService;
@@ -13,20 +14,18 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @CommandComponent
-public class HelpCommand extends Command {
+public class HelpCommand extends AbstractCommand {
 
     private final PrefixService prefixService;
 
     public HelpCommand(
-            @Autowired PrefixService prefixService,
-            @Autowired CoreCategory coreCategory
+            @Autowired CoreCategory category,
+            @Autowired PrefixService prefixService
     ) {
-        this.prefixService = prefixService;
-        this.name = "help";
+        super("help", "gets help", category);
         this.arguments = "[command]";
-        this.help = "gets help";
-        this.category = coreCategory;
         this.guildOnly = false;
+        this.prefixService = prefixService;
     }
 
     @Override
@@ -39,11 +38,6 @@ public class HelpCommand extends Command {
         }
     }
 
-    /**
-     * Slightly different implementation of the default help provider.
-     *
-     * @see com.jagrosh.jdautilities.command.impl.CommandClientImpl
-     */
     private void doHelp(CommandEvent event) {
         StringBuilder builder = new StringBuilder("Here is a list of all **" + event.getSelfUser().getName() + "** commands.");
         String prefix = prefixService.getGuildPrefix(event.getGuild());
@@ -58,7 +52,7 @@ public class HelpCommand extends Command {
             }
         }
         builder.append("\n\nFor additional help, join ").append(event.getClient().getServerInvite());
-        replyInDm(event, builder);
+        replyInDm(event, builder.toString());
     }
 
     private void drilldown(CommandEvent event, String prefix, String[] args, Collection<Command> commands) {
@@ -90,14 +84,14 @@ public class HelpCommand extends Command {
                     builder.append("\n").append(prefix).append(" ").append(command.getName()).append(" **").append(child.getName()).append("** - ").append(child.getHelp());
                 }
             }
-            replyInDm(event, builder);
+            replyInDm(event, builder.toString());
         } else {
             doHelp(event);
         }
     }
 
-    private void replyInDm(CommandEvent event, StringBuilder builder) {
-        event.replyInDm(builder.toString(), message -> {
+    private void replyInDm(CommandEvent event, String content) {
+        event.replyInDm(content, message -> {
             if (event.isFromType(ChannelType.TEXT)) event.reactSuccess();
         }, t -> event.replyWarning(event.getAuthor().getAsMention() + ", you are blocking direct messages."));
     }
