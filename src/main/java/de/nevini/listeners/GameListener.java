@@ -28,15 +28,15 @@ public class GameListener {
 
     private void onUserUpdateGame(UserUpdateGameEvent e) {
         if (!e.getUser().isBot()) {
-            processGame(e.getOldGame().asRichPresence());
-            processGame(e.getNewGame().asRichPresence());
+            processGame(e.getOldGame());
+            processGame(e.getNewGame());
         }
     }
 
-    private void processGame(RichPresence presence) {
+    private void processGame(Game game) {
+        RichPresence presence = game != null ? game.asRichPresence() : null;
         if (presence != null && presence.getType() == Game.GameType.DEFAULT) {
-            final long id = presence.getApplicationIdLong();
-            if (idCache.add(id)) {
+            if (idCache.add(presence.getApplicationIdLong())) {
                 gameService.putGame(presence);
             }
         }
