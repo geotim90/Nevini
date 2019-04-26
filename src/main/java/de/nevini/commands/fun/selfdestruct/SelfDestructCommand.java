@@ -5,6 +5,7 @@ import de.nevini.bot.AbstractCommand;
 import de.nevini.commands.fun.FunCategory;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class SelfDestructCommand extends AbstractCommand {
     @Override
     protected void execute(CommandEvent event) {
         event.reply("⚠️ Automatic self-destruct sequence initiated!", this::tMinus5);
-        event.getMessage().delete().queue();
+        if (event.getChannelType() == ChannelType.TEXT) event.getMessage().delete().queue();
     }
 
     private void tMinus5(Message message) {
@@ -52,7 +53,7 @@ public class SelfDestructCommand extends AbstractCommand {
 
     private void aftermath(Message message) {
         message.getJDA().getPresence().setStatus(OnlineStatus.INVISIBLE);
-        message.delete().queueAfter(30, TimeUnit.SECONDS, e -> recovery(message));
+        message.delete().queueAfter(30, TimeUnit.SECONDS, e -> recovery(message), e -> recovery(message));
     }
 
     private void recovery(Message message) {
