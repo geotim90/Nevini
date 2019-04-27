@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,6 +36,14 @@ public class GameService {
             GameData data = new GameData(game.getApplicationIdLong(), game.getName());
             log.info("Save data: {}", data);
             gameRepository.save(data);
+        }
+    }
+
+    public Collection<GameData> findGames(String query) {
+        try {
+            return gameRepository.findAllByIdOrNameContainsIgnoreCase(Long.parseLong(query), query);
+        } catch (NumberFormatException e) {
+            return gameRepository.findAllByNameContainsIgnoreCase(query);
         }
     }
 

@@ -1,20 +1,19 @@
-package de.nevini.commands.admin.shutdown;
+package de.nevini.commands.core.shutdown;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import de.nevini.bot.AbstractCommand;
-import de.nevini.commands.admin.AdminCategory;
+import de.nevini.commands.core.CoreCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ShutdownCommand extends AbstractCommand {
 
-    public ShutdownCommand(@Autowired AdminCategory category) {
+    public ShutdownCommand(@Autowired CoreCategory category) {
         super("shutdown", "safely shuts down the bot", category);
         this.name = "shutdown";
         this.guildOnly = false;
         this.ownerCommand = true;
-        this.hidden = true;
     }
 
     @Override

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BadApplePizzaCommand extends AbstractCommand {
+public class BadAppleCommand extends AbstractCommand {
 
-    public BadApplePizzaCommand(@Autowired FunCategory category) {
+    public BadAppleCommand(@Autowired FunCategory category) {
         super("bad-apple", "BAD APPLE!! || METAL COVER by RichaadEB ft. Cristina Vee", category);
         this.guildOnly = false;
         this.botPermissions = new Permission[]{Permission.MESSAGE_WRITE};

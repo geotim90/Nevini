@@ -3,6 +3,7 @@ package de.nevini.services;
 import de.nevini.db.activity.ActivityData;
 import de.nevini.db.activity.ActivityId;
 import de.nevini.db.activity.ActivityRepository;
+import de.nevini.db.game.GameData;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -57,6 +58,11 @@ public class ActivityService {
     public Map<Long, Long> getActivityPlaying(User user) {
         Collection<ActivityData> data = activityRepository.findAllByUserAndType(user.getIdLong(), ACTIVITY_TYPE_PLAYING);
         return data.stream().collect(Collectors.toMap(ActivityData::getId, ActivityData::getUts));
+    }
+
+    public Map<Long, Long> getActivityPlaying(GameData game) {
+        Collection<ActivityData> data = activityRepository.findAllByTypeAndId(ACTIVITY_TYPE_PLAYING, game.getId());
+        return data.stream().collect(Collectors.toMap(ActivityData::getUser, ActivityData::getUts));
     }
 
     public synchronized void updateActivityPlaying(User user, RichPresence presence) {
