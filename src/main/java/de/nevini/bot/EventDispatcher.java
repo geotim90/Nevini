@@ -26,21 +26,31 @@ public class EventDispatcher implements EventListener {
     private final MultiValueMap<Class<?>, EventTypeCallback<?>> eventTypeCallbacks = new LinkedMultiValueMap<>();
 
     public EventDispatcher() {
-        addEventListener(ShutdownEvent.class, e -> executorService.shutdown());
+        addEventListener(ShutdownEvent.class, e -> shutdown());
     }
 
     public <T extends Event> void addEventListener(Class<T> eventType, Consumer<? super T> callback) {
         eventTypeCallbacks.add(eventType, new EventTypeCallback<>(eventType, callback));
     }
 
+    private synchronized void shutdown() {
+        executorService.shutdown();
+    }
+
+    private synchronized boolean isShutdown() {
+        return executorService.isShutdown();
+    }
+
     @Override
     public void onEvent(Event event) {
-        log.debug("Queuing {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
-        executorService.execute(() -> {
-            log.debug("Dispatching {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
-            eventWaiter.onEvent(event);
-            dispatchEvent(event);
-        });
+        if (!isShutdown()) {
+            log.debug("Queuing {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
+            executorService.execute(() -> {
+                log.debug("Dispatching {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
+                eventWaiter.onEvent(event);
+                dispatchEvent(event);
+            });
+        }
     }
 
     private void dispatchEvent(Event event) {

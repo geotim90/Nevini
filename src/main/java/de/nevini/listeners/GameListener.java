@@ -10,16 +10,11 @@ import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Component
 public class GameListener {
 
     private final ActivityService activityService;
     private final GameService gameService;
-
-    private final Set<Long> idCache = new HashSet<>();
 
     public GameListener(
             @Autowired ActivityService activityService,
@@ -42,9 +37,7 @@ public class GameListener {
         RichPresence presence = game != null ? game.asRichPresence() : null;
         if (presence != null && presence.getType() == Game.GameType.DEFAULT) {
             activityService.updateActivityPlaying(user, presence);
-            if (idCache.add(presence.getApplicationIdLong())) {
-                gameService.putGame(presence);
-            }
+            gameService.setGameName(presence);
         }
     }
 

@@ -33,7 +33,7 @@ public class PrefixService {
         return data.isPresent() ? data.get().getPrefix() : getDefaultPrefix();
     }
 
-    public void setGuildPrefix(Guild guild, String prefix) {
+    public synchronized void setGuildPrefix(Guild guild, String prefix) {
         PrefixData data = new PrefixData(guild.getIdLong(), prefix);
         log.info("Save data: {}", data);
         prefixRepository.save(data);

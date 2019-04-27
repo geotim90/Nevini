@@ -24,9 +24,9 @@ public class PrefixSetCommand extends Command {
     protected void execute(CommandEvent event) {
         String prefix = event.getArgs();
         if (prefix.isEmpty()) {
-            event.replyWarning(event.getAuthor().getAsMention() + ", you did not provide a prefix to set...");
+            event.replyWarning("You did not provide a prefix to set.");
         } else if (prefix.length() > MAX_PREFIX_LENGTH) {
-            event.replyError(event.getAuthor().getAsMention() + ", the prefix you provided is too long! " +
+            event.replyError("The prefix you provided is too long! " +
                     "Please choose one that no more than " + MAX_PREFIX_LENGTH + " characters long.");
         } else {
             prefixService.setGuildPrefix(event.getGuild(), prefix);

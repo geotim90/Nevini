@@ -12,9 +12,9 @@ import javax.security.auth.login.LoginException;
 
 @Slf4j
 @Component
-public class ShardManager {
+public class BotLauncher {
 
-    public ShardManager(
+    public BotLauncher(
             @Value("${jda.active:false}") boolean active,
             @Value("${jda.token:null}") String token,
             @Value("${jda.shards:1}") int shards,
