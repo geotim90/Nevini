@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '2.2.1-SNAPSHOT'
+version = '2.2.2'
 sourceCompatibility = '8'
 
 configurations {

@@ -2,6 +2,8 @@ package de.nevini.bot;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.hooks.EventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,11 +28,12 @@ public class ShardManager {
             log.info("Authenticating using token");
             shardBuilder.setToken(token);
 
-            log.info("Building command client");
-            shardBuilder.addEventListener(commandClientFactory.createCommandClient());
-
-            log.info("Adding event dispatcher");
+            log.info("Registering event dispatcher");
             shardBuilder.addEventListener(eventDispatcher);
+
+            log.info("Building command client");
+            EventListener commandClient = (EventListener) commandClientFactory.createCommandClient();
+            eventDispatcher.addEventListener(Event.class, commandClient::onEvent);
 
             for (int shard = 0; shard < shards; ++shard) {
                 log.info("Building shard {} ({} of {})", shard, shard + 1, shards);

@@ -1,9 +1,11 @@
 package de.nevini.listeners;
 
 import de.nevini.bot.EventDispatcher;
+import de.nevini.services.ActivityService;
 import de.nevini.services.GameService;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.RichPresence;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,28 +16,32 @@ import java.util.Set;
 @Component
 public class GameListener {
 
-    private final Set<Long> idCache = new HashSet<>();
-
+    private final ActivityService activityService;
     private final GameService gameService;
 
+    private final Set<Long> idCache = new HashSet<>();
+
     public GameListener(
+            @Autowired ActivityService activityService,
             @Autowired GameService gameService,
             @Autowired EventDispatcher eventDispatcher
     ) {
+        this.activityService = activityService;
         this.gameService = gameService;
         eventDispatcher.addEventListener(UserUpdateGameEvent.class, this::onUserUpdateGame);
     }
 
     private void onUserUpdateGame(UserUpdateGameEvent e) {
         if (!e.getUser().isBot()) {
-            processGame(e.getOldGame());
-            processGame(e.getNewGame());
+            processUserGame(e.getUser(), e.getOldGame());
+            processUserGame(e.getUser(), e.getNewGame());
         }
     }
 
-    private void processGame(Game game) {
+    private void processUserGame(User user, Game game) {
         RichPresence presence = game != null ? game.asRichPresence() : null;
         if (presence != null && presence.getType() == Game.GameType.DEFAULT) {
+            activityService.updateActivityPlaying(user, presence);
             if (idCache.add(presence.getApplicationIdLong())) {
                 gameService.putGame(presence);
             }

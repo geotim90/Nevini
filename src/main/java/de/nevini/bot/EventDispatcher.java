@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.ShutdownEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -18,8 +21,13 @@ public class EventDispatcher implements EventListener {
 
     @Getter
     private final EventWaiter eventWaiter = new EventWaiter();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     private final MultiValueMap<Class<?>, EventTypeCallback<?>> eventTypeCallbacks = new LinkedMultiValueMap<>();
+
+    public EventDispatcher() {
+        addEventListener(ShutdownEvent.class, e -> executorService.shutdown());
+    }
 
     public <T extends Event> void addEventListener(Class<T> eventType, Consumer<? super T> callback) {
         eventTypeCallbacks.add(eventType, new EventTypeCallback<>(eventType, callback));
@@ -27,9 +35,12 @@ public class EventDispatcher implements EventListener {
 
     @Override
     public void onEvent(Event event) {
-        log.debug("Dispatching {}", event.getClass().getSimpleName());
-        eventWaiter.onEvent(event);
-        dispatchEvent(event);
+        log.debug("Queuing {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
+        executorService.execute(() -> {
+            log.debug("Dispatching {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
+            eventWaiter.onEvent(event);
+            dispatchEvent(event);
+        });
     }
 
     private void dispatchEvent(Event event) {
