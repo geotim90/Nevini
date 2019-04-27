@@ -18,7 +18,7 @@ public class DespacitoCommand extends AbstractCommand {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.reply("https://www.youtube.com/watch?v=7t9z9KtoIJo");
+        event.reply("https://www.youtube.com/watch?v=kJQP7kiw5Fk");
     }
 
 }
