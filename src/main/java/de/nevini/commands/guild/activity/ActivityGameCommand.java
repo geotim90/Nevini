@@ -76,6 +76,7 @@ public class ActivityGameCommand extends Command {
             builder.setUsers(event.getAuthor());
             builder.setColor(event.getSelfMember().getColor());
             builder.setText("Recent activity - last played **" + game.getName() + "**:");
+            builder.setFinalAction(msg -> msg.clearReactions().queue());
             lastPlayed.forEach((k, v) -> builder.addItems("**" + k.getEffectiveName() + "** " + TimestampUtils.formatLargestUnitAgo(v)));
             builder.build().display(event.getChannel());
         }
