@@ -73,7 +73,7 @@ public class CommandDescriptor {
      */
     @NonNull
     @Builder.Default
-    private final Permission[] defaultUserPermissions = {Permission.MANAGE_SERVER};
+    private final Permission[] defaultUserPermissions = {Permission.MESSAGE_READ, Permission.MESSAGE_WRITE};
 
     /**
      * The help description for this command (mandatory).

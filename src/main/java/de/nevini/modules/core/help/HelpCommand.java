@@ -5,7 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
 import de.nevini.util.FormatUtils;
-import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ public class HelpCommand extends Command {
                 .keyword("help")
                 .guildOnly(false)
                 .module(Module.CORE)
-                .defaultUserPermissions(new Permission[]{Permission.MESSAGE_WRITE})
                 .description("provides a list of commands or details on specific commands")
                 .syntax("[command]")
                 .build());
