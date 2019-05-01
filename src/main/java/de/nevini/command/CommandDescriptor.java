@@ -1,6 +1,7 @@
 package de.nevini.command;
 
 import de.nevini.modules.Module;
+import de.nevini.modules.Node;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -66,7 +67,7 @@ public class CommandDescriptor {
     /**
      * The permission node for this command ({@code null} by default).
      */
-    private final String node;
+    private final Node node;
 
     /**
      * The default user permissions required for this command to function ({@link Permission#MANAGE_SERVER} by default).
@@ -97,8 +98,10 @@ public class CommandDescriptor {
                 throw new IllegalStateException("Alias does not match regex.");
             }
         }
-        if (node != null && !node.matches("[a-z0-9.-]{1,32}")) {
-            throw new IllegalStateException("Node does not match regex.");
+        for (Command child : children) {
+            if (child == null) {
+                throw new IllegalStateException("Child is null.");
+            }
         }
         if (description.isEmpty()) {
             throw new IllegalStateException("Description is empty.");

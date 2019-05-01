@@ -4,6 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
+import de.nevini.modules.Node;
 import de.nevini.util.FormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class HelpCommand extends Command {
                 .keyword("help")
                 .guildOnly(false)
                 .module(Module.CORE)
+                .node(Node.CORE_HELP)
                 .description("provides a list of commands or details on specific commands")
                 .syntax("[command]")
                 .build());

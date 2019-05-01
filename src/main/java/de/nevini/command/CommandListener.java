@@ -40,6 +40,7 @@ public class CommandListener {
     ) {
         Map<String, Command> commands = new ConcurrentHashMap<>();
         applicationContext.getBeansOfType(Command.class).forEach((ignore, command) -> {
+            log.info("Registering {}", command.getClass().getSimpleName());
             commands.put(command.getKeyword(), command);
             for (String alias : command.getAliases()) {
                 commands.put(alias, command);
@@ -55,7 +56,7 @@ public class CommandListener {
     public void onEvent(MessageReceivedEvent event) {
         if (!event.getAuthor().isBot()) {
             String content = event.getMessage().getContentRaw();
-            Optional<String> prefix = extractPrefix(event);
+            Optional<String> prefix = getPrefixService().extractPrefix(event);
             if (prefix.isPresent()) {
                 String[] args = content.substring(prefix.get().length()).trim().split("\\s+", 2);
                 if (args.length == 0 || StringUtils.isEmpty(args[0])) {
@@ -74,29 +75,10 @@ public class CommandListener {
         Command command = getCommands().get(keyword.toLowerCase());
         if (command != null) {
             log.info("{} - Calling {}", event.getMessageId(), command.getClass().getSimpleName());
-            command.onEvent(new CommandEvent(event, commandContext, argument));
+            command.onEvent(new CommandEvent(commandContext, event, argument));
         } else {
             log.info("{} - No command found for keyword {} and argument {}", event.getMessageId(), keyword,
                     summarize(argument));
-        }
-    }
-
-    private Optional<String> extractPrefix(MessageReceivedEvent event) {
-        String content = event.getMessage().getContentRaw();
-        String configuredPrefix = getPrefixService().getGuildPrefix(event.getGuild());
-        if (content.startsWith(configuredPrefix)) {
-            return Optional.of(configuredPrefix);
-        } else if (content.startsWith("<@" + event.getJDA().getSelfUser().getId() + ">")) {
-            return Optional.of("<@" + event.getJDA().getSelfUser().getId() + ">");
-        } else if (content.startsWith("<@!" + event.getJDA().getSelfUser().getId() + ">")) {
-            return Optional.of("<@!" + event.getJDA().getSelfUser().getId() + ">");
-        } else if (content.startsWith("@" + event.getJDA().getSelfUser().getName())) {
-            return Optional.of("@" + event.getJDA().getSelfUser().getName());
-        } else if (event.isFromType(ChannelType.TEXT)
-                && content.startsWith("@" + event.getGuild().getSelfMember().getEffectiveName())) {
-            return Optional.of("@" + event.getGuild().getSelfMember().getEffectiveName());
-        } else {
-            return event.isFromType(ChannelType.TEXT) ? Optional.empty() : Optional.of(StringUtils.EMPTY);
         }
     }
 

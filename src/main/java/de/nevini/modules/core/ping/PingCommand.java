@@ -4,6 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
+import de.nevini.modules.Node;
 import org.springframework.stereotype.Component;
 
 import java.time.temporal.ChronoUnit;
@@ -16,6 +17,7 @@ public class PingCommand extends Command {
                 .keyword("ping")
                 .guildOnly(false)
                 .module(Module.CORE)
+                .node(Node.CORE_PING)
                 .description("measures the bot's latency")
                 .build());
     }

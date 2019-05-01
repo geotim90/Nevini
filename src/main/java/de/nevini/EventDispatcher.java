@@ -85,7 +85,7 @@ public class EventDispatcher implements EventListener {
     }
 
     /**
-     * Subscribed events of a specific type (or any sub-class of said type).<br>
+     * Subscribes events of a specific type (or any sub-class of said type).<br>
      * <br>
      * This method is provided as a convenience method for subscriptions with no condition or timeout.
      *

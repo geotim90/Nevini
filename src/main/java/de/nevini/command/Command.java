@@ -45,6 +45,7 @@ public abstract class Command {
             for (Command child : getChildren()) {
                 if (child.isCommandFor(args[0])) {
                     event.setArgument(args.length > 1 ? args[1] : null);
+                    child.onEvent(event);
                     return false;
                 }
             }
@@ -105,8 +106,9 @@ public abstract class Command {
 
     protected boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
-            final Optional<Boolean> permissionOverride = event.getPermissionService()
-                    .hasPermission(event.getTextChannel(), event.getAuthor(), getNode());
+            final Optional<Boolean> permissionOverride = getNode() == null ? Optional.empty() :
+                    event.getPermissionService().hasPermission(event.getTextChannel(), event.getAuthor(),
+                            getNode().getNode());
             boolean permission = permissionOverride.orElseGet(() ->
                     event.getMember().hasPermission(event.getTextChannel(), getMinimumUserPermissions()));
             if (permission) {
