@@ -7,6 +7,8 @@ import lombok.NonNull;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -32,9 +34,7 @@ public class CommandEvent {
 
     public void reply(@NonNull String message) {
         if (!isFromType(ChannelType.TEXT) || getTextChannel().canTalk()) {
-            // TODO split message if longer than 2000 characters
-            log.info("{} - reply: {}", event.getMessageId(), summarize(message));
-            getChannel().sendMessage(message).queue();
+            sendMessage("reply", getChannel(), message);
         }
     }
 
@@ -43,9 +43,21 @@ public class CommandEvent {
     }
 
     public void replyDm(String message) {
-        // TODO split message if longer than 2000 characters
-        log.info("{} - replyDm: {}", event.getMessageId(), summarize(message));
-        getAuthor().openPrivateChannel().complete().sendMessage(message).queue();
+        sendMessage("replyDm", getAuthor().openPrivateChannel().complete(), message);
+    }
+
+    private void sendMessage(String type, MessageChannel channel, String message) {
+        log.info("{} - {}: {}", event.getMessageId(), type, summarize(message));
+        if (message.length() <= Message.MAX_CONTENT_LENGTH) {
+            channel.sendMessage(message).queue();
+        } else {
+            String remainder = message;
+            while (remainder.length() > Message.MAX_CONTENT_LENGTH) {
+                String part = remainder.substring(0, remainder.lastIndexOf('\n', Message.MAX_CONTENT_LENGTH));
+                remainder = remainder.substring(part.length());
+                channel.sendMessage(part).queue();
+            }
+        }
     }
 
 }
