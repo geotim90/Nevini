@@ -97,7 +97,8 @@ public class CommandEvent {
         replyTo(message, content, ignore());
     }
 
-    public void replyTo(@NonNull Message message, @NonNull String content, @NonNull Consumer<? super Message> callback) {
+    public void replyTo(@NonNull Message message, @NonNull String content,
+                        @NonNull Consumer<? super Message> callback) {
         if (canTalk(message)) {
             sendMessage(getChannel(), content, callback);
         } else {

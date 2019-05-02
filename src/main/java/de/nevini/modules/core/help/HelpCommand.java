@@ -19,7 +19,7 @@ public class HelpCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_HELP)
                 .description("provides a list of commands or details on specific commands")
-                .syntax("[command]")
+                .syntax("[<command>]")
                 .build());
     }
 

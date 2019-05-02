@@ -89,23 +89,4 @@ public class CommandDescriptor {
     @Builder.Default
     private final String syntax = "";
 
-    public void validate() {
-        if (!keyword.matches("[a-z0-9-]{1,32}")) {
-            throw new IllegalStateException("Keyword does not match regex.");
-        }
-        for (String alias : aliases) {
-            if (!alias.matches("[a-z0-9-]{1,32}")) {
-                throw new IllegalStateException("Alias does not match regex.");
-            }
-        }
-        for (Command child : children) {
-            if (child == null) {
-                throw new IllegalStateException("Child is null.");
-            }
-        }
-        if (description.isEmpty()) {
-            throw new IllegalStateException("Description is empty.");
-        }
-    }
-
 }

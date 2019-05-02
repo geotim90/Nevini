@@ -22,7 +22,26 @@ public abstract class Command {
 
     protected Command(@NonNull CommandDescriptor descriptor) {
         this.descriptor = descriptor;
-        descriptor.validate();
+        validate();
+    }
+
+    protected void validate() {
+        if (!getKeyword().matches("[a-z0-9-]{1,32}")) {
+            throw new IllegalStateException("Keyword does not match regex.");
+        }
+        for (String alias : getAliases()) {
+            if (!alias.matches("[a-z0-9-]{1,32}")) {
+                throw new IllegalStateException("Alias does not match regex.");
+            }
+        }
+        for (Command child : getChildren()) {
+            if (child == null) {
+                throw new IllegalStateException("Child is null.");
+            }
+        }
+        if (getDescription().isEmpty()) {
+            throw new IllegalStateException("Description is empty.");
+        }
     }
 
     public void onEvent(CommandEvent event) {
