@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -34,13 +35,23 @@ public class CommandEvent {
         return getAuthor().getId().equals(context.getOwnerId());
     }
 
+    public boolean canEmbed() {
+        return canEmbed(getMessage());
+    }
+
+    public boolean canEmbed(Message message) {
+        return !message.isFromType(ChannelType.TEXT) || message.getGuild().getSelfMember().hasPermission(
+                message.getTextChannel(), Permission.MESSAGE_READ, Permission.MESSAGE_WRITE,
+                Permission.MESSAGE_EMBED_LINKS);
+    }
+
     public boolean canReact() {
         return canReact(getMessage());
     }
 
     public boolean canReact(@NonNull Message message) {
         return !message.isFromType(ChannelType.TEXT) || message.getGuild().getSelfMember().hasPermission(
-                message.getTextChannel(), Permission.MESSAGE_ADD_REACTION);
+                message.getTextChannel(), Permission.MESSAGE_READ, Permission.MESSAGE_ADD_REACTION);
     }
 
     public boolean canTalk() {
@@ -48,7 +59,8 @@ public class CommandEvent {
     }
 
     public boolean canTalk(@NonNull Message message) {
-        return !message.isFromType(ChannelType.TEXT) || message.getTextChannel().canTalk();
+        return !message.isFromType(ChannelType.TEXT) || message.getGuild().getSelfMember().hasPermission(
+                message.getTextChannel(), Permission.MESSAGE_READ, Permission.MESSAGE_WRITE);
     }
 
     public void reply(@NonNull CommandReaction reaction) {
@@ -59,12 +71,20 @@ public class CommandEvent {
         replyTo(getMessage(), reaction, content);
     }
 
+    public void reply(@NonNull MessageEmbed embed) {
+        replyTo(getMessage(), embed);
+    }
+
     public void reply(@NonNull String content) {
         replyTo(getMessage(), content);
     }
 
     public void reply(@NonNull String content, @NonNull Consumer<? super Message> callback) {
         replyTo(getMessage(), content, callback);
+    }
+
+    public void replyDm(@NonNull MessageEmbed embed) {
+        getAuthor().openPrivateChannel().complete().sendMessage(embed).queue();
     }
 
     public void replyDm(@NonNull String content) {
@@ -76,7 +96,7 @@ public class CommandEvent {
     }
 
     public void replyTo(@NonNull Message message, @NonNull CommandReaction reaction) {
-        if (canReact()) {
+        if (canReact(message)) {
             addReaction(message, reaction.getUnicode());
         } else {
             replyTo(message, reaction.getUnicode());
@@ -88,6 +108,17 @@ public class CommandEvent {
             addReaction(message, reaction.getUnicode());
         }
         replyTo(getMessage(), reaction.getUnicode() + ' ' + content);
+    }
+
+    public void replyTo(@NonNull Message message, @NonNull MessageEmbed embed) {
+        if (canEmbed(message)) {
+            getChannel().sendMessage(embed).queue();
+        } else {
+            if (canReact(message)) {
+                addReaction(message, CommandReaction.NEUTRAL.getUnicode());
+            }
+            replyDm(embed);
+        }
     }
 
     public void replyTo(@NonNull Message message, @NonNull String content) {

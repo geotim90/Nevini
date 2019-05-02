@@ -1,9 +1,7 @@
 package de.nevini.command;
 
-import de.nevini.EventDispatcher;
-import de.nevini.services.ModuleService;
-import de.nevini.services.PermissionService;
-import de.nevini.services.PrefixService;
+import de.nevini.listeners.EventDispatcher;
+import de.nevini.services.*;
 import lombok.Value;
 
 import java.util.Map;
@@ -15,8 +13,11 @@ public class CommandContext {
     private final String serverInvite;
     private final EventDispatcher eventDispatcher;
     private final Map<String, Command> commands;
-    private final PrefixService prefixService;
+
+    private final ActivityService activityService;
+    private final GameService gameService;
     private final ModuleService moduleService;
     private final PermissionService permissionService;
+    private final PrefixService prefixService;
 
 }

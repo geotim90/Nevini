@@ -1,5 +1,6 @@
 package de.nevini;
 
+import de.nevini.listeners.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDABuilder;
 import org.springframework.beans.factory.annotation.Autowired;

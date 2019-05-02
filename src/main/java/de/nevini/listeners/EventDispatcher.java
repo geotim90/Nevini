@@ -1,4 +1,4 @@
-package de.nevini;
+package de.nevini.listeners;
 
 
 import lombok.NonNull;

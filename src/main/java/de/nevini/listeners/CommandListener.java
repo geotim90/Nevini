@@ -1,9 +1,9 @@
-package de.nevini.command;
+package de.nevini.listeners;
 
-import de.nevini.EventDispatcher;
-import de.nevini.services.ModuleService;
-import de.nevini.services.PermissionService;
-import de.nevini.services.PrefixService;
+import de.nevini.command.Command;
+import de.nevini.command.CommandContext;
+import de.nevini.command.CommandEvent;
+import de.nevini.services.*;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -30,10 +30,12 @@ public class CommandListener {
     public CommandListener(
             @Value("${bot.owner.id}") String ownerId,
             @Value("${bot.server.invite}") String serverInvite,
+            @Autowired ApplicationContext applicationContext,
             @Autowired EventDispatcher eventDispatcher,
+            @Autowired ActivityService activityService,
+            @Autowired GameService gameService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
-            @Autowired ApplicationContext applicationContext,
             @Autowired PrefixService prefixService
     ) {
         Map<String, Command> commands = new ConcurrentHashMap<>();
@@ -45,8 +47,8 @@ public class CommandListener {
             }
         });
 
-        commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, prefixService,
-                moduleService, permissionService);
+        commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, activityService,
+                gameService, moduleService, permissionService, prefixService);
 
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }
