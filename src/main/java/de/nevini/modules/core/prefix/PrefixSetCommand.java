@@ -2,10 +2,10 @@ package de.nevini.modules.core.prefix;
 
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandReaction;
 import de.nevini.command.CommandWithRequiredArgument;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
-import de.nevini.util.Emote;
 import net.dv8tion.jda.core.entities.Message;
 
 public class PrefixSetCommand extends CommandWithRequiredArgument {
@@ -24,11 +24,11 @@ public class PrefixSetCommand extends CommandWithRequiredArgument {
     @Override
     protected void acceptArgument(CommandEvent event, Message message, String argument) {
         if (!argument.matches("\\S{1,32}")) {
-            event.replyTo(message, Emote.WARNING,
+            event.replyTo(message, CommandReaction.WARNING,
                     "The command prefix cannot be longer than 32 characters and must not contain spaces!");
         } else {
             event.getPrefixService().setGuildPrefix(event.getGuild(), argument);
-            event.replyTo(message, Emote.OK);
+            event.replyTo(message, CommandReaction.OK);
         }
     }
 

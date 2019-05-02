@@ -1,7 +1,6 @@
 package de.nevini.command;
 
 import de.nevini.EventDispatcher;
-import de.nevini.services.EmoteService;
 import de.nevini.services.ModuleService;
 import de.nevini.services.PermissionService;
 import de.nevini.services.PrefixService;
@@ -32,7 +31,6 @@ public class CommandListener {
             @Value("${bot.owner.id}") String ownerId,
             @Value("${bot.server.invite}") String serverInvite,
             @Autowired EventDispatcher eventDispatcher,
-            @Autowired EmoteService emoteService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
             @Autowired ApplicationContext applicationContext,
@@ -47,8 +45,8 @@ public class CommandListener {
             }
         });
 
-        commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands,
-                prefixService, emoteService, moduleService, permissionService);
+        commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, prefixService,
+                moduleService, permissionService);
 
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }

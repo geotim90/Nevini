@@ -1,6 +1,5 @@
 package de.nevini.command;
 
-import de.nevini.util.Emote;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -65,7 +64,7 @@ public abstract class CommandWithRequiredArgument extends Command {
 
     protected void expire(CommandEvent event, Message message, boolean error) {
         if (error) {
-            event.replyTo(message, Emote.WARNING, "You did not provide " + argumentName + "!");
+            event.replyTo(message, CommandReaction.WARNING, "You did not provide " + argumentName + "!");
         } else {
             event.replyTo(message, event.getAuthor().getAsMention() +
                     ", your previous command was cancelled or expired.");

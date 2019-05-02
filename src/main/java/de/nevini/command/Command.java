@@ -1,6 +1,5 @@
 package de.nevini.command;
 
-import de.nevini.util.Emote;
 import de.nevini.util.FormatUtils;
 import lombok.NonNull;
 import lombok.experimental.Delegate;
@@ -83,7 +82,7 @@ public abstract class Command {
 
     protected boolean checkChannel(CommandEvent event) {
         if (!event.isFromType(ChannelType.TEXT) && isGuildOnly()) {
-            event.reply(Emote.ERROR, "That command cannot be executed via direct message!");
+            event.reply(CommandReaction.ERROR, "That command cannot be executed via direct message!");
             return false;
         } else {
             return true;
@@ -94,7 +93,7 @@ public abstract class Command {
         if (event.getModuleService().isModuleActive(event.getGuild(), getModule())) {
             return true;
         } else {
-            event.reply(Emote.DISABLED, "The **" + getModule().getName()
+            event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
                     + "** module is disabled on this server!");
             return false;
         }
@@ -111,11 +110,11 @@ public abstract class Command {
             if (missingPermissions.length == 0) {
                 return true;
             } else if (missingPermissions.length == 1) {
-                event.reply(Emote.ERROR, "I need the **" + missingPermissions[0]
+                event.reply(CommandReaction.ERROR, "I need the **" + missingPermissions[0]
                         + "** permission to execute that command!");
                 return false;
             } else {
-                event.reply(Emote.ERROR, "I need the **"
+                event.reply(CommandReaction.ERROR, "I need the **"
                         + FormatUtils.join(missingPermissions, "**, **", "** and **")
                         + "** permissions to execute that command!");
                 return false;
@@ -133,7 +132,7 @@ public abstract class Command {
             if (permission) {
                 return true;
             } else {
-                event.reply(Emote.PROHIBITED, "You do not have permission to execute that command.");
+                event.reply(CommandReaction.PROHIBITED, "You do not have permission to execute that command.");
                 return false;
             }
         } else {

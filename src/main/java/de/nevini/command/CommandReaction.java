@@ -1,4 +1,4 @@
-package de.nevini.util;
+package de.nevini.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum Emote {
+public enum CommandReaction {
 
     OK("✅"),
     NEUTRAL("✔️"),

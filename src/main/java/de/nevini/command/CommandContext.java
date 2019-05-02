@@ -1,7 +1,6 @@
 package de.nevini.command;
 
 import de.nevini.EventDispatcher;
-import de.nevini.services.EmoteService;
 import de.nevini.services.ModuleService;
 import de.nevini.services.PermissionService;
 import de.nevini.services.PrefixService;
@@ -17,7 +16,6 @@ public class CommandContext {
     private final EventDispatcher eventDispatcher;
     private final Map<String, Command> commands;
     private final PrefixService prefixService;
-    private final EmoteService emoteService;
     private final ModuleService moduleService;
     private final PermissionService permissionService;
 

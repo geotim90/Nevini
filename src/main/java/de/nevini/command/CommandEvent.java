@@ -1,6 +1,5 @@
 package de.nevini.command;
 
-import de.nevini.util.Emote;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
@@ -52,12 +51,12 @@ public class CommandEvent {
         return !message.isFromType(ChannelType.TEXT) || message.getTextChannel().canTalk();
     }
 
-    public void reply(@NonNull Emote emote) {
-        replyTo(getMessage(), emote);
+    public void reply(@NonNull CommandReaction reaction) {
+        replyTo(getMessage(), reaction);
     }
 
-    public void reply(@NonNull Emote emote, @NonNull String content) {
-        replyTo(getMessage(), emote, content);
+    public void reply(@NonNull CommandReaction reaction, @NonNull String content) {
+        replyTo(getMessage(), reaction, content);
     }
 
     public void reply(@NonNull String content) {
@@ -76,21 +75,19 @@ public class CommandEvent {
         sendMessage(getAuthor().openPrivateChannel().complete(), content, callback);
     }
 
-    public void replyTo(@NonNull Message message, @NonNull Emote emote) {
-        String unicode = getEmoteService().getGuildEmote(getGuild(), emote);
+    public void replyTo(@NonNull Message message, @NonNull CommandReaction reaction) {
         if (canReact()) {
-            addReaction(message, unicode);
+            addReaction(message, reaction.getUnicode());
         } else {
-            replyTo(message, unicode);
+            replyTo(message, reaction.getUnicode());
         }
     }
 
-    public void replyTo(@NonNull Message message, @NonNull Emote emote, @NonNull String content) {
-        String unicode = getEmoteService().getGuildEmote(getGuild(), emote);
+    public void replyTo(@NonNull Message message, @NonNull CommandReaction reaction, @NonNull String content) {
         if (!canTalk(message) && canReact(message)) {
-            addReaction(message, unicode);
+            addReaction(message, reaction.getUnicode());
         }
-        replyTo(getMessage(), unicode + ' ' + content);
+        replyTo(getMessage(), reaction.getUnicode() + ' ' + content);
     }
 
     public void replyTo(@NonNull Message message, @NonNull String content) {
@@ -103,7 +100,7 @@ public class CommandEvent {
             sendMessage(getChannel(), content, callback);
         } else {
             if (canReact(message)) {
-                addReaction(message, getEmoteService().getGuildEmote(getGuild(), Emote.NEUTRAL));
+                addReaction(message, CommandReaction.NEUTRAL.getUnicode());
             }
             replyDm(content, callback);
         }
