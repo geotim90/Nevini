@@ -24,7 +24,7 @@ public abstract class Command {
         validate();
     }
 
-    protected void validate() {
+    private void validate() {
         if (!getKeyword().matches("[a-z0-9-]{1,32}")) {
             throw new IllegalStateException("Keyword does not match regex.");
         }

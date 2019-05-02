@@ -14,11 +14,10 @@ public abstract class CommandWithRequiredArgument extends Command {
     protected CommandWithRequiredArgument(@NonNull CommandDescriptor descriptor, @NonNull String argumentName) {
         super(descriptor);
         this.argumentName = argumentName;
+        validate();
     }
 
-    @Override
-    protected void validate() {
-        super.validate();
+    private void validate() {
         if (getSyntax().isEmpty()) {
             throw new IllegalStateException("Syntax is empty.");
         }
