@@ -21,8 +21,8 @@ public class ModuleCommand extends Command {
                 })
                 .module(Module.CORE)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("configures which modules are active or inactive")
-                .syntax("[ get [<module>] | activate <module> | deactivate <module> ]")
+                .description("configures modes")
+                .syntax("[ get [<module>] | (activate|deactivate) <module> ]")
                 .build());
     }
 

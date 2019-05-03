@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class ActivityCommand extends Command {
 
-    protected ActivityCommand() {
+    public ActivityCommand() {
         super(CommandDescriptor.builder()
                 .keyword("activity")
                 .children(new Command[]{
@@ -19,7 +19,7 @@ public class ActivityCommand extends Command {
                 })
                 .module(Module.GUILD)
                 .description("displays user activity information")
-                .syntax("[ [ --user | -u ] <user> | --game <game> ]")
+                .syntax("[ [--user|-u] <user> | --game <game> ]")
                 .build());
     }
 

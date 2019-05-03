@@ -77,7 +77,7 @@ public class CommandDescriptor {
     private final Permission[] defaultUserPermissions = {Permission.MESSAGE_READ, Permission.MESSAGE_WRITE};
 
     /**
-     * The help description for this command (mandatory).
+     * A short description of this command (mandatory).
      */
     @NonNull
     private final String description;
@@ -89,6 +89,9 @@ public class CommandDescriptor {
     @Builder.Default
     private final String syntax = "";
 
-    // TODO description per argument/option for help command
+    /**
+     * A more detailed description of this command.
+     */
+    private final String details; // TODO integrate into commands and HELP
 
 }

@@ -16,7 +16,7 @@ public class PrefixGetCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_PREFIX_GET)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("displays the current command prefix")
+                .description("displays the command prefix")
                 .build());
     }
 

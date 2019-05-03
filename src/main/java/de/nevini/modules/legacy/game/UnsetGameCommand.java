@@ -1,4 +1,4 @@
-package de.nevini.modules.core.module;
+package de.nevini.modules.legacy.game;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -7,17 +7,16 @@ import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import net.dv8tion.jda.core.Permission;
 
-public class ModuleActivateCommand extends Command {
+public class UnsetGameCommand extends Command {
 
-    public ModuleActivateCommand() {
+    public UnsetGameCommand() {
         super(CommandDescriptor.builder()
-                .keyword("activate")
-                .aliases(new String[]{"add", "enable", "+"})
-                .module(Module.CORE)
-                .node(Node.CORE_MODULE_ACTIVATE)
+                .keyword("game")
+                .module(Module.LEGACY)
+                .node(Node.LEGACY_UNSET_GAME)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("activates modules")
-                .syntax("<module>")
+                .description("removes the lastPlayed timeout for a game")
+                .syntax("timeout <game>")
                 .build());
     }
 

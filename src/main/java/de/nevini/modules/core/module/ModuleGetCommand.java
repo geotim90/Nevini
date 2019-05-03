@@ -16,7 +16,7 @@ public class ModuleGetCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_MODULE_GET)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("displays the currently active and inactive modules")
+                .description("displays modules")
                 .syntax("[<module>]")
                 .build());
     }

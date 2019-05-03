@@ -16,7 +16,7 @@ public class PermissionAllowCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_PERMISSION_ALLOW)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_PERMISSIONS})
-                .description("configures permission overrides to allow access to commands")
+                .description("configures permission overrides for commands")
                 .syntax("<options>")
                 .build());
     }

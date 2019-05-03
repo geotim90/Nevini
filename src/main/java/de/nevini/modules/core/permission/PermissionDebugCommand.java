@@ -15,7 +15,7 @@ public class PermissionDebugCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_PERMISSION_DEBUG)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_PERMISSIONS})
-                .description("displays all permissions overrides for commands")
+                .description("displays permissions overrides for commands")
                 .syntax("[<options>]")
                 .build());
     }

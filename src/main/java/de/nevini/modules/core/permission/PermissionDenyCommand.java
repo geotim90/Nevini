@@ -16,7 +16,7 @@ public class PermissionDenyCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_PERMISSION_DENY)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_PERMISSIONS})
-                .description("configures permission overrides to deny access to commands")
+                .description("configures permission overrides for commands")
                 .syntax("<options>")
                 .build());
     }

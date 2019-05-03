@@ -1,23 +1,23 @@
-package de.nevini.modules.core.module;
+package de.nevini.modules.legacy;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
-import de.nevini.modules.Node;
 import net.dv8tion.jda.core.Permission;
 
-public class ModuleActivateCommand extends Command {
+public class SetCommand extends Command {
 
-    public ModuleActivateCommand() {
+    public SetCommand() {
         super(CommandDescriptor.builder()
-                .keyword("activate")
-                .aliases(new String[]{"add", "enable", "+"})
-                .module(Module.CORE)
-                .node(Node.CORE_MODULE_ACTIVATE)
+                .keyword("set")
+                .children(new Command[]{
+                        // TODO
+                })
+                .module(Module.LEGACY)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("activates modules")
-                .syntax("<module>")
+                .description("executes legacy `set` commands")
+                .syntax("") // TODO
                 .build());
     }
 

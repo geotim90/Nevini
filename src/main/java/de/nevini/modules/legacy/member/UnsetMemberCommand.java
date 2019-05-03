@@ -1,4 +1,4 @@
-package de.nevini.modules.core.module;
+package de.nevini.modules.legacy.member;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -7,17 +7,16 @@ import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import net.dv8tion.jda.core.Permission;
 
-public class ModuleActivateCommand extends Command {
+public class UnsetMemberCommand extends Command {
 
-    public ModuleActivateCommand() {
+    public UnsetMemberCommand() {
         super(CommandDescriptor.builder()
-                .keyword("activate")
-                .aliases(new String[]{"add", "enable", "+"})
-                .module(Module.CORE)
-                .node(Node.CORE_MODULE_ACTIVATE)
+                .keyword("member")
+                .module(Module.LEGACY)
+                .node(Node.LEGACY_UNSET_MEMBER)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("activates modules")
-                .syntax("<module>")
+                .description("resets user activity information")
+                .syntax("( (joined|lastOnline|lastMessage) <user> | lastPlayed <user> <game> )")
                 .build());
     }
 

@@ -3,10 +3,12 @@ package de.nevini.listeners;
 import de.nevini.command.Command;
 import de.nevini.command.CommandContext;
 import de.nevini.command.CommandEvent;
+import de.nevini.modules.Module;
 import de.nevini.services.*;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +55,14 @@ public class CommandListener {
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }
 
-    public void onEvent(MessageReceivedEvent event) {
+    private void onEvent(MessageReceivedEvent event) {
         if (!event.getAuthor().isBot()) {
             String content = event.getMessage().getContentRaw();
             Optional<String> prefix = getPrefixService().extractPrefix(event);
             if (prefix.isPresent()) {
                 String[] args = content.substring(prefix.get().length()).trim().split("\\s+", 2);
                 if (args.length == 0 || StringUtils.isEmpty(args[0])) {
-                    callCommand(event, "help", args.length > 1 ? args[1] : null);
+                    callCommand(event, getDefaultCommand(event.getGuild()), args.length > 1 ? args[1] : null);
                 } else {
                     callCommand(event, args[0].toLowerCase(), args.length > 1 ? args[1] : null);
                 }
@@ -68,6 +70,14 @@ public class CommandListener {
                 log.info("{} - Unknown command via direct message {}", event.getMessageId(),
                         summarize(event.getMessage().getContentRaw()));
             }
+        }
+    }
+
+    private String getDefaultCommand(Guild guild) {
+        if (guild != null || getModuleService().isModuleActive(guild, Module.LEGACY)) {
+            return "legacy";
+        } else {
+            return "help";
         }
     }
 

@@ -16,7 +16,7 @@ public class PermissionGetCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_PERMISSION_GET)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_PERMISSIONS})
-                .description("displays the effective permissions for commands")
+                .description("displays effective permissions for commands")
                 .syntax("[<options>]")
                 .build());
     }

@@ -16,7 +16,7 @@ public class ModuleDeactivateCommand extends Command {
                 .module(Module.CORE)
                 .node(Node.CORE_MODULE_DEACTIVATE)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                .description("deactivates a module")
+                .description("deactivates modules")
                 .syntax("<module>")
                 .build());
     }
