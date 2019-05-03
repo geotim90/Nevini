@@ -35,7 +35,7 @@ public class GameService {
         return gameRepository.findById(id).map(GameData::getName).orElse(null);
     }
 
-    public synchronized void setGameName(RichPresence game) {
+    public synchronized void cacheGame(RichPresence game) {
         if (!StringUtils.equals(cache.put(game.getApplicationIdLong(), game.getName()), game.getName())) {
             GameData data = new GameData(game.getApplicationIdLong(), game.getName(), getIcon(game));
             log.info("Save data: {}", data);
