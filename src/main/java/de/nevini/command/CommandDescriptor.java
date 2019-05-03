@@ -92,6 +92,6 @@ public class CommandDescriptor {
     /**
      * A more detailed description of this command.
      */
-    private final String details; // TODO integrate into commands and HELP
+    private final String details;
 
 }

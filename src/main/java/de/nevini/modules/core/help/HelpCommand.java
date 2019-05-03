@@ -9,6 +9,8 @@ import de.nevini.util.FormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
+
 @Component
 public class HelpCommand extends Command {
 
@@ -35,20 +37,19 @@ public class HelpCommand extends Command {
         }
     }
 
-    // TODO group commands by module and sort alphabetically within group
     private void doCommandList(CommandEvent event) {
         StringBuilder builder = new StringBuilder("Here is a list of all **"
                 + event.getJDA().getSelfUser().getName() + "** commands.");
         String prefix = event.getPrefixService().getGuildPrefix(event.getGuild());
-        Module module = null;
-        for (Command command : event.getCommands().values()) {
-            if (!command.isOwnerOnly() || event.isOwner()) {
-                if (!command.getModule().equals(module)) {
-                    module = command.getModule();
-                    builder.append("\n\n__Module: **").append(module.getName()).append("**__");
-                }
-                builder.append("\n").append(prefix).append(" **").append(command.getKeyword()).append("** - ")
-                        .append(command.getDescription());
+        for (Module module : Module.values()) {
+            if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
+                builder.append("\n\n__Module: **").append(module.getName()).append("**__");
+                event.getCommands().values().stream()
+                        .filter(command -> module.equals(command.getModule())
+                                && (!command.isOwnerOnly() || event.isOwner()))
+                        .sorted(Comparator.comparing(Command::getKeyword))
+                        .forEach(command -> builder.append("\n").append(prefix).append(" **")
+                                .append(command.getKeyword()).append("** - ").append(command.getDescription()));
             }
         }
         builder.append("\n\nTo add me to your server, visit " +
@@ -78,6 +79,9 @@ public class HelpCommand extends Command {
             if (StringUtils.isNotEmpty(command.getSyntax())) {
                 builder.append("\n\n__Usage__\n```").append(chain).append(" ").append(command.getKeyword()).append(" ")
                         .append(command.getSyntax()).append("```");
+            }
+            if (StringUtils.isNotEmpty(command.getDetails())) {
+                builder.append("\n\n__Details__\n").append(command.getDetails());
             }
             if (command.getAliases().length > 0) {
                 builder.append("\n\n__Aliases__\n").append("**").append(command.getKeyword()).append("**, **")
