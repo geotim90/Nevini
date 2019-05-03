@@ -89,4 +89,6 @@ public class CommandDescriptor {
     @Builder.Default
     private final String syntax = "";
 
+    // TODO model arguments with descriptions for each and generate syntax from that
+
 }

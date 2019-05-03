@@ -10,6 +10,9 @@ import lombok.ToString;
 public enum Node {
 
     CORE_HELP("core.help"),
+    CORE_MODULE_ACTIVATE("core.module.activate"),
+    CORE_MODULE_DEACTIVATE("core.module.deactivate"),
+    CORE_MODULE_GET("core.module.get"),
     CORE_PING("core.ping"),
     CORE_PREFIX_GET("core.prefix.get"),
     CORE_PREFIX_SET("core.prefix.set"),

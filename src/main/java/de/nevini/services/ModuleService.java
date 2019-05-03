@@ -30,7 +30,7 @@ public class ModuleService {
     public boolean isModuleActive(Guild guild, @NonNull Module module) {
         return guild == null || module.isAlwaysEnabled() ||
                 moduleRepository.findById(new ModuleId(guild.getIdLong(), module.getName()))
-                        .map(data -> data.getFlag() > 0).orElse(false);
+                        .map(data -> data.getFlag() > 0).orElse(module.isEnabledByDefault());
     }
 
     public synchronized void setModuleActive(@NonNull Guild guild, @NonNull Module module, boolean active) {

@@ -35,6 +35,7 @@ public class HelpCommand extends Command {
         }
     }
 
+    // TODO group commands by module and sort alphabetically within group
     private void doCommandList(CommandEvent event) {
         StringBuilder builder = new StringBuilder("Here is a list of all **"
                 + event.getJDA().getSelfUser().getName() + "** commands.");
