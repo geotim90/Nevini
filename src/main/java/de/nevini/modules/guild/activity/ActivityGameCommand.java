@@ -23,13 +23,12 @@ public class ActivityGameCommand extends CommandWithRequiredArgument {
 
     public ActivityGameCommand() {
         super(CommandDescriptor.builder()
-                        .keyword("--game")
-                        .module(Module.GUILD)
-                        .node(Node.GUILD_ACTIVITY_GAME)
-                        .description("displays game activity information")
-                        .syntax("<game>")
-                        .build(),
-                "a game");
+                .keyword("--game")
+                .module(Module.GUILD)
+                .node(Node.GUILD_ACTIVITY_GAME)
+                .description("displays game activity information")
+                .syntax("<game>")
+                .build(), "a game");
     }
 
     @Override

@@ -23,14 +23,13 @@ public class ActivityUserCommand extends CommandWithRequiredArgument {
 
     protected ActivityUserCommand() {
         super(CommandDescriptor.builder()
-                        .keyword("--user")
-                        .aliases(new String[]{"-u"})
-                        .module(Module.GUILD)
-                        .node(Node.GUILD_ACTIVITY_USER)
-                        .description("displays user activity information")
-                        .syntax("<user>")
-                        .build(),
-                "a user");
+                .keyword("--user")
+                .aliases(new String[]{"-u"})
+                .module(Module.GUILD)
+                .node(Node.GUILD_ACTIVITY_USER)
+                .description("displays user activity information")
+                .syntax("<user>")
+                .build(), "a user");
     }
 
     @Override

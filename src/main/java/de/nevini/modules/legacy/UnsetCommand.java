@@ -5,7 +5,9 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
 import net.dv8tion.jda.core.Permission;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UnsetCommand extends Command {
 
     public UnsetCommand() {

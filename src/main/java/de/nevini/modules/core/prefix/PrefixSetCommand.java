@@ -13,14 +13,13 @@ public class PrefixSetCommand extends CommandWithRequiredArgument {
 
     public PrefixSetCommand() {
         super(CommandDescriptor.builder()
-                        .keyword("set")
-                        .module(Module.CORE)
-                        .node(Node.CORE_PREFIX_SET)
-                        .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
-                        .description("configures the command prefix")
-                        .syntax("<prefix>")
-                        .build(),
-                "a command prefix");
+                .keyword("set")
+                .module(Module.CORE)
+                .node(Node.CORE_PREFIX_SET)
+                .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
+                .description("configures the command prefix")
+                .syntax("<prefix>")
+                .build(), "a command prefix");
     }
 
     @Override

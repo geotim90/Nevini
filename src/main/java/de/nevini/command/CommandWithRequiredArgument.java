@@ -19,10 +19,10 @@ public abstract class CommandWithRequiredArgument extends Command {
 
     private void validate() {
         if (getSyntax().isEmpty()) {
-            throw new IllegalStateException("Syntax is empty.");
+            throw new IllegalStateException("Syntax is empty");
         }
         if (argumentName.isEmpty()) {
-            throw new IllegalStateException("Argument name is empty.");
+            throw new IllegalStateException("Argument name is empty");
         }
     }
 

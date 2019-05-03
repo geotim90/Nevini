@@ -10,7 +10,9 @@ import de.nevini.modules.legacy.member.GetMemberCommand;
 import de.nevini.modules.legacy.role.GetRoleCommand;
 import de.nevini.modules.legacy.timeout.GetTimeoutCommand;
 import net.dv8tion.jda.core.Permission;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GetCommand extends Command {
 
     public GetCommand() {

@@ -26,20 +26,20 @@ public abstract class Command {
 
     private void validate() {
         if (!getKeyword().matches("[a-z0-9-]{1,32}")) {
-            throw new IllegalStateException("Keyword does not match regex.");
+            throw new IllegalStateException("Keyword does not match regex: " + getKeyword());
         }
         for (String alias : getAliases()) {
-            if (!alias.matches("[a-z0-9-]{1,32}")) {
-                throw new IllegalStateException("Alias does not match regex.");
+            if (!alias.matches("[a-z0-9+-]{1,32}")) {
+                throw new IllegalStateException("Alias does not match regex: " + alias);
             }
         }
         for (Command child : getChildren()) {
             if (child == null) {
-                throw new IllegalStateException("Child is null.");
+                throw new IllegalStateException("Child is null");
             }
         }
         if (getDescription().isEmpty()) {
-            throw new IllegalStateException("Description is empty.");
+            throw new IllegalStateException("Description is empty");
         }
     }
 

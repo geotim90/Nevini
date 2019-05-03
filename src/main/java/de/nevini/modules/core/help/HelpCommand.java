@@ -38,7 +38,7 @@ public class HelpCommand extends Command {
     }
 
     private void doCommandList(CommandEvent event) {
-        StringBuilder builder = new StringBuilder("Here is a list of all **"
+        StringBuilder builder = new StringBuilder("Here is a list of " + (event.getGuild() == null ? "all " : "") + "**"
                 + event.getJDA().getSelfUser().getName() + "** commands.");
         String prefix = event.getPrefixService().getGuildPrefix(event.getGuild());
         for (Module module : Module.values()) {
@@ -47,7 +47,7 @@ public class HelpCommand extends Command {
                 event.getCommands().values().stream()
                         .filter(command -> module.equals(command.getModule())
                                 && (!command.isOwnerOnly() || event.isOwner()))
-                        .sorted(Comparator.comparing(Command::getKeyword))
+                        .sorted(Comparator.comparing(Command::getKeyword)).distinct()
                         .forEach(command -> builder.append("\n").append(prefix).append(" **")
                                 .append(command.getKeyword()).append("** - ").append(command.getDescription()));
             }
@@ -81,15 +81,15 @@ public class HelpCommand extends Command {
                         .append(command.getSyntax()).append("```");
             }
             if (StringUtils.isNotEmpty(command.getDetails())) {
-                builder.append("\n\n__Details__\n").append(command.getDetails());
+                builder.append("\n").append(command.getDetails());
             }
             if (command.getAliases().length > 0) {
-                builder.append("\n\n__Aliases__\n").append("**").append(command.getKeyword()).append("**, **")
+                builder.append("\n\n__Aliases__\n").append("You can also use **")
                         .append(FormatUtils.join(command.getAliases(), "**, **", "** or **"))
-                        .append("**");
+                        .append("** instead of **").append(command.getKeyword()).append("**");
             }
             if (command.getChildren().length > 0) {
-                builder.append("\n\n__Children__");
+                builder.append("\n\n__Nested commands__");
                 for (Command child : command.getChildren()) {
                     builder.append("\n").append(chain).append(" ").append(command.getKeyword()).append(" **")
                             .append(child.getKeyword()).append("** - ").append(child.getDescription());

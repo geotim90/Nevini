@@ -6,7 +6,9 @@ import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
 import de.nevini.modules.legacy.role.AddRoleCommand;
 import net.dv8tion.jda.core.Permission;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddCommand extends Command {
 
     public AddCommand() {

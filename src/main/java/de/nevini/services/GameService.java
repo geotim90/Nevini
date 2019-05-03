@@ -3,13 +3,17 @@ package de.nevini.services;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.db.game.GameData;
 import de.nevini.db.game.GameRepository;
+import de.nevini.util.FindUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.RichPresence;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -55,33 +59,8 @@ public class GameService {
         if (FinderUtil.DISCORD_ID.matcher(query).matches()) {
             Optional<GameData> data = gameRepository.findById(Long.parseUnsignedLong(query));
             return data.map(Collections::singleton).orElse(Collections.emptySet());
-        }
-
-        ArrayList<GameData> exact = new ArrayList<>();
-        ArrayList<GameData> wrongCase = new ArrayList<>();
-        ArrayList<GameData> startsWith = new ArrayList<>();
-        ArrayList<GameData> contains = new ArrayList<>();
-        String lowerquery = query.toLowerCase();
-        gameRepository.findAllByNameContainsIgnoreCase(query).forEach(e -> {
-            String name = e.getName();
-            if (name.equals(query)) {
-                exact.add(e);
-            } else if (exact.isEmpty() && name.equalsIgnoreCase(query)) {
-                wrongCase.add(e);
-            } else if (wrongCase.isEmpty() && name.toLowerCase().startsWith(lowerquery)) {
-                startsWith.add(e);
-            } else if (startsWith.isEmpty() && name.toLowerCase().contains(lowerquery)) {
-                contains.add(e);
-            }
-        });
-        if (!exact.isEmpty()) {
-            return Collections.unmodifiableList(exact);
-        } else if (!wrongCase.isEmpty()) {
-            return Collections.unmodifiableList(wrongCase);
-        } else if (!startsWith.isEmpty()) {
-            return Collections.unmodifiableList(startsWith);
         } else {
-            return Collections.unmodifiableList(contains);
+            return FindUtils.find(gameRepository.findAllByNameContainsIgnoreCase(query), GameData::getName, query);
         }
     }
 

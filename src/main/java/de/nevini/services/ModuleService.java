@@ -4,15 +4,14 @@ import de.nevini.db.module.ModuleData;
 import de.nevini.db.module.ModuleId;
 import de.nevini.db.module.ModuleRepository;
 import de.nevini.modules.Module;
+import de.nevini.util.FindUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 @Slf4j
 @Service
@@ -39,11 +38,8 @@ public class ModuleService {
         moduleRepository.save(data);
     }
 
-    public Map<String, Boolean> getModulesActivity(Guild guild) {
-        return Arrays.stream(Module.values()).collect(Collectors.toMap(
-                Module::getName,
-                module -> isModuleActive(guild, module)
-        ));
+    public Collection<Module> findModules(String query) {
+        return FindUtils.find(Module.values(), Module::getName, query);
     }
 
 }

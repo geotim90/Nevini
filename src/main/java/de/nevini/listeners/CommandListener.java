@@ -74,7 +74,7 @@ public class CommandListener {
     }
 
     private String getDefaultCommand(Guild guild) {
-        if (guild != null || getModuleService().isModuleActive(guild, Module.LEGACY)) {
+        if (guild != null && getModuleService().isModuleActive(guild, Module.LEGACY)) {
             return "legacy";
         } else {
             return "help";
