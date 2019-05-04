@@ -10,7 +10,7 @@ import lombok.ToString;
 public enum CommandReaction {
 
     OK("✅"),
-    NEUTRAL("✔️"),
+    NEUTRAL("✔"),
     WARNING("⚠️"),
     ERROR("❌"),
     DISABLED("⛔"),
