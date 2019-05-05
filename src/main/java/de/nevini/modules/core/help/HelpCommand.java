@@ -32,14 +32,20 @@ public class HelpCommand extends Command {
         } else {
             String[] args = event.getArgument().split("\\s+");
             Command command = event.getCommands().get(args[0].toLowerCase());
-            event.setArgument(args.length > 1 ? args[1] : null);
-            doCommandHelp(event, event.getPrefixService().getGuildPrefix(event.getGuild()), command);
+            doCommandHelp(event.withArgument(args.length > 1 ? args[1] : null),
+                    event.getPrefixService().getGuildPrefix(event.getGuild()), command);
         }
     }
 
     private void doCommandList(CommandEvent event) {
-        StringBuilder builder = new StringBuilder("Here is a list of " + (event.getGuild() == null ? "all " : "") + "**"
-                + event.getJDA().getSelfUser().getName() + "** commands.");
+        StringBuilder builder = new StringBuilder();
+        if (event.getGuild() == null) {
+            builder.append("Here is a list of all **").append(event.getJDA().getSelfUser().getName())
+                    .append("** commands.");
+        } else {
+            builder.append("Here is a list of **").append(event.getJDA().getSelfUser().getName())
+                    .append("** commands for modules active in **").append(event.getGuild().getName()).append("**.");
+        }
         String prefix = event.getPrefixService().getGuildPrefix(event.getGuild());
         for (Module module : Module.values()) {
             if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
@@ -66,8 +72,8 @@ public class HelpCommand extends Command {
             String[] args = event.getArgument().split("\\s+", 2);
             for (Command child : getChildren()) {
                 if (child.isCommandFor(args[0])) {
-                    event.setArgument(args.length > 1 ? args[1] : null);
-                    doCommandHelp(event, chain + ' ' + command.getKeyword(), child);
+                    doCommandHelp(event.withArgument(args.length > 1 ? args[1] : null),
+                            chain + ' ' + command.getKeyword(), child);
                     return;
                 }
             }

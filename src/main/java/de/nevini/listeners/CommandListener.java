@@ -3,6 +3,7 @@ package de.nevini.listeners;
 import de.nevini.command.Command;
 import de.nevini.command.CommandContext;
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptions;
 import de.nevini.modules.Module;
 import de.nevini.services.*;
 import lombok.experimental.Delegate;
@@ -85,7 +86,7 @@ public class CommandListener {
         Command command = getCommands().get(keyword.toLowerCase());
         if (command != null) {
             log.info("{} - Calling {}", event.getMessageId(), command.getClass().getSimpleName());
-            command.onEvent(new CommandEvent(commandContext, event, argument));
+            command.onEvent(new CommandEvent(commandContext, event, CommandOptions.parseArgument(argument)));
         } else {
             log.info("{} - No command found for keyword {} and argument {}", event.getMessageId(), keyword,
                     summarize(argument));

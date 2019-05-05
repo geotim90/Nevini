@@ -21,16 +21,16 @@ public abstract class Command {
 
     protected Command(@NonNull CommandDescriptor descriptor) {
         this.descriptor = descriptor;
-        validate();
+        verify();
     }
 
-    private void validate() {
-        if (!getKeyword().matches("[a-z0-9-]{1,32}")) {
-            throw new IllegalStateException("Keyword does not match regex: " + getKeyword());
+    private void verify() {
+        if (!getKeyword().matches(CommandPatterns.KEYWORD) || getKeyword().matches(CommandPatterns.OPTION)) {
+            throw new IllegalStateException("Invalid keyword: " + getKeyword());
         }
         for (String alias : getAliases()) {
-            if (!alias.matches("[a-z0-9+-]{1,32}")) {
-                throw new IllegalStateException("Alias does not match regex: " + alias);
+            if (!alias.matches(CommandPatterns.KEYWORD) || alias.matches(CommandPatterns.OPTION)) {
+                throw new IllegalStateException("Invalid alias: " + alias);
             }
         }
         for (Command child : getChildren()) {
@@ -51,8 +51,8 @@ public abstract class Command {
                 && checkBotPermission(event)
                 && checkUserPermission(event)
         ) {
-            log.info("{} - Executing {} with argument {}", event.getMessageId(), getClass().getSimpleName(),
-                    summarize(event.getArgument()));
+            log.info("{} - Executing {} called via {}", event.getMessageId(), getClass().getSimpleName(),
+                    summarize(event.getMessage().getContentRaw()));
             execute(event);
         }
     }
@@ -62,8 +62,7 @@ public abstract class Command {
             String[] args = event.getArgument().split("\\s+", 2);
             for (Command child : getChildren()) {
                 if (child.isCommandFor(args[0])) {
-                    event.setArgument(args.length > 1 ? args[1] : null);
-                    child.onEvent(event);
+                    child.onEvent(event.withArgument(args.length > 1 ? args[1] : null));
                     return false;
                 }
             }

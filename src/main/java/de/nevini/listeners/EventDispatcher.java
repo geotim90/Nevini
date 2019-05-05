@@ -11,6 +11,7 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.springframework.stereotype.Component;
 
+import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -73,11 +74,15 @@ public class EventDispatcher implements EventListener {
         if (!scheduledExecutorService.isShutdown()) {
             log.info("Registering {} subscription", eventType.getSimpleName());
             EventTypeCallback<T> eventTypeCallback = new EventTypeCallback<>(eventType, condition, callback, onlyOnce);
-            callbacks.put(eventType, eventTypeCallback);
+            synchronized (callbacks) {
+                callbacks.put(eventType, eventTypeCallback);
+            }
             if (timeout > 0 && timeoutUnit != null) {
                 scheduledExecutorService.schedule(() -> {
-                    if ((callbacks.removeMapping(eventType, callback) || timeoutAlways) && timeoutCallback != null) {
-                        timeoutCallback.run();
+                    synchronized (callbacks) {
+                        if ((callbacks.removeMapping(eventType, callback) || timeoutAlways) && timeoutCallback != null) {
+                            timeoutCallback.run();
+                        }
                     }
                 }, timeout, timeoutUnit);
             }
@@ -116,11 +121,15 @@ public class EventDispatcher implements EventListener {
         log.debug("Dispatching {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
         Class<?> eventType = event.getClass();
         while (eventType != null) {
-            if (callbacks.containsKey(eventType)) {
-                for (EventTypeCallback<?> callback : callbacks.get(eventType)) {
-                    log.debug("Calling callback for {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
-                    if (callback.onEvent(event) && callback.isOnlyOnce()) {
-                        callbacks.removeMapping(eventType, callback);
+            synchronized (callbacks) {
+                if (callbacks.containsKey(eventType)) {
+                    Iterator<EventTypeCallback<?>> iterator = callbacks.get(eventType).iterator();
+                    while (iterator.hasNext()) {
+                        EventTypeCallback<?> callback = iterator.next();
+                        log.debug("Calling callback for {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
+                        if (callback.onEvent(event) && callback.isOnlyOnce()) {
+                            iterator.remove();
+                        }
                     }
                 }
             }

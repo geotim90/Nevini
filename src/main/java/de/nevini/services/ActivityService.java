@@ -65,6 +65,11 @@ public class ActivityService {
         return data.stream().collect(Collectors.toMap(ActivityData::getUser, ActivityData::getUts));
     }
 
+    public Long getActivityPlaying(User user, GameData game) {
+        Optional<ActivityData> data = activityRepository.findById(new ActivityId(user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId()));
+        return data.map(ActivityData::getUts).orElse(null);
+    }
+
     public synchronized void updateActivityPlaying(User user, RichPresence presence) {
         ActivityData data = new ActivityData(user.getIdLong(), ACTIVITY_TYPE_PLAYING, presence.getApplicationIdLong(), System.currentTimeMillis());
         log.info("Save data: {}", data);

@@ -1,8 +1,7 @@
 package de.nevini.command;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NonNull;
+import lombok.Value;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
@@ -19,8 +18,7 @@ import java.util.function.Consumer;
 import static de.nevini.util.FormatUtils.summarize;
 
 @Slf4j
-@Data
-@AllArgsConstructor
+@Value
 public class CommandEvent {
 
     @Delegate
@@ -29,7 +27,21 @@ public class CommandEvent {
     @Delegate(types = {MessageReceivedEvent.class, GenericMessageEvent.class, Event.class})
     private final MessageReceivedEvent event;
 
-    private String argument;
+    private final CommandOptions options;
+
+    public CommandEvent(@NonNull CommandContext context, @NonNull MessageReceivedEvent event, @NonNull CommandOptions options) {
+        this.context = context;
+        this.event = event;
+        this.options = options;
+    }
+
+    public String getArgument() {
+        return options.getArgument().orElse(null);
+    }
+
+    public CommandEvent withArgument(String argument) {
+        return new CommandEvent(context, event, options.withArgument(argument));
+    }
 
     public boolean isOwner() {
         return getAuthor().getId().equals(context.getOwnerId());
