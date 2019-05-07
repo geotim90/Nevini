@@ -9,11 +9,11 @@ import lombok.ToString;
 @ToString
 public enum CommandReaction {
 
-    OK("✅"),
-    NEUTRAL("✔"),
-    WARNING("⚠️"),
-    ERROR("❌"),
-    DISABLED("⛔"),
+    OK("\u2705"),
+    NEUTRAL("\u2714"),
+    WARNING("\u26A0"),
+    ERROR("\u274C"),
+    DISABLED("\u26D4"),
     PROHIBITED("\uD83D\uDEAB");
 
     private final String unicode;

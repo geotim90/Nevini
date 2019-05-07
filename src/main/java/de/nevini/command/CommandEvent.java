@@ -96,7 +96,11 @@ public class CommandEvent {
     }
 
     public void replyDm(@NonNull MessageEmbed embed) {
-        getAuthor().openPrivateChannel().complete().sendMessage(embed).queue();
+        replyDm(embed, ignore());
+    }
+
+    public void replyDm(@NonNull MessageEmbed embed, @NonNull Consumer<? super Message> callback) {
+        sendMessage(getAuthor().openPrivateChannel().complete(), embed, callback);
     }
 
     public void replyDm(@NonNull String content) {
@@ -123,13 +127,18 @@ public class CommandEvent {
     }
 
     public void replyTo(@NonNull Message message, @NonNull MessageEmbed embed) {
+        replyTo(message, embed, ignore());
+    }
+
+    public void replyTo(@NonNull Message message, @NonNull MessageEmbed embed,
+                        @NonNull Consumer<? super Message> callback) {
         if (canEmbed(message)) {
-            getChannel().sendMessage(embed).queue();
+            sendMessage(message.getChannel(), embed, callback);
         } else {
             if (canReact(message)) {
                 addReaction(message, CommandReaction.NEUTRAL.getUnicode());
             }
-            replyDm(embed);
+            replyDm(embed, callback);
         }
     }
 
@@ -140,7 +149,7 @@ public class CommandEvent {
     public void replyTo(@NonNull Message message, @NonNull String content,
                         @NonNull Consumer<? super Message> callback) {
         if (canTalk(message)) {
-            sendMessage(getChannel(), content, callback);
+            sendMessage(message.getChannel(), content, callback);
         } else {
             if (canReact(message)) {
                 addReaction(message, CommandReaction.NEUTRAL.getUnicode());
@@ -152,6 +161,11 @@ public class CommandEvent {
     private void addReaction(Message message, String unicode) {
         log.info("{} - reaction: {}", getMessageId(), unicode);
         message.addReaction(unicode).queue();
+    }
+
+    private void sendMessage(MessageChannel channel, MessageEmbed embed, Consumer<? super Message> callback) {
+        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(embed.toJSONObject().toString()));
+        channel.sendMessage(embed).queue(callback);
     }
 
     private void sendMessage(MessageChannel channel, String content, Consumer<? super Message> callback) {
