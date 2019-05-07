@@ -39,6 +39,15 @@ public abstract class AbstractResolver<T> {
         return null;
     }
 
+    public void resolveArgumentOrOptionIfExists(@NonNull CommandEvent event, @NonNull Callback<T> callback) {
+        String query = StringUtils.defaultString(event.getArgument(), getFromOptions(event));
+        if (StringUtils.isEmpty(query)) {
+            callback.accept(event, event.getMessage(), null);
+        } else {
+            resolveInput(event, event.getMessage(), query, callback);
+        }
+    }
+
     public void resolveArgumentOrOptionOrDefault(@NonNull CommandEvent event, T defaultValue, @NonNull Callback<T> callback) {
         String query = StringUtils.defaultString(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
@@ -62,11 +71,16 @@ public abstract class AbstractResolver<T> {
     }
 
     public void resolveOptionIfExists(@NonNull CommandEvent event, @NonNull Callback<T> callback) {
+        resolveOptionIfExists(event, event.getMessage(), callback);
+    }
+
+    public void resolveOptionIfExists(@NonNull CommandEvent event, @NonNull Message message,
+                                      @NonNull Callback<T> callback) {
         String query = getFromOptions(event);
         if (StringUtils.isEmpty(query)) {
-            callback.accept(event, event.getMessage(), null);
+            callback.accept(event, message, null);
         } else {
-            resolveInput(event, event.getMessage(), query, callback);
+            resolveInput(event, message, query, callback);
         }
     }
 

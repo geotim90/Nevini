@@ -15,7 +15,8 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class Paginator {
 
-    private static final int PAGE_SIZE = 25;
+    // use a page size that is <= 25 and divisible by 2 and 3
+    private static final int PAGE_SIZE = 24;
 
     private static final String EMOTE_BACK = "\u25C0";
     private static final String EMOTE_CANCEL = "\u23F9";

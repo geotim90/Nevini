@@ -169,8 +169,7 @@ public class CommandEvent {
     }
 
     private void sendMessage(MessageChannel channel, EmbedBuilder embed, Consumer<? super Message> callback) {
-        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(),
-                summarize(embed.getDescriptionBuilder().toString()));
+        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(embed.toString()));
         new Paginator(this, channel, embed, callback).display();
     }
 
