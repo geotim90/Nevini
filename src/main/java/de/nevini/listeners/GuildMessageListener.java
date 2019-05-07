@@ -1,6 +1,5 @@
 package de.nevini.listeners;
 
-import de.nevini.bot.EventDispatcher;
 import de.nevini.services.ActivityService;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ public class GuildMessageListener {
             @Autowired EventDispatcher eventDispatcher
     ) {
         this.activityService = activityService;
-        eventDispatcher.addEventListener(GuildMessageReceivedEvent.class, this::onGuildMessageReceived);
+        eventDispatcher.subscribe(GuildMessageReceivedEvent.class, this::onGuildMessageReceived);
     }
 
     private void onGuildMessageReceived(GuildMessageReceivedEvent event) {

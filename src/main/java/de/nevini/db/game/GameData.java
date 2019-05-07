@@ -20,4 +20,6 @@ public class GameData {
 
     private String name;
 
+    private String icon;
+
 }

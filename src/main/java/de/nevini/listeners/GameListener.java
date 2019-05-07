@@ -1,6 +1,5 @@
 package de.nevini.listeners;
 
-import de.nevini.bot.EventDispatcher;
 import de.nevini.services.ActivityService;
 import de.nevini.services.GameService;
 import net.dv8tion.jda.core.entities.Game;
@@ -23,7 +22,7 @@ public class GameListener {
     ) {
         this.activityService = activityService;
         this.gameService = gameService;
-        eventDispatcher.addEventListener(UserUpdateGameEvent.class, this::onUserUpdateGame);
+        eventDispatcher.subscribe(UserUpdateGameEvent.class, this::onUserUpdateGame);
     }
 
     private void onUserUpdateGame(UserUpdateGameEvent e) {
@@ -37,7 +36,7 @@ public class GameListener {
         RichPresence presence = game != null ? game.asRichPresence() : null;
         if (presence != null && presence.getType() == Game.GameType.DEFAULT) {
             activityService.updateActivityPlaying(user, presence);
-            gameService.setGameName(presence);
+            gameService.cacheGame(presence);
         }
     }
 

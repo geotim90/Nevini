@@ -1,6 +1,5 @@
 package de.nevini.listeners;
 
-import de.nevini.bot.EventDispatcher;
 import de.nevini.services.ActivityService;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.events.user.update.UserUpdateOnlineStatusEvent;
@@ -17,7 +16,7 @@ public class OnlineStatusListener {
             @Autowired EventDispatcher eventDispatcher
     ) {
         this.activityService = activityService;
-        eventDispatcher.addEventListener(UserUpdateOnlineStatusEvent.class, this::onUserUpdateOnlineStatus);
+        eventDispatcher.subscribe(UserUpdateOnlineStatusEvent.class, this::onUserUpdateOnlineStatus);
     }
 
     private void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent event) {
