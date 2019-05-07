@@ -6,7 +6,6 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
-import de.nevini.util.Constants;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.StringUtils;
@@ -44,10 +43,12 @@ public class ModuleGetCommand extends Command {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setColor(event.getGuild().getSelfMember().getColor());
         builder.setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl());
-        modules.stream().limit(Constants.EMBED_MAX_FIELDS).forEach(module -> builder.addField(module.getName(),
-                event.getModuleService().isModuleActive(event.getGuild(), module) ? CommandReaction.OK.getUnicode() :
-                        CommandReaction.DISABLED.getUnicode(), true));
-        event.reply(builder.build());
+        for (Module module : modules) {
+            builder.addField(module.getName(), event.getModuleService().isModuleActive(event.getGuild(), module)
+                    ? CommandReaction.OK.getUnicode()
+                    : CommandReaction.DISABLED.getUnicode(), true);
+        }
+        event.reply(builder);
     }
 
 }

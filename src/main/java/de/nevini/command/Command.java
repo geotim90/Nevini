@@ -1,6 +1,6 @@
 package de.nevini.command;
 
-import de.nevini.util.FormatUtils;
+import de.nevini.util.Formatter;
 import lombok.NonNull;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static de.nevini.util.FormatUtils.summarize;
+import static de.nevini.util.Formatter.summarize;
 
 @Slf4j
 public abstract class Command {
@@ -114,7 +114,7 @@ public abstract class Command {
                 return false;
             } else {
                 event.reply(CommandReaction.ERROR, "I need the **"
-                        + FormatUtils.join(missingPermissions, "**, **", "** and **")
+                        + Formatter.join(missingPermissions, "**, **", "** and **")
                         + "** permissions to execute that command!");
                 return false;
             }

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static de.nevini.util.FormatUtils.summarize;
+import static de.nevini.util.Formatter.summarize;
 
 @Slf4j
 @Component

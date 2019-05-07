@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class FindUtils {
+public class Finder {
 
     public static <T> Collection<T> find(T[] value, Function<T, String> identifier, String query) {
         return find(Arrays.asList(value), identifier, query);

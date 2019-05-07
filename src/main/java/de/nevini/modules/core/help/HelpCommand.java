@@ -5,7 +5,7 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
-import de.nevini.util.FormatUtils;
+import de.nevini.util.Formatter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -91,7 +91,7 @@ public class HelpCommand extends Command {
             }
             if (command.getAliases().length > 0) {
                 builder.append("\n\n__Aliases__\n").append("You can also use **")
-                        .append(FormatUtils.join(command.getAliases(), "**, **", "** or **"))
+                        .append(Formatter.join(command.getAliases(), "**, **", "** or **"))
                         .append("** instead of **").append(command.getKeyword()).append("**");
             }
             if (command.getChildren().length > 0) {

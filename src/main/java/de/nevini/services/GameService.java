@@ -3,7 +3,7 @@ package de.nevini.services;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.db.game.GameData;
 import de.nevini.db.game.GameRepository;
-import de.nevini.util.FindUtils;
+import de.nevini.util.Finder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.RichPresence;
 import org.apache.commons.lang3.StringUtils;
@@ -60,7 +60,7 @@ public class GameService {
             Optional<GameData> data = gameRepository.findById(Long.parseUnsignedLong(query));
             return data.map(Collections::singleton).orElse(Collections.emptySet());
         } else {
-            return FindUtils.find(gameRepository.findAllByNameContainsIgnoreCase(query), GameData::getName, query);
+            return Finder.find(gameRepository.findAllByNameContainsIgnoreCase(query), GameData::getName, query);
         }
     }
 

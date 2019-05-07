@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
-public class FormatUtils {
+public class Formatter {
 
     public static String formatLargestUnitAgo(long epochMilli) {
         if (epochMilli <= 0) {

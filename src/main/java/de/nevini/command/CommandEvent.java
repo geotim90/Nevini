@@ -1,21 +1,22 @@
 package de.nevini.command;
 
+import de.nevini.util.Paginator;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.function.Consumer;
 
-import static de.nevini.util.FormatUtils.summarize;
+import static de.nevini.util.Formatter.summarize;
 
 @Slf4j
 @Value
@@ -83,8 +84,12 @@ public class CommandEvent {
         replyTo(getMessage(), reaction, content);
     }
 
-    public void reply(@NonNull MessageEmbed embed) {
+    public void reply(@NonNull EmbedBuilder embed) {
         replyTo(getMessage(), embed);
+    }
+
+    public void reply(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
+        replyTo(getMessage(), embed, callback);
     }
 
     public void reply(@NonNull String content) {
@@ -95,11 +100,11 @@ public class CommandEvent {
         replyTo(getMessage(), content, callback);
     }
 
-    public void replyDm(@NonNull MessageEmbed embed) {
+    public void replyDm(@NonNull EmbedBuilder embed) {
         replyDm(embed, ignore());
     }
 
-    public void replyDm(@NonNull MessageEmbed embed, @NonNull Consumer<? super Message> callback) {
+    public void replyDm(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
         sendMessage(getAuthor().openPrivateChannel().complete(), embed, callback);
     }
 
@@ -126,11 +131,11 @@ public class CommandEvent {
         replyTo(getMessage(), reaction.getUnicode() + ' ' + content);
     }
 
-    public void replyTo(@NonNull Message message, @NonNull MessageEmbed embed) {
+    public void replyTo(@NonNull Message message, @NonNull EmbedBuilder embed) {
         replyTo(message, embed, ignore());
     }
 
-    public void replyTo(@NonNull Message message, @NonNull MessageEmbed embed,
+    public void replyTo(@NonNull Message message, @NonNull EmbedBuilder embed,
                         @NonNull Consumer<? super Message> callback) {
         if (canEmbed(message)) {
             sendMessage(message.getChannel(), embed, callback);
@@ -163,9 +168,10 @@ public class CommandEvent {
         message.addReaction(unicode).queue();
     }
 
-    private void sendMessage(MessageChannel channel, MessageEmbed embed, Consumer<? super Message> callback) {
-        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(embed.toJSONObject().toString()));
-        channel.sendMessage(embed).queue(callback);
+    private void sendMessage(MessageChannel channel, EmbedBuilder embed, Consumer<? super Message> callback) {
+        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(),
+                summarize(embed.getDescriptionBuilder().toString()));
+        new Paginator(this, channel, embed, callback).display();
     }
 
     private void sendMessage(MessageChannel channel, String content, Consumer<? super Message> callback) {

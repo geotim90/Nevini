@@ -8,8 +8,7 @@ import de.nevini.db.game.GameData;
 import de.nevini.modules.Module;
 import de.nevini.resolvers.GameResolver;
 import de.nevini.resolvers.MemberResolver;
-import de.nevini.util.Constants;
-import de.nevini.util.FormatUtils;
+import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -59,20 +58,19 @@ public class ActivityCommand extends Command {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setColor(event.getGuild().getSelfMember().getColor());
         builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
-        builder.addField("Discord", FormatUtils.formatLargestUnitAgo(
+        builder.addField("Discord", Formatter.formatLargestUnitAgo(
                 event.getActivityService().getActivityOnline(member.getUser())), true);
-        builder.addField(event.getGuild().getName(), FormatUtils.formatLargestUnitAgo(
+        builder.addField(event.getGuild().getName(), Formatter.formatLargestUnitAgo(
                 event.getActivityService().getActivityMessage(member)), true);
         getLastPlayed(event, member).forEach((id, timestamp) -> builder.addField(event.getGameService().getGameName(id),
-                FormatUtils.formatLargestUnitAgo(timestamp), true));
-        event.reply(builder.build());
+                Formatter.formatLargestUnitAgo(timestamp), true));
+        event.reply(builder);
     }
 
     private Map<Long, Long> getLastPlayed(CommandEvent event, Member member) {
         Map<Long, Long> result = new LinkedHashMap<>();
         event.getActivityService().getActivityPlaying(member.getUser()).entrySet().stream()
-                .sorted(comparingValueReversed()).limit(Constants.EMBED_MAX_FIELDS - 2)
-                .forEach(e -> result.put(e.getKey(), e.getValue()));
+                .sorted(comparingValueReversed()).forEach(e -> result.put(e.getKey(), e.getValue()));
         return result;
     }
 
@@ -84,10 +82,9 @@ public class ActivityCommand extends Command {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setColor(event.getGuild().getSelfMember().getColor());
             builder.setAuthor(game.getName(), null, game.getIcon());
-            lastPlayed.entrySet().stream().limit(Constants.EMBED_MAX_FIELDS).forEach(e ->
-                    builder.addField(e.getKey().getEffectiveName(), FormatUtils.formatLargestUnitAgo(e.getValue()),
-                            true));
-            event.reply(builder.build());
+            lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
+                    Formatter.formatLargestUnitAgo(timestamp), true));
+            event.reply(builder);
         }
     }
 
@@ -106,7 +103,7 @@ public class ActivityCommand extends Command {
         if (lastPlayed == null) {
             event.reply(member.getEffectiveName() + " has not played this game recently.");
         } else {
-            event.reply(member.getEffectiveName() + " played this game " + FormatUtils.formatLargestUnitAgo(lastPlayed));
+            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed));
         }
     }
 

@@ -4,7 +4,7 @@ import de.nevini.db.module.ModuleData;
 import de.nevini.db.module.ModuleId;
 import de.nevini.db.module.ModuleRepository;
 import de.nevini.modules.Module;
-import de.nevini.util.FindUtils;
+import de.nevini.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
@@ -39,7 +39,7 @@ public class ModuleService {
     }
 
     public Collection<Module> findModules(String query) {
-        return FindUtils.find(Module.values(), Module::getName, query);
+        return Finder.find(Module.values(), Module::getName, query);
     }
 
 }
