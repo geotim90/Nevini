@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -31,6 +32,7 @@ public class Paginator {
     @NonNull
     private final Consumer<? super Message> callback;
 
+    private MessageEmbed template = null;
     private Message container = null;
     private int currentPage = 0;
 
@@ -52,10 +54,17 @@ public class Paginator {
             } else if (pageNumber > pageCount) {
                 renderPage(pageCount);
             } else {
-                EmbedBuilder pageBuilder = new EmbedBuilder(embed);
-                pageBuilder.clearFields();
+                ensureTemplate();
+                EmbedBuilder pageBuilder = new EmbedBuilder(template);
                 pageBuilder.getFields().addAll(embed.getFields().subList((pageNumber - 1) * PAGE_SIZE,
                         Math.min(embed.getFields().size(), pageNumber * PAGE_SIZE)));
+                if (template.getFooter() == null) {
+                    pageBuilder.setFooter("Page " + pageNumber + "/" + pageCount,
+                            context.getJDA().getSelfUser().getAvatarUrl());
+                }
+                if (template.getTimestamp() == null) {
+                    pageBuilder.setTimestamp(Instant.now());
+                }
                 MessageEmbed page = pageBuilder.build();
                 if (container == null) {
                     channel.sendMessage(page).queue(message -> {
@@ -66,6 +75,14 @@ public class Paginator {
                     container.editMessage(page).queue(message -> paginate(message, pageNumber));
                 }
             }
+        }
+    }
+
+    private void ensureTemplate() {
+        if (template == null) {
+            EmbedBuilder templateBuilder = new EmbedBuilder(embed);
+            templateBuilder.clearFields();
+            template = templateBuilder.build();
         }
     }
 
