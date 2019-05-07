@@ -21,4 +21,14 @@ public class ModuleResolver extends AbstractResolver<Module> {
                 .sorted(Comparator.comparing(Module::ordinal)).collect(Collectors.toList());
     }
 
+    @Override
+    protected String getFieldNameForPicker(Module item) {
+        return item.getName();
+    }
+
+    @Override
+    protected String getFieldValueForPicker(Module item) {
+        return null;
+    }
+
 }

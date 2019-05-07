@@ -27,4 +27,14 @@ public class StringResolver extends AbstractResolver<String> {
         return StringUtils.isEmpty(query) ? Collections.emptyList() : Collections.singletonList(query);
     }
 
+    @Override
+    protected String getFieldNameForPicker(String item) {
+        return item;
+    }
+
+    @Override
+    protected String getFieldValueForPicker(String item) {
+        return null;
+    }
+
 }

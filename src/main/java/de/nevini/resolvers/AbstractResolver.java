@@ -2,6 +2,7 @@ package de.nevini.resolvers;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
+import de.nevini.util.Picker;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -110,14 +111,21 @@ public abstract class AbstractResolver<T> {
             List<T> results = findSorted(event, input);
             if (results.isEmpty()) {
                 replyUnknown(event, message);
-            } else if (results.size() > 1) {
-                // TODO display options to choose from
+            } else if (results.size() > Picker.MAX) {
                 replyAmbiguous(event, message);
+            } else if (results.size() > 1) {
+                new Picker<>(event, message.getChannel(), results, this::getFieldNameForPicker,
+                        this::getFieldValueForPicker, item -> callback.accept(event, message, item),
+                        () -> replyCancelled(event, message)).display();
             } else {
                 callback.accept(event, message, results.get(0));
             }
         }
     }
+
+    protected abstract String getFieldNameForPicker(T item);
+
+    protected abstract String getFieldValueForPicker(T item);
 
     private void replyAmbiguous(CommandEvent event, Message message) {
         event.replyTo(message, CommandReaction.WARNING, "Too many " + typeName + "s matched your input! Please be more specific next time.");

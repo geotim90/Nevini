@@ -21,4 +21,14 @@ public class GameResolver extends AbstractResolver<GameData> {
                 .sorted(Comparator.comparing(GameData::getName)).collect(Collectors.toList());
     }
 
+    @Override
+    protected String getFieldNameForPicker(GameData item) {
+        return item.getName();
+    }
+
+    @Override
+    protected String getFieldValueForPicker(GameData item) {
+        return Long.toUnsignedString(item.getId());
+    }
+
 }

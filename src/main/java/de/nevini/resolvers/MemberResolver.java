@@ -27,4 +27,14 @@ public class MemberResolver extends AbstractResolver<Member> {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    protected String getFieldNameForPicker(Member item) {
+        return item.getEffectiveName();
+    }
+
+    @Override
+    protected String getFieldValueForPicker(Member item) {
+        return item.getUser().getId();
+    }
+
 }
