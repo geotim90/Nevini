@@ -80,7 +80,7 @@ public class EventDispatcher implements EventListener {
             if (timeout > 0 && timeoutUnit != null) {
                 scheduledExecutorService.schedule(() -> {
                     synchronized (callbacks) {
-                        if ((callbacks.removeMapping(eventType, callback) || timeoutAlways) && timeoutCallback != null) {
+                        if ((callbacks.removeMapping(eventType, eventTypeCallback) || timeoutAlways) && timeoutCallback != null) {
                             timeoutCallback.run();
                         }
                     }
