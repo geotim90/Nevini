@@ -26,7 +26,7 @@ public class ShutdownCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         event.reply(CommandReaction.OK, ignore -> {
-            event.complete();
+            event.complete(true);
             event.getJDA().shutdown();
         });
     }

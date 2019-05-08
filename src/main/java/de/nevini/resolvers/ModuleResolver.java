@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class ModuleResolver extends AbstractResolver<Module> {
 
     public ModuleResolver() {
-        super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))")});
+        super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))?")});
     }
 
     @Override

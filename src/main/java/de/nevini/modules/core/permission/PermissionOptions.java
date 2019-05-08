@@ -9,8 +9,9 @@ import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -32,7 +33,7 @@ public class PermissionOptions {
     private Role role;
     private Member member;
     private TextChannel channel;
-    private Collection<Node> nodes;
+    private List<Node> nodes;
 
     public void get() {
         all = event.getOptions().getOptions().stream().map(ALL_FLAG::matcher).anyMatch(Matcher::matches);
@@ -64,7 +65,7 @@ public class PermissionOptions {
     }
 
     private void acceptNodes(List<Node> nodes) {
-        this.nodes = nodes;
+        this.nodes = ObjectUtils.defaultIfNull(nodes, Collections.emptyList());
         if (all && nodes != null) {
             event.reply(CommandReaction.WARNING, "You cannot select all nodes and specific nodes at the same time!");
         } else {

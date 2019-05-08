@@ -15,7 +15,7 @@ public class RoleResolver extends AbstractResolver<Role> {
     public RoleResolver() {
         super("role", new Pattern[]{
                 Pattern.compile("<@&(\\d+)>"),
-                Pattern.compile("(?i)(?:(?:--|//)role|[-/]r)(?:\\s+(.+))")
+                Pattern.compile("(?i)(?:(?:--|//)role|[-/]r)(?:\\s+(.+))?")
         });
     }
 

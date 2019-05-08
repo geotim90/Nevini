@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class StringResolver extends AbstractResolver<String> {
 
     private static Pattern compileOptionPattern(String optionName) {
-        return Pattern.compile("(?i)(?:--|//)" + Pattern.quote(optionName) + "(?:\\s+(.+))");
+        return Pattern.compile("(?i)(?:--|//)" + Pattern.quote(optionName) + "(?:\\s+(.+))?");
     }
 
     public StringResolver(@NonNull String typeName) {

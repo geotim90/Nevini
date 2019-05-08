@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class NodeResolver extends AbstractResolver<Node> {
 
     public NodeResolver() {
-        super("node", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)node|[-/]n)(?:\\s+(.+))")});
+        super("node", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)node|[-/]n)(?:\\s+(.+))?")});
     }
 
     @Override

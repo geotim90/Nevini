@@ -10,7 +10,7 @@ import lombok.ToString;
 public enum CommandReaction {
 
     OK("\u2705"),
-    DEFAULT_OK("\u2714"),
+    DEFAULT_OK("\u2611"),
     DEFAULT_NOK("\u2716"),
     WARNING("\u26A0"),
     ERROR("\u274C"),

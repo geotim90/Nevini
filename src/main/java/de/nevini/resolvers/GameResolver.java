@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class GameResolver extends AbstractResolver<GameData> {
 
     public GameResolver() {
-        super("game", new Pattern[]{Pattern.compile("(?i)(?:--|//)game(?:\\s+(.+))")});
+        super("game", new Pattern[]{Pattern.compile("(?i)(?:--|//)game(?:\\s+(.+))?")});
     }
 
     @Override

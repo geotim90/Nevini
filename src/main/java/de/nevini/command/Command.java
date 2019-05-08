@@ -134,7 +134,13 @@ public abstract class Command {
             final Optional<Boolean> permissionOverride = getNode() == null
                     ? Optional.empty()
                     : event.getPermissionService().hasPermission(event.getTextChannel(), event.getAuthor(), getNode());
-            boolean permission = permissionOverride.orElseGet(() -> event.getMember().hasPermission(event.getTextChannel(), getNode().getDefaultPermissions()));
+            boolean permission = permissionOverride.orElseGet(() -> {
+                if (getNode() == null) {
+                    return true;
+                } else {
+                    return event.getMember().hasPermission(event.getTextChannel(), getNode().getDefaultPermissions());
+                }
+            });
             if (permission) {
                 String[] missingPermissions = Arrays.stream(getMinimumUserPermissions())
                         .filter(p -> !event.getMember().hasPermission(event.getTextChannel(), p))
