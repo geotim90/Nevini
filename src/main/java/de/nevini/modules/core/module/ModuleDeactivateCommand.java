@@ -8,7 +8,6 @@ import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import de.nevini.resolvers.Resolvers;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
 
 public class ModuleDeactivateCommand extends Command {
 
@@ -26,17 +25,17 @@ public class ModuleDeactivateCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MODULE.resolveArgumentOrOptionOrInput(event, (msg, module) -> deactivateModule(event, msg, module));
+        Resolvers.MODULE.resolveArgumentOrOptionOrInput(event, module -> deactivateModule(event, module));
     }
 
-    private void deactivateModule(CommandEvent event, Message message, Module module) {
+    private void deactivateModule(CommandEvent event, Module module) {
         if (Module.CORE.equals(module)) {
-            event.replyTo(message, CommandReaction.ERROR, "You cannot deactivate the core module - it is always active.");
+            event.reply(CommandReaction.ERROR, "You cannot deactivate the core module - it is always active.");
         } else if (!event.getModuleService().isModuleActive(event.getGuild(), module)) {
-            event.replyTo(message, CommandReaction.NEUTRAL, "There is no need to deactivate the " + module.getName() + " module - it is already inactive.");
+            event.reply(CommandReaction.NEUTRAL, "There is no need to deactivate the " + module.getName() + " module - it is already inactive.");
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, false);
-            event.replyTo(message, CommandReaction.OK);
+            event.reply(CommandReaction.OK);
         }
     }
 

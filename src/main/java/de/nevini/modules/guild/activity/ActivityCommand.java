@@ -9,7 +9,6 @@ import de.nevini.resolvers.Resolvers;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -30,26 +29,26 @@ public class ActivityCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionIfExists(event, (msg, member) -> acceptMember(event, msg, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionIfExists(event, member -> acceptMember(event, member));
     }
 
-    private void acceptMember(CommandEvent event, Message message, Member member) {
-        Resolvers.GAME.resolveOptionIfExists(event, message, (msg, game) -> acceptMemberGame(event, msg, member, game));
+    private void acceptMember(CommandEvent event, Member member) {
+        Resolvers.GAME.resolveOptionIfExists(event, game -> acceptMemberGame(event, member, game));
     }
 
-    private void acceptMemberGame(CommandEvent event, Message message, Member member, GameData game) {
+    private void acceptMemberGame(CommandEvent event, Member member, GameData game) {
         if (member == null && game == null) {
-            reportUserActivity(event, message, event.getMember());
+            reportUserActivity(event, event.getMember());
         } else if (game == null) {
-            reportUserActivity(event, message, member);
+            reportUserActivity(event, member);
         } else if (member == null) {
-            reportGameActivity(event, message, game);
+            reportGameActivity(event, game);
         } else {
-            reportUserGameActivity(event, message, member, game);
+            reportUserGameActivity(event, member, game);
         }
     }
 
-    private void reportUserActivity(CommandEvent event, Message message, Member member) {
+    private void reportUserActivity(CommandEvent event, Member member) {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setColor(event.getGuild().getSelfMember().getColor());
         builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
@@ -59,7 +58,7 @@ public class ActivityCommand extends Command {
                 event.getActivityService().getActivityMessage(member)), true);
         getLastPlayed(event, member).forEach((id, timestamp) -> builder.addField(event.getGameService().getGameName(id),
                 Formatter.formatLargestUnitAgo(timestamp), true));
-        event.replyTo(message, builder);
+        event.reply(builder);
     }
 
     private Map<Long, Long> getLastPlayed(CommandEvent event, Member member) {
@@ -69,7 +68,7 @@ public class ActivityCommand extends Command {
         return result;
     }
 
-    private void reportGameActivity(CommandEvent event, Message message, GameData game) {
+    private void reportGameActivity(CommandEvent event, GameData game) {
         Map<Member, Long> lastPlayed = getLastPlayed(event, game);
         if (lastPlayed.isEmpty()) {
             event.reply("Nobody here has played this game recently.");
@@ -79,7 +78,7 @@ public class ActivityCommand extends Command {
             builder.setAuthor(game.getName(), null, game.getIcon());
             lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
                     Formatter.formatLargestUnitAgo(timestamp), true));
-            event.replyTo(message, builder);
+            event.reply(builder);
         }
     }
 
@@ -93,12 +92,12 @@ public class ActivityCommand extends Command {
         return result;
     }
 
-    private void reportUserGameActivity(CommandEvent event, Message message, Member member, GameData game) {
+    private void reportUserGameActivity(CommandEvent event, Member member, GameData game) {
         Long lastPlayed = event.getActivityService().getActivityPlaying(member.getUser(), game);
         if (lastPlayed == null) {
-            event.replyTo(message, member.getEffectiveName() + " has not played this game recently.");
+            event.reply(member.getEffectiveName() + " has not played this game recently.");
         } else {
-            event.replyTo(message, member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed));
+            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed));
         }
     }
 

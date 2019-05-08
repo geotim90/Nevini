@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
@@ -27,8 +26,6 @@ public class Picker<T> {
 
     @NonNull
     private final CommandEvent context;
-    @NonNull
-    private final MessageChannel channel;
     @NonNull
     private final List<T> items;
     @NonNull
@@ -55,7 +52,7 @@ public class Picker<T> {
                     fieldValueRenderer.apply(items.get(i)), true);
         }
         MessageEmbed embed = embedBuilder.build();
-        channel.sendMessage(embed).queue(this::decorate);
+        context.getChannel().sendMessage(embed).queue(this::decorate);
     }
 
     private void decorate(Message message) {

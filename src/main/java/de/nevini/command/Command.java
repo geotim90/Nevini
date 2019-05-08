@@ -57,7 +57,7 @@ public abstract class Command {
         }
     }
 
-    protected boolean checkChild(CommandEvent event) {
+    private boolean checkChild(CommandEvent event) {
         if (StringUtils.isNotEmpty(event.getArgument())) {
             String[] args = event.getArgument().split("\\s+", 2);
             for (Command child : getChildren()) {
@@ -75,11 +75,11 @@ public abstract class Command {
                 || Arrays.stream(getAliases()).anyMatch(keyword::equalsIgnoreCase));
     }
 
-    protected boolean checkOwner(CommandEvent event) {
+    private boolean checkOwner(CommandEvent event) {
         return !isOwnerOnly() || event.isOwner();
     }
 
-    protected boolean checkChannel(CommandEvent event) {
+    private boolean checkChannel(CommandEvent event) {
         if (!event.isFromType(ChannelType.TEXT) && isGuildOnly()) {
             event.reply(CommandReaction.ERROR, "That command cannot be executed via direct message!");
             return false;
@@ -88,17 +88,17 @@ public abstract class Command {
         }
     }
 
-    protected boolean checkModule(CommandEvent event) {
+    private boolean checkModule(CommandEvent event) {
         if (event.getModuleService().isModuleActive(event.getGuild(), getModule())) {
             return true;
         } else {
             event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
-                    + "** module is disabled on this server!");
+                    + "** module is disabled on **" + event.getGuild().getName() + "**!");
             return false;
         }
     }
 
-    protected boolean checkBotPermission(CommandEvent event) {
+    private boolean checkBotPermission(CommandEvent event) {
         if (!event.isFromType(ChannelType.TEXT) || event.getMember().hasPermission(event.getTextChannel(),
                 getMinimumBotPermissions())) {
             return true;
@@ -121,7 +121,7 @@ public abstract class Command {
         }
     }
 
-    protected boolean checkUserPermission(CommandEvent event) {
+    private boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
             final Optional<Boolean> permissionOverride = getNode() == null ? Optional.empty() :
                     event.getPermissionService().hasPermission(event.getTextChannel(), event.getAuthor(),

@@ -8,7 +8,6 @@ import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import de.nevini.resolvers.Resolvers;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
 
 public class ModuleActivateCommand extends Command {
 
@@ -26,17 +25,17 @@ public class ModuleActivateCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MODULE.resolveArgumentOrOptionOrInput(event, (msg, module) -> activateModule(event, msg, module));
+        Resolvers.MODULE.resolveArgumentOrOptionOrInput(event, module -> activateModule(event, module));
     }
 
-    private void activateModule(CommandEvent event, Message message, Module module) {
+    private void activateModule(CommandEvent event, Module module) {
         if (Module.CORE.equals(module)) {
-            event.replyTo(message, CommandReaction.NEUTRAL, "There is no need to activate the core module - it is always active.");
+            event.reply(CommandReaction.NEUTRAL, "There is no need to activate the core module - it is always active.");
         } else if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
-            event.replyTo(message, CommandReaction.NEUTRAL, "There is no need to activate the " + module.getName() + " module - it is already active.");
+            event.reply(CommandReaction.NEUTRAL, "There is no need to activate the " + module.getName() + " module - it is already active.");
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, true);
-            event.replyTo(message, CommandReaction.OK);
+            event.reply(CommandReaction.OK);
         }
     }
 

@@ -49,63 +49,67 @@ public class CommandEvent {
     }
 
     public boolean canEmbed() {
-        return canEmbed(getMessage());
-    }
-
-    public boolean canEmbed(Message message) {
-        return !message.isFromType(ChannelType.TEXT) || message.getGuild().getSelfMember().hasPermission(
-                message.getTextChannel(), Permission.MESSAGE_READ, Permission.MESSAGE_WRITE,
-                Permission.MESSAGE_EMBED_LINKS);
+        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(),
+                Permission.MESSAGE_READ,
+                Permission.MESSAGE_WRITE,
+                Permission.MESSAGE_HISTORY,
+                Permission.MESSAGE_EMBED_LINKS,
+                Permission.MESSAGE_ADD_REACTION
+        );
     }
 
     public boolean canReact() {
-        return canReact(getMessage());
-    }
-
-    public boolean canReact(@NonNull Message message) {
-        return !message.isFromType(ChannelType.TEXT) || message.getGuild().getSelfMember().hasPermission(
-                message.getTextChannel(), Permission.MESSAGE_READ, Permission.MESSAGE_ADD_REACTION);
+        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(),
+                Permission.MESSAGE_READ,
+                Permission.MESSAGE_HISTORY,
+                Permission.MESSAGE_ADD_REACTION
+        );
     }
 
     public boolean canTalk() {
-        return canTalk(getMessage());
-    }
-
-    public boolean canTalk(@NonNull Message message) {
-        return !message.isFromType(ChannelType.TEXT) || message.getGuild().getSelfMember().hasPermission(
-                message.getTextChannel(), Permission.MESSAGE_READ, Permission.MESSAGE_WRITE);
+        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(),
+                Permission.MESSAGE_READ,
+                Permission.MESSAGE_WRITE
+        );
     }
 
     public void reply(@NonNull CommandReaction reaction) {
-        replyTo(getMessage(), reaction);
+        if (canReact()) {
+            addReaction(reaction.getUnicode());
+        } else {
+            reply(reaction.getUnicode());
+        }
     }
 
     public void reply(@NonNull CommandReaction reaction, @NonNull String content) {
-        replyTo(getMessage(), reaction, content);
+        if (!canTalk() && canReact()) {
+            addReaction(reaction.getUnicode());
+        }
+        reply(reaction.getUnicode() + ' ' + content);
     }
 
     public void reply(@NonNull EmbedBuilder embed) {
-        replyTo(getMessage(), embed);
+        reply(embed, ignore());
     }
 
     public void reply(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
-        replyTo(getMessage(), embed, callback);
+        if (canEmbed()) {
+            sendMessage(getChannel(), embed, callback);
+        } else {
+            replyDm(embed, callback);
+        }
     }
 
     public void reply(@NonNull String content) {
-        replyTo(getMessage(), content);
+        reply(content, ignore());
     }
 
     public void reply(@NonNull String content, @NonNull Consumer<? super Message> callback) {
-        replyTo(getMessage(), content, callback);
-    }
-
-    public void replyDm(@NonNull EmbedBuilder embed) {
-        replyDm(embed, ignore());
-    }
-
-    public void replyDm(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
-        sendMessage(getAuthor().openPrivateChannel().complete(), embed, callback);
+        if (canTalk()) {
+            sendMessage(getChannel(), content, callback);
+        } else {
+            replyDm(content, callback);
+        }
     }
 
     public void replyDm(@NonNull String content) {
@@ -113,59 +117,26 @@ public class CommandEvent {
     }
 
     public void replyDm(@NonNull String content, @NonNull Consumer<? super Message> callback) {
+        if (canReact()) {
+            addReaction(CommandReaction.DM.getUnicode());
+        }
         sendMessage(getAuthor().openPrivateChannel().complete(), content, callback);
     }
 
-    public void replyTo(@NonNull Message message, @NonNull CommandReaction reaction) {
-        if (canReact(message)) {
-            addReaction(message, reaction.getUnicode());
-        } else {
-            replyTo(message, reaction.getUnicode());
+    public void replyDm(@NonNull EmbedBuilder embed) {
+        replyDm(embed, ignore());
+    }
+
+    public void replyDm(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
+        if (canReact()) {
+            addReaction(CommandReaction.DM.getUnicode());
         }
+        sendMessage(getAuthor().openPrivateChannel().complete(), embed, callback);
     }
 
-    public void replyTo(@NonNull Message message, @NonNull CommandReaction reaction, @NonNull String content) {
-        if (!canTalk(message) && canReact(message)) {
-            addReaction(message, reaction.getUnicode());
-        }
-        replyTo(getMessage(), reaction.getUnicode() + ' ' + content);
-    }
-
-    public void replyTo(@NonNull Message message, @NonNull EmbedBuilder embed) {
-        replyTo(message, embed, ignore());
-    }
-
-    public void replyTo(@NonNull Message message, @NonNull EmbedBuilder embed,
-                        @NonNull Consumer<? super Message> callback) {
-        if (canEmbed(message)) {
-            sendMessage(message.getChannel(), embed, callback);
-        } else {
-            if (canReact(message)) {
-                addReaction(message, CommandReaction.NEUTRAL.getUnicode());
-            }
-            replyDm(embed, callback);
-        }
-    }
-
-    public void replyTo(@NonNull Message message, @NonNull String content) {
-        replyTo(message, content, ignore());
-    }
-
-    public void replyTo(@NonNull Message message, @NonNull String content,
-                        @NonNull Consumer<? super Message> callback) {
-        if (canTalk(message)) {
-            sendMessage(message.getChannel(), content, callback);
-        } else {
-            if (canReact(message)) {
-                addReaction(message, CommandReaction.NEUTRAL.getUnicode());
-            }
-            replyDm(content, callback);
-        }
-    }
-
-    private void addReaction(Message message, String unicode) {
+    private void addReaction(String unicode) {
         log.info("{} - reaction: {}", getMessageId(), unicode);
-        message.addReaction(unicode).queue();
+        getMessage().addReaction(unicode).queue();
     }
 
     private void sendMessage(MessageChannel channel, EmbedBuilder embed, Consumer<? super Message> callback) {

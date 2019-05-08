@@ -14,7 +14,8 @@ public enum CommandReaction {
     WARNING("\u26A0"),
     ERROR("\u274C"),
     DISABLED("\u26D4"),
-    PROHIBITED("\uD83D\uDEAB");
+    PROHIBITED("\uD83D\uDEAB"),
+    DM("\u2709");
 
     private final String unicode;
 

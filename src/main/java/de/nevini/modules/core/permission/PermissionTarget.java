@@ -7,7 +7,6 @@ import de.nevini.resolvers.Resolvers;
 import lombok.Data;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 
@@ -40,33 +39,33 @@ public class PermissionTarget {
         Resolvers.ROLE.resolveOptionIfExists(event, this::acceptRole);
     }
 
-    private void acceptRole(@NonNull Message message, Role role) {
+    private void acceptRole(Role role) {
         this.role = role;
-        Resolvers.MEMBER.resolveOptionIfExists(event, message, this::acceptMember);
+        Resolvers.MEMBER.resolveOptionIfExists(event, this::acceptMember);
     }
 
-    private void acceptMember(@NonNull Message message, Member member) {
+    private void acceptMember(Member member) {
         this.member = member;
         if (role != null && member != null) {
-            event.replyTo(message, CommandReaction.WARNING, "You cannot select a role and a user at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select a role and a user at the same time!");
         } else {
-            Resolvers.CHANNEL.resolveOptionIfExists(event, message, this::acceptChannel);
+            Resolvers.CHANNEL.resolveOptionIfExists(event, this::acceptChannel);
         }
     }
 
-    private void acceptChannel(@NonNull Message message, TextChannel channel) {
+    private void acceptChannel(TextChannel channel) {
         this.channel = channel;
         if (server && channel != null) {
-            event.replyTo(message, CommandReaction.WARNING, "You cannot select the server and a channel at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select the server and a channel at the same time!");
         } else {
-            Resolvers.NODES.resolveOptionIfExists(event, message, this::acceptNodes);
+            Resolvers.NODES.resolveOptionIfExists(event, this::acceptNodes);
         }
     }
 
-    private void acceptNodes(@NonNull Message message, Collection<Node> nodes) {
+    private void acceptNodes(Collection<Node> nodes) {
         this.nodes = nodes;
         if (all && nodes != null) {
-            event.replyTo(message, CommandReaction.WARNING, "You cannot select all nodes and specific nodes at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select all nodes and specific nodes at the same time!");
         } else {
             callback.accept(this);
         }

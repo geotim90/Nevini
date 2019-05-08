@@ -60,4 +60,5 @@ public class CommandOptions {
                 .filter(argument -> argument.matches(CommandPatterns.OPTION) || argument.matches(CommandPatterns.MENTION))
                 .collect(Collectors.toList()));
     }
+
 }

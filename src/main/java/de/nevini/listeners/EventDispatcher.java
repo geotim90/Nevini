@@ -72,7 +72,7 @@ public class EventDispatcher implements EventListener {
             long timeout, TimeUnit timeoutUnit, Runnable timeoutCallback, boolean timeoutAlways
     ) {
         if (!scheduledExecutorService.isShutdown()) {
-            log.info("Registering {} subscription", eventType.getSimpleName());
+            log.debug("Registering {} subscription", eventType.getSimpleName());
             EventTypeCallback<T> eventTypeCallback = new EventTypeCallback<>(eventType, condition, callback, onlyOnce);
             synchronized (callbacks) {
                 callbacks.put(eventType, eventTypeCallback);
