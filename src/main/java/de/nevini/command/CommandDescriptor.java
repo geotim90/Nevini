@@ -1,6 +1,5 @@
 package de.nevini.command;
 
-import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import lombok.Builder;
 import lombok.NonNull;
@@ -45,15 +44,10 @@ public class CommandDescriptor {
     private final boolean guildOnly = true;
 
     /**
-     * The {@link Module} that this command belongs to (mandatory).
-     */
-    @NonNull
-    private final Module module;
-
-    /**
      * The permission node for this command ({@code null} by default).
      */
-    private final Node node;
+    @Builder.Default
+    private final Node node = null;
 
     /**
      * The minimum bot permissions required for this command to function.
@@ -92,13 +86,6 @@ public class CommandDescriptor {
             Permission.MESSAGE_WRITE,
             Permission.MESSAGE_HISTORY
     };
-
-    /**
-     * The default user permissions required for this command in case no permission node overrides exist (empty by default).
-     */
-    @NonNull
-    @Builder.Default
-    private final Permission[] defaultUserPermissions = {};
 
     /**
      * A short description of this command (mandatory).

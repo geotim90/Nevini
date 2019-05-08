@@ -1,7 +1,9 @@
 package de.nevini.services;
 
 import de.nevini.db.permission.PermissionData;
+import de.nevini.db.permission.PermissionId;
 import de.nevini.db.permission.PermissionRepository;
+import de.nevini.modules.Node;
 import lombok.NonNull;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
@@ -30,7 +32,7 @@ public class PermissionService {
         this.permissionRepository = permissionRepository;
     }
 
-    public Optional<Boolean> hasPermission(@NonNull TextChannel channel, @NonNull User user, @NonNull String node) {
+    public Optional<Boolean> hasPermission(@NonNull TextChannel channel, @NonNull User user, @NonNull Node node) {
         Member member = channel.getGuild().getMember(user);
         if (member == null) {
             return Optional.of(false); // not a member of the guild
@@ -76,84 +78,106 @@ public class PermissionService {
         return getGuildPermission(channel.getGuild(), node);
     }
 
-    private Optional<Boolean> getChannelUserPermission(Channel channel, Member user, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdAndNodeStartingWith(
+    public Optional<Boolean> getChannelUserPermission(Channel channel, Member user, Node node) {
+        return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
                 TYPE_CHANNEL_USER,
                 user.getUser().getIdLong(),
-                node
-        ));
+                node.getNode()
+        )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelRolePermission(Channel channel, Member user, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNodeStartingWith(
+    public Optional<Boolean> getChannelRolePermission(Channel channel, Member user, Node node) {
+        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
                 TYPE_CHANNEL_ROLE,
                 user.getRoles().stream().map(ISnowflake::getIdLong).collect(Collectors.toList()),
-                node
+                node.getNode()
         ));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(Channel channel, Member user, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNodeStartingWith(
+    public Optional<Boolean> getChannelPermissionPermission(Channel channel, Member user, Node node) {
+        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
                 TYPE_CHANNEL_PERMISSION,
                 user.getPermissions(channel).stream().map(Permission::getRawValue).collect(Collectors.toList()),
-                node
+                node.getNode()
         ));
     }
 
-    private Optional<Boolean> getChannelPermission(Channel channel, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdAndNodeStartingWith(
+    public Optional<Boolean> getChannelPermission(Channel channel, Node node) {
+        return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
                 TYPE_CHANNEL,
                 channel.getGuild().getIdLong(),
-                node
-        ));
+                node.getNode()
+        )).orElse(null));
     }
 
-    private Optional<Boolean> getUserPermission(Member user, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdAndNodeStartingWith(
+    public Optional<Boolean> getUserPermission(Member user, Node node) {
+        return resolvePermission(permissionRepository.findById(new PermissionId(
                 user.getGuild().getIdLong(),
                 user.getGuild().getIdLong(),
                 TYPE_USER,
                 user.getUser().getIdLong(),
-                node
-        ));
+                node.getNode()
+        )).orElse(null));
     }
 
-    private Optional<Boolean> getRolePermission(Member user, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNodeStartingWith(
+    public Optional<Boolean> getRolePermission(Role role, Node node) {
+        return resolvePermission(permissionRepository.findById(new PermissionId(
+                role.getGuild().getIdLong(),
+                role.getGuild().getIdLong(),
+                TYPE_ROLE,
+                role.getIdLong(),
+                node.getNode()
+        )).orElse(null));
+    }
+
+    public Optional<Boolean> getRolePermission(Member user, Node node) {
+        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 user.getGuild().getIdLong(),
                 user.getGuild().getIdLong(),
                 TYPE_ROLE,
                 user.getRoles().stream().map(ISnowflake::getIdLong).collect(Collectors.toList()),
-                node
+                node.getNode()
         ));
     }
 
-    private Optional<Boolean> getPermissionPermission(Member user, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNodeStartingWith(
+    public Optional<Boolean> getPermissionPermission(Member user, Node node) {
+        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 user.getGuild().getIdLong(),
                 user.getGuild().getIdLong(),
                 TYPE_PERMISSION,
                 user.getPermissions().stream().map(Permission::getRawValue).collect(Collectors.toList()),
-                node
+                node.getNode()
         ));
     }
 
-    private Optional<Boolean> getGuildPermission(Guild server, String node) {
-        return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdAndNodeStartingWith(
+    public Optional<Boolean> getGuildPermission(Guild server, Node node) {
+        return resolvePermission(permissionRepository.findById(new PermissionId(
                 server.getIdLong(),
                 server.getIdLong(),
                 TYPE_GUILD,
                 server.getIdLong(),
-                node
-        ));
+                node.getNode()
+        )).orElse(null));
+    }
+
+    private Optional<Boolean> resolvePermission(PermissionData data) {
+        if (data != null && data.getFlag() != 0) {
+            if (data.getFlag() > 0) {
+                return Optional.of(true);
+            } else {
+                return Optional.of(false);
+            }
+        } else {
+            return Optional.empty();
+        }
     }
 
     private Optional<Boolean> resolvePermissions(Collection<PermissionData> data) {

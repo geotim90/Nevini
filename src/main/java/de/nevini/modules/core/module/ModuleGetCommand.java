@@ -7,7 +7,6 @@ import de.nevini.command.CommandReaction;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -21,9 +20,7 @@ public class ModuleGetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
-                .module(Module.CORE)
                 .node(Node.CORE_MODULE_GET)
-                .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("displays modules")
                 .syntax("[<module>]")
                 .build());
@@ -40,9 +37,7 @@ public class ModuleGetCommand extends Command {
     }
 
     private void listModules(CommandEvent event, List<Module> modules) {
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.setColor(event.getGuild().getSelfMember().getColor());
-        builder.setAuthor(event.getGuild().getName(), null, event.getGuild().getIconUrl());
+        EmbedBuilder builder = event.createEmbedBuilder();
         for (Module module : modules) {
             builder.addField(module.getName(), event.getModuleService().isModuleActive(event.getGuild(), module)
                     ? CommandReaction.OK.getUnicode()

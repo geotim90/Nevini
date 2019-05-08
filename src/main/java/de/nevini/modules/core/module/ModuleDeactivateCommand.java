@@ -7,7 +7,6 @@ import de.nevini.command.CommandReaction;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import de.nevini.resolvers.Resolvers;
-import net.dv8tion.jda.core.Permission;
 
 public class ModuleDeactivateCommand extends Command {
 
@@ -15,9 +14,7 @@ public class ModuleDeactivateCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("deactivate")
                 .aliases(new String[]{"disable", "remove", "-"})
-                .module(Module.CORE)
                 .node(Node.CORE_MODULE_DEACTIVATE)
-                .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("deactivates modules")
                 .syntax("<module>")
                 .build());
@@ -32,7 +29,7 @@ public class ModuleDeactivateCommand extends Command {
         if (Module.CORE.equals(module)) {
             event.reply(CommandReaction.ERROR, "You cannot deactivate the core module - it is always active.");
         } else if (!event.getModuleService().isModuleActive(event.getGuild(), module)) {
-            event.reply(CommandReaction.NEUTRAL, "There is no need to deactivate the " + module.getName() + " module - it is already inactive.");
+            event.reply(CommandReaction.DEFAULT_OK, "There is no need to deactivate the " + module.getName() + " module - it is already inactive.");
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, false);
             event.reply(CommandReaction.OK);

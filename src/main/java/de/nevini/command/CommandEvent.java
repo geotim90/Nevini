@@ -14,6 +14,8 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.awt.*;
+import java.time.Instant;
 import java.util.function.Consumer;
 
 import static de.nevini.util.Formatter.summarize;
@@ -161,6 +163,20 @@ public class CommandEvent {
                 }
             }
         }
+    }
+
+    public EmbedBuilder createEmbedBuilder() {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        if (getGuild() != null) {
+            embedBuilder.setAuthor(getGuild().getName(), null, getGuild().getIconUrl());
+            embedBuilder.setColor(getGuild().getSelfMember().getColor());
+            embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(), getJDA().getSelfUser().getAvatarUrl());
+        } else {
+            embedBuilder.setAuthor(getJDA().getSelfUser().getName(), null, getJDA().getSelfUser().getAvatarUrl());
+            embedBuilder.setColor(Color.BLUE);
+        }
+        embedBuilder.setTimestamp(Instant.now());
+        return embedBuilder;
     }
 
 }

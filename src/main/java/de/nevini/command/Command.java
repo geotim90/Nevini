@@ -1,5 +1,6 @@
 package de.nevini.command;
 
+import de.nevini.modules.Module;
 import de.nevini.util.Formatter;
 import lombok.NonNull;
 import lombok.experimental.Delegate;
@@ -98,13 +99,20 @@ public abstract class Command {
         }
     }
 
+    public Module getModule() {
+        if (getNode() == null) {
+            return getChildren()[0].getModule();
+        } else {
+            return getNode().getModule();
+        }
+    }
+
     private boolean checkBotPermission(CommandEvent event) {
-        if (!event.isFromType(ChannelType.TEXT) || event.getMember().hasPermission(event.getTextChannel(),
-                getMinimumBotPermissions())) {
+        if (!event.isFromType(ChannelType.TEXT) || event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), getMinimumBotPermissions())) {
             return true;
         } else {
             String[] missingPermissions = Arrays.stream(getMinimumBotPermissions())
-                    .filter(permission -> !event.getMember().hasPermission(permission))
+                    .filter(permission -> !event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), permission))
                     .map(Permission::getName).toArray(String[]::new);
             if (missingPermissions.length == 0) {
                 return true;
@@ -123,13 +131,26 @@ public abstract class Command {
 
     private boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
-            final Optional<Boolean> permissionOverride = getNode() == null ? Optional.empty() :
-                    event.getPermissionService().hasPermission(event.getTextChannel(), event.getAuthor(),
-                            getNode().getNode());
-            boolean permission = permissionOverride.orElseGet(() ->
-                    event.getMember().hasPermission(event.getTextChannel(), getMinimumUserPermissions()));
+            final Optional<Boolean> permissionOverride = getNode() == null
+                    ? Optional.empty()
+                    : event.getPermissionService().hasPermission(event.getTextChannel(), event.getAuthor(), getNode());
+            boolean permission = permissionOverride.orElseGet(() -> event.getMember().hasPermission(event.getTextChannel(), getNode().getDefaultPermissions()));
             if (permission) {
-                return true;
+                String[] missingPermissions = Arrays.stream(getMinimumUserPermissions())
+                        .filter(p -> !event.getMember().hasPermission(event.getTextChannel(), p))
+                        .map(Permission::getName).toArray(String[]::new);
+                if (missingPermissions.length == 0) {
+                    return true;
+                } else if (missingPermissions.length == 1) {
+                    event.reply(CommandReaction.ERROR, "You need the **" + missingPermissions[0]
+                            + "** permission to execute that command!");
+                    return false;
+                } else {
+                    event.reply(CommandReaction.ERROR, "You need the **"
+                            + Formatter.join(missingPermissions, "**, **", "** and **")
+                            + "** permissions to execute that command!");
+                    return false;
+                }
             } else {
                 event.reply(CommandReaction.PROHIBITED, "You do not have permission to execute that command.");
                 return false;

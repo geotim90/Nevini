@@ -3,8 +3,10 @@ package de.nevini.modules.legacy;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.modules.Module;
-import net.dv8tion.jda.core.Permission;
+import de.nevini.modules.legacy.contribution.SetContributionCommand;
+import de.nevini.modules.legacy.game.SetGameCommand;
+import de.nevini.modules.legacy.member.SetMemberCommand;
+import de.nevini.modules.legacy.timeout.SetTimeoutCommand;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,12 +16,16 @@ public class SetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .children(new Command[]{
-                        // TODO
+                        new SetContributionCommand(),
+                        new SetGameCommand(),
+                        new SetMemberCommand(),
+                        new SetTimeoutCommand()
                 })
-                .module(Module.LEGACY)
-                .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("executes legacy `set` commands")
-                .syntax("") // TODO
+                .syntax("( contribution <user> | " +
+                        "game timeout <game> <days> | " +
+                        "member ( (joined|lastOnline|lastMessage) <user> | lastPlayed <user> <game> ) <timestamp> | " +
+                        "timeout (joined|lastOnline|lastMessage) <days> )")
                 .build());
     }
 

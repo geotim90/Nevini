@@ -4,10 +4,8 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
-import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import de.nevini.resolvers.StringResolver;
-import net.dv8tion.jda.core.Permission;
 
 public class PrefixSetCommand extends Command {
 
@@ -16,9 +14,7 @@ public class PrefixSetCommand extends Command {
     public PrefixSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
-                .module(Module.CORE)
                 .node(Node.CORE_PREFIX_SET)
-                .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("configures the command prefix")
                 .syntax("[--prefix] <prefix>")
                 .build());

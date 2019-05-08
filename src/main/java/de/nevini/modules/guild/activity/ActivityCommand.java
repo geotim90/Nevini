@@ -4,7 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.db.game.GameData;
-import de.nevini.modules.Module;
+import de.nevini.modules.Node;
 import de.nevini.resolvers.Resolvers;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -21,7 +21,7 @@ public class ActivityCommand extends Command {
     public ActivityCommand() {
         super(CommandDescriptor.builder()
                 .keyword("activity")
-                .module(Module.GUILD)
+                .node(Node.GUILD_ACTIVITY)
                 .description("displays user activity information")
                 .syntax("[--user] [<user>] --game <game>")
                 .build());
@@ -49,8 +49,7 @@ public class ActivityCommand extends Command {
     }
 
     private void reportUserActivity(CommandEvent event, Member member) {
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.setColor(event.getGuild().getSelfMember().getColor());
+        EmbedBuilder builder = event.createEmbedBuilder();
         builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
         builder.addField("Discord", Formatter.formatLargestUnitAgo(
                 event.getActivityService().getActivityOnline(member.getUser())), true);
@@ -73,8 +72,7 @@ public class ActivityCommand extends Command {
         if (lastPlayed.isEmpty()) {
             event.reply("Nobody here has played this game recently.");
         } else {
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.setColor(event.getGuild().getSelfMember().getColor());
+            EmbedBuilder builder = event.createEmbedBuilder();
             builder.setAuthor(game.getName(), null, game.getIcon());
             lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
                     Formatter.formatLargestUnitAgo(timestamp), true));

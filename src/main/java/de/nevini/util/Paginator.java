@@ -9,7 +9,6 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
-import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -58,13 +57,8 @@ public class Paginator {
                 EmbedBuilder pageBuilder = new EmbedBuilder(template);
                 pageBuilder.getFields().addAll(embed.getFields().subList((pageNumber - 1) * PAGE_SIZE,
                         Math.min(embed.getFields().size(), pageNumber * PAGE_SIZE)));
-                if (template.getFooter() == null) {
-                    pageBuilder.setFooter("Page " + pageNumber + "/" + pageCount,
-                            context.getJDA().getSelfUser().getAvatarUrl());
-                }
-                if (template.getTimestamp() == null) {
-                    pageBuilder.setTimestamp(Instant.now());
-                }
+                pageBuilder.setFooter("Page " + pageNumber + "/" + pageCount,
+                        context.getJDA().getSelfUser().getAvatarUrl());
                 MessageEmbed page = pageBuilder.build();
                 if (container == null) {
                     channel.sendMessage(page).queue(message -> {

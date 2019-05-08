@@ -45,8 +45,8 @@ public class Picker<T> {
 
     public void display() {
         checkLength();
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setDescription("Please pick one of the following options by selecting a reaction below");
+        EmbedBuilder embedBuilder = context.createEmbedBuilder();
+        embedBuilder.setDescription("Please pick one of the following options by selecting a reaction below:");
         for (int i = 0; i < items.size(); i++) {
             embedBuilder.addField(i + ") " + fieldNameRenderer.apply(items.get(i)),
                     fieldValueRenderer.apply(items.get(i)), true);

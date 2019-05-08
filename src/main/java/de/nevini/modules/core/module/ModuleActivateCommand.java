@@ -7,7 +7,6 @@ import de.nevini.command.CommandReaction;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import de.nevini.resolvers.Resolvers;
-import net.dv8tion.jda.core.Permission;
 
 public class ModuleActivateCommand extends Command {
 
@@ -15,9 +14,7 @@ public class ModuleActivateCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("activate")
                 .aliases(new String[]{"add", "enable", "+"})
-                .module(Module.CORE)
                 .node(Node.CORE_MODULE_ACTIVATE)
-                .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("activates modules")
                 .syntax("<module>")
                 .build());
@@ -30,9 +27,9 @@ public class ModuleActivateCommand extends Command {
 
     private void activateModule(CommandEvent event, Module module) {
         if (Module.CORE.equals(module)) {
-            event.reply(CommandReaction.NEUTRAL, "There is no need to activate the core module - it is always active.");
+            event.reply(CommandReaction.DEFAULT_OK, "There is no need to activate the core module - it is always active.");
         } else if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
-            event.reply(CommandReaction.NEUTRAL, "There is no need to activate the " + module.getName() + " module - it is already active.");
+            event.reply(CommandReaction.DEFAULT_OK, "There is no need to activate the " + module.getName() + " module - it is already active.");
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, true);
             event.reply(CommandReaction.OK);
