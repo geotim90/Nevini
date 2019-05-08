@@ -17,7 +17,7 @@ public abstract class AbstractResolver<T> {
 
     @FunctionalInterface
     public interface Callback<T> {
-        void accept(@NonNull CommandEvent event, @NonNull Message message, T value);
+        void accept(@NonNull Message message, T value);
     }
 
     private final String typeName;
@@ -43,7 +43,7 @@ public abstract class AbstractResolver<T> {
     public void resolveArgumentOrOptionIfExists(@NonNull CommandEvent event, @NonNull Callback<T> callback) {
         String query = StringUtils.defaultString(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
-            callback.accept(event, event.getMessage(), null);
+            callback.accept(event.getMessage(), null);
         } else {
             resolveInput(event, event.getMessage(), query, callback);
         }
@@ -52,7 +52,7 @@ public abstract class AbstractResolver<T> {
     public void resolveArgumentOrOptionOrDefault(@NonNull CommandEvent event, T defaultValue, @NonNull Callback<T> callback) {
         String query = StringUtils.defaultString(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
-            callback.accept(event, event.getMessage(), defaultValue);
+            callback.accept(event.getMessage(), defaultValue);
         } else {
             resolveInput(event, event.getMessage(), query, callback);
         }
@@ -79,7 +79,7 @@ public abstract class AbstractResolver<T> {
                                       @NonNull Callback<T> callback) {
         String query = getFromOptions(event);
         if (StringUtils.isEmpty(query)) {
-            callback.accept(event, message, null);
+            callback.accept(message, null);
         } else {
             resolveInput(event, message, query, callback);
         }
@@ -115,10 +115,10 @@ public abstract class AbstractResolver<T> {
                 replyAmbiguous(event, message);
             } else if (results.size() > 1) {
                 new Picker<>(event, message.getChannel(), results, this::getFieldNameForPicker,
-                        this::getFieldValueForPicker, item -> callback.accept(event, message, item),
+                        this::getFieldValueForPicker, item -> callback.accept(message, item),
                         () -> replyCancelled(event, message)).display();
             } else {
-                callback.accept(event, message, results.get(0));
+                callback.accept(message, results.get(0));
             }
         }
     }

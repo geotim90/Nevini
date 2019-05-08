@@ -7,8 +7,8 @@ import java.util.function.Function;
 
 public class Finder {
 
-    public static <T> Collection<T> find(T[] value, Function<T, String> identifier, String query) {
-        return find(Arrays.asList(value), identifier, query);
+    public static <T> Collection<T> find(T[] values, Function<T, String> identifier, String query) {
+        return find(Arrays.asList(values), identifier, query);
     }
 
     public static <T> Collection<T> find(Collection<T> values, Function<T, String> identifier, String query) {

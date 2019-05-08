@@ -7,6 +7,9 @@ import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import net.dv8tion.jda.core.Permission;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class PermissionGetCommand extends Command {
 
     public PermissionGetCommand() {
@@ -23,7 +26,20 @@ public class PermissionGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        new PermissionTarget(event, target -> acceptTarget(event, target)).get();
+    }
+
+    private void acceptTarget(CommandEvent event, PermissionTarget permissionTarget) {
+        if (permissionTarget.getNodes().isEmpty()) {
+            if (permissionTarget.isAll()) {
+                permissionTarget.setNodes(Arrays.asList(Node.values()));
+            } else {
+                permissionTarget.setNodes(Arrays.stream(Node.values())
+                        .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
+                        .collect(Collectors.toList()));
+            }
+        }
+        // TODO display result
     }
 
 }

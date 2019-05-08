@@ -6,13 +6,11 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
-import de.nevini.resolvers.ModuleResolver;
+import de.nevini.resolvers.Resolvers;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 
 public class ModuleDeactivateCommand extends Command {
-
-    private final ModuleResolver moduleResolver = new ModuleResolver();
 
     public ModuleDeactivateCommand() {
         super(CommandDescriptor.builder()
@@ -28,7 +26,7 @@ public class ModuleDeactivateCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        moduleResolver.resolveArgumentOrOptionOrInput(event, this::deactivateModule);
+        Resolvers.MODULE.resolveArgumentOrOptionOrInput(event, (msg, module) -> deactivateModule(event, msg, module));
     }
 
     private void deactivateModule(CommandEvent event, Message message, Module module) {

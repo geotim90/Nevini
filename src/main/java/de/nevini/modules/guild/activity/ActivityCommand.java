@@ -5,8 +5,7 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.db.game.GameData;
 import de.nevini.modules.Module;
-import de.nevini.resolvers.GameResolver;
-import de.nevini.resolvers.MemberResolver;
+import de.nevini.resolvers.Resolvers;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -20,9 +19,6 @@ import java.util.Map;
 @Component
 public class ActivityCommand extends Command {
 
-    private final GameResolver gameResolver = new GameResolver();
-    private final MemberResolver memberResolver = new MemberResolver();
-
     public ActivityCommand() {
         super(CommandDescriptor.builder()
                 .keyword("activity")
@@ -34,11 +30,11 @@ public class ActivityCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        memberResolver.resolveArgumentOrOptionIfExists(event, this::acceptMember);
+        Resolvers.MEMBER.resolveArgumentOrOptionIfExists(event, (msg, member) -> acceptMember(event, msg, member));
     }
 
     private void acceptMember(CommandEvent event, Message message, Member member) {
-        gameResolver.resolveOptionIfExists(event, message, (e, m, game) -> acceptMemberGame(e, m, member, game));
+        Resolvers.GAME.resolveOptionIfExists(event, message, (msg, game) -> acceptMemberGame(event, msg, member, game));
     }
 
     private void acceptMemberGame(CommandEvent event, Message message, Member member, GameData game) {

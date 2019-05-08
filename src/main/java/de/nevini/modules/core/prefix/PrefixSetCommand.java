@@ -27,7 +27,7 @@ public class PrefixSetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        resolver.resolveArgumentOrOptionOrInput(event, this::acceptPrefix);
+        resolver.resolveArgumentOrOptionOrInput(event, (msg, prefix) -> acceptPrefix(event, msg, prefix));
     }
 
     private void acceptPrefix(CommandEvent event, Message message, String argument) {

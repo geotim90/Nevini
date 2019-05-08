@@ -1,0 +1,12 @@
+package de.nevini.resolvers;
+
+public class Resolvers {
+
+    public static final ChannelResolver CHANNEL = new ChannelResolver();
+    public static final GameResolver GAME = new GameResolver();
+    public static final MemberResolver MEMBER = new MemberResolver();
+    public static final ModuleResolver MODULE = new ModuleResolver();
+    public static final NodesResolver NODES = new NodesResolver();
+    public static final RoleResolver ROLE = new RoleResolver();
+
+}
