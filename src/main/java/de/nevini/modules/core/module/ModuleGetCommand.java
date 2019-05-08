@@ -43,7 +43,7 @@ public class ModuleGetCommand extends Command {
                     ? CommandReaction.OK.getUnicode()
                     : CommandReaction.DISABLED.getUnicode(), true);
         }
-        event.reply(builder);
+        event.reply(builder, ignore -> event.complete());
     }
 
 }

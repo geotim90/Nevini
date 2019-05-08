@@ -1,5 +1,6 @@
 package de.nevini.command;
 
+import de.nevini.util.Cleaner;
 import de.nevini.util.Paginator;
 import lombok.NonNull;
 import lombok.Value;
@@ -17,6 +18,8 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.awt.*;
 import java.time.Instant;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static de.nevini.util.Formatter.summarize;
 import static de.nevini.util.Functions.ignore;
@@ -24,6 +27,9 @@ import static de.nevini.util.Functions.ignore;
 @Slf4j
 @Value
 public class CommandEvent {
+
+    private static final Pattern DM_FLAG = Pattern.compile("(?i)(?:--|//)dm");
+    private static final Pattern RM_FLAG = Pattern.compile("(?i)(?:--|//)rm");
 
     @Delegate
     private final CommandContext context;
@@ -77,18 +83,26 @@ public class CommandEvent {
     }
 
     public void reply(@NonNull CommandReaction reaction) {
+        reply(reaction, ignore());
+    }
+
+    public void reply(@NonNull CommandReaction reaction, @NonNull Consumer<? super Message> callback) {
         if (canReact()) {
-            addReaction(reaction.getUnicode());
+            addReaction(reaction.getUnicode(), callback);
         } else {
-            reply(reaction.getUnicode());
+            reply(reaction.getUnicode(), callback);
         }
     }
 
     public void reply(@NonNull CommandReaction reaction, @NonNull String content) {
+        reply(reaction, content, ignore());
+    }
+
+    public void reply(@NonNull CommandReaction reaction, @NonNull String content, @NonNull Consumer<? super Message> callback) {
         if (!canTalk() && canReact()) {
-            addReaction(reaction.getUnicode());
+            addReaction(reaction.getUnicode(), ignore());
         }
-        reply(reaction.getUnicode() + ' ' + content);
+        reply(reaction.getUnicode() + ' ' + content, callback);
     }
 
     public void reply(@NonNull EmbedBuilder embed) {
@@ -96,7 +110,7 @@ public class CommandEvent {
     }
 
     public void reply(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
-        if (canEmbed()) {
+        if (canEmbed() && !isDm()) {
             sendMessage(getChannel(), embed, callback);
         } else {
             replyDm(embed, callback);
@@ -108,7 +122,7 @@ public class CommandEvent {
     }
 
     public void reply(@NonNull String content, @NonNull Consumer<? super Message> callback) {
-        if (canTalk()) {
+        if (canTalk() && !isDm()) {
             sendMessage(getChannel(), content, callback);
         } else {
             replyDm(content, callback);
@@ -121,7 +135,7 @@ public class CommandEvent {
 
     public void replyDm(@NonNull String content, @NonNull Consumer<? super Message> callback) {
         if (canReact()) {
-            addReaction(CommandReaction.DM.getUnicode());
+            addReaction(CommandReaction.DM.getUnicode(), ignore());
         }
         sendMessage(getAuthor().openPrivateChannel().complete(), content, callback);
     }
@@ -132,14 +146,14 @@ public class CommandEvent {
 
     public void replyDm(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
         if (canReact()) {
-            addReaction(CommandReaction.DM.getUnicode());
+            addReaction(CommandReaction.DM.getUnicode(), ignore());
         }
         sendMessage(getAuthor().openPrivateChannel().complete(), embed, callback);
     }
 
-    private void addReaction(String unicode) {
+    private void addReaction(String unicode, Consumer<? super Message> callback) {
         log.info("{} - reaction: {}", getMessageId(), unicode);
-        getMessage().addReaction(unicode).queue();
+        getMessage().addReaction(unicode).queue(ignore -> callback.accept(getMessage()));
     }
 
     private void sendMessage(MessageChannel channel, EmbedBuilder embed, Consumer<? super Message> callback) {
@@ -177,6 +191,25 @@ public class CommandEvent {
         }
         embedBuilder.setTimestamp(Instant.now());
         return embedBuilder;
+    }
+
+    public void complete() {
+        complete(false);
+    }
+
+    public void complete(boolean forceRm) {
+        boolean rm = forceRm || isRm();
+        if (rm) {
+            Cleaner.tryDelete(getMessage());
+        }
+    }
+
+    private boolean isDm() {
+        return getOptions().getOptions().stream().map(DM_FLAG::matcher).anyMatch(Matcher::matches);
+    }
+
+    private boolean isRm() {
+        return getOptions().getOptions().stream().map(RM_FLAG::matcher).anyMatch(Matcher::matches);
     }
 
 }

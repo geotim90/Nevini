@@ -103,6 +103,15 @@ public class EventDispatcher implements EventListener {
         subscribe(eventType, null, callback, false, 0, null, null, false);
     }
 
+    /**
+     * Convenience method for scheduling delayed tasks.
+     */
+    public void schedule(long timeout, TimeUnit timeoutUnit, Runnable timeoutCallback) {
+        if (!scheduledExecutorService.isShutdown()) {
+            scheduledExecutorService.schedule(timeoutCallback, timeout, timeoutUnit);
+        }
+    }
+
     private synchronized void shutdown() {
         log.info("Shutting down");
         scheduledExecutorService.shutdown();

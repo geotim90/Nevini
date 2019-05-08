@@ -57,7 +57,7 @@ public class ActivityCommand extends Command {
                 event.getActivityService().getActivityMessage(member)), true);
         getLastPlayed(event, member).forEach((id, timestamp) -> builder.addField(event.getGameService().getGameName(id),
                 Formatter.formatLargestUnitAgo(timestamp), true));
-        event.reply(builder);
+        event.reply(builder, ignore -> event.complete());
     }
 
     private Map<Long, Long> getLastPlayed(CommandEvent event, Member member) {
@@ -76,7 +76,7 @@ public class ActivityCommand extends Command {
             builder.setAuthor(game.getName(), null, game.getIcon());
             lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
                     Formatter.formatLargestUnitAgo(timestamp), true));
-            event.reply(builder);
+            event.reply(builder, ignore -> event.complete());
         }
     }
 
@@ -93,9 +93,11 @@ public class ActivityCommand extends Command {
     private void reportUserGameActivity(CommandEvent event, Member member, GameData game) {
         Long lastPlayed = event.getActivityService().getActivityPlaying(member.getUser(), game);
         if (lastPlayed == null) {
-            event.reply(member.getEffectiveName() + " has not played this game recently.");
+            event.reply(member.getEffectiveName() + " has not played this game recently.",
+                    ignore -> event.complete());
         } else {
-            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed));
+            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed),
+                    ignore -> event.complete());
         }
     }
 

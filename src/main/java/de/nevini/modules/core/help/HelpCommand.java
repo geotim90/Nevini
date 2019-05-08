@@ -63,7 +63,7 @@ public class HelpCommand extends Command {
         builder.append("\n\nTo add me to your server, visit " +
                 "<https://discordapp.com/oauth2/authorize?client_id=570972920692736002&scope=bot&permissions=519232>");
         builder.append("\n\nFor additional help and support, join ").append(event.getServerInvite());
-        event.replyDm(builder.toString());
+        event.replyDm(builder.toString(), ignore -> event.complete(true));
     }
 
     private void doCommandHelp(CommandEvent event, String chain, Command command) {
@@ -103,7 +103,7 @@ public class HelpCommand extends Command {
                             .append(child.getKeyword()).append("** - ").append(child.getDescription());
                 }
             }
-            event.replyDm(builder.toString());
+            event.replyDm(builder.toString(), ignore -> event.complete(true));
         } else {
             doCommandList(event);
         }

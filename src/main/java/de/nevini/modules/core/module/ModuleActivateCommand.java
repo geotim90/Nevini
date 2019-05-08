@@ -27,12 +27,16 @@ public class ModuleActivateCommand extends Command {
 
     private void activateModule(CommandEvent event, Module module) {
         if (Module.CORE.equals(module)) {
-            event.reply(CommandReaction.DEFAULT_OK, "There is no need to activate the core module - it is always active.");
+            event.reply(CommandReaction.DEFAULT_OK,
+                    "There is no need to activate the core module - it is always active.",
+                    ignore -> event.complete());
         } else if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
-            event.reply(CommandReaction.DEFAULT_OK, "There is no need to activate the " + module.getName() + " module - it is already active.");
+            event.reply(CommandReaction.DEFAULT_OK,
+                    "There is no need to activate the " + module.getName() + " module - it is already active.",
+                    ignore -> event.complete());
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, true);
-            event.reply(CommandReaction.OK);
+            event.reply(CommandReaction.OK, ignore -> event.complete());
         }
     }
 

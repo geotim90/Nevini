@@ -18,7 +18,7 @@ public class PrefixGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.reply(event.getPrefixService().getGuildPrefix(event.getGuild()));
+        event.reply(event.getPrefixService().getGuildPrefix(event.getGuild()), ignore -> event.complete());
     }
 
 }

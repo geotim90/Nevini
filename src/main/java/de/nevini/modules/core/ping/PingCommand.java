@@ -27,7 +27,7 @@ public class PingCommand extends Command {
     protected void execute(CommandEvent event) {
         event.reply("Ping: ...", message -> message.editMessage("Ping: "
                 + event.getMessage().getCreationTime().until(message.getCreationTime(), ChronoUnit.MILLIS)
-                + "ms | Websocket: " + event.getJDA().getPing() + "ms").queue());
+                + "ms | Websocket: " + event.getJDA().getPing() + "ms").queue(ignore -> event.complete()));
     }
 
 }
