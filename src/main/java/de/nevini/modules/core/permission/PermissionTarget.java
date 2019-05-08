@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,12 +37,12 @@ public class PermissionTarget {
     public void get() {
         all = event.getOptions().getOptions().stream().map(ALL_FLAG::matcher).anyMatch(Matcher::matches);
         server = event.getOptions().getOptions().stream().map(SERVER_FLAG::matcher).anyMatch(Matcher::matches);
-        Resolvers.ROLE.resolveOptionIfExists(event, this::acceptRole);
+        Resolvers.ROLE.resolveOptionOrInputIfExists(event, this::acceptRole);
     }
 
     private void acceptRole(Role role) {
         this.role = role;
-        Resolvers.MEMBER.resolveOptionIfExists(event, this::acceptMember);
+        Resolvers.MEMBER.resolveOptionOrDefaultIfExists(event, event.getMember(), this::acceptMember);
     }
 
     private void acceptMember(Member member) {
@@ -49,7 +50,7 @@ public class PermissionTarget {
         if (role != null && member != null) {
             event.reply(CommandReaction.WARNING, "You cannot select a role and a user at the same time!");
         } else {
-            Resolvers.CHANNEL.resolveOptionIfExists(event, this::acceptChannel);
+            Resolvers.CHANNEL.resolveOptionOrDefaultIfExists(event, event.getTextChannel(), this::acceptChannel);
         }
     }
 
@@ -58,11 +59,11 @@ public class PermissionTarget {
         if (server && channel != null) {
             event.reply(CommandReaction.WARNING, "You cannot select the server and a channel at the same time!");
         } else {
-            Resolvers.NODES.resolveOptionIfExists(event, this::acceptNodes);
+            Resolvers.NODE.resolveOptionListOrInputIfExists(event, this::acceptNodes);
         }
     }
 
-    private void acceptNodes(Collection<Node> nodes) {
+    private void acceptNodes(List<Node> nodes) {
         this.nodes = nodes;
         if (all && nodes != null) {
             event.reply(CommandReaction.WARNING, "You cannot select all nodes and specific nodes at the same time!");

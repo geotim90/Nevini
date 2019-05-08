@@ -20,7 +20,7 @@ public class PrefixSetCommand extends Command {
                 .node(Node.CORE_PREFIX_SET)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("configures the command prefix")
-                .syntax("<prefix>")
+                .syntax("[--prefix] <prefix>")
                 .build());
     }
 

@@ -17,6 +17,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.util.function.Consumer;
 
 import static de.nevini.util.Formatter.summarize;
+import static de.nevini.util.Functions.ignore;
 
 @Slf4j
 @Value
@@ -160,11 +161,6 @@ public class CommandEvent {
                 }
             }
         }
-    }
-
-    private static <T> Consumer<T> ignore() {
-        return ignore -> {
-        };
     }
 
 }

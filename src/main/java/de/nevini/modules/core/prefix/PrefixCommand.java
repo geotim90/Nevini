@@ -20,7 +20,7 @@ public class PrefixCommand extends Command {
                 .module(Module.CORE)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_SERVER})
                 .description("configures the command prefix")
-                .syntax("[ get | set <prefix> ]")
+                .syntax("[ get | set [--prefix] <prefix> ]")
                 .build());
     }
 

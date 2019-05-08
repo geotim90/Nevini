@@ -2,6 +2,7 @@ package de.nevini.resolvers;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
+import de.nevini.util.Cleaner;
 import de.nevini.util.Picker;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
@@ -30,24 +31,17 @@ public abstract class AbstractResolver<T> {
         for (String option : event.getOptions().getOptions()) {
             for (Pattern pattern : optionPatterns) {
                 Matcher matcher = pattern.matcher(option);
-                if (matcher.matches()) return matcher.group(1);
+                if (matcher.matches()) return StringUtils.defaultString(matcher.group(1), StringUtils.EMPTY);
             }
         }
         return null;
     }
 
-    public void resolveArgumentOrOptionIfExists(@NonNull CommandEvent event, @NonNull Consumer<T> callback) {
-        String query = StringUtils.defaultString(event.getArgument(), getFromOptions(event));
-        if (StringUtils.isEmpty(query)) {
+    public void resolveArgumentOrOptionOrDefaultIfExists(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
+        if (query == null) {
             callback.accept(null);
-        } else {
-            resolveInput(event, query, callback);
-        }
-    }
-
-    public void resolveArgumentOrOptionOrDefault(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
-        String query = StringUtils.defaultString(event.getArgument(), getFromOptions(event));
-        if (StringUtils.isEmpty(query)) {
+        } else if (query.isEmpty()) {
             callback.accept(defaultValue);
         } else {
             resolveInput(event, query, callback);
@@ -57,31 +51,35 @@ public abstract class AbstractResolver<T> {
     public void resolveArgumentOrOptionOrInput(@NonNull CommandEvent event, @NonNull Consumer<T> callback) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
-            if (event.canTalk()) {
-                event.reply("Please enter a " + typeName + " below:", message -> waitForInput(event, callback));
-            } else {
-                replyMissing(event);
-            }
+            event.reply("Please enter a " + typeName + " below:", message -> waitForInput(event, message, callback));
         } else {
             resolveInput(event, query, callback);
         }
     }
 
-    public void resolveOptionIfExists(@NonNull CommandEvent event, @NonNull Consumer<T> callback) {
-        resolveOptionIfExists(event, event.getMessage(), callback);
-    }
-
-    public void resolveOptionIfExists(@NonNull CommandEvent event, @NonNull Message message,
-                                      @NonNull Consumer<T> callback) {
+    public void resolveOptionOrDefaultIfExists(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
         String query = getFromOptions(event);
-        if (StringUtils.isEmpty(query)) {
+        if (query == null) {
             callback.accept(null);
+        } else if (query.isEmpty()) {
+            callback.accept(defaultValue);
         } else {
             resolveInput(event, query, callback);
         }
     }
 
-    private void waitForInput(CommandEvent event, Consumer<T> callback) {
+    public void resolveOptionOrInputIfExists(@NonNull CommandEvent event, @NonNull Consumer<T> callback) {
+        String query = getFromOptions(event);
+        if (query == null) {
+            callback.accept(null);
+        } else if (query.isEmpty()) {
+            event.reply("Please enter a " + typeName + " below:", message -> waitForInput(event, message, callback));
+        } else {
+            resolveInput(event, query, callback);
+        }
+    }
+
+    private void waitForInput(CommandEvent event, Message message, Consumer<T> callback) {
         event.getEventDispatcher().subscribe(MessageReceivedEvent.class,
                 e -> e.getChannel().getId().equals(event.getChannel().getId())
                         && e.getAuthor().getId().equals(event.getAuthor().getId()),
@@ -91,11 +89,16 @@ public abstract class AbstractResolver<T> {
                     } else {
                         resolveInput(event, e.getMessage().getContentRaw(), callback);
                     }
+                    Cleaner.tryDelete(message);
+                    Cleaner.tryDelete(e.getMessage());
                 },
                 true,
                 1,
                 TimeUnit.MINUTES,
-                () -> replyExpired(event),
+                () -> {
+                    replyExpired(event);
+                    Cleaner.tryDelete(message);
+                },
                 false
         );
     }
@@ -121,6 +124,54 @@ public abstract class AbstractResolver<T> {
     protected abstract String getFieldNameForPicker(T item);
 
     protected abstract String getFieldValueForPicker(T item);
+
+    public void resolveOptionListOrInputIfExists(@NonNull CommandEvent event, @NonNull Consumer<List<T>> callback) {
+        String query = getFromOptions(event);
+        if (query == null) {
+            callback.accept(null);
+        } else if (query.isEmpty()) {
+            event.reply("Please enter a " + typeName + " below:", message -> waitForListInput(event, message, callback));
+        } else {
+            resolveListInput(event, query, callback);
+        }
+    }
+
+    private void waitForListInput(CommandEvent event, Message message, Consumer<List<T>> callback) {
+        event.getEventDispatcher().subscribe(MessageReceivedEvent.class,
+                e -> e.getChannel().getId().equals(event.getChannel().getId())
+                        && e.getAuthor().getId().equals(event.getAuthor().getId()),
+                e -> {
+                    if (event.getPrefixService().extractPrefix(e).isPresent()) {
+                        replyCancelled(event);
+                    } else {
+                        resolveListInput(event, e.getMessage().getContentRaw(), callback);
+                    }
+                    Cleaner.tryDelete(message);
+                    Cleaner.tryDelete(e.getMessage());
+                },
+                true,
+                1,
+                TimeUnit.MINUTES,
+                () -> {
+                    replyExpired(event);
+                    Cleaner.tryDelete(message);
+                },
+                false
+        );
+    }
+
+    private void resolveListInput(CommandEvent event, String input, Consumer<List<T>> callback) {
+        if (StringUtils.isEmpty(input)) {
+            replyMissing(event);
+        } else {
+            List<T> results = findSorted(event, input);
+            if (results.isEmpty()) {
+                replyUnknown(event);
+            } else {
+                callback.accept(results);
+            }
+        }
+    }
 
     private void replyAmbiguous(CommandEvent event) {
         event.reply(CommandReaction.WARNING, "Too many " + typeName + "s matched your input! Please be more specific next time.");

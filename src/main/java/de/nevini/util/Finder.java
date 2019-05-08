@@ -3,15 +3,16 @@ package de.nevini.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
 public class Finder {
 
-    public static <T> Collection<T> find(T[] values, Function<T, String> identifier, String query) {
+    public static <T> List<T> find(T[] values, Function<T, String> identifier, String query) {
         return find(Arrays.asList(values), identifier, query);
     }
 
-    public static <T> Collection<T> find(Collection<T> values, Function<T, String> identifier, String query) {
+    public static <T> List<T> find(Collection<T> values, Function<T, String> identifier, String query) {
         ArrayList<T> exact = new ArrayList<>();
         ArrayList<T> wrongCase = new ArrayList<>();
         ArrayList<T> startsWith = new ArrayList<>();

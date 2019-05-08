@@ -29,11 +29,11 @@ public class ActivityCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionIfExists(event, member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event, event.getMember(), member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
-        Resolvers.GAME.resolveOptionIfExists(event, game -> acceptMemberGame(event, member, game));
+        Resolvers.GAME.resolveOptionOrInputIfExists(event, game -> acceptMemberGame(event, member, game));
     }
 
     private void acceptMemberGame(CommandEvent event, Member member, GameData game) {
