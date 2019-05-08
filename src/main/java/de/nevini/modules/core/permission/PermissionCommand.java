@@ -24,7 +24,7 @@ public class PermissionCommand extends Command {
                 .module(Module.CORE)
                 .defaultUserPermissions(new Permission[]{Permission.MANAGE_PERMISSIONS})
                 .description("configures permission overrides for commands")
-                .syntax("[ (get|debug) [<options>] | (allow|deny|reset) <options> ]")
+                .syntax("[ get | debug --node <node> | (allow|deny|reset) (--all|--node <node>) ] [<options>]")
                 .build());
     }
 

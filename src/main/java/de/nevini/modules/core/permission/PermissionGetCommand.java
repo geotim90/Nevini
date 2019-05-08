@@ -26,10 +26,10 @@ public class PermissionGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        new PermissionTarget(event, target -> acceptTarget(event, target)).get();
+        new PermissionOptions(event, target -> acceptTarget(event, target)).get();
     }
 
-    private void acceptTarget(CommandEvent event, PermissionTarget permissionTarget) {
+    private void acceptTarget(CommandEvent event, PermissionOptions permissionTarget) {
         if (permissionTarget.getNodes().isEmpty()) {
             if (permissionTarget.isAll()) {
                 permissionTarget.setNodes(Arrays.asList(Node.values()));

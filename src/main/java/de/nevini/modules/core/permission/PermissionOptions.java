@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Data
-public class PermissionTarget {
+public class PermissionOptions {
 
     private static final Pattern ALL_FLAG = Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)");
     private static final Pattern SERVER_FLAG = Pattern.compile("(?i)(?:(?:--|//)(?:server|guild)|[-/][sg])");
@@ -25,7 +25,7 @@ public class PermissionTarget {
     @NonNull
     private final CommandEvent event;
     @NonNull
-    private final Consumer<PermissionTarget> callback;
+    private final Consumer<PermissionOptions> callback;
 
     private boolean all;
     private boolean server;
