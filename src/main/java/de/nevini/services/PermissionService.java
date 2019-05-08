@@ -88,6 +88,16 @@ public class PermissionService {
         )).orElse(null));
     }
 
+    public Optional<Boolean> getChannelRolePermission(Channel channel, Role role, Node node) {
+        return resolvePermission(permissionRepository.findById(new PermissionId(
+                channel.getGuild().getIdLong(),
+                channel.getIdLong(),
+                TYPE_CHANNEL_ROLE,
+                role.getIdLong(),
+                node.getNode()
+        )).orElse(null));
+    }
+
     public Optional<Boolean> getChannelRolePermission(Channel channel, Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
