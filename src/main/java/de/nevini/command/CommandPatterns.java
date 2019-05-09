@@ -5,16 +5,6 @@ public class CommandPatterns {
     public static final String KEYWORD = "[a-z0-9+-]{1,32}";
 
     /**
-     * {@code ( 1 | 2 )? 3}
-     * <ul>
-     * <li>matching group 1: option name</li>
-     * <li>matching group 2: option short code</li>
-     * <li>matching group 3: id</li>
-     * </ul>
-     */
-    public static final String MENTION = "(?:(?:(?:--|//)(\\w+)|[-/](\\w))\\s+)?<(?:@[!&]?|#)\\d+>";
-
-    /**
      * {@code ( 1 | 2 ) 3?}
      * <ul>
      * <li>matching group 1: option name</li>
@@ -23,5 +13,7 @@ public class CommandPatterns {
      * </ul>
      */
     public static final String OPTION = "(?:(?:--|//)(\\w+)|[-/](\\w))(\\s+(.+))?";
+
+    public static final String MENTION = "(?<!(?:(?:--|//)\\w+|[-/]\\w)\\s+)<(?:@[!&]?|#)\\d+>";
 
 }
