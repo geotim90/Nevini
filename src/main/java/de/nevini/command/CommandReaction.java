@@ -11,6 +11,7 @@ public enum CommandReaction {
 
     OK("\u2705"),
     DEFAULT_OK("\u2611"),
+    UNKNOWN("\u2754"),
     DEFAULT_NOK("\u2716"),
     WARNING("\u26A0"),
     ERROR("\u274C"),

@@ -18,7 +18,6 @@ public class ModuleCommand extends Command {
                         new ModuleDeactivateCommand()
                 })
                 .description("configures modes")
-                .syntax("[ get [<module>] | (activate|deactivate) <module> ]")
                 .build());
     }
 

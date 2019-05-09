@@ -16,7 +16,7 @@ public class ModuleDeactivateCommand extends Command {
                 .aliases(new String[]{"disable", "remove", "-"})
                 .node(Node.CORE_MODULE_DEACTIVATE)
                 .description("deactivates modules")
-                .syntax("<module>")
+                .syntax("[--module] <module>")
                 .build());
     }
 

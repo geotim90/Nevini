@@ -6,13 +6,11 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
+import de.nevini.resolvers.Resolvers;
 import net.dv8tion.jda.core.EmbedBuilder;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ModuleGetCommand extends Command {
 
@@ -22,18 +20,19 @@ public class ModuleGetCommand extends Command {
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.CORE_MODULE_GET)
                 .description("displays modules")
-                .syntax("[<module>]")
+                .syntax("[ [--module] <module> ]")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        if (StringUtils.isEmpty(event.getArgument())) {
-            listModules(event, Arrays.asList(Module.values()));
-        } else {
-            listModules(event, event.getModuleService().findModules(event.getArgument()).stream()
-                    .sorted(Comparator.comparing(Module::ordinal)).collect(Collectors.toList()));
-        }
+        Resolvers.MODULE.resolveListArgumentOrOptionOrInputIfExists(event, modules -> {
+            if (modules == null || modules.isEmpty()) {
+                listModules(event, Arrays.asList(Module.values()));
+            } else {
+                listModules(event, modules);
+            }
+        });
     }
 
     private void listModules(CommandEvent event, List<Module> modules) {

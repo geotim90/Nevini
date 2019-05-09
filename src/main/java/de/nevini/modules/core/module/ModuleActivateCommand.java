@@ -16,7 +16,7 @@ public class ModuleActivateCommand extends Command {
                 .aliases(new String[]{"add", "enable", "+"})
                 .node(Node.CORE_MODULE_ACTIVATE)
                 .description("activates modules")
-                .syntax("<module>")
+                .syntax("[--module] <module>")
                 .build());
     }
 

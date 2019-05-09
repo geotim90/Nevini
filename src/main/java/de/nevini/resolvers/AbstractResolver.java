@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -37,6 +38,15 @@ public abstract class AbstractResolver<T> {
         return null;
     }
 
+    public void resolveArgumentOrOptionOrDefault(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
+        if (StringUtils.isEmpty(query)) {
+            callback.accept(defaultValue);
+        } else {
+            resolveInput(event, query, callback);
+        }
+    }
+
     public void resolveArgumentOrOptionOrDefaultIfExists(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (query == null) {
@@ -57,12 +67,41 @@ public abstract class AbstractResolver<T> {
         }
     }
 
+    public void resolveArgumentOrOptionOrInputIfExists(@NonNull CommandEvent event, @NonNull Consumer<T> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
+        if (query == null) {
+            callback.accept(null);
+        } else if (query.isEmpty()) {
+            event.reply("Please enter a " + typeName + " below:", message -> waitForInput(event, message, callback));
+        } else {
+            resolveInput(event, query, callback);
+        }
+    }
+
+    public void resolveOptionOrDefault(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
+        String query = getFromOptions(event);
+        if (StringUtils.isEmpty(query)) {
+            callback.accept(defaultValue);
+        } else {
+            resolveInput(event, query, callback);
+        }
+    }
+
     public void resolveOptionOrDefaultIfExists(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
         String query = getFromOptions(event);
         if (query == null) {
             callback.accept(null);
         } else if (query.isEmpty()) {
             callback.accept(defaultValue);
+        } else {
+            resolveInput(event, query, callback);
+        }
+    }
+
+    public void resolveOptionOrInput(@NonNull CommandEvent event, @NonNull Consumer<T> callback) {
+        String query = getFromOptions(event);
+        if (StringUtils.isEmpty(query)) {
+            event.reply("Please enter a " + typeName + " below:", message -> waitForInput(event, message, callback));
         } else {
             resolveInput(event, query, callback);
         }
@@ -125,8 +164,37 @@ public abstract class AbstractResolver<T> {
 
     protected abstract String getFieldValueForPicker(T item);
 
-    public void resolveOptionListOrInputIfExists(@NonNull CommandEvent event, @NonNull Consumer<List<T>> callback) {
-        String query = getFromOptions(event);
+    public void resolveListArgumentOrOptionOrDefault(@NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
+        if (StringUtils.isEmpty(query)) {
+            callback.accept(defaultList);
+        } else {
+            resolveListInput(event, query, callback);
+        }
+    }
+
+    public void resolveListArgumentOrOptionOrDefaultIfExists(@NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
+        if (query == null) {
+            callback.accept(Collections.emptyList());
+        } else if (query.isEmpty()) {
+            callback.accept(defaultList);
+        } else {
+            resolveListInput(event, query, callback);
+        }
+    }
+
+    public void resolveListArgumentOrOptionOrInput(@NonNull CommandEvent event, @NonNull Consumer<List<T>> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
+        if (StringUtils.isEmpty(query)) {
+            event.reply("Please enter a " + typeName + " below:", message -> waitForListInput(event, message, callback));
+        } else {
+            resolveListInput(event, query, callback);
+        }
+    }
+
+    public void resolveListArgumentOrOptionOrInputIfExists(@NonNull CommandEvent event, @NonNull Consumer<List<T>> callback) {
+        String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (query == null) {
             callback.accept(null);
         } else if (query.isEmpty()) {

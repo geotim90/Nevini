@@ -1,0 +1,21 @@
+/*
+Base permissions given to @everyone are applied at a guild level
+Permissions allowed to a user by their roles are applied at a guild level
+Overwrites that deny permissions for @everyone are applied at a channel level
+Overwrites that allow permissions for @everyone are applied at a channel level
+Overwrites that deny permissions for specific roles are applied at a channel level
+Overwrites that allow permissions for specific roles are applied at a channel level
+Member-specific overwrites that deny permissions are applied at a channel level
+Member-specific overwrites that allow permissions are applied at a channel level
+ */
+
+/*
+| Server permissions | --server
+| Permission permissions | --permission <permission>
+| Role permissions | --role <role>
+| User permissions | --user <user>
+| Channel permissions | --channel <channel>
+| Channel permission permission | --channel <channel> --permission <permission>
+| Channel role permissions | --channel <channel> --role <role>
+| Channel user permissions | --channel <channel> --user <user>
+ */

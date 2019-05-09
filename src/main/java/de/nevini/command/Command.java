@@ -133,7 +133,7 @@ public abstract class Command {
         if (event.isFromType(ChannelType.TEXT)) {
             final Optional<Boolean> permissionOverride = getNode() == null
                     ? Optional.empty()
-                    : event.getPermissionService().hasPermission(event.getTextChannel(), event.getAuthor(), getNode());
+                    : event.getPermissionService().hasChannelUserPermission(event.getTextChannel(), event.getMember(), getNode());
             boolean permission = permissionOverride.orElseGet(() -> {
                 if (getNode() == null) {
                     return true;
@@ -162,7 +162,7 @@ public abstract class Command {
                 return false;
             }
         } else {
-            return true;
+            return true; // no guild to apply restrictions with
         }
     }
 

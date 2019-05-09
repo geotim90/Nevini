@@ -7,14 +7,13 @@ import de.nevini.command.CommandReaction;
 import de.nevini.modules.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
-import org.apache.commons.lang3.ObjectUtils;
+import net.dv8tion.jda.core.utils.PermissionUtil;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PermissionGetCommand extends Command {
@@ -24,98 +23,181 @@ public class PermissionGetCommand extends Command {
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.CORE_PERMISSION_GET)
-                .description("displays effective permissions for commands")
+                .description("displays effective permissions for bot commands")
                 .syntax("[<options>]")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        new PermissionOptions(event, target -> acceptTarget(event, target)).get();
+        new PermissionOptions(event, false, true, options -> acceptOptions(event, options)).get();
     }
 
-    private void acceptTarget(CommandEvent event, PermissionOptions permissionTarget) {
-        if (permissionTarget.getNodes().isEmpty()) {
-            if (permissionTarget.isAll()) {
-                permissionTarget.setNodes(Arrays.asList(Node.values()));
-            } else {
-                permissionTarget.setNodes(Arrays.stream(Node.values())
-                        .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
-                        .collect(Collectors.toList()));
-            }
+    private void acceptOptions(CommandEvent event, PermissionOptions options) {
+        if (options.getNodes().isEmpty()) {
+            options.setNodes(Arrays.stream(Node.values())
+                    .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
+                    .collect(Collectors.toList()));
         }
-        if (permissionTarget.isServer()) {
-            if (permissionTarget.getRole() != null) {
-                displayRolePermissions(event, permissionTarget.getRole(), permissionTarget.getNodes());
+        if (options.isServer()) {
+            if (options.getPermission() != null) {
+                displayPermissionPermissions(event, options);
+            } else if (options.getRole() != null) {
+                displayRolePermissions(event, options);
+            } else if (options.getMember() != null) {
+                displayUserPermissions(event, options);
             } else {
-                Member user = ObjectUtils.defaultIfNull(permissionTarget.getMember(), event.getMember());
-                displayUserPermissions(event, user, permissionTarget.getNodes());
+                displayServerPermissions(event, options);
             }
         } else {
-            TextChannel channel = ObjectUtils.defaultIfNull(permissionTarget.getChannel(), event.getTextChannel());
-            if (permissionTarget.getRole() != null) {
-                displayChannelRolePermissions(event, channel, permissionTarget.getRole(), permissionTarget.getNodes());
+            if (options.getChannel() == null) {
+                options.setChannel(event.getTextChannel());
+            }
+            if (options.getPermission() != null) {
+                displayChannelPermissionPermissions(event, options);
+            } else if (options.getRole() != null) {
+                displayChannelRolePermissions(event, options);
+            } else if (options.getMember() != null) {
+                displayChannelUserPermissions(event, options);
             } else {
-                Member user = ObjectUtils.defaultIfNull(permissionTarget.getMember(), event.getMember());
-                displayChannelUserPermissions(event, channel, user, permissionTarget.getNodes());
+                displayChannelPermissions(event, options);
             }
         }
     }
 
-    private void displayRolePermissions(CommandEvent event, Role role, Collection<Node> nodes) {
+    private void displayServerPermissions(CommandEvent event, PermissionOptions options) {
+        Guild server = event.getGuild();
+        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        embedBuilder.setDescription("Effective server permissions:");
+        List<Permission> permissions = server.getPublicRole().getPermissions();
+        for (Node node : options.getNodes()) {
+            if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
+                embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
+            } else {
+                Optional<Boolean> override = event.getPermissionService().hasServerPermission(event.getGuild(), node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
+                embedBuilder.addField(node.getNode(), value, true);
+            }
+        }
+        event.reply(embedBuilder);
+    }
+
+    private void displayPermissionPermissions(CommandEvent event, PermissionOptions options) {
+        Permission permission = options.getPermission();
+        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        embedBuilder.setDescription("Effective server permissions for **" + permission.getName() + "**:");
+        List<Permission> permissions = Collections.singletonList(permission);
+        for (Node node : options.getNodes()) {
+            if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
+                embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
+            } else {
+                Optional<Boolean> override = event.getPermissionService().hasPermissionPermission(event.getGuild(), permission, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
+                embedBuilder.addField(node.getNode(), value, true);
+            }
+        }
+        event.reply(embedBuilder);
+    }
+
+    private void displayRolePermissions(CommandEvent event, PermissionOptions options) {
+        Role role = options.getRole();
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
         embedBuilder.setDescription("Effective server permissions for **" + role.getName() + "**:");
-        for (Node node : nodes) {
+        List<Permission> permissions = role.getPermissions();
+        for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
-                Optional<Boolean> override = event.getPermissionService().getRolePermission(role, node);
-                String value = resolvePermission(node, override.orElse(null), role.getPermissions());
+                Optional<Boolean> override = event.getPermissionService().hasRolePermission(role, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
                 embedBuilder.addField(node.getNode(), value, true);
             }
         }
         event.reply(embedBuilder);
     }
 
-    private void displayUserPermissions(CommandEvent event, Member user, Collection<Node> nodes) {
+    private void displayUserPermissions(CommandEvent event, PermissionOptions options) {
+        Member member = options.getMember();
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
-        embedBuilder.setDescription("Effective server permissions for **" + user.getEffectiveName() + "**:");
-        for (Node node : nodes) {
+        embedBuilder.setDescription("Effective server permissions for **" + member.getEffectiveName() + "**:");
+        List<Permission> permissions = member.getPermissions();
+        for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
-                Optional<Boolean> override = event.getPermissionService().getUserPermission(user, node);
-                String value = resolvePermission(node, override.orElse(null), user.getPermissions());
+                Optional<Boolean> override = event.getPermissionService().hasUserPermission(member, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
                 embedBuilder.addField(node.getNode(), value, true);
             }
         }
         event.reply(embedBuilder);
     }
 
-    private void displayChannelRolePermissions(CommandEvent event, TextChannel channel, Role role, Collection<Node> nodes) {
+    private void displayChannelPermissions(CommandEvent event, PermissionOptions options) {
+        TextChannel channel = options.getChannel();
+        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        embedBuilder.setDescription("Effective permissions for **" + channel.getName() + "**:");
+        List<Permission> permissions = Permission.getPermissions(PermissionUtil.getEffectivePermission(channel, event.getGuild().getPublicRole()));
+        for (Node node : options.getNodes()) {
+            if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
+                embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
+            } else {
+                Optional<Boolean> override = event.getPermissionService().hasChannelPermission(channel, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
+                embedBuilder.addField(node.getNode(), value, true);
+            }
+        }
+        event.reply(embedBuilder);
+    }
+
+    private void displayChannelPermissionPermissions(CommandEvent event, PermissionOptions options) {
+        Permission permission = options.getPermission();
+        TextChannel channel = options.getChannel();
+        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        embedBuilder.setDescription("Effective permissions for **" + permission.getName() + "** in **" + channel.getName() + "**:");
+        List<Permission> permissions = Collections.singletonList(permission);
+        for (Node node : options.getNodes()) {
+            if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
+                embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
+            } else {
+                Optional<Boolean> override = event.getPermissionService().hasChannelPermissionPermission(channel, permission, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
+                embedBuilder.addField(node.getNode(), value, true);
+            }
+        }
+        event.reply(embedBuilder);
+    }
+
+    private void displayChannelRolePermissions(CommandEvent event, PermissionOptions options) {
+        Role role = options.getRole();
+        TextChannel channel = options.getChannel();
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
         embedBuilder.setDescription("Effective permissions for **" + role.getName() + "** in **" + channel.getName() + "**:");
-        for (Node node : nodes) {
+        List<Permission> permissions = Permission.getPermissions(PermissionUtil.getEffectivePermission(channel, role));
+        for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
-                Optional<Boolean> override = event.getPermissionService().getChannelRolePermission(channel, role, node);
-                String value = resolvePermission(node, override.orElse(null), role.getPermissions());
+                Optional<Boolean> override = event.getPermissionService().hasChannelRolePermission(channel, role, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
                 embedBuilder.addField(node.getNode(), value, true);
             }
         }
         event.reply(embedBuilder);
     }
 
-    private void displayChannelUserPermissions(CommandEvent event, TextChannel channel, Member user, Collection<Node> nodes) {
+    private void displayChannelUserPermissions(CommandEvent event, PermissionOptions options) {
+        Member member = options.getMember();
+        TextChannel channel = options.getChannel();
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
-        embedBuilder.setDescription("Effective permissions for **" + user.getEffectiveName() + "** in **" + channel.getName() + "**:");
-        for (Node node : nodes) {
+        embedBuilder.setDescription("Effective permissions for **" + member.getEffectiveName() + "** in **" + channel.getName() + "**:");
+        List<Permission> permissions = member.getPermissions(channel);
+        for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
-                Optional<Boolean> override = event.getPermissionService().getChannelUserPermission(channel, user, node);
-                String value = resolvePermission(node, override.orElse(null), user.getPermissions());
+                Optional<Boolean> override = event.getPermissionService().hasChannelUserPermission(channel, member, node);
+                String value = resolvePermission(node, override.orElse(null), permissions);
                 embedBuilder.addField(node.getNode(), value, true);
             }
         }
@@ -127,13 +209,15 @@ public class PermissionGetCommand extends Command {
             long required = Permission.getRaw(node.getDefaultPermissions());
             long available = Permission.getRaw(permissions);
             long missing = required & ~available;
-            if (missing == 0) {
+            if (missing == 0 || permissions.contains(Permission.ADMINISTRATOR)) {
                 return CommandReaction.DEFAULT_OK.getUnicode();
             } else {
                 return CommandReaction.DEFAULT_NOK.getUnicode();
             }
         } else if (override) {
             return CommandReaction.OK.getUnicode();
+        } else if (permissions.contains(Permission.ADMINISTRATOR)) {
+            return CommandReaction.DEFAULT_OK.getUnicode();
         } else {
             return CommandReaction.PROHIBITED.getUnicode();
         }
