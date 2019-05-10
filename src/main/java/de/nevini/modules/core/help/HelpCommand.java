@@ -72,7 +72,7 @@ public class HelpCommand extends Command {
             return;
         } else if (StringUtils.isNotEmpty(event.getArgument())) {
             String[] args = event.getArgument().split("\\s+", 2);
-            for (Command child : getChildren()) {
+            for (Command child : command.getChildren()) {
                 if (child.isCommandFor(args[0])) {
                     doCommandHelp(event.withArgument(args.length > 1 ? args[1] : null),
                             chain + ' ' + command.getKeyword(), child);

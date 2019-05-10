@@ -134,7 +134,7 @@ public class CommandEvent {
     }
 
     public void replyDm(@NonNull String content, @NonNull Consumer<? super Message> callback) {
-        if (canReact()) {
+        if (isFromType(ChannelType.TEXT) && canReact()) {
             addReaction(CommandReaction.DM.getUnicode(), ignore());
         }
         sendMessage(getAuthor().openPrivateChannel().complete(), content, callback);
@@ -145,7 +145,7 @@ public class CommandEvent {
     }
 
     public void replyDm(@NonNull EmbedBuilder embed, @NonNull Consumer<? super Message> callback) {
-        if (canReact()) {
+        if (isFromType(ChannelType.TEXT) && canReact()) {
             addReaction(CommandReaction.DM.getUnicode(), ignore());
         }
         sendMessage(getAuthor().openPrivateChannel().complete(), embed, callback);
