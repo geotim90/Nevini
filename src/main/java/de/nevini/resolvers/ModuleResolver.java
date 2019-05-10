@@ -28,7 +28,7 @@ public class ModuleResolver extends AbstractResolver<Module> {
 
     @Override
     protected String getFieldValueForPicker(Module item) {
-        return null;
+        return "";
     }
 
 }

@@ -16,12 +16,11 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class Picker<T> {
 
-    public static final int MAX = 9;
+    public static final int MAX = 10;
 
     private static final String[] EMOTE_NUMBER = {
-            "1\u20E3", "2\u20E3", "3\u20E3",
-            "4\u20E3", "5\u20E3", "6\u20E3",
-            "7\u20E3", "8\u20E3", "9\u20E3"
+            "1\u20E3", "2\u20E3", "3\u20E3", "4\u20E3", "5\u20E3",
+            "6\u20E3", "7\u20E3", "8\u20E3", "9\u20E3", "\uD83D\uDD1F"
     };
 
     @NonNull
@@ -48,8 +47,8 @@ public class Picker<T> {
         EmbedBuilder embedBuilder = context.createEmbedBuilder();
         embedBuilder.setDescription("Please pick one of the following options by selecting a reaction below:");
         for (int i = 0; i < items.size(); i++) {
-            embedBuilder.addField(i + ") " + fieldNameRenderer.apply(items.get(i)),
-                    fieldValueRenderer.apply(items.get(i)), true);
+            embedBuilder.addField(EMOTE_NUMBER[i] + " - " + fieldNameRenderer.apply(items.get(i)),
+                    fieldValueRenderer.apply(items.get(i)), false);
         }
         MessageEmbed embed = embedBuilder.build();
         context.getChannel().sendMessage(embed).queue(this::decorate);

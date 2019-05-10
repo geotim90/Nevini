@@ -26,7 +26,7 @@ public class NodeResolver extends AbstractResolver<Node> {
 
     @Override
     protected String getFieldValueForPicker(Node item) {
-        return null;
+        return "";
     }
 
 }

@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -48,17 +49,16 @@ public class PermissionGetCommand extends Command {
                 displayServerPermissions(event, options);
             }
         } else {
-            if (options.getChannel() == null) {
-                options.setChannel(event.getTextChannel());
-            }
             if (options.getPermission() != null) {
                 displayChannelPermissionPermissions(event, options);
             } else if (options.getRole() != null) {
                 displayChannelRolePermissions(event, options);
             } else if (options.getMember() != null) {
                 displayChannelUserPermissions(event, options);
-            } else {
+            } else if (options.getChannel() != null) {
                 displayChannelPermissions(event, options);
+            } else {
+                displayChannelUserPermissions(event, options);
             }
         }
     }
@@ -139,7 +139,7 @@ public class PermissionGetCommand extends Command {
 
     private void displayChannelPermissionPermissions(CommandEvent event, PermissionOptions options) {
         Permission permission = options.getPermission();
-        TextChannel channel = options.getChannel();
+        TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
         embedBuilder.setDescription("Effective permissions for **" + permission.getName() + "** in **" + channel.getName() + "**:");
         for (Node node : options.getNodes()) {
@@ -155,7 +155,7 @@ public class PermissionGetCommand extends Command {
 
     private void displayChannelRolePermissions(CommandEvent event, PermissionOptions options) {
         Role role = options.getRole();
-        TextChannel channel = options.getChannel();
+        TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
         embedBuilder.setDescription("Effective permissions for **" + role.getName() + "** in **" + channel.getName() + "**:");
         for (Node node : options.getNodes()) {
@@ -170,8 +170,8 @@ public class PermissionGetCommand extends Command {
     }
 
     private void displayChannelUserPermissions(CommandEvent event, PermissionOptions options) {
-        Member member = options.getMember();
-        TextChannel channel = options.getChannel();
+        Member member = ObjectUtils.defaultIfNull(options.getMember(), event.getMember());
+        TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
         embedBuilder.setDescription("Effective permissions for **" + member.getEffectiveName() + "** in **" + channel.getName() + "**:");
         for (Node node : options.getNodes()) {

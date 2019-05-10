@@ -34,7 +34,7 @@ public class StringResolver extends AbstractResolver<String> {
 
     @Override
     protected String getFieldValueForPicker(String item) {
-        return null;
+        return "";
     }
 
 }

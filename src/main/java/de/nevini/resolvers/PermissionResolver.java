@@ -26,7 +26,7 @@ public class PermissionResolver extends AbstractResolver<Permission> {
 
     @Override
     protected String getFieldValueForPicker(Permission item) {
-        return null;
+        return "";
     }
 
 }

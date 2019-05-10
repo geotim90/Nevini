@@ -5,6 +5,9 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
 import de.nevini.modules.Node;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.TextChannel;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class PermissionDebugCommand extends Command {
 
@@ -23,7 +26,7 @@ public class PermissionDebugCommand extends Command {
     }
 
     private void acceptOptions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("Permission to execute commands with permission node **" + options.getNode().getNode() + "**\n");
         if (options.isServer()) {
             if (options.getPermission() != null) {
                 appendPermissionTrace(event, options, builder);
@@ -35,49 +38,52 @@ public class PermissionDebugCommand extends Command {
                 appendServerTrace(event, options, builder);
             }
         } else {
-            if (options.getChannel() == null) {
-                options.setChannel(event.getTextChannel());
-            }
             if (options.getPermission() != null) {
                 appendChannelPermissionTrace(event, options, builder);
             } else if (options.getRole() != null) {
                 appendChannelRoleTrace(event, options, builder);
             } else if (options.getMember() != null) {
                 appendChannelUserTrace(event, options, builder);
-            } else {
+            } else if (options.getChannel() != null) {
                 appendChannelTrace(event, options, builder);
+            } else {
+                appendChannelUserTrace(event, options, builder);
             }
         }
         event.reply(builder.toString(), ignore -> event.complete());
     }
 
     private void appendChannelUserTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
-        boolean channelUserPermission = event.getPermissionService().hasChannelUserPermission(options.getChannel(), options.getMember(), options.getNode());
-        append(builder, channelUserPermission, "__**" + options.getMember().getEffectiveName() + "** in **" + options.getChannel().getName() + "**__");
-        boolean channelRolePermission = event.getPermissionService().hasChannelRolePermission(options.getChannel(), options.getMember(), options.getNode());
-        append(builder, channelRolePermission, "**" + options.getMember().getEffectiveName() + "** roles in **" + options.getChannel().getName() + "**");
-        boolean channelPermissionPermission = event.getPermissionService().hasChannelPermissionPermission(options.getChannel(), options.getMember(), options.getNode());
-        append(builder, channelPermissionPermission, "**" + options.getMember().getEffectiveName() + "** permissions in **" + options.getChannel().getName() + "**");
-        boolean channelPermission = event.getPermissionService().hasChannelPermission(options.getChannel(), options.getNode());
-        append(builder, channelPermission, "*everyone* in **" + options.getChannel().getName() + "**");
+        TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
+        Member user = ObjectUtils.defaultIfNull(options.getMember(), event.getMember());
+        boolean channelUserPermission = event.getPermissionService().hasChannelUserPermission(channel, user, options.getNode());
+        append(builder, channelUserPermission, "__**" + user.getEffectiveName() + "** in **" + channel.getName() + "**__");
+        boolean channelRolePermission = event.getPermissionService().hasChannelRolePermission(channel, user, options.getNode());
+        append(builder, channelRolePermission, "**" + user.getEffectiveName() + "** roles in **" + channel.getName() + "**");
+        boolean channelPermissionPermission = event.getPermissionService().hasChannelPermissionPermission(channel, user, options.getNode());
+        append(builder, channelPermissionPermission, "**" + user.getEffectiveName() + "** permissions in **" + channel.getName() + "**");
+        boolean channelPermission = event.getPermissionService().hasChannelPermission(channel, options.getNode());
+        append(builder, channelPermission, "*everyone* in **" + channel.getName() + "**");
         appendUserTrace(event, options, builder);
     }
 
     private void appendChannelRoleTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
-        boolean channelRolePermission = event.getPermissionService().hasChannelRolePermission(options.getChannel(), options.getRole(), options.getNode());
-        append(builder, channelRolePermission, "**" + options.getRole().getName() + "** in **" + options.getChannel().getName() + "**");
-        boolean channelPermissionPermission = event.getPermissionService().hasChannelPermissionPermission(options.getChannel(), options.getRole(), options.getNode());
-        append(builder, channelPermissionPermission, "**" + options.getRole().getName() + "** permissions in **" + options.getChannel().getName() + "**");
-        boolean channelPermission = event.getPermissionService().hasChannelPermission(options.getChannel(), options.getNode());
-        append(builder, channelPermission, "*everyone* in **" + options.getChannel().getName() + "**");
+        TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
+        boolean channelRolePermission = event.getPermissionService().hasChannelRolePermission(channel, options.getRole(), options.getNode());
+        append(builder, channelRolePermission, "**" + options.getRole().getName() + "** in **" + channel.getName() + "**");
+        boolean channelPermissionPermission = event.getPermissionService().hasChannelPermissionPermission(channel, options.getRole(), options.getNode());
+        append(builder, channelPermissionPermission, "**" + options.getRole().getName() + "** permissions in **" + channel.getName() + "**");
+        boolean channelPermission = event.getPermissionService().hasChannelPermission(channel, options.getNode());
+        append(builder, channelPermission, "*everyone* in **" + channel.getName() + "**");
         appendRoleTrace(event, options, builder);
     }
 
     private void appendChannelPermissionTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
-        boolean channelPermissionPermission = event.getPermissionService().hasChannelPermissionPermission(options.getChannel(), options.getPermission(), options.getNode());
-        append(builder, channelPermissionPermission, "**" + options.getPermission().getName() + "** in **" + options.getChannel().getName() + "**");
-        boolean channelPermission = event.getPermissionService().hasChannelPermission(options.getChannel(), options.getNode());
-        append(builder, channelPermission, "*everyone* in **" + options.getChannel().getName() + "**");
+        TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
+        boolean channelPermissionPermission = event.getPermissionService().hasChannelPermissionPermission(channel, options.getPermission(), options.getNode());
+        append(builder, channelPermissionPermission, "**" + options.getPermission().getName() + "** in **" + channel.getName() + "**");
+        boolean channelPermission = event.getPermissionService().hasChannelPermission(channel, options.getNode());
+        append(builder, channelPermission, "*everyone* in **" + channel.getName() + "**");
         appendPermissionTrace(event, options, builder);
     }
 
@@ -88,35 +94,37 @@ public class PermissionDebugCommand extends Command {
     }
 
     private void appendUserTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
-        boolean userPermission = event.getPermissionService().hasUserPermission(options.getMember(), options.getNode());
-        append(builder, userPermission, "**" + options.getMember().getEffectiveName() + "**");
-        boolean rolePermission = event.getPermissionService().hasRolePermission(options.getMember(), options.getNode());
-        append(builder, rolePermission, "**" + options.getMember().getEffectiveName() + "** roles");
-        boolean permissionPermission = event.getPermissionService().hasPermissionPermission(options.getMember(), options.getNode());
-        append(builder, permissionPermission, "**" + options.getMember().getEffectiveName() + "** permissions");
+        Member user = ObjectUtils.defaultIfNull(options.getMember(), event.getMember());
+        boolean userPermission = event.getPermissionService().hasUserPermission(user, options.getNode());
+        append(builder, userPermission, "**" + user.getEffectiveName() + "** on **" + event.getGuild().getName() + "**");
+        boolean rolePermission = event.getPermissionService().hasRolePermission(user, options.getNode());
+        append(builder, rolePermission, "**" + user.getEffectiveName() + "** roles on **" + event.getGuild().getName() + "**");
+        boolean permissionPermission = event.getPermissionService().hasPermissionPermission(user, options.getNode());
+        append(builder, permissionPermission, "**" + user.getEffectiveName() + "** permissions on **" + event.getGuild().getName() + "**");
         appendServerTrace(event, options, builder);
     }
 
     private void appendRoleTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
         boolean rolePermission = event.getPermissionService().hasRolePermission(options.getRole(), options.getNode());
-        append(builder, rolePermission, "**" + options.getRole().getName() + "**");
+        append(builder, rolePermission, "**" + options.getRole().getName() + "** on **" + event.getGuild().getName() + "**");
         boolean permissionPermission = event.getPermissionService().hasPermissionPermission(options.getRole(), options.getNode());
-        append(builder, permissionPermission, "**" + options.getRole().getName() + "** permissions");
+        append(builder, permissionPermission, "**" + options.getRole().getName() + "** permissions on **" + event.getGuild().getName() + "**");
         appendServerTrace(event, options, builder);
     }
 
     private void appendPermissionTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
         boolean permissionPermission = event.getPermissionService().hasPermissionPermission(event.getGuild(), options.getPermission(), options.getNode());
-        append(builder, permissionPermission, "**" + options.getPermission().getName() + "**");
+        append(builder, permissionPermission, "**" + options.getPermission().getName() + "** on **" + event.getGuild().getName() + "**");
         appendServerTrace(event, options, builder);
     }
 
     private void appendServerTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
         boolean serverPermission = event.getPermissionService().hasServerPermission(event.getGuild(), options.getNode());
-        append(builder, serverPermission, "*everyone*");
+        append(builder, serverPermission, "*everyone* on **" + event.getGuild().getName() + "**");
     }
 
     private void append(StringBuilder builder, boolean permission, String scope) {
+        builder.append('\n');
         builder.append(permission ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode());
         builder.append(" - ");
         builder.append(scope);

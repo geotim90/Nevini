@@ -153,15 +153,17 @@ public abstract class AbstractResolver<T> {
                 replyAmbiguous(event);
             } else if (results.size() > 1) {
                 new Picker<>(event, results, this::getFieldNameForPicker, this::getFieldValueForPicker, callback,
-                        () -> replyCancelled(event)).display();
+                        () -> replyExpired(event)).display();
             } else {
                 callback.accept(results.get(0));
             }
         }
     }
 
+    @NonNull
     protected abstract String getFieldNameForPicker(T item);
 
+    @NonNull
     protected abstract String getFieldValueForPicker(T item);
 
     public void resolveListArgumentOrOptionOrDefault(@NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback) {
