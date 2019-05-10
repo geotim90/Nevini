@@ -10,7 +10,6 @@ import net.dv8tion.jda.core.entities.ChannelType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static de.nevini.util.Formatter.summarize;
 
@@ -131,17 +130,7 @@ public abstract class Command {
 
     private boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
-            final Optional<Boolean> permissionOverride = getNode() == null
-                    ? Optional.empty()
-                    : event.getPermissionService().hasChannelUserPermission(event.getTextChannel(), event.getMember(), getNode());
-            boolean permission = permissionOverride.orElseGet(() -> {
-                if (getNode() == null) {
-                    return true;
-                } else {
-                    return event.getMember().hasPermission(event.getTextChannel(), getNode().getDefaultPermissions());
-                }
-            });
-            if (permission) {
+            if (getNode() == null || event.getPermissionService().hasChannelUserPermission(event.getTextChannel(), event.getMember(), getNode())) {
                 String[] missingPermissions = Arrays.stream(getMinimumUserPermissions())
                         .filter(p -> !event.getMember().hasPermission(event.getTextChannel(), p))
                         .map(Permission::getName).toArray(String[]::new);

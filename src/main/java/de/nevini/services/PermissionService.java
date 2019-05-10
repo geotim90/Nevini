@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.utils.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,43 +34,74 @@ public class PermissionService {
         this.permissionRepository = permissionRepository;
     }
 
-    public Optional<Boolean> hasChannelUserPermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node) {
+    public boolean hasChannelUserPermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node) {
         return hasPermission(channel.getGuild(), null, null, user, channel, node, CHANNEL_USER);
     }
 
-    public Optional<Boolean> hasChannelRolePermission(@NonNull TextChannel channel, @NonNull Role role, @NonNull Node node) {
+    public boolean hasChannelRolePermission(@NonNull TextChannel channel, @NonNull Role role, @NonNull Node node) {
         return hasPermission(channel.getGuild(), null, role, null, channel, node, CHANNEL_ROLE);
     }
 
-    public Optional<Boolean> hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node) {
+    public boolean hasChannelRolePermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node) {
+        return hasPermission(channel.getGuild(), null, null, user, channel, node, CHANNEL_ROLE);
+    }
+
+    public boolean hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node) {
         return hasPermission(channel.getGuild(), permission, null, null, channel, node, CHANNEL_PERMISSION);
     }
 
-    public Optional<Boolean> hasChannelPermission(@NonNull TextChannel channel, @NonNull Node node) {
+    public boolean hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Role role, @NonNull Node node) {
+        return hasPermission(channel.getGuild(), null, role, null, channel, node, CHANNEL_PERMISSION);
+    }
+
+    public boolean hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node) {
+        return hasPermission(channel.getGuild(), null, null, user, channel, node, CHANNEL_PERMISSION);
+    }
+
+    public boolean hasChannelPermission(@NonNull TextChannel channel, @NonNull Node node) {
         return hasPermission(channel.getGuild(), null, null, null, channel, node, CHANNEL);
     }
 
-    public Optional<Boolean> hasUserPermission(@NonNull Member user, @NonNull Node node) {
+    public boolean hasUserPermission(@NonNull Member user, @NonNull Node node) {
         return hasPermission(user.getGuild(), null, null, user, null, node, USER);
     }
 
-    public Optional<Boolean> hasRolePermission(@NonNull Role role, @NonNull Node node) {
+    public boolean hasRolePermission(@NonNull Role role, @NonNull Node node) {
         return hasPermission(role.getGuild(), null, role, null, null, node, ROLE);
     }
 
-    public Optional<Boolean> hasPermissionPermission(@NonNull Guild server, @NonNull Permission permission, @NonNull Node node) {
+    public boolean hasRolePermission(@NonNull Member user, @NonNull Node node) {
+        return hasPermission(user.getGuild(), null, null, user, null, node, ROLE);
+    }
+
+    public boolean hasPermissionPermission(@NonNull Guild server, @NonNull Permission permission, @NonNull Node node) {
         return hasPermission(server, permission, null, null, null, node, PERMISSION);
     }
 
-    public Optional<Boolean> hasServerPermission(@NonNull Guild server, @NonNull Node node) {
+    public boolean hasPermissionPermission(@NonNull Role role, @NonNull Node node) {
+        return hasPermission(role.getGuild(), null, role, null, null, node, PERMISSION);
+    }
+
+    public boolean hasPermissionPermission(@NonNull Member user, @NonNull Node node) {
+        return hasPermission(user.getGuild(), null, null, user, null, node, PERMISSION);
+    }
+
+    public boolean hasServerPermission(@NonNull Guild server, @NonNull Node node) {
         return hasPermission(server, null, null, null, null, node, SERVER);
     }
 
-    private Optional<Boolean> hasPermission(@NonNull Guild server, Permission permission, Role role, Member user, TextChannel channel, @NonNull Node node, byte scope) {
+    private boolean hasPermission(@NonNull Guild server, Permission permission, Role role, Member user, TextChannel channel, @NonNull Node node, byte scope) {
+        if (user != null && (user.isOwner() || user.hasPermission(Permission.ADMINISTRATOR))) {
+            return true;
+        } else if (role != null && role.hasPermission(Permission.ADMINISTRATOR)) {
+            return true;
+        } else if (permission != null && permission.equals(Permission.ADMINISTRATOR)) {
+            return true;
+        }
         if (scope >= CHANNEL_USER && channel != null && user != null) {
             Optional<Boolean> channelUserPermission = getChannelUserPermission(channel, user, node);
             if (channelUserPermission.isPresent()) {
-                return channelUserPermission;
+                return channelUserPermission.get();
             }
         }
         if (scope >= CHANNEL_ROLE) {
@@ -82,7 +114,7 @@ public class PermissionService {
                 channelRolePermission = Optional.empty();
             }
             if (channelRolePermission.isPresent()) {
-                return channelRolePermission;
+                return channelRolePermission.get();
             }
         }
         if (scope >= CHANNEL_PERMISSION) {
@@ -97,20 +129,20 @@ public class PermissionService {
                 channelPermissionPermission = Optional.empty();
             }
             if (channelPermissionPermission.isPresent()) {
-                return channelPermissionPermission;
+                return channelPermissionPermission.get();
             }
         }
         if (scope >= CHANNEL && channel != null) {
             Optional<Boolean> channelPermission;
             channelPermission = getChannelPermission(channel, node);
             if (channelPermission.isPresent()) {
-                return channelPermission;
+                return channelPermission.get();
             }
         }
         if (scope >= USER && user != null) {
             Optional<Boolean> userPermission = getUserPermission(user, node);
             if (userPermission.isPresent()) {
-                return userPermission;
+                return userPermission.get();
             }
         }
         if (scope >= ROLE) {
@@ -123,7 +155,7 @@ public class PermissionService {
                 rolePermission = Optional.empty();
             }
             if (rolePermission.isPresent()) {
-                return rolePermission;
+                return rolePermission.get();
             }
         }
         if (scope >= PERMISSION) {
@@ -138,16 +170,33 @@ public class PermissionService {
                 permissionPermission = Optional.empty();
             }
             if (permissionPermission.isPresent()) {
-                return permissionPermission;
+                return permissionPermission.get();
             }
         }
         if (scope >= SERVER) {
             Optional<Boolean> serverPermission = getServerPermission(server, node);
             if (serverPermission.isPresent()) {
-                return serverPermission;
+                return serverPermission.get();
             }
         }
-        return Optional.empty();
+        // DEFAULT
+        if (channel != null && user != null) {
+            return user.hasPermission(channel, node.getDefaultPermissions());
+        } else if (channel != null && role != null) {
+            return role.hasPermission(channel, node.getDefaultPermissions());
+        } else if (channel != null && permission != null) {
+            return Arrays.stream(node.getDefaultPermissions()).anyMatch(required -> !required.equals(permission));
+        } else if (channel != null) {
+            return server.getPublicRole().hasPermission(channel, node.getDefaultPermissions());
+        } else if (user != null) {
+            return user.hasPermission(node.getDefaultPermissions());
+        } else if (role != null) {
+            return role.hasPermission(node.getDefaultPermissions());
+        } else if (permission != null) {
+            return Arrays.stream(node.getDefaultPermissions()).anyMatch(required -> !required.equals(permission));
+        } else {
+            return server.getPublicRole().hasPermission(node.getDefaultPermissions());
+        }
     }
 
     private Optional<Boolean> getChannelUserPermission(Channel channel, Member user, Node node) {
