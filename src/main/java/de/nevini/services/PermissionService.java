@@ -5,6 +5,7 @@ import de.nevini.db.permission.PermissionId;
 import de.nevini.db.permission.PermissionRepository;
 import de.nevini.modules.Node;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.utils.PermissionUtil;
@@ -16,6 +17,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class PermissionService {
 
@@ -264,7 +266,7 @@ public class PermissionService {
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
                 CHANNEL,
-                channel.getGuild().getIdLong(),
+                -1L,
                 node.getNode()
         )).orElse(null));
     }
@@ -272,7 +274,7 @@ public class PermissionService {
     private Optional<Boolean> getUserPermission(Member user, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 user.getGuild().getIdLong(),
-                user.getGuild().getIdLong(),
+                -1L,
                 USER,
                 user.getUser().getIdLong(),
                 node.getNode()
@@ -282,7 +284,7 @@ public class PermissionService {
     private Optional<Boolean> getRolePermission(Role role, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 role.getGuild().getIdLong(),
-                role.getGuild().getIdLong(),
+                -1L,
                 ROLE,
                 role.getIdLong(),
                 node.getNode()
@@ -292,7 +294,7 @@ public class PermissionService {
     private Optional<Boolean> getRolePermission(Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 user.getGuild().getIdLong(),
-                user.getGuild().getIdLong(),
+                -1L,
                 ROLE,
                 user.getRoles().stream().map(ISnowflake::getIdLong).collect(Collectors.toList()),
                 node.getNode()
@@ -302,7 +304,7 @@ public class PermissionService {
     private Optional<Boolean> getPermissionPermission(Guild guild, Permission permission, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 guild.getIdLong(),
-                guild.getIdLong(),
+                -1L,
                 PERMISSION,
                 permission.getRawValue(),
                 node.getNode()
@@ -312,7 +314,7 @@ public class PermissionService {
     private Optional<Boolean> getPermissionPermission(Role role, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 role.getGuild().getIdLong(),
-                role.getGuild().getIdLong(),
+                -1L,
                 PERMISSION,
                 role.getPermissions().stream().map(Permission::getRawValue).collect(Collectors.toList()),
                 node.getNode()
@@ -322,7 +324,7 @@ public class PermissionService {
     private Optional<Boolean> getPermissionPermission(Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 user.getGuild().getIdLong(),
-                user.getGuild().getIdLong(),
+                -1L,
                 PERMISSION,
                 user.getPermissions().stream().map(Permission::getRawValue).collect(Collectors.toList()),
                 node.getNode()
@@ -332,9 +334,9 @@ public class PermissionService {
     private Optional<Boolean> getServerPermission(Guild server, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 server.getIdLong(),
-                server.getIdLong(),
+                -1L,
                 SERVER,
-                server.getIdLong(),
+                -1L,
                 node.getNode()
         )).orElse(null));
     }
@@ -370,6 +372,92 @@ public class PermissionService {
         } else {
             return Optional.empty();
         }
+    }
+
+    public void setChannelUserPermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                channel.getGuild().getIdLong(),
+                channel.getIdLong(),
+                CHANNEL_USER,
+                user.getUser().getIdLong(),
+                node.getNode(),
+                null), override);
+    }
+
+    public void setChannelRolePermission(@NonNull TextChannel channel, @NonNull Role role, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                channel.getGuild().getIdLong(),
+                channel.getIdLong(),
+                CHANNEL_ROLE,
+                role.getIdLong(),
+                node.getNode(),
+                null), override);
+    }
+
+    public void setChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                channel.getGuild().getIdLong(),
+                channel.getIdLong(),
+                CHANNEL_PERMISSION,
+                permission.getRawValue(),
+                node.getNode(),
+                null), override);
+    }
+
+    public void setChannelPermission(@NonNull TextChannel channel, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                channel.getGuild().getIdLong(),
+                channel.getIdLong(),
+                CHANNEL,
+                -1L,
+                node.getNode(),
+                null), override);
+    }
+
+    public void setUserPermission(@NonNull Member user, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                user.getGuild().getIdLong(),
+                -1L,
+                USER,
+                user.getUser().getIdLong(),
+                node.getNode(),
+                null), override);
+    }
+
+    public void setRolePermission(@NonNull Role role, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                role.getGuild().getIdLong(),
+                -1L,
+                ROLE,
+                role.getIdLong(),
+                node.getNode(),
+                null), override);
+    }
+
+    public void setPermissionPermission(@NonNull Guild server, @NonNull Permission permission, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                server.getIdLong(),
+                -1L,
+                PERMISSION,
+                permission.getRawValue(),
+                node.getNode(),
+                null), override);
+    }
+
+    public void setServerPermission(@NonNull Guild server, @NonNull Node node, Boolean override) {
+        setPermission(new PermissionData(
+                server.getIdLong(),
+                -1L,
+                SERVER,
+                -1L,
+                node.getNode(),
+                null), override);
+    }
+
+    private synchronized void setPermission(PermissionData permission, Boolean override) {
+        permission.setFlag(override == null ? (byte) 0 : (override ? (byte) 1 : (byte) -1));
+        log.info("Save data: {}", permission);
+        permissionRepository.save(permission);
     }
 
 }

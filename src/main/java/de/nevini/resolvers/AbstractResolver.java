@@ -244,23 +244,23 @@ public abstract class AbstractResolver<T> {
     }
 
     private void replyAmbiguous(CommandEvent event) {
-        event.reply(CommandReaction.WARNING, "Too many " + typeName + "s matched your input! Please be more specific next time.");
+        event.reply(CommandReaction.WARNING, "Too many " + typeName + "s matched your input! Please be more specific next time.", event::complete);
     }
 
     private void replyCancelled(CommandEvent event) {
-        event.reply(event.getAuthor().getAsMention() + ", your previous command was cancelled.");
+        event.reply(event.getAuthor().getAsMention() + ", your previous command was cancelled.", event::complete);
     }
 
     private void replyExpired(CommandEvent event) {
-        event.reply(event.getAuthor().getAsMention() + ", your previous command expired.");
+        event.reply(event.getAuthor().getAsMention() + ", your previous command expired.", event::complete);
     }
 
     private void replyMissing(CommandEvent event) {
-        event.reply(CommandReaction.WARNING, "You did not provide a " + typeName + "!");
+        event.reply(CommandReaction.WARNING, "You did not provide a " + typeName + "!", event::complete);
     }
 
     private void replyUnknown(CommandEvent event) {
-        event.reply(CommandReaction.WARNING, "I could not find any " + typeName + " that matched your input!");
+        event.reply(CommandReaction.WARNING, "I could not find any " + typeName + " that matched your input!", event::complete);
     }
 
 }

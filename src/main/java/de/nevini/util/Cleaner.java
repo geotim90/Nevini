@@ -1,6 +1,6 @@
 package de.nevini.util;
 
-import de.nevini.command.CommandEvent;
+import de.nevini.listeners.EventDispatcher;
 import net.dv8tion.jda.core.entities.Message;
 
 import java.util.concurrent.TimeUnit;
@@ -16,9 +16,9 @@ public class Cleaner {
         }
     }
 
-    public static void tryScheduleDelete(CommandEvent event) {
-        if (event != null) {
-            event.getEventDispatcher().schedule(1, TimeUnit.MINUTES, () -> tryDelete(event.getMessage()));
+    public static void tryScheduleDelete(EventDispatcher eventDispatcher, Message message) {
+        if (eventDispatcher != null && message != null) {
+            eventDispatcher.schedule(1, TimeUnit.MINUTES, () -> tryDelete(message));
         }
     }
 

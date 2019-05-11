@@ -194,13 +194,29 @@ public class CommandEvent {
     }
 
     public void complete() {
-        complete(false);
+        complete(getMessage(), false);
+    }
+
+    public void complete(@NonNull Message lastResponse) {
+        complete(lastResponse, false);
     }
 
     public void complete(boolean forceRm) {
-        boolean rm = forceRm || isRm();
-        if (rm) {
-            Cleaner.tryDelete(getMessage());
+        complete(getMessage(), forceRm);
+    }
+
+    public void complete(@NonNull Message lastResponse, boolean forceRm) {
+        if (forceRm || isRm()) {
+            if (lastResponse.equals(getMessage())) {
+                if (lastResponse.getReactions().isEmpty()) {
+                    Cleaner.tryDelete(lastResponse);
+                } else {
+                    Cleaner.tryScheduleDelete(getEventDispatcher(), lastResponse);
+                }
+            } else {
+                Cleaner.tryDelete(getMessage());
+                Cleaner.tryScheduleDelete(getEventDispatcher(), lastResponse);
+            }
         }
     }
 
