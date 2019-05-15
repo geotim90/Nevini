@@ -29,29 +29,68 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void acceptOptions(CommandEvent event, PermissionOptions options) {
-        if (options.isServer()) {
-            if (options.getPermission() != null) {
-                setPermissionPermissions(event, options);
-            } else if (options.getRole() != null) {
-                setRolePermissions(event, options);
-            } else if (options.getMember() != null) {
-                setUserPermissions(event, options);
+        if (canSetPermission(event, options)) {
+            if (options.isServer()) {
+                if (options.getPermission() != null) {
+                    setPermissionPermissions(event, options);
+                } else if (options.getRole() != null) {
+                    setRolePermissions(event, options);
+                } else if (options.getMember() != null) {
+                    setUserPermissions(event, options);
+                } else {
+                    setServerPermissions(event, options);
+                }
             } else {
-                setServerPermissions(event, options);
-            }
-        } else {
-            if (options.getPermission() != null) {
-                setChannelPermissionPermissions(event, options);
-            } else if (options.getRole() != null) {
-                setChannelRolePermissions(event, options);
-            } else if (options.getMember() != null) {
-                setChannelUserPermissions(event, options);
-            } else if (options.getChannel() != null) {
-                setChannelPermissions(event, options);
-            } else {
-                setChannelUserPermissions(event, options);
+                if (options.getPermission() != null) {
+                    setChannelPermissionPermissions(event, options);
+                } else if (options.getRole() != null) {
+                    setChannelRolePermissions(event, options);
+                } else if (options.getMember() != null) {
+                    setChannelUserPermissions(event, options);
+                } else if (options.getChannel() != null) {
+                    setChannelPermissions(event, options);
+                } else {
+                    setChannelUserPermissions(event, options);
+                }
             }
         }
+    }
+
+    private boolean canSetPermission(CommandEvent event, PermissionOptions options) {
+        if (options.isServer()) {
+            if (options.getNodes().stream().anyMatch(node -> !event.getPermissionService().hasUserPermission(event.getMember(), node))) {
+                event.reply(CommandReaction.PROHIBITED, "You can only configure server-level permissions for permission nodes you have yourself!", event::complete);
+                return false;
+            } else if (options.getPermission() != null) {
+                if (!event.getMember().hasPermission(options.getPermission())) {
+                    event.reply(CommandReaction.PROHIBITED, "You can only configure server-level permissions for Discord permissions you have yourself!", event::complete);
+                    return false;
+                }
+            }
+        } else {
+            TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
+            if (options.getNodes().stream().anyMatch(node -> !event.getPermissionService().hasChannelUserPermission(channel, event.getMember(), node))) {
+                event.reply(CommandReaction.PROHIBITED, "You can only configure channel-level permissions for permission nodes you have yourself!", event::complete);
+                return false;
+            } else if (options.getPermission() != null) {
+                if (!event.getMember().hasPermission(channel, options.getPermission())) {
+                    event.reply(CommandReaction.PROHIBITED, "You can only configure channel-level permissions for Discord permissions you have yourself!", event::complete);
+                    return false;
+                }
+            }
+        }
+        if (options.getRole() != null) {
+            if (!event.getMember().canInteract(options.getRole())) {
+                event.reply(CommandReaction.PROHIBITED, "You can only configure permissions for roles of a lower position than your highest role!", event::complete);
+                return false;
+            }
+        } else if (options.getMember() != null) {
+            if (!event.getMember().canInteract(options.getMember())) {
+                event.reply(CommandReaction.PROHIBITED, "You can only configure permissions for users whose highest role is lower than your highest role!", event::complete);
+                return false;
+            }
+        }
+        return true;
     }
 
     private void setServerPermissions(CommandEvent event, PermissionOptions options) {
