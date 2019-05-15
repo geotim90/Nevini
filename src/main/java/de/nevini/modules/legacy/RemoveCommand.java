@@ -16,13 +16,13 @@ public class RemoveCommand extends Command {
                         new RemoveRoleCommand()
                 })
                 .description("executes legacy `remove` commands")
-                .syntax("role (initiate|member|mod|admin) <role>")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // delegate to child despite missing "role" keyword
+        getChildren()[0].onEvent(event);
     }
 
 }

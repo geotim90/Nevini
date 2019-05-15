@@ -22,16 +22,12 @@ public class UnsetCommand extends Command {
                         new UnsetTimeoutCommand()
                 })
                 .description("executes legacy `unset` commands")
-                .syntax("( contribution <user> | " +
-                        "game timeout <game> | " +
-                        "member ( (joined|lastOnline|lastMessage) <user> | lastPlayed <user> <game> ) | " +
-                        "timeout (joined|lastOnline|lastMessage) )")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // do nothing if no child keyword was found
     }
 
 }

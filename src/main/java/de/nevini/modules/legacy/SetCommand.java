@@ -22,16 +22,12 @@ public class SetCommand extends Command {
                         new SetTimeoutCommand()
                 })
                 .description("executes legacy `set` commands")
-                .syntax("( contribution <user> | " +
-                        "game timeout <game> <days> | " +
-                        "member ( (joined|lastOnline|lastMessage) <user> | lastPlayed <user> <game> ) <timestamp> | " +
-                        "timeout (joined|lastOnline|lastMessage) <days> )")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // do nothing if no child keyword was found
     }
 
 }

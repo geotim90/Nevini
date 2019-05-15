@@ -14,21 +14,21 @@ public class LegacyCommand extends Command {
                 .keyword("legacy")
                 .aliases(new String[]{"geobot"})
                 .children(new Command[]{
+                        new ReportCommand(),
                         new AddCommand(),
                         new GetCommand(),
                         new RemoveCommand(),
                         new SetCommand(),
-                        new UnsetCommand(),
-                        new ReportCommand()
+                        new UnsetCommand()
                 })
                 .description("executes legacy Geobot commands")
-                .syntax("( (add|get|remove|set|unset) ... | report [<user>] )")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // delegate to child despite missing "report" keyword
+        getChildren()[0].onEvent(event);
     }
 
 }

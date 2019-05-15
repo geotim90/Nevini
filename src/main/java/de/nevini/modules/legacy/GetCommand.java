@@ -24,15 +24,12 @@ public class GetCommand extends Command {
                         new GetTimeoutCommand()
                 })
                 .description("executes legacy `get` commands")
-                .syntax("( contribution <user> | game timeout <game> | member ( (joined|lastOnline|lastMessage) <user> " +
-                        "| lastPlayed <user> <game> ) | role (initiate|member|mod|admin) | timeout (joined|lastOnline|" +
-                        "lastMessage) )")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // do nothing if no child keyword was found
     }
 
 }
