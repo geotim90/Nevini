@@ -31,8 +31,8 @@ public class CommandListener {
     private final CommandContext commandContext;
 
     public CommandListener(
-            @Value("${bot.owner.id}") String ownerId,
-            @Value("${bot.server.invite}") String serverInvite,
+            @Value("${bot.owner.id:#{null}}") String ownerId,
+            @Value("${bot.server.invite:#{null}}}") String serverInvite,
             @Autowired ApplicationContext applicationContext,
             @Autowired EventDispatcher eventDispatcher,
             @Autowired ActivityService activityService,

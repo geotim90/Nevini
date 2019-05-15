@@ -21,7 +21,7 @@ public class Application {
     public Application(
             @Autowired EventDispatcher eventDispatcher,
             @Value("${bot.active:false}") boolean active,
-            @Value("${bot.token}") String token,
+            @Value("${bot.token:#{null}}") String token,
             @Value("${bot.shards:1}") int shards
     ) throws LoginException {
         if (active && token != null && shards > 0) {
