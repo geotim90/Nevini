@@ -39,7 +39,10 @@ public class CommandListener {
             @Autowired GameService gameService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
-            @Autowired PrefixService prefixService
+            @Autowired PrefixService prefixService,
+            @Autowired LegacyActivityService legacyActivityService,
+            @Autowired LegacyContributionService legacyContributionService,
+            @Autowired LegacyTimeoutService legacyTimeoutService
     ) {
         Map<String, Command> commands = new ConcurrentHashMap<>();
         applicationContext.getBeansOfType(Command.class).forEach((ignore, command) -> {
@@ -51,7 +54,8 @@ public class CommandListener {
         });
 
         commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, activityService,
-                gameService, moduleService, permissionService, prefixService);
+                gameService, moduleService, permissionService, prefixService,
+                legacyActivityService, legacyContributionService, legacyTimeoutService);
 
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }

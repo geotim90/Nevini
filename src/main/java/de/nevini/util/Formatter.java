@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class Formatter {
 
@@ -17,6 +18,10 @@ public class Formatter {
 
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         LocalDateTime then = LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC);
+
+        if (now.isBefore(then)) {
+            return "some time in the future";
+        }
 
         long years = then.until(now, ChronoUnit.YEARS);
         if (years > 1) {
@@ -43,7 +48,7 @@ public class Formatter {
         if (days > 1) {
             return days + " days ago";
         } else if (days > 0) {
-            return "yesterday";
+            return days + " day ago";
         }
 
         long hours = then.until(now, ChronoUnit.HOURS);
@@ -59,6 +64,54 @@ public class Formatter {
         } else {
             return "just now";
         }
+    }
+
+    public static String formatUnits(long millis) {
+        if (millis < 0) {
+            return "negative";
+        }
+
+        String result = "";
+
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        if (days > 1) {
+            result += days + " days ";
+        } else if (days > 0) {
+            result += days + " day ";
+        }
+
+        long remainingMillis = millis - TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(remainingMillis);
+        if (hours > 1) {
+            result += hours + " hours ";
+        } else if (hours > 0) {
+            result += hours + " hour ";
+        }
+
+        remainingMillis -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMillis);
+        if (minutes > 1) {
+            result += minutes + " minutes ";
+        } else if (minutes > 0) {
+            result += minutes + " minute ";
+        }
+
+        remainingMillis -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(remainingMillis);
+        if (seconds > 1) {
+            result += seconds + " seconds ";
+        } else if (seconds > 0) {
+            result += seconds + " second ";
+        }
+
+        remainingMillis -= TimeUnit.SECONDS.toMillis(seconds);
+        if (remainingMillis > 1) {
+            result += remainingMillis + " milliseconds ";
+        } else if (remainingMillis > 0) {
+            result += remainingMillis + " millisecond ";
+        }
+
+        return result.trim();
     }
 
     public static String join(String[] items, String glue, String lastGlue) {

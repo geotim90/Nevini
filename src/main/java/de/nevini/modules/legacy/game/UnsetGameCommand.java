@@ -3,14 +3,15 @@ package de.nevini.modules.legacy.game;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.modules.Node;
 
 public class UnsetGameCommand extends Command {
 
     public UnsetGameCommand() {
         super(CommandDescriptor.builder()
                 .keyword("game")
-                .node(Node.LEGACY_UNSET_GAME)
+                .children(new Command[]{
+                        new UnsetGameTimeoutCommand()
+                })
                 .description("removes the lastPlayed timeout for a game")
                 .syntax("timeout <game>")
                 .build());
@@ -18,7 +19,8 @@ public class UnsetGameCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // delegate to child despite missing "timeout" keyword
+        getChildren()[0].onEvent(event);
     }
 
 }

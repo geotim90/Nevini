@@ -20,4 +20,8 @@ public class CommandContext {
     private final PermissionService permissionService;
     private final PrefixService prefixService;
 
+    private final LegacyActivityService legacyActivityService;
+    private final LegacyContributionService legacyContributionService;
+    private final LegacyTimeoutService legacyTimeoutService;
+
 }

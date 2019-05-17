@@ -207,7 +207,7 @@ public class CommandEvent {
 
     public void complete(@NonNull Message lastResponse, boolean forceRm) {
         if (forceRm || isRm()) {
-            if (lastResponse.equals(getMessage())) {
+            if (getMessage().getIdLong() == lastResponse.getIdLong()) {
                 if (lastResponse.getReactions().isEmpty()) {
                     Cleaner.tryDelete(lastResponse);
                 } else {

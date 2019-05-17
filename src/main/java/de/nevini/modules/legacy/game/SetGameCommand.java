@@ -3,14 +3,15 @@ package de.nevini.modules.legacy.game;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.modules.Node;
 
 public class SetGameCommand extends Command {
 
     public SetGameCommand() {
         super(CommandDescriptor.builder()
                 .keyword("game")
-                .node(Node.LEGACY_SET_GAME)
+                .children(new Command[]{
+                        new SetGameTimeoutCommand()
+                })
                 .description("configures the lastPlayed timeout for a game in days")
                 .syntax("timeout <game> <days>")
                 .build());
@@ -18,7 +19,8 @@ public class SetGameCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        // TODO
+        // delegate to child despite missing "timeout" keyword
+        getChildren()[0].onEvent(event);
     }
 
 }
