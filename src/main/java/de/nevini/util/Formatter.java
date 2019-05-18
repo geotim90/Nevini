@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -64,6 +65,10 @@ public class Formatter {
         } else {
             return "just now";
         }
+    }
+
+    public static String formatTimestamp(long timeout) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(timeout), ZoneOffset.UTC));
     }
 
     public static String formatUnits(long millis) {

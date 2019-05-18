@@ -10,8 +10,7 @@ import lombok.ToString;
 public enum Module {
 
     CORE("core", true, true),
-    GUILD("guild", true, false),
-    LEGACY("legacy", false, false);
+    GUILD("guild", true, false);
 
     private final String name;
     private final boolean enabledByDefault;

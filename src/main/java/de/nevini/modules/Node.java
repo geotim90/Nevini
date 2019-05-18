@@ -24,22 +24,6 @@ public enum Node {
     CORE_PREFIX_GET("core.prefix.get", Module.CORE, Permissions.MANAGE_SERVER),
     CORE_PREFIX_SET("core.prefix.set", Module.CORE, Permissions.MANAGE_SERVER),
     GUILD_ACTIVITY("guild.activity.game", Module.GUILD, Permissions.EVERYONE),
-    LEGACY_ADD_ROLE("legacy.add.role", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_GET_CONTRIBUTION("legacy.get.contribution", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_GET_GAME_TIMEOUT("legacy.get.game.timeout", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_GET_MEMBER("legacy.get.member", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_GET_ROLE("legacy.get.role", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_GET_TIMEOUT("legacy.get.timeout", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_REMOVE_ROLE("legacy.remove.role", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_REPORT("legacy.report", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_SET_CONTRIBUTION("legacy.set.contribution", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_SET_GAME_TIMEOUT("legacy.set.game.timeout", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_SET_MEMBER("legacy.set.member", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_SET_TIMEOUT("legacy.set.timeout", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_UNSET_CONTRIBUTION("legacy.unset.contribution", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_UNSET_GAME_TIMEOUT("legacy.unset.game.timeout", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_UNSET_MEMBER("legacy.unset.member", Module.LEGACY, Permissions.MANAGE_SERVER),
-    LEGACY_UNSET_TIMEOUT("legacy.unset.timeout", Module.LEGACY, Permissions.MANAGE_SERVER),
     ;
 
     private final String node;

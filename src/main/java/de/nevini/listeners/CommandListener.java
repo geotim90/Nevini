@@ -4,12 +4,10 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandContext;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptions;
-import de.nevini.modules.Module;
 import de.nevini.services.*;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +37,7 @@ public class CommandListener {
             @Autowired GameService gameService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
-            @Autowired PrefixService prefixService,
-            @Autowired LegacyActivityService legacyActivityService,
-            @Autowired LegacyContributionService legacyContributionService,
-            @Autowired LegacyTimeoutService legacyTimeoutService
+            @Autowired PrefixService prefixService
     ) {
         Map<String, Command> commands = new ConcurrentHashMap<>();
         applicationContext.getBeansOfType(Command.class).forEach((ignore, command) -> {
@@ -54,8 +49,7 @@ public class CommandListener {
         });
 
         commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, activityService,
-                gameService, moduleService, permissionService, prefixService,
-                legacyActivityService, legacyContributionService, legacyTimeoutService);
+                gameService, moduleService, permissionService, prefixService);
 
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }
@@ -67,7 +61,7 @@ public class CommandListener {
             if (prefix.isPresent()) {
                 String[] args = content.substring(prefix.get().length()).trim().split("\\s+", 2);
                 if (args.length == 0 || StringUtils.isEmpty(args[0])) {
-                    callCommand(event, getDefaultCommand(event.getGuild()), args.length > 1 ? args[1] : null);
+                    callCommand(event, "help", args.length > 1 ? args[1] : null);
                 } else {
                     callCommand(event, args[0].toLowerCase(), args.length > 1 ? args[1] : null);
                 }
@@ -75,14 +69,6 @@ public class CommandListener {
                 log.info("{} - Unknown command via direct message {}", event.getMessageId(),
                         summarize(event.getMessage().getContentRaw()));
             }
-        }
-    }
-
-    private String getDefaultCommand(Guild guild) {
-        if (guild != null && getModuleService().isModuleActive(guild, Module.LEGACY)) {
-            return "legacy";
-        } else {
-            return "help";
         }
     }
 
