@@ -89,7 +89,7 @@ public class HelpCommand extends Command {
                         .append(command.getSyntax()).append("```");
             }
             if (StringUtils.isNotEmpty(command.getDetails())) {
-                builder.append("\n").append(command.getDetails());
+                builder.append("\n\n").append(command.getDetails());
             }
             if (command.getAliases().length > 0) {
                 builder.append("\n\n__Aliases__\n").append("You can also use **")

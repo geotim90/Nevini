@@ -29,10 +29,10 @@ public class PermissionCommand extends Command {
                         + "**--channel <channel> --permission <permission>** - for users that have a specific effective permission (e.g. \"Manage Permissions\") in a specific channel\n"
                         + "**--channel <channel> --role <role>** - for users that have a specific role in a specific channel\n"
                         + "**--channel <channel> --user <user>** - for a specific user in a specific channel\n\n"
-                        + "Permission node overrides for bot commands are applied in the order listed above, with the default permissions being applied first."
-                        + "If multiple overrides on the same \"level\" disagree with each other (e.g. multiple roles), **allow** will trump **deny**."
-                        + "Server owners and administrators are never restricted by permission node overrides."
-                        + "Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves."
+                        + "Permission node overrides for bot commands are applied in the order listed above, with the default permissions being applied first.\n"
+                        + "If multiple overrides on the same \"level\" disagree with each other (e.g. multiple roles), **allow** will trump **deny**.\n"
+                        + "Server owners and administrators are never restricted by permission node overrides.\n"
+                        + "Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.\n"
                         + "Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves."
                 )
                 .build());
