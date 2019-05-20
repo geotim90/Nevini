@@ -10,7 +10,7 @@ public class PermissionAllowCommand extends PermissionSetCommand {
                 .keyword("allow")
                 .aliases(new String[]{"add", "grant"})
                 .node(Node.CORE_PERMISSION_ALLOW)
-                .description("configures permission overrides for bot commands")
+                .description("configures permission node overrides for bot commands")
                 .syntax("( [--node] <node> | --all ) [<options>]")
                 .build(), "allow", true);
     }

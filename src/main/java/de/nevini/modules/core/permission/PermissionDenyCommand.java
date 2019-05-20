@@ -10,7 +10,7 @@ public class PermissionDenyCommand extends PermissionSetCommand {
                 .keyword("deny")
                 .aliases(new String[]{"block", "refuse"})
                 .node(Node.CORE_PERMISSION_DENY)
-                .description("configures permission overrides for bot commands")
+                .description("configures permission node overrides for bot commands")
                 .syntax("( [--node] <node> | --all ) [<options>]")
                 .build(), "deny", false);
     }

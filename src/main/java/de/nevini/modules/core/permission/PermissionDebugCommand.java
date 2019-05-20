@@ -15,7 +15,7 @@ public class PermissionDebugCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("debug")
                 .node(Node.CORE_PERMISSION_DEBUG)
-                .description("displays permission trace for bot commands")
+                .description("displays a permission node trace for bot commands")
                 .syntax("[--node] <node> [<options>]")
                 .build());
     }
