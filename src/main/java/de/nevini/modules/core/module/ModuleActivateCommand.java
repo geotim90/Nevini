@@ -15,8 +15,9 @@ public class ModuleActivateCommand extends Command {
                 .keyword("activate")
                 .aliases(new String[]{"add", "enable", "+"})
                 .node(Node.CORE_MODULE_ACTIVATE)
-                .description("activates modules")
+                .description("activates a module")
                 .syntax("[--module] <module>")
+                .details("__Options__\n**[--module] <module>** (required) - the module to activate")
                 .build());
     }
 
@@ -28,15 +29,15 @@ public class ModuleActivateCommand extends Command {
     private void activateModule(CommandEvent event, Module module) {
         if (Module.CORE.equals(module)) {
             event.reply(CommandReaction.DEFAULT_OK,
-                    "There is no need to activate the core module - it is always active.",
+                    "There is no need to activate the **core** module - it is always active.",
                     ignore -> event.complete());
         } else if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
             event.reply(CommandReaction.DEFAULT_OK,
-                    "There is no need to activate the " + module.getName() + " module - it is already active.",
+                    "There is no need to activate the **" + module.getName() + "** module - it is already active.",
                     ignore -> event.complete());
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, true);
-            event.reply(CommandReaction.OK, ignore -> event.complete());
+            event.reply(CommandReaction.OK, event::complete);
         }
     }
 

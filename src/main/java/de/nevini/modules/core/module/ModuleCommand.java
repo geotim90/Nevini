@@ -17,7 +17,7 @@ public class ModuleCommand extends Command {
                         new ModuleActivateCommand(),
                         new ModuleDeactivateCommand()
                 })
-                .description("configures modules")
+                .description("displays a list of modules")
                 .build());
     }
 

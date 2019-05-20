@@ -15,8 +15,9 @@ public class ModuleDeactivateCommand extends Command {
                 .keyword("deactivate")
                 .aliases(new String[]{"disable", "remove", "-"})
                 .node(Node.CORE_MODULE_DEACTIVATE)
-                .description("deactivates modules")
+                .description("deactivates a module")
                 .syntax("[--module] <module>")
+                .details("__Options__\n**[--module] <module>** (required) - the module to deactivate")
                 .build());
     }
 
@@ -28,15 +29,15 @@ public class ModuleDeactivateCommand extends Command {
     private void deactivateModule(CommandEvent event, Module module) {
         if (Module.CORE.equals(module)) {
             event.reply(CommandReaction.ERROR,
-                    "You cannot deactivate the core module - it is always active.",
+                    "You cannot deactivate the **core** module - it is always active.",
                     ignore -> event.complete());
         } else if (!event.getModuleService().isModuleActive(event.getGuild(), module)) {
             event.reply(CommandReaction.DEFAULT_OK,
-                    "There is no need to deactivate the " + module.getName() + " module - it is already inactive.",
+                    "There is no need to deactivate the **" + module.getName() + "** module - it is already inactive.",
                     ignore -> event.complete());
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, false);
-            event.reply(CommandReaction.OK, ignore -> event.complete());
+            event.reply(CommandReaction.OK, event::complete);
         }
     }
 

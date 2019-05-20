@@ -19,8 +19,9 @@ public class ModuleGetCommand extends Command {
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.CORE_MODULE_GET)
-                .description("displays modules")
+                .description("displays a list of modules")
                 .syntax("[ [--module] <module> ]")
+                .details("__Options__\n**module** (optional) - filters the list of modules")
                 .build());
     }
 
@@ -42,7 +43,7 @@ public class ModuleGetCommand extends Command {
                     ? CommandReaction.OK.getUnicode()
                     : CommandReaction.DISABLED.getUnicode(), true);
         }
-        event.reply(builder, ignore -> event.complete());
+        event.reply(builder, event::complete);
     }
 
 }

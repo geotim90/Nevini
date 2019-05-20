@@ -22,7 +22,7 @@ public class HelpCommand extends Command {
                 .node(Node.CORE_HELP)
                 .minimumBotPermissions(Permissions.NONE)
                 .minimumUserPermissions(Permissions.NONE)
-                .description("provides a list of commands or details on specific commands")
+                .description("provides a list of commands or details on a specific command")
                 .syntax("[<command>]")
                 .build());
     }
@@ -46,7 +46,7 @@ public class HelpCommand extends Command {
                     .append("** commands.");
         } else {
             builder.append("Here is a list of **").append(event.getJDA().getSelfUser().getName())
-                    .append("** commands for modules active in **").append(event.getGuild().getName()).append("**.");
+                    .append("** commands for modules active on **").append(event.getGuild().getName()).append("**.");
         }
         String prefix = event.getPrefixService().getGuildPrefix(event.getGuild());
         for (Module module : Module.values()) {
