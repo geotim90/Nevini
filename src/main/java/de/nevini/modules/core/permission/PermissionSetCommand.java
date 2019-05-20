@@ -17,7 +17,7 @@ public abstract class PermissionSetCommand extends Command {
     private final String verb;
     private final Boolean override;
 
-    public PermissionSetCommand(@NonNull CommandDescriptor commandDescriptor, @NonNull String verb, Boolean override) {
+    protected PermissionSetCommand(@NonNull CommandDescriptor commandDescriptor, @NonNull String verb, Boolean override) {
         super(commandDescriptor);
         this.verb = verb;
         this.override = override;

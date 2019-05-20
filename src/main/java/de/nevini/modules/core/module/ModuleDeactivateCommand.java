@@ -30,11 +30,11 @@ public class ModuleDeactivateCommand extends Command {
         if (Module.CORE.equals(module)) {
             event.reply(CommandReaction.ERROR,
                     "You cannot deactivate the **core** module - it is always active.",
-                    ignore -> event.complete());
+                    event::complete);
         } else if (!event.getModuleService().isModuleActive(event.getGuild(), module)) {
             event.reply(CommandReaction.DEFAULT_OK,
                     "There is no need to deactivate the **" + module.getName() + "** module - it is already inactive.",
-                    ignore -> event.complete());
+                    event::complete);
         } else {
             event.getModuleService().setModuleActive(event.getGuild(), module, false);
             event.reply(CommandReaction.OK, event::complete);

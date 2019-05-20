@@ -50,7 +50,7 @@ public class PermissionDebugCommand extends Command {
                 appendChannelUserTrace(event, options, builder);
             }
         }
-        event.reply(builder.toString(), ignore -> event.complete());
+        event.reply(builder.toString(), event::complete);
     }
 
     private void appendChannelUserTrace(CommandEvent event, PermissionOptions options, StringBuilder builder) {
