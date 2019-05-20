@@ -19,7 +19,7 @@ public class PingCommand extends Command {
                 .node(Node.CORE_PING)
                 .minimumBotPermissions(new Permission[0])
                 .minimumUserPermissions(new Permission[0])
-                .description("measures the bot's latency")
+                .description("measures the bot's communication latency")
                 .build());
     }
 

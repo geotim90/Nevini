@@ -17,6 +17,7 @@ public class PrefixSetCommand extends Command {
                 .node(Node.CORE_PREFIX_SET)
                 .description("configures the command prefix")
                 .syntax("[--prefix] <prefix>")
+                .details("__Options__\n**[--prefix] <prefix>** (required) - the prefix to use")
                 .build());
     }
 

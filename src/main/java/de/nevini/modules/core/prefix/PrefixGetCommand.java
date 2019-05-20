@@ -12,7 +12,7 @@ public class PrefixGetCommand extends Command {
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "print", "show"})
                 .node(Node.CORE_PREFIX_GET)
-                .description("displays the command prefix")
+                .description("displays the currently configured command prefix")
                 .build());
     }
 
