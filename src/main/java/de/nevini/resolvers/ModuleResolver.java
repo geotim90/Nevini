@@ -1,6 +1,7 @@
 package de.nevini.resolvers;
 
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.modules.Module;
 import lombok.NonNull;
 
@@ -10,6 +11,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ModuleResolver extends AbstractResolver<Module> {
+
+    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
+        return CommandOptionDescriptor.builder()
+                .syntax("--module <module>")
+                .description("Refers to a specific bot module.")
+                .keyword("--module")
+                .aliases(new String[]{"//module"});
+    }
 
     public ModuleResolver() {
         super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))?")});

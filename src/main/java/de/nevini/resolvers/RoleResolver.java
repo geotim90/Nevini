@@ -2,6 +2,7 @@ package de.nevini.resolvers;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Role;
 
@@ -11,6 +12,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class RoleResolver extends AbstractResolver<Role> {
+
+    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
+        return CommandOptionDescriptor.builder()
+                .syntax("[--role] <role>")
+                .description("Refers to a specific role. The flag is optional if a role mention is used.")
+                .keyword("--role")
+                .aliases(new String[]{"//role", "-r", "/r"});
+    }
 
     public RoleResolver() {
         super("role", new Pattern[]{

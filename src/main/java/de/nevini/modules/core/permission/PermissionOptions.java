@@ -1,9 +1,10 @@
 package de.nevini.modules.core.permission;
 
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.command.CommandReaction;
 import de.nevini.modules.Node;
-import de.nevini.resolvers.Resolvers;
+import de.nevini.resolvers.*;
 import lombok.Data;
 import lombok.NonNull;
 import net.dv8tion.jda.core.Permission;
@@ -21,6 +22,48 @@ import java.util.regex.Pattern;
 
 @Data
 public class PermissionOptions {
+
+    static CommandOptionDescriptor[] getCommandOptionDescriptors() {
+        return new CommandOptionDescriptor[]{
+                NodeResolver.describe()
+                        .syntax("[--node] <node>")
+                        .description("Specifies which permission node(s) for bot commands to consider. The flag is optional.")
+                        .build(),
+                CommandOptionDescriptor.builder()
+                        .syntax("--all")
+                        .description("Explicitly refers to all permission nodes.")
+                        .keyword("--all")
+                        .aliases(new String[]{"//all", "-a", "/a"})
+                        .build(),
+                CommandOptionDescriptor.builder()
+                        .syntax("--server")
+                        .description("Changes the scope to server-wide permissions instead of channel-specific permissions.")
+                        .keyword("--server")
+                        .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
+                        .build(),
+                PermissionResolver.describe().build(),
+                RoleResolver.describe().build(),
+                MemberResolver.describe().build(),
+                ChannelResolver.describe().build()
+        };
+    }
+
+    static String getCommandDescriptorDetails() {
+        return "Permission node overrides for bot commands are applied in the following order:\n"
+                + "1. Default permissions\n"
+                + "2. Server permissions\n"
+                + "3. Permissions based on effective permissions (e.g. \"Manage Server\")\n"
+                + "4. Role permissions\n"
+                + "5. User permissions\n"
+                + "6. Channel permissions\n"
+                + "7. Channel-specific permissions based on effective permissions (e.g. \"Manage Server\")\n"
+                + "8. Channel-specific role permissions\n"
+                + "9. Channel-specific user permissions\n\n"
+                + "If multiple overrides on the same \"level\" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.\n"
+                + "Server owners and administrators are not restricted by permission node overrides.\n"
+                + "Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.\n"
+                + "Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.";
+    }
 
     private static final Pattern ALL_FLAG = Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)");
     private static final Pattern SERVER_FLAG = Pattern.compile("(?i)(?:(?:--|//)(?:server|guild)|[-/][sg])");

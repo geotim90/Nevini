@@ -20,6 +20,7 @@ public class ShutdownCommand extends Command {
                 .minimumBotPermissions(Permissions.NONE)
                 .minimumUserPermissions(Permissions.NONE)
                 .description("safely shuts down the bot")
+                .details("This command can only be executed by the owner of the bot.")
                 .build());
     }
 

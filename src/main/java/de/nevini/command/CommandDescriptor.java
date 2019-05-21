@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.Permission;
 public class CommandDescriptor {
 
     /**
-     * The keyword for this command (mandatory).
+     * The keyword for this command (required).
      */
     @NonNull
     private final String keyword;
@@ -88,17 +88,17 @@ public class CommandDescriptor {
     };
 
     /**
-     * A short description of this command (mandatory).
+     * A short description of this command (required).
      */
     @NonNull
     private final String description;
 
     /**
-     * The argument syntax for this command (empty by default).
+     * Details on the available command options (empty by default).
      */
     @NonNull
     @Builder.Default
-    private final String syntax = "";
+    private final CommandOptionDescriptor[] options = {};
 
     /**
      * A more detailed description of this command.

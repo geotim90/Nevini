@@ -3,6 +3,7 @@ package de.nevini.modules.core.help;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
 import de.nevini.util.Formatter;
@@ -23,7 +24,15 @@ public class HelpCommand extends Command {
                 .minimumBotPermissions(Permissions.NONE)
                 .minimumUserPermissions(Permissions.NONE)
                 .description("provides a list of commands or details on a specific command")
-                .syntax("[<command>]")
+                .options(new CommandOptionDescriptor[]{
+                        CommandOptionDescriptor.builder()
+                                .syntax("[<command>]")
+                                .description("the specific command to look up")
+                                .keyword("command")
+                                .build()
+                })
+                .details("If no valid command is provided, this will display a list of commands.\n"
+                        + "If a valid command is provided, this will display details on that specific command.")
                 .build());
     }
 
@@ -84,23 +93,30 @@ public class HelpCommand extends Command {
         if (!command.isOwnerOnly() || event.isOwner()) {
             StringBuilder builder = new StringBuilder("__Module: **" + command.getModule().getName() + "**__\n"
                     + chain + " **" + command.getKeyword() + "** - " + command.getDescription());
-            if (StringUtils.isNotEmpty(command.getSyntax())) {
-                builder.append("\n\n__Usage__\n```").append(chain).append(" ").append(command.getKeyword()).append(" ")
-                        .append(command.getSyntax()).append("```");
+            for (Command child : command.getChildren()) {
+                builder.append("\n").append(chain).append(" ").append(command.getKeyword()).append(" **")
+                        .append(child.getKeyword()).append("** - ").append(child.getDescription());
+            }
+            if (command.getOptions().length > 0) {
+                builder.append("\n\n__Options__");
+                for (CommandOptionDescriptor option : command.getOptions()) {
+                    builder.append("\n**").append(option.getSyntax()).append("** - ").append(option.getDescription());
+                }
             }
             if (StringUtils.isNotEmpty(command.getDetails())) {
-                builder.append("\n\n").append(command.getDetails());
+                builder.append("\n\n__Details__\n").append(command.getDetails());
             }
-            if (command.getAliases().length > 0) {
-                builder.append("\n\n__Aliases__\n").append("You can also use **")
-                        .append(Formatter.join(command.getAliases(), "**, **", "** or **"))
-                        .append("** instead of **").append(command.getKeyword()).append("**");
-            }
-            if (command.getChildren().length > 0) {
-                builder.append("\n\n__Nested commands__");
-                for (Command child : command.getChildren()) {
-                    builder.append("\n").append(chain).append(" ").append(command.getKeyword()).append(" **")
-                            .append(child.getKeyword()).append("** - ").append(child.getDescription());
+            if (command.getAliases().length > 0 || command.getOptions().length > 0) {
+                builder.append("\n\n__Aliases__");
+                if (command.getAliases().length > 0) {
+                    builder.append("\nYou can also use **")
+                            .append(Formatter.join(command.getAliases(), "**, **", "** or **"))
+                            .append("** instead of **").append(command.getKeyword()).append("**");
+                }
+                for (CommandOptionDescriptor option : command.getOptions()) {
+                    builder.append("\nYou can also use **")
+                            .append(Formatter.join(option.getAliases(), "**, **", "** or **"))
+                            .append("** instead of **").append(option.getKeyword()).append("**");
                 }
             }
             event.replyDm(builder.toString(), ignore -> event.complete(true));

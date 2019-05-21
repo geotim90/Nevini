@@ -1,11 +1,9 @@
 package de.nevini.modules.core.module;
 
-import de.nevini.command.Command;
-import de.nevini.command.CommandDescriptor;
-import de.nevini.command.CommandEvent;
-import de.nevini.command.CommandReaction;
+import de.nevini.command.*;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
+import de.nevini.resolvers.ModuleResolver;
 import de.nevini.resolvers.Resolvers;
 import net.dv8tion.jda.core.EmbedBuilder;
 
@@ -20,8 +18,13 @@ public class ModuleGetCommand extends Command {
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.CORE_MODULE_GET)
                 .description("displays a list of modules")
-                .syntax("[ [--module] <module> ]")
-                .details("__Options__\n**module** (optional) - filters the list of modules")
+                .options(new CommandOptionDescriptor[]{
+                        ModuleResolver.describe()
+                                .syntax("[--module] <module>")
+                                .description("The name (or part of the name) of the modules to display. The flag is optional.")
+                                .build()
+                })
+                .details("If no module is provided, this will display a list of all modules.")
                 .build());
     }
 

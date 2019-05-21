@@ -1,11 +1,9 @@
 package de.nevini.modules.core.module;
 
-import de.nevini.command.Command;
-import de.nevini.command.CommandDescriptor;
-import de.nevini.command.CommandEvent;
-import de.nevini.command.CommandReaction;
+import de.nevini.command.*;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
+import de.nevini.resolvers.ModuleResolver;
 import de.nevini.resolvers.Resolvers;
 
 public class ModuleDeactivateCommand extends Command {
@@ -16,8 +14,12 @@ public class ModuleDeactivateCommand extends Command {
                 .aliases(new String[]{"disable", "remove", "-"})
                 .node(Node.CORE_MODULE_DEACTIVATE)
                 .description("deactivates a module")
-                .syntax("[--module] <module>")
-                .details("__Options__\n**[--module] <module>** (required) - the module to deactivate")
+                .options(new CommandOptionDescriptor[]{
+                        ModuleResolver.describe()
+                                .syntax("[--module] <module>")
+                                .description("The name (or part of the name) of the module to deactivate. The flag is optional.")
+                                .build()
+                })
                 .build());
     }
 

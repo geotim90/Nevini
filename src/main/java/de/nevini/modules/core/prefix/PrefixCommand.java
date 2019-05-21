@@ -16,6 +16,7 @@ public class PrefixCommand extends Command {
                         new PrefixSetCommand()
                 })
                 .description("configures the command prefix")
+                .details("By default, this command will behave the same as **prefix get**.")
                 .build());
     }
 
