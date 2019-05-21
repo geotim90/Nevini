@@ -34,5 +34,6 @@ dependencies {
 	implementation 'org.apache.commons:commons-collections4:4.3'
 	implementation 'net.dv8tion:JDA:3.8.3_463'
 	implementation 'com.jagrosh:jda-utilities:2.1.5'
+	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 }

@@ -35,6 +35,7 @@ public class CommandListener {
             @Autowired EventDispatcher eventDispatcher,
             @Autowired ActivityService activityService,
             @Autowired GameService gameService,
+            @Autowired IgnService ignService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
             @Autowired PrefixService prefixService
@@ -49,7 +50,7 @@ public class CommandListener {
         });
 
         commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, activityService,
-                gameService, moduleService, permissionService, prefixService);
+                gameService, ignService, moduleService, permissionService, prefixService);
 
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }

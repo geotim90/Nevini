@@ -19,7 +19,7 @@ public class PermissionCommand extends Command {
                         new PermissionDenyCommand(),
                         new PermissionResetCommand()
                 })
-                .description("configures permission node overrides for bot commands")
+                .description("displays and configures permission node overrides for bot commands")
                 .details("By default, this command will behave the same as **permission get**.")
                 .build());
     }

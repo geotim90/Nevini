@@ -23,7 +23,9 @@ public enum Node {
     CORE_PING("core.ping", Module.CORE, Permissions.EVERYONE),
     CORE_PREFIX_GET("core.prefix.get", Module.CORE, Permissions.MANAGE_SERVER),
     CORE_PREFIX_SET("core.prefix.set", Module.CORE, Permissions.MANAGE_SERVER),
-    GUILD_ACTIVITY("guild.activity.game", Module.GUILD, Permissions.EVERYONE),
+    GUILD_ACTIVITY("guild.activity", Module.GUILD, Permissions.EVERYONE),
+    GUILD_IGN_GET("guild.ign.get", Module.GUILD, Permissions.EVERYONE),
+    GUILD_IGN_SET("guild.ign.set", Module.GUILD, Permissions.MANAGE_NICKNAMES),
     ;
 
     private final String node;

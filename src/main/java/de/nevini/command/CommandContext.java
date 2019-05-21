@@ -16,6 +16,7 @@ public class CommandContext {
 
     private final ActivityService activityService;
     private final GameService gameService;
+    private final IgnService ignService;
     private final ModuleService moduleService;
     private final PermissionService permissionService;
     private final PrefixService prefixService;

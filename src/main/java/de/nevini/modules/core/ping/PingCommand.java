@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 @Component
 public class PingCommand extends Command {
 
-    protected PingCommand() {
+    public PingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("ping")
                 .guildOnly(false)

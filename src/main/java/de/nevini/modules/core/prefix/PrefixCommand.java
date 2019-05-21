@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class PrefixCommand extends Command {
 
-    protected PrefixCommand() {
+    public PrefixCommand() {
         super(CommandDescriptor.builder()
                 .keyword("prefix")
                 .children(new Command[]{
                         new PrefixGetCommand(),
                         new PrefixSetCommand()
                 })
-                .description("configures the command prefix")
+                .description("displays and configures the command prefix")
                 .details("By default, this command will behave the same as **prefix get**.")
                 .build());
     }
