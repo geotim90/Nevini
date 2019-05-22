@@ -1,7 +1,7 @@
 package de.nevini.command;
 
 import de.nevini.listeners.EventDispatcher;
-import de.nevini.services.*;
+import de.nevini.services.common.*;
 import lombok.Value;
 
 import java.util.Map;

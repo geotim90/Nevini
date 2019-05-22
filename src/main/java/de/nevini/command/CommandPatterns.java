@@ -2,7 +2,7 @@ package de.nevini.command;
 
 public class CommandPatterns {
 
-    public static final String KEYWORD = "[a-z0-9+-]{1,32}";
+    public static final String KEYWORD = "[a-z0-9+\\-_.:!]{1,32}";
 
     /**
      * {@code ( 1 | 2 ) 3?}

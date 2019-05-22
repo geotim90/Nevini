@@ -21,19 +21,25 @@ configurations {
 repositories {
 	mavenCentral()
 	jcenter()
+	mavenLocal() // necessary for com.oopsjpeg:osu4j
 }
 
 dependencies {
+	// annotations
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
+	// spring bot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework:spring-web'
 	implementation 'org.flywaydb:flyway-core'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	// common
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.3'
+	// other
+	implementation 'com.oopsjpeg:osu4j:2.0.1'
+	// jda
 	implementation 'net.dv8tion:JDA:3.8.3_463'
 	implementation 'com.jagrosh:jda-utilities:2.1.5'
+	// database
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 }

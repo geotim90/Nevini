@@ -1,4 +1,4 @@
-package de.nevini.services;
+package de.nevini.services.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.db.game.GameData;

@@ -27,6 +27,8 @@ public enum Node {
     GUILD_FIND_USER("guild.find.user", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_GET("guild.ign.get", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_SET("guild.ign.set", Module.GUILD, Permissions.MANAGE_NICKNAMES),
+    OSU_ROLL("osu.roll", Module.OSU, Permissions.EVERYONE),
+    OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE),
     ;
 
     private final String node;

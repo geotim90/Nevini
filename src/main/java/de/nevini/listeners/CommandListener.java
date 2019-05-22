@@ -4,7 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandContext;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptions;
-import de.nevini.services.*;
+import de.nevini.services.common.*;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ChannelType;

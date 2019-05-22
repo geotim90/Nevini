@@ -1,7 +1,7 @@
 package de.nevini.listeners;
 
-import de.nevini.services.ActivityService;
-import de.nevini.services.GameService;
+import de.nevini.services.common.ActivityService;
+import de.nevini.services.common.GameService;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.RichPresence;
 import net.dv8tion.jda.core.entities.User;

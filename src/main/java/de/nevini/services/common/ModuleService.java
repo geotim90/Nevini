@@ -1,4 +1,4 @@
-package de.nevini.services;
+package de.nevini.services.common;
 
 import de.nevini.db.module.ModuleData;
 import de.nevini.db.module.ModuleId;

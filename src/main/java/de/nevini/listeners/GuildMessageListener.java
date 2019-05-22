@@ -1,6 +1,6 @@
 package de.nevini.listeners;
 
-import de.nevini.services.ActivityService;
+import de.nevini.services.common.ActivityService;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

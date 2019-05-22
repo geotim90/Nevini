@@ -1,4 +1,4 @@
-package de.nevini.services;
+package de.nevini.services.common;
 
 import de.nevini.db.permission.PermissionData;
 import de.nevini.db.permission.PermissionId;

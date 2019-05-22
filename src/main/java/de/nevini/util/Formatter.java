@@ -2,15 +2,27 @@ package de.nevini.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class Formatter {
+
+    public static String formatAsPercent(float value) {
+        return new DecimalFormat("##.00'%'", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
+    }
+
+    public static String formatInteger(int value) {
+        return NumberFormat.getIntegerInstance(Locale.US).format(value);
+    }
 
     public static String formatLargestUnitAgo(long epochMilli) {
         if (epochMilli <= 0) {
@@ -65,6 +77,10 @@ public class Formatter {
         } else {
             return "just now";
         }
+    }
+
+    public static String formatLong(long value) {
+        return NumberFormat.getIntegerInstance(Locale.US).format(value);
     }
 
     public static String formatTimestamp(long timeout) {

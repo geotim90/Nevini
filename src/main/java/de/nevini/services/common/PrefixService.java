@@ -1,4 +1,4 @@
-package de.nevini.services;
+package de.nevini.services.common;
 
 import de.nevini.db.prefix.PrefixData;
 import de.nevini.db.prefix.PrefixRepository;

@@ -1,4 +1,4 @@
-package de.nevini.services;
+package de.nevini.services.common;
 
 import de.nevini.db.game.GameData;
 import de.nevini.db.ign.IgnData;

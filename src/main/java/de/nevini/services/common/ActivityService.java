@@ -1,4 +1,4 @@
-package de.nevini.services;
+package de.nevini.services.common;
 
 import de.nevini.db.activity.ActivityData;
 import de.nevini.db.activity.ActivityId;
