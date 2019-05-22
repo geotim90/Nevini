@@ -5,7 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.db.ign.IgnData;
 import de.nevini.modules.Node;
 import de.nevini.resolvers.GameResolver;
 import de.nevini.resolvers.MemberResolver;
@@ -14,7 +13,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class IgnGetCommand extends Command {
 
@@ -53,31 +53,31 @@ public class IgnGetCommand extends Command {
     }
 
     private void displayMemberIgns(CommandEvent event, Member member) {
-        List<IgnData> igns = event.getIgnService().getIgns(member);
+        Map<String, String> igns = new TreeMap<>();
+        event.getIgnService().getIgns(member).forEach(data ->
+                igns.put(event.getGameService().getGameName(data.getGame()), data.getName()));
         if (igns.isEmpty()) {
             event.reply("I have no in-game names for " + member.getEffectiveName() + ".", event::complete);
         } else {
             EmbedBuilder builder = event.createEmbedBuilder();
             builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
-            for (IgnData ign : igns) {
-                String gameName = event.getGameService().getGameName(ign.getGame());
-                builder.addField(gameName, ign.getName(), true);
-            }
+            igns.forEach((game, ign) -> builder.addField(game, ign, true));
             event.reply(builder, event::complete);
         }
     }
 
     private void displayGameIgns(CommandEvent event, GameData game) {
-        List<IgnData> igns = event.getIgnService().getIgns(event.getGuild(), game);
+        Map<String, String> igns = new TreeMap<>();
+        event.getIgnService().getIgns(event.getGuild(), game).forEach(data -> {
+            Member member = event.getGuild().getMemberById(data.getUser());
+            if (member != null) igns.put(member.getEffectiveName(), data.getName());
+        });
         if (igns.isEmpty()) {
             event.reply("I have no in-game names for " + game.getName() + ".", event::complete);
         } else {
             EmbedBuilder builder = event.createEmbedBuilder();
             builder.setAuthor(game.getName(), null, game.getIcon());
-            for (IgnData ign : igns) {
-                Member member = event.getGuild().getMemberById(ign.getUser());
-                if (member != null) builder.addField(member.getEffectiveName(), ign.getName(), true);
-            }
+            igns.forEach((member, ign) -> builder.addField(member, ign, true));
             event.reply(builder, event::complete);
         }
     }
