@@ -24,7 +24,7 @@ public class PermissionResolver extends AbstractResolver<Permission> {
     }
 
     @Override
-    protected List<Permission> findSorted(@NonNull CommandEvent event, String query) {
+    public List<Permission> findSorted(@NonNull CommandEvent event, String query) {
         return Finder.find(Permission.values(), Permission::getName, query);
     }
 

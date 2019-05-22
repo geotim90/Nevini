@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.ign;
+package de.nevini.modules.guild.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -6,17 +6,17 @@ import de.nevini.command.CommandEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IgnCommand extends Command {
+public class FindCommand extends Command {
 
-    public IgnCommand() {
+    public FindCommand() {
         super(CommandDescriptor.builder()
-                .keyword("ign")
+                .keyword("find")
+                .aliases(new String[]{"search"})
                 .children(new Command[]{
-                        new IgnGetCommand(),
-                        new IgnSetCommand()
+                        new FindUserCommand()
                 })
-                .description("displays and configures in-game names")
-                .details("By default, this command will behave the same as **ign get**.")
+                .description("finds users by any of their identifiers")
+                .details("By default, this command will behave the same as **find user**.")
                 .build());
     }
 

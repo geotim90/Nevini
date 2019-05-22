@@ -25,7 +25,7 @@ public class ModuleResolver extends AbstractResolver<Module> {
     }
 
     @Override
-    protected List<Module> findSorted(@NonNull CommandEvent event, String query) {
+    public List<Module> findSorted(@NonNull CommandEvent event, String query) {
         return event.getModuleService().findModules(query).stream()
                 .sorted(Comparator.comparing(Module::ordinal)).collect(Collectors.toList());
     }

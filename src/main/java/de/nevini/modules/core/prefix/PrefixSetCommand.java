@@ -6,7 +6,7 @@ import de.nevini.resolvers.StringResolver;
 
 public class PrefixSetCommand extends Command {
 
-    private final StringResolver resolver = new StringResolver("command prefix", "prefix");
+    private static final StringResolver RESOLVER = new StringResolver("command prefix", "prefix");
 
     public PrefixSetCommand() {
         super(CommandDescriptor.builder()
@@ -27,7 +27,7 @@ public class PrefixSetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        resolver.resolveArgumentOrOptionOrInput(event, prefix -> acceptPrefix(event, prefix));
+        RESOLVER.resolveArgumentOrOptionOrInput(event, prefix -> acceptPrefix(event, prefix));
     }
 
     private void acceptPrefix(CommandEvent event, String argument) {

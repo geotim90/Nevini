@@ -26,7 +26,7 @@ public abstract class AbstractResolver<T> {
         this.optionPatterns = optionPatterns;
     }
 
-    protected abstract List<T> findSorted(@NonNull CommandEvent event, String query);
+    public abstract List<T> findSorted(@NonNull CommandEvent event, String query);
 
     private String getFromOptions(@NonNull CommandEvent event) {
         for (String option : event.getOptions().getOptions()) {

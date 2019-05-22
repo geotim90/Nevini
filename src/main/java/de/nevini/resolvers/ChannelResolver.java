@@ -29,7 +29,7 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
     }
 
     @Override
-    protected List<TextChannel> findSorted(@NonNull CommandEvent event, String query) {
+    public List<TextChannel> findSorted(@NonNull CommandEvent event, String query) {
         return FinderUtil.findTextChannels(query, event.getGuild()).stream()
                 .sorted(Comparator.comparing(TextChannel::getName))
                 .collect(Collectors.toList());

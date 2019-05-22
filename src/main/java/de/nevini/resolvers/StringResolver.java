@@ -23,7 +23,7 @@ public class StringResolver extends AbstractResolver<String> {
     }
 
     @Override
-    protected List<String> findSorted(@NonNull CommandEvent event, String query) {
+    public List<String> findSorted(@NonNull CommandEvent event, String query) {
         return StringUtils.isEmpty(query) ? Collections.emptyList() : Collections.singletonList(query);
     }
 

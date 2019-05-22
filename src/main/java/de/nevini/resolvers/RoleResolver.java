@@ -29,7 +29,7 @@ public class RoleResolver extends AbstractResolver<Role> {
     }
 
     @Override
-    protected List<Role> findSorted(@NonNull CommandEvent event, String query) {
+    public List<Role> findSorted(@NonNull CommandEvent event, String query) {
         return FinderUtil.findRoles(query, event.getGuild()).stream()
                 .sorted(Comparator.comparing(Role::getName))
                 .collect(Collectors.toList());

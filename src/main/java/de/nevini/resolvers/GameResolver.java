@@ -25,7 +25,7 @@ public class GameResolver extends AbstractResolver<GameData> {
     }
 
     @Override
-    protected List<GameData> findSorted(@NonNull CommandEvent event, String query) {
+    public List<GameData> findSorted(@NonNull CommandEvent event, String query) {
         return event.getGameService().findGames(query).stream()
                 .sorted(Comparator.comparing(GameData::getName)).collect(Collectors.toList());
     }

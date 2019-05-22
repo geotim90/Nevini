@@ -24,7 +24,7 @@ public class NodeResolver extends AbstractResolver<Node> {
     }
 
     @Override
-    protected List<Node> findSorted(@NonNull CommandEvent event, String query) {
+    public List<Node> findSorted(@NonNull CommandEvent event, String query) {
         return Finder.find(Node.values(), Node::getNode, query);
     }
 

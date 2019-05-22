@@ -27,7 +27,7 @@ public class PermissionOptions {
         return new CommandOptionDescriptor[]{
                 NodeResolver.describe()
                         .syntax("[--node] <node>")
-                        .description("Specifies which permission node(s) for bot commands to consider. The flag is optional.")
+                        .description("Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.")
                         .build(),
                 CommandOptionDescriptor.builder()
                         .syntax("--all")
