@@ -13,9 +13,15 @@ public class FindCommand extends Command {
                 .keyword("find")
                 .aliases(new String[]{"search"})
                 .children(new Command[]{
-                        new FindUserCommand()
+                        new FindUserCommand(),
+                        new FindRoleCommand(),
+                        new FindPermissionCommand(),
+                        new FindNodeCommand(),
+                        new FindModuleCommand(),
+                        new FindGameCommand(),
+                        new FindChannelCommand()
                 })
-                .description("finds users by any of their identifiers")
+                .description("finds users, roles etc. by any of their identifiers")
                 .details("By default, this command will behave the same as **find user**.")
                 .build());
     }

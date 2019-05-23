@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class OsuStatsCommand extends Command {
 
-    private static final StringResolver USER_RESOLVER = new StringResolver("user", "user");
-    private static final OsuModeResolver MODE_RESOLVER = new OsuModeResolver();
+    private static final StringResolver userResolver = new StringResolver("user", "user");
+    private static final OsuModeResolver modeResolver = new OsuModeResolver();
 
     private final OsuService osu;
 
@@ -44,11 +44,11 @@ public class OsuStatsCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        USER_RESOLVER.resolveArgumentOrOptionOrInput(event, user -> acceptUser(event, user));
+        userResolver.resolveArgumentOrOptionOrInput(event, user -> acceptUser(event, user));
     }
 
     private void acceptUser(CommandEvent event, String user) {
-        MODE_RESOLVER.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, user, mode));
+        modeResolver.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, user, mode));
     }
 
     private void acceptUserAndMode(CommandEvent event, String input, GameMode mode) {

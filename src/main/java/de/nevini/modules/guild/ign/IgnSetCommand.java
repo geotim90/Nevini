@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.Member;
 
 public class IgnSetCommand extends Command {
 
-    private static final StringResolver RESOLVER = new StringResolver("in-game name", "name");
+    private static final StringResolver nameResolver = new StringResolver("in-game name", "name");
 
     public IgnSetCommand() {
         super(CommandDescriptor.builder()
@@ -41,7 +41,7 @@ public class IgnSetCommand extends Command {
     }
 
     private void acceptGame(CommandEvent event, Member member, GameData game) {
-        RESOLVER.resolveArgumentOrOptionOrInput(event, name -> acceptName(event, member, game, name));
+        nameResolver.resolveArgumentOrOptionOrInput(event, name -> acceptName(event, member, game, name));
     }
 
     private void acceptName(CommandEvent event, Member member, GameData game, String name) {
