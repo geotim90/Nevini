@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Formatter {
 
-    public static String formatAsPercent(float value) {
-        return new DecimalFormat("##.00'%'", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
+    public static String formatFloat(float value) {
+        return new DecimalFormat("##.00", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
     }
 
     public static String formatInteger(int value) {

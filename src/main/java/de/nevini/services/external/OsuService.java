@@ -1,5 +1,6 @@
 package de.nevini.services.external;
 
+import com.oopsjpeg.osu4j.GameMode;
 import com.oopsjpeg.osu4j.OsuUser;
 import com.oopsjpeg.osu4j.backend.EndpointUsers;
 import com.oopsjpeg.osu4j.backend.Osu;
@@ -23,6 +24,15 @@ public class OsuService {
             return osu.users.query(new EndpointUsers.ArgumentsBuilder(user).build());
         } catch (OsuAPIException e) {
             log.info("Failed to get user {}", user, e);
+            return null;
+        }
+    }
+
+    public OsuUser getUser(String user, GameMode mode) {
+        try {
+            return osu.users.query(new EndpointUsers.ArgumentsBuilder(user).setMode(mode).build());
+        } catch (OsuAPIException e) {
+            log.info("Failed to get user {} with mode {}", user, mode, e);
             return null;
         }
     }
