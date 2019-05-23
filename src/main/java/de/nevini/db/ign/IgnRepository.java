@@ -12,6 +12,5 @@ public interface IgnRepository extends CrudRepository<IgnData, IgnId> {
 
     List<IgnData> findAllByGuildAndGame(long guild, long game);
 
-    List<IgnData> findAllByGuildAndNameContainsIgnoreCase(long guild, String name);
-
+    List<IgnData> findAllByGuildInAndNameContainsIgnoreCase(long[] guild, String name);
 }
