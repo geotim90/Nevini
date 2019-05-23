@@ -83,8 +83,8 @@ public class Formatter {
         return NumberFormat.getIntegerInstance(Locale.US).format(value);
     }
 
-    public static String formatTimestamp(long timeout) {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(timeout), ZoneOffset.UTC));
+    public static String formatTimestamp(long epochMilli) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
     }
 
     public static String formatUnits(long millis) {

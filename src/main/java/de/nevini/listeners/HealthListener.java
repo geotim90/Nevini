@@ -13,8 +13,8 @@ public class HealthListener {
         eventDispatcher.subscribe(DisconnectEvent.class, this::logDisconnect);
         eventDispatcher.subscribe(ExceptionEvent.class, this::logException);
         eventDispatcher.subscribe(ReadyEvent.class, this::logReady);
-        eventDispatcher.subscribe(ReconnectedEvent.class, this::logReconnected);
-        eventDispatcher.subscribe(ResumedEvent.class, this::logResumed);
+        eventDispatcher.subscribe(ReconnectedEvent.class, ignore -> logReconnected());
+        eventDispatcher.subscribe(ResumedEvent.class, ignore -> logResumed());
         eventDispatcher.subscribe(ShutdownEvent.class, this::logShutdown);
     }
 
@@ -32,11 +32,11 @@ public class HealthListener {
         log.info("Ready with {} guilds", event.getGuildTotalCount());
     }
 
-    private void logReconnected(ReconnectedEvent event) {
+    private void logReconnected() {
         log.info("Reconnected");
     }
 
-    private void logResumed(ResumedEvent event) {
+    private void logResumed() {
         log.info("Resumed");
     }
 

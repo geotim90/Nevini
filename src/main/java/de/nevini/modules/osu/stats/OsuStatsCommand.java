@@ -2,7 +2,6 @@ package de.nevini.modules.osu.stats;
 
 import com.oopsjpeg.osu4j.OsuUser;
 import de.nevini.command.*;
-import de.nevini.db.game.GameData;
 import de.nevini.modules.Node;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
@@ -43,8 +42,9 @@ public class OsuStatsCommand extends Command {
                 event.reply("User not found", event::complete);
             } else {
                 EmbedBuilder embed = event.createEmbedBuilder();
-                GameData game = event.getGameService().findGames("osu!").stream().findFirst().orElse(null);
-                if (game != null) embed.setAuthor(game.getName(), null, game.getIcon());
+                event.getGameService().findGames("osu!").stream().findFirst().ifPresent(
+                        game -> embed.setAuthor(game.getName(), null, game.getIcon())
+                );
                 embed.setTitle(user.getUsername() + " - Global Ranking #" + Formatter.formatInteger(user.getRank()));
                 embed.setDescription(user.getCountry().getName() + " - Country Ranking #" + Formatter.formatInteger(user.getCountryRank()));
                 embed.addField("Game Mode", user.getMode().getName(), true);
