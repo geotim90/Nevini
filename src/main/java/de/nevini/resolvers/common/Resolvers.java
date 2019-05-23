@@ -1,4 +1,4 @@
-package de.nevini.resolvers;
+package de.nevini.resolvers.common;
 
 public class Resolvers {
 

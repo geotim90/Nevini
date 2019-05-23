@@ -1,6 +1,5 @@
 package de.nevini.modules;
 
-import de.nevini.util.Permissions;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

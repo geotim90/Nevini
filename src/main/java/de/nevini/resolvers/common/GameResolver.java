@@ -1,8 +1,9 @@
-package de.nevini.resolvers;
+package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
+import de.nevini.resolvers.AbstractResolver;
 import lombok.NonNull;
 
 import java.util.Comparator;

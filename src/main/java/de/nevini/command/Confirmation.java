@@ -1,7 +1,5 @@
-package de.nevini.util;
+package de.nevini.command;
 
-import de.nevini.command.CommandEvent;
-import de.nevini.command.CommandReaction;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.entities.Message;
@@ -36,7 +34,7 @@ public class Confirmation {
             callback.run();
         } else if (CommandReaction.ERROR.getUnicode().equals(event.getReactionEmote().getName())) {
             message.delete().queue();
-            replyCancelled(context);
+            replyCancelled();
         } else {
             event.getReaction().removeReaction(event.getUser()).queue();
         }
@@ -44,15 +42,15 @@ public class Confirmation {
 
     private void expire(Message message) {
         message.delete().queue();
-        replyExpired(context);
+        replyExpired();
     }
 
-    private void replyCancelled(CommandEvent event) {
-        event.reply(event.getAuthor().getAsMention() + ", your previous command was cancelled.", event::complete);
+    private void replyCancelled() {
+        context.reply(context.getAuthor().getAsMention() + ", your previous command was cancelled.", context::complete);
     }
 
-    private void replyExpired(CommandEvent event) {
-        event.reply(event.getAuthor().getAsMention() + ", your previous command expired.", event::complete);
+    private void replyExpired() {
+        context.reply(context.getAuthor().getAsMention() + ", your previous command expired.", context::complete);
     }
 
 }

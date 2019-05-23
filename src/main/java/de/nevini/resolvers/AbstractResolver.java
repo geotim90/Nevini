@@ -1,9 +1,9 @@
 package de.nevini.resolvers;
 
+import de.nevini.command.Cleaner;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
-import de.nevini.util.Cleaner;
-import de.nevini.util.Picker;
+import de.nevini.command.Picker;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

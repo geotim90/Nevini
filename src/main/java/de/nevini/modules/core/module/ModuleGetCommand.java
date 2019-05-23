@@ -3,8 +3,8 @@ package de.nevini.modules.core.module;
 import de.nevini.command.*;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
-import de.nevini.resolvers.ModuleResolver;
-import de.nevini.resolvers.Resolvers;
+import de.nevini.resolvers.common.ModuleResolver;
+import de.nevini.resolvers.common.Resolvers;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.util.Arrays;

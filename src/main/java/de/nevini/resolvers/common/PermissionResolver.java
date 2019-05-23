@@ -1,7 +1,8 @@
-package de.nevini.resolvers;
+package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
+import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
 import lombok.NonNull;
 import net.dv8tion.jda.core.Permission;

@@ -1,4 +1,4 @@
-package de.nevini.util;
+package de.nevini.command;
 
 import de.nevini.listeners.EventDispatcher;
 import net.dv8tion.jda.core.entities.Message;

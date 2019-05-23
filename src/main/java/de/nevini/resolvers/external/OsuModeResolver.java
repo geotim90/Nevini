@@ -1,4 +1,4 @@
-package de.nevini.modules.osu;
+package de.nevini.resolvers.external;
 
 import com.oopsjpeg.osu4j.GameMode;
 import de.nevini.command.CommandEvent;

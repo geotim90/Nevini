@@ -6,8 +6,8 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.modules.Module;
 import de.nevini.modules.Node;
+import de.nevini.modules.Permissions;
 import de.nevini.util.Formatter;
-import de.nevini.util.Permissions;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

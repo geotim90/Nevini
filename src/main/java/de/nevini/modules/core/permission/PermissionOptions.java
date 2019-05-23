@@ -4,7 +4,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.command.CommandReaction;
 import de.nevini.modules.Node;
-import de.nevini.resolvers.*;
+import de.nevini.resolvers.common.*;
 import lombok.Data;
 import lombok.NonNull;
 import net.dv8tion.jda.core.Permission;

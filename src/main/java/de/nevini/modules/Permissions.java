@@ -1,4 +1,4 @@
-package de.nevini.util;
+package de.nevini.modules;
 
 import net.dv8tion.jda.core.Permission;
 

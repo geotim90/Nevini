@@ -1,6 +1,5 @@
-package de.nevini.util;
+package de.nevini.command;
 
-import de.nevini.command.CommandEvent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.EmbedBuilder;

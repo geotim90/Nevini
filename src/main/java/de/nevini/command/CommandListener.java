@@ -1,9 +1,6 @@
-package de.nevini.listeners;
+package de.nevini.command;
 
-import de.nevini.command.Command;
-import de.nevini.command.CommandContext;
-import de.nevini.command.CommandEvent;
-import de.nevini.command.CommandOptions;
+import de.nevini.listeners.EventDispatcher;
 import de.nevini.services.common.*;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
