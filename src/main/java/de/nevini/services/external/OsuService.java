@@ -1,14 +1,14 @@
 package de.nevini.services.external;
 
 import com.oopsjpeg.osu4j.GameMode;
+import com.oopsjpeg.osu4j.OsuBeatmap;
 import com.oopsjpeg.osu4j.OsuScore;
 import com.oopsjpeg.osu4j.OsuUser;
-import com.oopsjpeg.osu4j.backend.EndpointUserBests;
-import com.oopsjpeg.osu4j.backend.EndpointUsers;
-import com.oopsjpeg.osu4j.backend.Osu;
+import com.oopsjpeg.osu4j.backend.*;
 import com.oopsjpeg.osu4j.exception.OsuAPIException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,37 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class OsuService {
 
-    private final Map<Integer, String> userNameCache = new ConcurrentHashMap<>();
     private final Map<Integer, String> beatmapNameCache = new ConcurrentHashMap<>();
+    private final Map<Integer, String> userNameCache = new ConcurrentHashMap<>();
 
     private final Osu osu;
 
     public OsuService(@Value("${osu.token:#{null}}") String token) {
         osu = Osu.getAPI(token);
+    }
+
+    public String getBeatmapName(int beatmapID) {
+        String beatmapName = beatmapNameCache.get(beatmapID);
+        if (StringUtils.isEmpty(beatmapName)) {
+            OsuBeatmap beatmap = getBeatmap(beatmapID);
+            return beatmap == null ? Integer.toString(beatmapID) : beatmap.getTitle();
+        } else {
+            return beatmapName;
+        }
+    }
+
+    private OsuBeatmap getBeatmap(int beatmapID) {
+        OsuBeatmap beatmap;
+        try {
+            beatmap = osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapID).build()).get(0);
+        } catch (OsuAPIException | RuntimeException e) {
+            log.info("Failed to get beatmap {}", beatmapID, e);
+            return null;
+        }
+        if (beatmap != null) {
+            beatmapNameCache.put(beatmap.getID(), beatmap.getTitle());
+        }
+        return beatmap;
     }
 
     public OsuUser getUser(int user) {
@@ -54,17 +78,17 @@ public class OsuService {
     }
 
     private OsuUser getUser(EndpointUsers.ArgumentsBuilder arguments, GameMode mode, int eventDays) {
-        OsuUser osuUser;
+        OsuUser user;
         try {
-            osuUser = osu.users.query(arguments.setMode(mode).setEventDays(eventDays).build());
+            user = osu.users.query(arguments.setMode(mode).setEventDays(eventDays).build());
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get user {}", arguments, e);
             return null;
         }
-        if (osuUser != null) {
-            userNameCache.put(osuUser.getID(), osuUser.getUsername());
+        if (user != null) {
+            userNameCache.put(user.getID(), user.getUsername());
         }
-        return osuUser;
+        return user;
     }
 
     public List<OsuScore> getUserBest(@NonNull String user, @NonNull GameMode mode, int limit) {
@@ -76,12 +100,22 @@ public class OsuService {
         }
     }
 
-    public String getUserName(int userId) {
-        String userName = userNameCache.get(userId);
-        if (userName == null) {
-            return getUser(userId).getUsername();
+    public String getUserName(int userID) {
+        String userName = userNameCache.get(userID);
+        if (StringUtils.isEmpty(userName)) {
+            OsuUser user = getUser(userID);
+            return user == null ? Integer.toString(userID) : user.getUsername();
         } else {
             return userName;
+        }
+    }
+
+    public List<OsuScore> getUserRecent(@NonNull String user, @NonNull GameMode mode, int limit) {
+        try {
+            return osu.userRecents.query(new EndpointUserRecents.ArgumentsBuilder(user).setMode(mode).setLimit(limit).build());
+        } catch (OsuAPIException | RuntimeException e) {
+            log.info("Failed to get user recent for {}", user, e);
+            return null;
         }
     }
 

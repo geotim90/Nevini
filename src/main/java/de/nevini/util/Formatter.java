@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,51 +27,54 @@ public class Formatter {
     public static String formatLargestUnitAgo(long epochMilli) {
         if (epochMilli <= 0) {
             return "unknown";
+        } else {
+            return formatLargestUnitAgo(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
         }
+    }
 
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-        LocalDateTime then = LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC);
+    public static String formatLargestUnitAgo(ZonedDateTime value) {
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
 
-        if (now.isBefore(then)) {
+        if (now.isBefore(value)) {
             return "some time in the future";
         }
 
-        long years = then.until(now, ChronoUnit.YEARS);
+        long years = value.until(now, ChronoUnit.YEARS);
         if (years > 1) {
             return years + " years ago";
         } else if (years > 0) {
             return years + " year ago";
         }
 
-        long months = then.until(now, ChronoUnit.MONTHS);
+        long months = value.until(now, ChronoUnit.MONTHS);
         if (months > 1) {
             return months + " months ago";
         } else if (months > 0) {
             return months + " month ago";
         }
 
-        long weeks = then.until(now, ChronoUnit.WEEKS);
+        long weeks = value.until(now, ChronoUnit.WEEKS);
         if (weeks > 1) {
             return weeks + " weeks ago";
         } else if (weeks > 0) {
             return weeks + " week ago";
         }
 
-        long days = then.until(now, ChronoUnit.DAYS);
+        long days = value.until(now, ChronoUnit.DAYS);
         if (days > 1) {
             return days + " days ago";
         } else if (days > 0) {
             return days + " day ago";
         }
 
-        long hours = then.until(now, ChronoUnit.HOURS);
+        long hours = value.until(now, ChronoUnit.HOURS);
         if (hours > 1) {
             return hours + " hours ago";
         } else if (hours > 0) {
             return hours + " hour ago";
         }
 
-        long minutes = then.until(now, ChronoUnit.MINUTES);
+        long minutes = value.until(now, ChronoUnit.MINUTES);
         if (minutes > 1) {
             return minutes + " minutes ago";
         } else {
@@ -85,11 +87,11 @@ public class Formatter {
     }
 
     public static String formatTimestamp(long epochMilli) {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
+        return formatTimestamp(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
     }
 
-    public static String formatTimestamp(ZonedDateTime date) {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(date);
+    public static String formatTimestamp(ZonedDateTime value) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value);
     }
 
     public static String formatUnits(long millis) {
