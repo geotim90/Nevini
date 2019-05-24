@@ -66,7 +66,7 @@ public class OsuRecentCommand extends Command {
             String userName = osu.getUserName(userId);
             embed.setTitle(userName, "https://osu.ppy.sh/u/" + userId);
             for (OsuScore score : scores) {
-                embed.addField(score.getRank() + " - " + Formatter.formatFloat(score.getPp()) + "pp - " + Formatter.formatLargestUnitAgo(score.getDate()),
+                embed.addField(score.getRank() + " - " + Formatter.formatInteger(score.getScore()) + " - " + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osu.getBeatmapName(score.getBeatmapID()) + "](https://osu.ppy.sh/b/" + score.getBeatmapID() + ")",
                         false);
             }

@@ -62,7 +62,6 @@ public class OsuEventsCommand extends Command {
                     game -> embed.setAuthor(game.getName(), null, game.getIcon())
             );
             embed.setTitle(user.getUsername(), "https://osu.ppy.sh/u/" + user.getID());
-            embed.setDescription(user.getCountry().getName());
             for (OsuUser.Event e : user.getEvents()) {
                 String markdown = convertHtmlToMarkdown(e.getDisplayHTML());
                 if (StringUtils.isNotEmpty(markdown)) {

@@ -52,7 +52,7 @@ public class OsuStatsCommand extends Command {
     }
 
     private void acceptUserAndMode(CommandEvent event, String input, GameMode mode) {
-        OsuUser user = mode == null ? osu.getUser(input) : osu.getUser(input, mode);
+        OsuUser user = osu.getUser(input, mode);
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else {
