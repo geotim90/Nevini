@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -87,6 +88,10 @@ public class Formatter {
         return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
     }
 
+    public static String formatTimestamp(ZonedDateTime date) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(date);
+    }
+
     public static String formatUnits(long millis) {
         if (millis < 0) {
             return "negative";
@@ -150,5 +155,4 @@ public class Formatter {
         return StringUtils.abbreviate(StringUtils.defaultString(content, "null"), 32)
                 .replace("\n", "\\");
     }
-
 }

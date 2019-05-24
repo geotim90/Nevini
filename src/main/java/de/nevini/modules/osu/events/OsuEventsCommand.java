@@ -1,4 +1,4 @@
-package de.nevini.modules.osu.stats;
+package de.nevini.modules.osu.events;
 
 import com.oopsjpeg.osu4j.GameMode;
 import com.oopsjpeg.osu4j.OsuUser;
@@ -12,23 +12,24 @@ import de.nevini.resolvers.external.OsuModeResolver;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OsuStatsCommand extends Command {
+public class OsuEventsCommand extends Command {
 
     private static final StringResolver userResolver = new StringResolver("user", "user");
     private static final OsuModeResolver modeResolver = new OsuModeResolver();
 
     private final OsuService osu;
 
-    public OsuStatsCommand(@Autowired OsuService osu) {
+    public OsuEventsCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
-                .keyword("osu!stats")
+                .keyword("osu!events")
                 .guildOnly(false)
                 .node(Node.OSU_STATS)
-                .description("displays osu! user stats")
+                .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{
                         CommandOptionDescriptor.builder()
                                 .syntax("[--user] <user>")
@@ -52,7 +53,7 @@ public class OsuStatsCommand extends Command {
     }
 
     private void acceptUserAndMode(CommandEvent event, String input, GameMode mode) {
-        OsuUser user = mode == null ? osu.getUser(input) : osu.getUser(input, mode);
+        OsuUser user = mode == null ? osu.getUser(input) : osu.getUser(input, mode, 31);
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else {
@@ -62,26 +63,20 @@ public class OsuStatsCommand extends Command {
             );
             embed.setTitle(user.getUsername(), "https://osu.ppy.sh/u/" + user.getID());
             embed.setDescription(user.getCountry().getName());
-            embed.addField("Game Mode", user.getMode().getName(), true);
-            embed.addField("Global Ranking", "#" + Formatter.formatInteger(user.getRank()), true);
-            embed.addField("Country Ranking", "#" + Formatter.formatInteger(user.getCountryRank()), true);
-            embed.addField("Ranked Score", Formatter.formatLong(user.getRankedScore()), true);
-            embed.addField("Hit Accuracy", Formatter.formatFloat(user.getAccuracy()) + '%', true);
-            embed.addField("Play Count", Formatter.formatInteger(user.getPlayCount()), true);
-            embed.addField("Total Score", Formatter.formatLong(user.getTotalScore()), true);
-            embed.addField("Total Hits", Formatter.formatInteger(user.getTotalHits()), true);
-            embed.addField("Performance Points", Formatter.formatInteger(user.getPP()), true);
-            embed.addField("Level", Formatter.formatFloat(user.getLevel()), true);
-            embed.addField("SS+", Formatter.formatInteger(user.getCountRankSSH()), true);
-            embed.addField("SS", Formatter.formatInteger(user.getCountRankSS()), true);
-            embed.addField("S+", Formatter.formatInteger(user.getCountRankSH()), true);
-            embed.addField("S", Formatter.formatInteger(user.getCountRankSS()), true);
-            embed.addField("A", Formatter.formatInteger(user.getCountRankA()), true);
-            embed.addField("300s", Formatter.formatInteger(user.getHit300()), true);
-            embed.addField("100s", Formatter.formatInteger(user.getHit100()), true);
-            embed.addField("50s", Formatter.formatInteger(user.getHit50()), true);
+            for (OsuUser.Event e : user.getEvents()) {
+                String markdown = convertHtmlToMarkdown(e.getDisplayHTML());
+                if (StringUtils.isNotEmpty(markdown)) {
+                    embed.addField(Formatter.formatTimestamp(e.getDate()), markdown, false);
+                }
+            }
             event.reply(embed, event::complete);
         }
+    }
+
+    private String convertHtmlToMarkdown(String html) {
+        return html.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
+                .replaceAll("<b><a href='(/u/\\d+)'>([^<]+)</a></b>", "[$2](https://osu.ppy.sh$1)") // resolve user references
+                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "[$2](https://osu.ppy.sh$1)"); // resolve user references
     }
 
 }
