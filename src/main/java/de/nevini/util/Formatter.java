@@ -113,7 +113,7 @@ public class Formatter {
     }
 
     public static String formatTimestamp(ZonedDateTime value) {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value);
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value).replace('T', ' ');
     }
 
     public static String formatUnits(long millis) {
