@@ -5,6 +5,7 @@ import de.nevini.services.common.*;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,8 +28,10 @@ public class CommandListener {
     private final CommandContext commandContext;
 
     public CommandListener(
+            @Value("${bot.lockdown:true}") boolean lockdown,
             @Value("${bot.owner.id:#{null}}") String ownerId,
-            @Value("${bot.server.invite:#{null}}}") String serverInvite,
+            @Value("${bot.server.id:#{null}}") String serverId,
+            @Value("${bot.server.invite:#{null}}") String serverInvite,
             @Autowired ApplicationContext applicationContext,
             @Autowired EventDispatcher eventDispatcher,
             @Autowired ActivityService activityService,
@@ -46,14 +50,14 @@ public class CommandListener {
             }
         });
 
-        commandContext = new CommandContext(ownerId, serverInvite, eventDispatcher, commands, activityService,
-                gameService, ignService, moduleService, permissionService, prefixService);
+        commandContext = new CommandContext(lockdown, ownerId, serverId, serverInvite, eventDispatcher, commands,
+                activityService, gameService, ignService, moduleService, permissionService, prefixService);
 
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);
     }
 
     private void onEvent(MessageReceivedEvent event) {
-        if (!event.getAuthor().isBot()) {
+        if (!event.getAuthor().isBot() && checkLockdown(event)) {
             String content = event.getMessage().getContentRaw();
             Optional<String> prefix = getPrefixService().extractPrefix(event);
             if (prefix.isPresent()) {
@@ -67,6 +71,21 @@ public class CommandListener {
                 log.info("{} - Unknown command via direct message {}", event.getMessageId(),
                         summarize(event.getMessage().getContentRaw()));
             }
+        }
+    }
+
+    private boolean checkLockdown(MessageReceivedEvent event) {
+        if (commandContext.isLockdown()) {
+            Guild guild = event.getGuild();
+            // check for "home" server
+            if (guild != null && !Objects.equals(guild.getId(), commandContext.getServerId())) {
+                return false;
+            }
+            // only allow owner commands in lockdown mode
+            return Objects.equals(event.getAuthor().getId(), commandContext.getOwnerId());
+        } else {
+            // not in lockdown
+            return true;
         }
     }
 

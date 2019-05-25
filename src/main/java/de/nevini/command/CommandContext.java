@@ -9,7 +9,9 @@ import java.util.Map;
 @Value
 public class CommandContext {
 
+    private final boolean lockdown;
     private final String ownerId;
+    private final String serverId;
     private final String serverInvite;
     private final EventDispatcher eventDispatcher;
     private final Map<String, Command> commands;
