@@ -86,6 +86,28 @@ public class Formatter {
         return NumberFormat.getIntegerInstance(Locale.US).format(value);
     }
 
+    public static String formatPercent(double value) {
+        return new DecimalFormat("#0.##%", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
+    }
+
+    public static String formatSeconds(int seconds) {
+        if (seconds < 0) {
+            return '-' + formatSeconds(-seconds);
+        }
+
+        if (seconds < 60) {
+            return Integer.toString(seconds);
+        }
+
+        int minutes = seconds / 60;
+        if (minutes < 60) {
+            return minutes + ":" + seconds % 60;
+        }
+
+        int hours = minutes / 60;
+        return hours + ":" + minutes % 60 + ":" + seconds % 60;
+    }
+
     public static String formatTimestamp(long epochMilli) {
         return formatTimestamp(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
     }

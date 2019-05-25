@@ -30,22 +30,22 @@ public class OsuService {
         osu = Osu.getAPI(token);
     }
 
-    public String getBeatmapName(int beatmapID) {
-        String beatmapName = beatmapNameCache.get(beatmapID);
+    public String getBeatmapName(int beatmapId) {
+        String beatmapName = beatmapNameCache.get(beatmapId);
         if (StringUtils.isEmpty(beatmapName)) {
-            OsuBeatmap beatmap = getBeatmap(beatmapID);
-            return beatmap == null ? Integer.toString(beatmapID) : beatmap.getTitle();
+            OsuBeatmap beatmap = getBeatmap(beatmapId);
+            return beatmap == null ? Integer.toString(beatmapId) : beatmap.getTitle();
         } else {
             return beatmapName;
         }
     }
 
-    private OsuBeatmap getBeatmap(int beatmapID) {
+    public OsuBeatmap getBeatmap(int beatmapId) {
         OsuBeatmap beatmap;
         try {
-            beatmap = osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapID).build()).get(0);
+            beatmap = osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapId).build()).get(0);
         } catch (OsuAPIException | RuntimeException e) {
-            log.info("Failed to get beatmap {}", beatmapID, e);
+            log.info("Failed to get beatmap {}", beatmapId, e);
             return null;
         }
         if (beatmap != null) {

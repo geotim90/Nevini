@@ -27,6 +27,7 @@ public class OsuEventsCommand extends Command {
     public OsuEventsCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
                 .keyword("osu!events")
+                .aliases(new String[]{"osu!event"})
                 .guildOnly(false)
                 .node(Node.OSU_STATS)
                 .description("displays osu! user events")
