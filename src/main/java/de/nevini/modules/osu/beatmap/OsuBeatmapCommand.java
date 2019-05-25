@@ -20,7 +20,6 @@ public class OsuBeatmapCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!beatmap")
                 .aliases(new String[]{"osu!b", "osu!bm", "osu!map"})
-                .guildOnly(false)
                 .node(Node.OSU_STATS)
                 .description("displays osu! beatmap information")
                 .options(new CommandOptionDescriptor[]{

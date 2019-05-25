@@ -6,19 +6,22 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
+import de.nevini.db.game.GameData;
 import de.nevini.modules.Node;
-import de.nevini.resolvers.StringResolver;
+import de.nevini.resolvers.common.MemberResolver;
+import de.nevini.resolvers.common.Resolvers;
 import de.nevini.resolvers.external.OsuModeResolver;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OsuStatsCommand extends Command {
 
-    private static final StringResolver userResolver = new StringResolver("user", "user");
     private static final OsuModeResolver modeResolver = new OsuModeResolver();
 
     private final OsuService osu;
@@ -27,16 +30,10 @@ public class OsuStatsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!stats")
                 .aliases(new String[]{"osu!stat", "osu!user", "osu!player"})
-                .guildOnly(false)
                 .node(Node.OSU_STATS)
                 .description("displays osu! user stats")
                 .options(new CommandOptionDescriptor[]{
-                        CommandOptionDescriptor.builder()
-                                .syntax("[--user] <user>")
-                                .description("The osu! name of the user to look up. The flag is optional if this option is provided first.")
-                                .keyword("--user")
-                                .aliases(new String[]{"//user"})
-                                .build(),
+                        MemberResolver.describe().build(),
                         OsuModeResolver.describe().build()
                 })
                 .build());
@@ -45,22 +42,22 @@ public class OsuStatsCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        userResolver.resolveArgumentOrOptionOrInput(event, user -> acceptUser(event, user));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptUser(event, member));
     }
 
-    private void acceptUser(CommandEvent event, String user) {
-        modeResolver.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, user, mode));
+    private void acceptUser(CommandEvent event, Member member) {
+        modeResolver.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, member, mode));
     }
 
-    private void acceptUserAndMode(CommandEvent event, String input, GameMode mode) {
-        OsuUser user = osu.getUser(input, mode);
+    private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
+        GameData game = osu.getGame();
+        String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
+        OsuUser user = osu.getUser(ign, mode);
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else {
             EmbedBuilder embed = event.createEmbedBuilder();
-            event.getGameService().findGames("osu!").stream().findFirst().ifPresent(
-                    game -> embed.setAuthor(game.getName(), null, game.getIcon())
-            );
+            embed.setAuthor(game.getName(), null, game.getIcon());
             embed.setTitle(user.getUsername(), "https://osu.ppy.sh/u/" + user.getID());
             embed.setDescription(user.getCountry().getName());
             embed.addField("Game Mode", user.getMode().getName(), true);

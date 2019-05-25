@@ -6,10 +6,13 @@ import com.oopsjpeg.osu4j.OsuScore;
 import com.oopsjpeg.osu4j.OsuUser;
 import com.oopsjpeg.osu4j.backend.*;
 import com.oopsjpeg.osu4j.exception.OsuAPIException;
+import de.nevini.db.game.GameData;
+import de.nevini.services.common.GameService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +28,14 @@ public class OsuService {
     private final Map<Integer, String> userNameCache = new ConcurrentHashMap<>();
 
     private final Osu osu;
+    private final GameService gameService;
 
-    public OsuService(@Value("${osu.token:#{null}}") String token) {
+    public OsuService(
+            @Value("${osu.token:#{null}}") String token,
+            @Autowired GameService gameService
+    ) {
         osu = Osu.getAPI(token);
+        this.gameService = gameService;
     }
 
     public String getBeatmapName(int beatmapId) {
@@ -52,6 +60,10 @@ public class OsuService {
             beatmapNameCache.put(beatmap.getID(), beatmap.getTitle());
         }
         return beatmap;
+    }
+
+    public GameData getGame() {
+        return gameService.findGames("osu!").stream().findFirst().orElseThrow(() -> new IllegalStateException("No game data!"));
     }
 
     public OsuUser getUser(int user) {
@@ -119,5 +131,4 @@ public class OsuService {
             return null;
         }
     }
-
 }
