@@ -456,7 +456,7 @@ public class PermissionService {
 
     private synchronized void setPermission(PermissionData permission, Boolean override) {
         permission.setFlag(override == null ? (byte) 0 : (override ? (byte) 1 : (byte) -1));
-        log.debug("Save data: {}", permission);
+        log.info("Save data: {}", permission);
         permissionRepository.save(permission);
     }
 

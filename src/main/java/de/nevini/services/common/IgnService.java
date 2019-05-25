@@ -43,7 +43,7 @@ public class IgnService {
     }
 
     public List<IgnData> getIgns(@NonNull Member member) {
-        return ListUtils.union(
+        return ListUtils.sum(
                 ignRepository.findAllByGuildAndUser(
                         -1L,
                         member.getUser().getIdLong()),
@@ -54,7 +54,7 @@ public class IgnService {
     }
 
     public List<IgnData> getIgns(@NonNull Guild guild, @NonNull GameData game) {
-        return ListUtils.union(
+        return ListUtils.sum(
                 ignRepository.findAllByGuildAndGame(
                         -1L,
                         game.getId()),
@@ -66,13 +66,13 @@ public class IgnService {
 
     public synchronized void setIgn(@NonNull Member member, @NonNull GameData game, @NonNull String name) {
         IgnData data = new IgnData(member.getGuild().getIdLong(), member.getUser().getIdLong(), game.getId(), name);
-        log.debug("Save data: {}", data);
+        log.info("Save data: {}", data);
         ignRepository.save(data);
     }
 
     public synchronized void setIgn(@NonNull User user, long gameId, @NonNull String name) {
         IgnData data = new IgnData(-1L, user.getIdLong(), gameId, name);
-        log.debug("Save data: {}", data);
+        log.info("Save data: {}", data);
         ignRepository.save(data);
     }
 

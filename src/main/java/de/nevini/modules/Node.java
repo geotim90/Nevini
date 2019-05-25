@@ -34,6 +34,7 @@ public enum Node {
     GUILD_IGN_SET("guild.ign.set", Module.GUILD, Permissions.MANAGE_NICKNAMES),
     OSU_ROLL("osu.roll", Module.OSU, Permissions.EVERYONE),
     OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE),
+    FEED_OSU_STATS("feed.osu.stats", Module.OSU, Permissions.MANAGE_SERVER),
     ;
 
     private final String node;

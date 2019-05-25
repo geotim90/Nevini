@@ -17,6 +17,7 @@ public class CommandContext {
     private final Map<String, Command> commands;
 
     private final ActivityService activityService;
+    private final FeedService feedService;
     private final GameService gameService;
     private final IgnService ignService;
     private final ModuleService moduleService;

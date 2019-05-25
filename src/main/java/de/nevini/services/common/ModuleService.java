@@ -34,7 +34,7 @@ public class ModuleService {
 
     public synchronized void setModuleActive(@NonNull Guild guild, @NonNull Module module, boolean active) {
         ModuleData data = new ModuleData(guild.getIdLong(), module.getName(), active ? FLAG_ACTIVE : FLAG_INACTIVE);
-        log.debug("Save data: {}", data);
+        log.info("Save data: {}", data);
         moduleRepository.save(data);
     }
 

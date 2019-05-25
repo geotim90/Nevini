@@ -38,7 +38,7 @@ public class ActivityService {
 
     public synchronized void updateActivityOnline(User user) {
         ActivityData data = new ActivityData(user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong(), System.currentTimeMillis());
-        log.debug("Save data: {}", data);
+        log.info("Save data: {}", data);
         activityRepository.save(data);
     }
 
@@ -50,7 +50,7 @@ public class ActivityService {
     public synchronized void updateActivityMessage(Message message) {
         if (message.getGuild() != null) {
             ActivityData data = new ActivityData(message.getAuthor().getIdLong(), ACTIVITY_TYPE_MESSAGE, message.getGuild().getIdLong(), message.getCreationTime().toInstant().toEpochMilli());
-            log.debug("Save data: {}", data);
+            log.info("Save data: {}", data);
             activityRepository.save(data);
         }
     }
@@ -72,7 +72,7 @@ public class ActivityService {
 
     public synchronized void updateActivityPlaying(User user, RichPresence presence) {
         ActivityData data = new ActivityData(user.getIdLong(), ACTIVITY_TYPE_PLAYING, presence.getApplicationIdLong(), System.currentTimeMillis());
-        log.debug("Save data: {}", data);
+        log.info("Save data: {}", data);
         activityRepository.save(data);
     }
 }

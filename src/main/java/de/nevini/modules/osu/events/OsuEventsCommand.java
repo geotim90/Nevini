@@ -30,6 +30,9 @@ public class OsuEventsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!events")
                 .aliases(new String[]{"osu!event"})
+                .children(new Command[]{
+                        new OsuEventsFeedCommand()
+                })
                 .node(Node.OSU_STATS)
                 .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{
@@ -74,7 +77,9 @@ public class OsuEventsCommand extends Command {
     private String convertHtmlToMarkdown(String html) {
         return html.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
                 .replaceAll("<b><a href='(/u/\\d+)'>([^<]+)</a></b>", "[$2](https://osu.ppy.sh$1)") // resolve user references
-                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "[$2](https://osu.ppy.sh$1)") // resolve user references
+                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "[$2](https://osu.ppy.sh$1)") // resolve beatmap references
+                // resolve HTML formatting
+                .replaceAll("<b>([^<]+)</b>", "**$1**") // bold text emphasis
                 // resolve HTML entities
                 .replaceAll("&amp;", "&")
                 .replaceAll("&gt;", ">")

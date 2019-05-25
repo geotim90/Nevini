@@ -39,7 +39,7 @@ public class PrefixService {
 
     public synchronized void setGuildPrefix(@NonNull Guild guild, String prefix) {
         PrefixData data = new PrefixData(guild.getIdLong(), prefix);
-        log.debug("Save data: {}", data);
+        log.info("Save data: {}", data);
         prefixRepository.save(data);
     }
 

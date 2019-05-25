@@ -104,6 +104,15 @@ public class EventDispatcher implements EventListener {
     }
 
     /**
+     * Convenience method for scheduling asynchronous tasks.
+     */
+    public void schedule(Runnable task) {
+        if (!scheduledExecutorService.isShutdown()) {
+            scheduledExecutorService.execute(task);
+        }
+    }
+
+    /**
      * Convenience method for scheduling delayed tasks.
      */
     public void schedule(long timeout, TimeUnit timeoutUnit, Runnable timeoutCallback) {
