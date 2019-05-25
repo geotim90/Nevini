@@ -28,6 +28,7 @@ public class OsuRecentCommand extends Command {
     public OsuRecentCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
                 .keyword("osu!recent")
+                .aliases(new String[]{"osu!recents"})
                 .guildOnly(false)
                 .node(Node.OSU_STATS)
                 .description("displays osu! user most recent plays")

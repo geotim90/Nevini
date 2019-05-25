@@ -14,8 +14,10 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class Paginator {
 
-    // use a page size that is <= 25 and divisible by 2 and 3
-    private static final int PAGE_SIZE = 24;
+    // use a page size that is <= 25 and divisible by 2 and 3 for column layouts
+    private static final int INLINE_PAGE_SIZE = 24;
+    // use a smaller page size for single column content
+    private static final int BLOCK_PAGE_SIZE = 10;
 
     private static final String EMOTE_BACK = "\u25C0";
     private static final String EMOTE_CANCEL = "\u23F9";
@@ -35,7 +37,7 @@ public class Paginator {
     private int currentPage = 0;
 
     public void display() {
-        if (embed.getFields().size() <= PAGE_SIZE) {
+        if (embed.getFields().size() <= getPageSize()) {
             channel.sendMessage(embed.build()).queue(callback);
         } else {
             renderPage(1);
@@ -54,8 +56,8 @@ public class Paginator {
             } else {
                 ensureTemplate();
                 EmbedBuilder pageBuilder = new EmbedBuilder(template);
-                pageBuilder.getFields().addAll(embed.getFields().subList((pageNumber - 1) * PAGE_SIZE,
-                        Math.min(embed.getFields().size(), pageNumber * PAGE_SIZE)));
+                pageBuilder.getFields().addAll(embed.getFields().subList((pageNumber - 1) * getPageSize(),
+                        Math.min(embed.getFields().size(), pageNumber * getPageSize())));
                 pageBuilder.setFooter("Page " + pageNumber + "/" + pageCount,
                         context.getJDA().getSelfUser().getAvatarUrl());
                 MessageEmbed page = pageBuilder.build();
@@ -112,7 +114,15 @@ public class Paginator {
     }
 
     private int getPageCount() {
-        return ((embed.getFields().size() - 1) / PAGE_SIZE) + 1;
+        return ((embed.getFields().size() - 1) / getPageSize()) + 1;
+    }
+
+    private int getPageSize() {
+        if (embed.getFields().isEmpty() || !embed.getFields().get(0).isInline()) {
+            return BLOCK_PAGE_SIZE;
+        } else {
+            return INLINE_PAGE_SIZE;
+        }
     }
 
 }
