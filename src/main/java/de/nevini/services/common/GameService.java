@@ -38,7 +38,7 @@ public class GameService {
     public synchronized void cacheGame(RichPresence game) {
         if (!StringUtils.equals(cache.put(game.getApplicationIdLong(), game.getName()), game.getName())) {
             GameData data = new GameData(game.getApplicationIdLong(), game.getName(), getIcon(game));
-            log.info("Save data: {}", data);
+            log.debug("Save data: {}", data);
             gameRepository.save(data);
         }
     }
