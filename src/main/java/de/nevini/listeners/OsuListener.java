@@ -91,13 +91,14 @@ public class OsuListener {
         if (user != null) {
             user.getEvents().stream()
                     .filter(e -> e.getDate().isAfter(uts))
-                    .sorted(Comparator.comparing(OsuUser.Event::getDate).reversed())
+                    .sorted(Comparator.comparing(OsuUser.Event::getDate))
                     .forEach(e -> {
                         String markdown = convertHtmlToMarkdown(e.getDisplayHTML());
                         log.info("Feed {} on {} in {} at {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), Formatter.formatTimestamp(e.getDate()), markdown);
                         channel.sendMessage(markdown).queue();
                     });
             user.getEvents().stream()
+                    .filter(e -> e.getDate().isAfter(uts))
                     .map(OsuUser.Event::getDate)
                     .max(Comparator.naturalOrder())
                     .ifPresent(max -> feedService.updateSubscription(channel, FEED_TYPE, max.toInstant().toEpochMilli()));
