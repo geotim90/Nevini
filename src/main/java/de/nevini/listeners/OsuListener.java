@@ -6,6 +6,7 @@ import de.nevini.db.feed.FeedData;
 import de.nevini.services.common.FeedService;
 import de.nevini.services.common.IgnService;
 import de.nevini.services.external.OsuService;
+import de.nevini.util.Formatter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Member;
@@ -84,22 +85,22 @@ public class OsuListener {
         Member member = event.getMember();
         String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-        long days = ChronoUnit.DAYS.between(uts, now);
-        OsuUser user = osuService.getUser(ign, GameMode.STANDARD, (int) Math.max(1, Math.min(days, 31)));
+        int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(uts, now), 31));
+        log.info("Querying user events for {} days ({} to {})", days, Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
+        OsuUser user = osuService.getUser(ign, GameMode.STANDARD, days);
         if (user != null) {
             user.getEvents().stream()
                     .filter(e -> e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuUser.Event::getDate).reversed())
                     .forEach(e -> {
                         String markdown = convertHtmlToMarkdown(e.getDisplayHTML());
-                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
+                        log.info("Feed {} on {} in {} at {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), Formatter.formatTimestamp(e.getDate()), markdown);
                         channel.sendMessage(markdown).queue();
                     });
             user.getEvents().stream()
                     .map(OsuUser.Event::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(zonedDateTime ->
-                            feedService.updateSubscription(channel, FEED_TYPE, zonedDateTime.toInstant().toEpochMilli()));
+                    .ifPresent(max -> feedService.updateSubscription(channel, FEED_TYPE, max.toInstant().toEpochMilli()));
         }
     }
 
