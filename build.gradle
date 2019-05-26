@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '3.1.14'
+version = '3.1.15'
 sourceCompatibility = '8'
 
 configurations {
@@ -19,9 +19,9 @@ configurations {
 }
 
 repositories {
+	mavenLocal() // necessary for com.oopsjpeg:osu4j
 	mavenCentral()
 	jcenter()
-	mavenLocal() // necessary for com.oopsjpeg:osu4j
 }
 
 dependencies {
