@@ -1,9 +1,6 @@
 package de.nevini.services.external;
 
-import com.oopsjpeg.osu4j.GameMode;
-import com.oopsjpeg.osu4j.OsuBeatmap;
-import com.oopsjpeg.osu4j.OsuScore;
-import com.oopsjpeg.osu4j.OsuUser;
+import com.oopsjpeg.osu4j.*;
 import com.oopsjpeg.osu4j.backend.*;
 import com.oopsjpeg.osu4j.exception.OsuAPIException;
 import de.nevini.db.game.GameData;
@@ -17,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -56,15 +51,16 @@ public class OsuService {
             int id = Integer.parseInt(query);
             return Collections.singletonMap(id, getBeatmapName(id));
         } catch (NumberFormatException ignore) {
-            return Finder.find(beatmapNameCache.entrySet(), Map.Entry::getValue, query).stream().collect(Collectors.toMap(
-                    Map.Entry::getKey, Map.Entry::getValue));
+            return Finder.find(beatmapNameCache.entrySet(), Map.Entry::getValue, query).stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
     }
 
     public OsuBeatmap getBeatmap(int beatmapId) {
         OsuBeatmap beatmap;
         try {
-            beatmap = osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapId).build()).get(0);
+            beatmap = osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapId).build())
+                    .get(0);
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get beatmap {}", beatmapId, e);
             return null;
@@ -76,7 +72,29 @@ public class OsuService {
     }
 
     public GameData getGame() {
-        return gameService.findGames("osu!").stream().findFirst().orElseThrow(() -> new IllegalStateException("No game data!"));
+        return gameService.findGames("osu!").stream().findFirst()
+                .orElseThrow(() -> new IllegalStateException("No game data!"));
+    }
+
+    public List<OsuScore> getScores(int beatmap, String ign, GameMode mode, GameMod[] mods) {
+        EndpointScores.ArgumentsBuilder builder = new EndpointScores.ArgumentsBuilder(beatmap).setLimit(100);
+        if (StringUtils.isNotEmpty(ign)) {
+            builder.setUserName(ign);
+        }
+        if (mode != null) {
+            builder.setMode(mode);
+        }
+        if (mods != null) {
+            EnumSet<GameMod> modSet = EnumSet.noneOf(GameMod.class);
+            modSet.addAll(Arrays.asList(mods));
+            builder.setMods(modSet);
+        }
+        try {
+            return osu.scores.query(builder.build());
+        } catch (OsuAPIException | RuntimeException e) {
+            log.info("Failed to get scores for {}", beatmap, e);
+            return null;
+        }
     }
 
     public OsuUser getUser(int user) {
@@ -106,7 +124,8 @@ public class OsuService {
     private OsuUser getUser(EndpointUsers.ArgumentsBuilder arguments, GameMode mode, int eventDays) {
         OsuUser user;
         try {
-            user = osu.users.query(arguments.setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setEventDays(eventDays).build());
+            user = osu.users.query(arguments.setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD))
+                    .setEventDays(eventDays).build());
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get user {}", arguments, e);
             return null;
@@ -117,9 +136,10 @@ public class OsuService {
         return user;
     }
 
-    public List<OsuScore> getUserBest(@NonNull String user, GameMode mode, int limit) {
+    public List<OsuScore> getUserBest(@NonNull String user, GameMode mode) {
         try {
-            return osu.userBests.query(new EndpointUserBests.ArgumentsBuilder(user).setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setLimit(limit).build());
+            return osu.userBests.query(new EndpointUserBests.ArgumentsBuilder(user)
+                    .setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setLimit(100).build());
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get user best for {}", user, e);
             return null;
@@ -136,12 +156,14 @@ public class OsuService {
         }
     }
 
-    public List<OsuScore> getUserRecent(@NonNull String user, GameMode mode, int limit) {
+    public List<OsuScore> getUserRecent(@NonNull String user, GameMode mode) {
         try {
-            return osu.userRecents.query(new EndpointUserRecents.ArgumentsBuilder(user).setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setLimit(limit).build());
+            return osu.userRecents.query(new EndpointUserRecents.ArgumentsBuilder(user)
+                    .setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setLimit(50).build());
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get user recent for {}", user, e);
             return null;
         }
     }
+
 }

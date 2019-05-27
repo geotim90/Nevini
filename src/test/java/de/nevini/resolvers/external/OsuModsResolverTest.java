@@ -7,7 +7,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class OsuModsResolverTest {
 
-    private final OsuModsResolver resolver = new OsuModsResolver();
+    private static final OsuModsResolver resolver = new OsuModsResolver();
 
     @Test
     public void findHardRock() {

@@ -1,4 +1,4 @@
-package de.nevini.modules.osu.recent;
+package de.nevini.modules.osu.best;
 
 import com.oopsjpeg.osu4j.GameMode;
 import com.oopsjpeg.osu4j.OsuScore;
@@ -22,18 +22,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class OsuRecentCommand extends Command {
+public class OsuBestCommand extends Command {
 
     private static final OsuModeResolver modeResolver = new OsuModeResolver();
 
     private final OsuService osu;
 
-    public OsuRecentCommand(@Autowired OsuService osu) {
+    public OsuBestCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
-                .keyword("osu!recent")
-                .aliases(new String[]{"osu!recents"})
+                .keyword("osu!best")
                 .node(Node.OSU_RECENT)
-                .description("displays up to 50 most recent plays over the last 24 hours of an osu! user")
+                .description("displays the top 100 scores of an osu! user")
                 .options(new CommandOptionDescriptor[]{
                         MemberResolver.describe().build(),
                         OsuModeResolver.describe().build()
@@ -44,17 +43,17 @@ public class OsuRecentCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptUser(event, member));
     }
 
-    private void acceptMember(CommandEvent event, Member member) {
-        modeResolver.resolveOptionOrInputIfExists(event, mode -> acceptMemberAndMode(event, member, mode));
+    private void acceptUser(CommandEvent event, Member member) {
+        modeResolver.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, member, mode));
     }
 
-    private void acceptMemberAndMode(CommandEvent event, Member member, GameMode mode) {
+    private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
         GameData game = osu.getGame();
         String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
-        List<OsuScore> scores = osu.getUserRecent(ign, mode);
+        List<OsuScore> scores = osu.getUserBest(ign, mode);
         if (scores == null || scores.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
@@ -64,8 +63,8 @@ public class OsuRecentCommand extends Command {
             String userName = osu.getUserName(userId);
             embed.setTitle(userName, "https://osu.ppy.sh/u/" + userId);
             for (OsuScore score : scores) {
-                embed.addField(score.getRank() + " - " + Formatter.formatInteger(score.getScore()) + " - "
-                                + Formatter.formatLargestUnitAgo(score.getDate()),
+                embed.addField(score.getRank() + " - " + Formatter.formatInteger((int) Math.floor(score.getPp()))
+                                + "pp - " + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osu.getBeatmapName(score.getBeatmapID()) + "](https://osu.ppy.sh/b/"
                                 + score.getBeatmapID() + ")",
                         false);

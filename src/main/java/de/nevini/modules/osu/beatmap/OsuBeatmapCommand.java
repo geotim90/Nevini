@@ -1,9 +1,11 @@
 package de.nevini.modules.osu.beatmap;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
-import de.nevini.command.*;
+import de.nevini.command.Command;
+import de.nevini.command.CommandDescriptor;
+import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.external.OsuBeatmapIdResolver;
-import de.nevini.resolvers.external.OsuModeResolver;
 import de.nevini.scope.Node;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OsuBeatmapCommand extends Command {
 
+    private final OsuBeatmapIdResolver beatmapIdResolver;
     private final OsuService osu;
 
     public OsuBeatmapCommand(@Autowired OsuService osu) {
@@ -24,28 +27,16 @@ public class OsuBeatmapCommand extends Command {
                 .node(Node.OSU_BEATMAP)
                 .description("displays general information of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        OsuBeatmapIdResolver.describe().build(),
-                        OsuModeResolver.describe().build()
+                        OsuBeatmapIdResolver.describe().build()
                 })
                 .build());
+        this.beatmapIdResolver = new OsuBeatmapIdResolver(osu);
         this.osu = osu;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        String input = event.getArgument();
-        if (StringUtils.isEmpty(input) || !input.matches("\\d+")) {
-            event.reply(CommandReaction.WARNING, "You did not provide a beatmap ID!", event::complete);
-            return;
-        }
-        int beatmapId;
-        try {
-            beatmapId = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            event.reply(CommandReaction.WARNING, "You did not provide a beatmap ID!", event::complete);
-            return;
-        }
-        acceptBeatmapId(event, beatmapId);
+        beatmapIdResolver.resolveArgumentOrOptionOrInput(event, beatmapId -> acceptBeatmapId(event, beatmapId));
     }
 
     private void acceptBeatmapId(CommandEvent event, int beatmapId) {
@@ -81,7 +72,9 @@ public class OsuBeatmapCommand extends Command {
             embed.addField("Genre", beatmap.getGenre().getName(), true);
             embed.addField("Language", beatmap.getLanguage().getName(), true);
             embed.addField("Tags", StringUtils.join(beatmap.getTags(), ", "), true);
-            embed.addField("Success Rate", Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()), true);
+            embed.addField("Success Rate",
+                    Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()),
+                    true);
             event.reply(embed, event::complete);
         }
     }

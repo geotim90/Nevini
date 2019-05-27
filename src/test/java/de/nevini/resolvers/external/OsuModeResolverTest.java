@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class OsuModeResolverTest {
 
-    private final OsuModeResolver resolver = new OsuModeResolver();
+    private static final OsuModeResolver resolver = new OsuModeResolver();
 
     @Test
     public void findCatchTheBeat() {
