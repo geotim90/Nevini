@@ -2,8 +2,8 @@ package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.AbstractResolver;
+import de.nevini.scope.Node;
 import de.nevini.util.Finder;
 import lombok.NonNull;
 

@@ -2,11 +2,11 @@ package de.nevini.modules.guild.ign;
 
 import de.nevini.command.*;
 import de.nevini.db.game.GameData;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.StringResolver;
 import de.nevini.resolvers.common.GameResolver;
 import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
+import de.nevini.scope.Node;
 import net.dv8tion.jda.core.entities.Member;
 
 public class IgnSetCommand extends Command {

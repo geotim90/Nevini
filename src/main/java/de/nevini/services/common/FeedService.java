@@ -3,6 +3,7 @@ package de.nevini.services.common;
 import de.nevini.db.feed.FeedData;
 import de.nevini.db.feed.FeedId;
 import de.nevini.db.feed.FeedRepository;
+import de.nevini.scope.Feed;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
@@ -20,10 +21,10 @@ public class FeedService {
         this.feedRepository = feedRepository;
     }
 
-    public synchronized void subscribe(@NonNull TextChannel channel, @NonNull String type) {
+    public synchronized void subscribe(@NonNull TextChannel channel, @NonNull Feed feed) {
         FeedData data = new FeedData(
                 channel.getGuild().getIdLong(),
-                type,
+                feed.getType(),
                 channel.getIdLong(),
                 System.currentTimeMillis()
         );
@@ -31,20 +32,20 @@ public class FeedService {
         feedRepository.save(data);
     }
 
-    public synchronized void unsubscribe(@NonNull Guild guild, @NonNull String type) {
-        FeedId id = new FeedId(guild.getIdLong(), type);
+    public synchronized void unsubscribe(@NonNull Guild guild, @NonNull Feed feed) {
+        FeedId id = new FeedId(guild.getIdLong(), feed.getType());
         log.info("Delete data: {}", id);
         feedRepository.deleteById(id);
     }
 
-    public FeedData getSubscription(@NonNull Guild guild, @NonNull String type) {
-        return feedRepository.findById(new FeedId(guild.getIdLong(), type)).orElse(null);
+    public FeedData getSubscription(@NonNull Guild guild, @NonNull Feed feed) {
+        return feedRepository.findById(new FeedId(guild.getIdLong(), feed.getType())).orElse(null);
     }
 
-    public synchronized void updateSubscription(@NonNull TextChannel channel, @NonNull String type, long uts) {
+    public synchronized void updateSubscription(@NonNull TextChannel channel, @NonNull Feed feed, long uts) {
         FeedData data = new FeedData(
                 channel.getGuild().getIdLong(),
-                type,
+                feed.getType(),
                 channel.getIdLong(),
                 uts
         );

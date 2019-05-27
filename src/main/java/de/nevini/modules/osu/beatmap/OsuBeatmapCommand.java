@@ -2,8 +2,8 @@ package de.nevini.modules.osu.beatmap;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.command.*;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.external.OsuModeResolver;
+import de.nevini.scope.Node;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;

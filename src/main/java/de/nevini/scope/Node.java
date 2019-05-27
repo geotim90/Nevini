@@ -1,4 +1,4 @@
-package de.nevini.modules;
+package de.nevini.scope;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

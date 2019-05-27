@@ -3,6 +3,7 @@ package de.nevini.listeners;
 import com.oopsjpeg.osu4j.GameMode;
 import com.oopsjpeg.osu4j.OsuUser;
 import de.nevini.db.feed.FeedData;
+import de.nevini.scope.Feed;
 import de.nevini.services.common.FeedService;
 import de.nevini.services.common.IgnService;
 import de.nevini.services.external.OsuService;
@@ -29,8 +30,6 @@ import java.util.regex.Pattern;
 @Slf4j
 @Component
 public class OsuListener {
-
-    private static final String FEED_TYPE = "osu.events";
 
     private final IgnService ignService;
     private final FeedService feedService;
@@ -68,7 +67,7 @@ public class OsuListener {
             }
             // update user events for subscribed channels
             if (event.getGuild() != null) {
-                FeedData feed = feedService.getSubscription(event.getGuild(), FEED_TYPE);
+                FeedData feed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
                 if (feed != null) {
                     TextChannel channel = event.getGuild().getTextChannelById(feed.getChannel());
                     if (channel != null) {
@@ -101,7 +100,7 @@ public class OsuListener {
                     .filter(e -> e.getDate().isAfter(uts))
                     .map(OsuUser.Event::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(channel, FEED_TYPE, max.toInstant().toEpochMilli()));
+                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.toInstant().toEpochMilli()));
         }
     }
 

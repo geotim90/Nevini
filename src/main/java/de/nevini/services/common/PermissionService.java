@@ -3,7 +3,7 @@ package de.nevini.services.common;
 import de.nevini.db.permission.PermissionData;
 import de.nevini.db.permission.PermissionId;
 import de.nevini.db.permission.PermissionRepository;
-import de.nevini.modules.Node;
+import de.nevini.scope.Node;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;

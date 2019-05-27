@@ -4,10 +4,10 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.modules.Module;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.StringResolver;
 import de.nevini.resolvers.common.Resolvers;
+import de.nevini.scope.Module;
+import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.util.List;

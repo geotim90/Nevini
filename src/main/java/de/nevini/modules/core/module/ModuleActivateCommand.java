@@ -1,10 +1,10 @@
 package de.nevini.modules.core.module;
 
 import de.nevini.command.*;
-import de.nevini.modules.Module;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.common.ModuleResolver;
 import de.nevini.resolvers.common.Resolvers;
+import de.nevini.scope.Module;
+import de.nevini.scope.Node;
 
 public class ModuleActivateCommand extends Command {
 

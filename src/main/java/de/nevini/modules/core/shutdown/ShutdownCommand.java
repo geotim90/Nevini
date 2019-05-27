@@ -4,8 +4,8 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandReaction;
-import de.nevini.modules.Node;
-import de.nevini.modules.Permissions;
+import de.nevini.scope.Node;
+import de.nevini.scope.Permissions;
 import org.springframework.stereotype.Component;
 
 @Component

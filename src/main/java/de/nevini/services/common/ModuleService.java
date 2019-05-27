@@ -3,7 +3,7 @@ package de.nevini.services.common;
 import de.nevini.db.module.ModuleData;
 import de.nevini.db.module.ModuleId;
 import de.nevini.db.module.ModuleRepository;
-import de.nevini.modules.Module;
+import de.nevini.scope.Module;
 import de.nevini.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

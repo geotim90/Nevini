@@ -1,6 +1,6 @@
 package de.nevini.command;
 
-import de.nevini.modules.Module;
+import de.nevini.scope.Module;
 import de.nevini.util.Formatter;
 import lombok.NonNull;
 import lombok.experimental.Delegate;

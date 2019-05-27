@@ -3,7 +3,7 @@ package de.nevini.modules.core.prefix;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.modules.Node;
+import de.nevini.scope.Node;
 
 public class PrefixGetCommand extends Command {
 

@@ -1,7 +1,7 @@
 package de.nevini.modules.core.permission;
 
 import de.nevini.command.*;
-import de.nevini.modules.Node;
+import de.nevini.scope.Node;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.apache.commons.lang3.ObjectUtils;

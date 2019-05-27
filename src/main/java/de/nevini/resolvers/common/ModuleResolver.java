@@ -2,8 +2,8 @@ package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.modules.Module;
 import de.nevini.resolvers.AbstractResolver;
+import de.nevini.scope.Module;
 import lombok.NonNull;
 
 import java.util.Comparator;

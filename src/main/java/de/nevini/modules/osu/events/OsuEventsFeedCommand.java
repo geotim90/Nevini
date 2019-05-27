@@ -1,14 +1,13 @@
 package de.nevini.modules.osu.events;
 
 import de.nevini.command.*;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.common.ChannelResolver;
 import de.nevini.resolvers.common.Resolvers;
+import de.nevini.scope.Feed;
+import de.nevini.scope.Node;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 public class OsuEventsFeedCommand extends Command {
-
-    private static final String FEED_TYPE = "osu.events";
 
     public OsuEventsFeedCommand() {
         super(CommandDescriptor.builder()
@@ -31,10 +30,10 @@ public class OsuEventsFeedCommand extends Command {
 
     private void acceptChannel(CommandEvent event, TextChannel channel) {
         if (channel == null) {
-            event.getFeedService().unsubscribe(event.getGuild(), FEED_TYPE);
+            event.getFeedService().unsubscribe(event.getGuild(), Feed.OSU_EVENTS);
             event.reply(CommandReaction.OK, "I will stop posting osu! events on this server.", event::complete);
         } else if (channel.canTalk()) {
-            event.getFeedService().subscribe(channel, FEED_TYPE);
+            event.getFeedService().subscribe(channel, Feed.OSU_EVENTS);
             event.reply(CommandReaction.OK, "I will start posting osu! events in " + channel.getAsMention() + ".", event::complete);
         } else {
             event.reply(CommandReaction.ERROR, "I cannot post in " + channel.getAsMention() + "!", event::complete);

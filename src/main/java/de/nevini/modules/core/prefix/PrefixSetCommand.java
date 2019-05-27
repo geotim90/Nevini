@@ -1,8 +1,8 @@
 package de.nevini.modules.core.prefix;
 
 import de.nevini.command.*;
-import de.nevini.modules.Node;
 import de.nevini.resolvers.StringResolver;
+import de.nevini.scope.Node;
 
 public class PrefixSetCommand extends Command {
 

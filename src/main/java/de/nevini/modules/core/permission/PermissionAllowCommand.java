@@ -1,7 +1,7 @@
 package de.nevini.modules.core.permission;
 
 import de.nevini.command.CommandDescriptor;
-import de.nevini.modules.Node;
+import de.nevini.scope.Node;
 
 public class PermissionAllowCommand extends PermissionSetCommand {
 

@@ -1,6 +1,6 @@
 package de.nevini.command;
 
-import de.nevini.modules.Node;
+import de.nevini.scope.Node;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
