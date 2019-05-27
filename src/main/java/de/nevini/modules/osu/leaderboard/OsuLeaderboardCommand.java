@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -41,8 +40,12 @@ public class OsuLeaderboardCommand extends Command {
     protected void execute(CommandEvent event) {
         GameData game = osu.getGame();
         List<OsuUser> rankedUsers = event.getGuild().getMembers().stream().filter(member -> !member.getUser().isBot())
-                .map(member -> osu.getUser(StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName())))
-                .filter(Objects::nonNull).sorted(Comparator.comparing(OsuUser::getRank)).limit(10).collect(Collectors.toList());
+                .map(member -> {
+                    String ign = event.getIgnService().getIgn(member, game);
+                    return StringUtils.isEmpty(ign) ? null : osu.getUser(ign);
+                })
+                .filter(user -> user != null && user.getRank() > 0).sorted(Comparator.comparing(OsuUser::getRank))
+                .limit(10).collect(Collectors.toList());
         if (rankedUsers.isEmpty()) {
             event.reply("No users found.", event::complete);
         } else {
