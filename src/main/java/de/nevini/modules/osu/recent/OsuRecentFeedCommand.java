@@ -29,7 +29,7 @@ public class OsuRecentFeedCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        delegate.executeExternal(event, Feed.OSU_EVENTS);
+        delegate.executeExternal(event, Feed.OSU_RECENT);
     }
 
 }
