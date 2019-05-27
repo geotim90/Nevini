@@ -69,19 +69,19 @@ public class OsuListener {
             }
             if (event.getGuild() != null) {
                 // update osu! events for subscribed channels
-                FeedData feed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
-                if (feed != null) {
-                    TextChannel channel = event.getGuild().getTextChannelById(feed.getChannel());
+                FeedData eventsFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
+                if (eventsFeed != null) {
+                    TextChannel channel = event.getGuild().getTextChannelById(eventsFeed.getChannel());
                     if (channel != null) {
-                        updateEvents(event, feed, channel);
+                        updateEvents(event, eventsFeed, channel);
                     }
                 }
                 // update osu! plays for subscribed channels
-                feed = feedService.getSubscription(event.getGuild(), Feed.OSU_RECENT);
-                if (feed != null) {
-                    TextChannel channel = event.getGuild().getTextChannelById(feed.getChannel());
+                FeedData recentFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_RECENT);
+                if (recentFeed != null) {
+                    TextChannel channel = event.getGuild().getTextChannelById(recentFeed.getChannel());
                     if (channel != null) {
-                        updateRecent(event, feed, channel);
+                        updateRecent(event, recentFeed, channel);
                     }
                 }
             }
@@ -102,8 +102,8 @@ public class OsuListener {
                     .filter(e -> e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuUser.Event::getDate))
                     .forEach(e -> {
-                        String markdown = convertHtmlToMarkdown(e.getDisplayHTML());
-                        log.info("Feed {} on {} in {} at {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), Formatter.formatTimestamp(e.getDate()), markdown);
+                        String markdown = Formatter.formatTimestamp(e.getDate()) + " " + convertHtmlToMarkdown(e.getDisplayHTML());
+                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
             user.getEvents().stream()
@@ -138,16 +138,16 @@ public class OsuListener {
             int userId = scores.get(0).getUserID();
             String userName = osuService.getUserName(userId);
             scores.stream()
-                    .filter(e -> e.getBeatmapID() != 0 && e.getDate().isAfter(uts))
+                    // only consider recent beatmap scores that were not a fail or retry
+                    .filter(e -> e.getBeatmapID() != 0 && !"F".equals(e.getRank()) && e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuScore::getDate))
                     .forEach(e -> {
-                        String markdown = "**" + e.getRank() + "** " + userName + " achieved "
-                                + Formatter.formatInteger(e.getScore()) + " points on "
+                        String markdown = Formatter.formatTimestamp(e.getDate()) + " " + "**" + e.getRank() + "** "
+                                + userName + " achieved " + Formatter.formatInteger(e.getScore()) + " points on "
                                 + osuService.getBeatmapTitle(e.getBeatmapID()) + " ["
                                 + osuService.getBeatmapVersion(e.getBeatmapID()) + "] ("
                                 + osuService.getBeatmapMode(e.getBeatmapID()).getName() + ")";
-                        log.info("Feed {} on {} in {} at {}: {}", feed.getType(), channel.getGuild().getId(),
-                                channel.getId(), Formatter.formatTimestamp(e.getDate()), markdown);
+                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
             scores.stream()
