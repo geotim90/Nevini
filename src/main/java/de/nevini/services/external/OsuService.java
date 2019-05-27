@@ -16,13 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class OsuService {
 
-    private final Map<Integer, String> beatmapNameCache = new ConcurrentHashMap<>();
+    private final Map<Integer, OsuBeatmap> beatmapCache = new ConcurrentHashMap<>();
     private final Map<Integer, String> userNameCache = new ConcurrentHashMap<>();
 
     private final Osu osu;
@@ -36,39 +35,54 @@ public class OsuService {
         this.gameService = gameService;
     }
 
-    public String getBeatmapName(int beatmapId) {
-        String beatmapName = beatmapNameCache.get(beatmapId);
-        if (StringUtils.isEmpty(beatmapName)) {
-            OsuBeatmap beatmap = getBeatmap(beatmapId);
-            return beatmap == null ? Integer.toString(beatmapId) : beatmap.getTitle();
-        } else {
-            return beatmapName;
-        }
-    }
-
-    public Map<Integer, String> findBeatmaps(@NonNull String query) {
+    /**
+     * Attempts to find beatmaps by id or name.<br>
+     * If a valid id is provided, this will query up-to-date beatmap information from the osu!api.<br>
+     * If part of a title is provided, this will query the <em>cached</em> beatmaps and return the best matches.
+     */
+    public Collection<OsuBeatmap> findBeatmaps(@NonNull String query) {
         try {
-            int id = Integer.parseInt(query);
-            return Collections.singletonMap(id, getBeatmapName(id));
+            int beatmapId = Integer.parseInt(query);
+            return Collections.singleton(getBeatmapFromCacheOrApi(beatmapId));
         } catch (NumberFormatException ignore) {
-            return Finder.find(beatmapNameCache.entrySet(), Map.Entry::getValue, query).stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            return Finder.find(beatmapCache.values(), OsuBeatmap::getTitle, query);
         }
     }
 
     public OsuBeatmap getBeatmap(int beatmapId) {
-        OsuBeatmap beatmap;
+        OsuBeatmap beatmap = getBeatmapFromApi(beatmapId);
+        if (beatmap != null) {
+            beatmapCache.put(beatmap.getID(), beatmap);
+        }
+        return beatmap;
+    }
+
+    private OsuBeatmap getBeatmapFromCacheOrApi(int beatmapId) {
+        return beatmapCache.computeIfAbsent(beatmapId, this::getBeatmapFromApi);
+    }
+
+    private OsuBeatmap getBeatmapFromApi(int beatmapId) {
         try {
-            beatmap = osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapId).build())
-                    .get(0);
+            return osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapId).build()).get(0);
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get beatmap {}", beatmapId, e);
             return null;
         }
-        if (beatmap != null) {
-            beatmapNameCache.put(beatmap.getID(), beatmap.getTitle());
-        }
-        return beatmap;
+    }
+
+    public String getBeatmapTitle(int beatmapId) {
+        OsuBeatmap beatmap = getBeatmapFromCacheOrApi(beatmapId);
+        return beatmap == null ? Integer.toString(beatmapId) : beatmap.getTitle();
+    }
+
+    public String getBeatmapVersion(int beatmapId) {
+        OsuBeatmap beatmap = getBeatmapFromCacheOrApi(beatmapId);
+        return beatmap == null ? "?" : beatmap.getVersion();
+    }
+
+    public GameMode getBeatmapMode(int beatmapId) {
+        OsuBeatmap beatmap = getBeatmapFromCacheOrApi(beatmapId);
+        return beatmap == null ? GameMode.STANDARD : beatmap.getMode();
     }
 
     public GameData getGame() {

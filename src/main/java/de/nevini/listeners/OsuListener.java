@@ -1,6 +1,7 @@
 package de.nevini.listeners;
 
 import com.oopsjpeg.osu4j.GameMode;
+import com.oopsjpeg.osu4j.OsuScore;
 import com.oopsjpeg.osu4j.OsuUser;
 import de.nevini.db.feed.FeedData;
 import de.nevini.scope.Feed;
@@ -24,6 +25,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,13 +67,21 @@ public class OsuListener {
                     ignService.setIgn(event.getUser(), presence.getApplicationIdLong(), matcher.group(1));
                 }
             }
-            // update user events for subscribed channels
             if (event.getGuild() != null) {
+                // update osu! events for subscribed channels
                 FeedData feed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
                 if (feed != null) {
                     TextChannel channel = event.getGuild().getTextChannelById(feed.getChannel());
                     if (channel != null) {
                         updateEvents(event, feed, channel);
+                    }
+                }
+                // update osu! plays for subscribed channels
+                feed = feedService.getSubscription(event.getGuild(), Feed.OSU_RECENT);
+                if (feed != null) {
+                    TextChannel channel = event.getGuild().getTextChannelById(feed.getChannel());
+                    if (channel != null) {
+                        updateRecent(event, feed, channel);
                     }
                 }
             }
@@ -114,6 +124,38 @@ public class OsuListener {
                 .replaceAll("&amp;", "&")
                 .replaceAll("&gt;", ">")
                 .replaceAll("&lt;", "<");
+    }
+
+    // synchronized to prevent uts race conditions
+    private synchronized void updateRecent(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
+        ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
+        Member member = event.getMember();
+        String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+        log.info("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
+        List<OsuScore> scores = osuService.getUserRecent(ign, GameMode.STANDARD);
+        if (scores != null && !scores.isEmpty()) {
+            int userId = scores.get(0).getUserID();
+            String userName = osuService.getUserName(userId);
+            scores.stream()
+                    .filter(e -> e.getBeatmapID() != 0 && e.getDate().isAfter(uts))
+                    .sorted(Comparator.comparing(OsuScore::getDate))
+                    .forEach(e -> {
+                        String markdown = "**" + e.getRank() + "** " + userName + " achieved "
+                                + Formatter.formatInteger(e.getScore()) + " points on "
+                                + osuService.getBeatmapTitle(e.getBeatmapID()) + " ["
+                                + osuService.getBeatmapVersion(e.getBeatmapID()) + "] ("
+                                + osuService.getBeatmapMode(e.getBeatmapID()).getName() + ")";
+                        log.info("Feed {} on {} in {} at {}: {}", feed.getType(), channel.getGuild().getId(),
+                                channel.getId(), Formatter.formatTimestamp(e.getDate()), markdown);
+                        channel.sendMessage(markdown).queue();
+                    });
+            scores.stream()
+                    .filter(e -> e.getDate().isAfter(uts))
+                    .map(OsuScore::getDate)
+                    .max(Comparator.naturalOrder())
+                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_RECENT, max.toInstant().toEpochMilli()));
+        }
     }
 
 }

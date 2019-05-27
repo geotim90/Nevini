@@ -32,6 +32,9 @@ public class OsuRecentCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!recent")
                 .aliases(new String[]{"osu!recents"})
+                .children(new Command[]{
+                        new OsuRecentFeedCommand()
+                })
                 .node(Node.OSU_RECENT)
                 .description("displays up to 50 most recent plays over the last 24 hours of an osu! user")
                 .options(new CommandOptionDescriptor[]{
@@ -66,7 +69,7 @@ public class OsuRecentCommand extends Command {
             for (OsuScore score : scores) {
                 embed.addField(score.getRank() + " - " + Formatter.formatInteger(score.getScore()) + " - "
                                 + Formatter.formatLargestUnitAgo(score.getDate()),
-                        "[" + osu.getBeatmapName(score.getBeatmapID()) + "](https://osu.ppy.sh/b/"
+                        "[" + osu.getBeatmapTitle(score.getBeatmapID()) + "](https://osu.ppy.sh/b/"
                                 + score.getBeatmapID() + ")",
                         false);
             }

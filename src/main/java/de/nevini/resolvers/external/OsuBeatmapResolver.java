@@ -1,5 +1,6 @@
 package de.nevini.resolvers.external;
 
+import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
@@ -8,11 +9,10 @@ import lombok.NonNull;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class OsuBeatmapIdResolver extends AbstractResolver<Integer> {
+public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
     public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
         return CommandOptionDescriptor.builder()
@@ -24,26 +24,26 @@ public class OsuBeatmapIdResolver extends AbstractResolver<Integer> {
 
     private final OsuService osuService;
 
-    public OsuBeatmapIdResolver(@NonNull OsuService osuService) {
+    public OsuBeatmapResolver(@NonNull OsuService osuService) {
         super("beatmap", new Pattern[]{Pattern.compile("(?i)(?:--|//)(?:beatmap|bm)(?:\\s+(.+))?")});
         this.osuService = osuService;
     }
 
 
     @Override
-    public List<Integer> findSorted(CommandEvent ignored, String query) {
-        return osuService.findBeatmaps(query).entrySet().stream().sorted(Comparator.comparing(Map.Entry::getValue))
-                .map(Map.Entry::getKey).collect(Collectors.toList());
+    public List<OsuBeatmap> findSorted(CommandEvent ignored, String query) {
+        return osuService.findBeatmaps(query).stream().sorted(Comparator.comparing(OsuBeatmap::getTitle))
+                .collect(Collectors.toList());
     }
 
     @Override
-    protected String getFieldNameForPicker(Integer item) {
-        return Integer.toString(item);
+    protected String getFieldNameForPicker(OsuBeatmap item) {
+        return Integer.toString(item.getID());
     }
 
     @Override
-    protected String getFieldValueForPicker(Integer item) {
-        return osuService.getBeatmapName(item);
+    protected String getFieldValueForPicker(OsuBeatmap item) {
+        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/" + item.getID() + ")";
     }
 
 }

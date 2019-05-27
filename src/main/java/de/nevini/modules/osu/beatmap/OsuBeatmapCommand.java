@@ -5,7 +5,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.resolvers.external.OsuBeatmapIdResolver;
+import de.nevini.resolvers.external.OsuBeatmapResolver;
 import de.nevini.scope.Node;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OsuBeatmapCommand extends Command {
 
-    private final OsuBeatmapIdResolver beatmapIdResolver;
+    private final OsuBeatmapResolver beatmapIdResolver;
     private final OsuService osu;
 
     public OsuBeatmapCommand(@Autowired OsuService osu) {
@@ -27,23 +27,23 @@ public class OsuBeatmapCommand extends Command {
                 .node(Node.OSU_BEATMAP)
                 .description("displays general information of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        OsuBeatmapIdResolver.describe().build()
+                        OsuBeatmapResolver.describe().build()
                 })
                 .build());
-        this.beatmapIdResolver = new OsuBeatmapIdResolver(osu);
+        this.beatmapIdResolver = new OsuBeatmapResolver(osu);
         this.osu = osu;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        beatmapIdResolver.resolveArgumentOrOptionOrInput(event, beatmapId -> acceptBeatmapId(event, beatmapId));
+        beatmapIdResolver.resolveArgumentOrOptionOrInput(event, beatmap -> acceptBeatmap(event, beatmap));
     }
 
-    private void acceptBeatmapId(CommandEvent event, int beatmapId) {
-        OsuBeatmap beatmap = osu.getBeatmap(beatmapId);
+    private void acceptBeatmap(CommandEvent event, OsuBeatmap beatmap) {
         if (beatmap == null) {
             event.reply("Beatmap not found.", event::complete);
         } else {
+            beatmap = osu.getBeatmap(beatmap.getID()); // update information - beatmap may have been cached
             EmbedBuilder embed = event.createEmbedBuilder();
             event.getGameService().findGames("osu!").stream().findFirst().ifPresent(
                     game -> embed.setAuthor(game.getName(), null, game.getIcon())

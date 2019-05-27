@@ -39,6 +39,7 @@ public enum Node {
     OSU_EVENTS("osu.events", Module.OSU, Permissions.EVERYONE),
     OSU_EVENTS_FEED(GUILD_FEED_SET.node, Module.OSU, GUILD_FEED_SET.defaultPermissions),
     OSU_RECENT("osu.recent", Module.OSU, Permissions.EVERYONE),
+    OSU_RECENT_FEED(GUILD_FEED_SET.node, Module.OSU, GUILD_FEED_SET.defaultPermissions),
     OSU_SCORES("osu.scores", Module.OSU, Permissions.EVERYONE),
     OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE);
 
