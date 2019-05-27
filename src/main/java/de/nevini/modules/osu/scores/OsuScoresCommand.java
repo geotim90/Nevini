@@ -85,8 +85,9 @@ public class OsuScoresCommand extends Command {
             embed.setAuthor(game.getName(), null, game.getIcon());
             embed.setTitle(beatmap.getTitle(), "https://osu.ppy.sh/b/" + beatmap.getID());
             for (OsuScore score : scores) {
-                embed.addField(score.getRank() + " - " + Formatter.formatInteger(score.getScore())
-                                + " - " + Formatter.formatLargestUnitAgo(score.getDate()),
+                embed.addField(Formatter.formatRank(score.getRank()) + " "
+                                + Formatter.formatInteger(score.getScore()) + " - "
+                                + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osu.getUserName(score.getUserID()) + "](https://osu.ppy.sh/u/"
                                 + score.getUserID() + ")",
                         false);

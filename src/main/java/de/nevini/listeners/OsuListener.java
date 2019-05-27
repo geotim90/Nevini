@@ -102,7 +102,7 @@ public class OsuListener {
                     .filter(e -> e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuUser.Event::getDate))
                     .forEach(e -> {
-                        String markdown = convertHtmlToMarkdown(e.getDisplayHTML()) + " at " + Formatter.formatTimestamp(e.getDate());
+                        String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHTML()) + " at " + Formatter.formatTimestamp(e.getDate());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
@@ -112,18 +112,6 @@ public class OsuListener {
                     .max(Comparator.naturalOrder())
                     .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.toInstant().toEpochMilli()));
         }
-    }
-
-    private String convertHtmlToMarkdown(String html) {
-        return html.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
-                .replaceAll("<b><a href='(/u/\\d+)'>([^<]+)</a></b>", "$2") // resolve user references
-                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "$2") // resolve beatmap references
-                // resolve HTML formatting
-                .replaceAll("<b>([^<]+)</b>", "**$1**") // bold text emphasis
-                // resolve HTML entities
-                .replaceAll("&amp;", "&")
-                .replaceAll("&gt;", ">")
-                .replaceAll("&lt;", "<");
     }
 
     // synchronized to prevent uts race conditions
@@ -142,7 +130,7 @@ public class OsuListener {
                     .filter(e -> e.getBeatmapID() != 0 && !"F".equals(e.getRank()) && e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuScore::getDate))
                     .forEach(e -> {
-                        String markdown = "**" + e.getRank() + "** " + userName + " achieved " +
+                        String markdown = Formatter.formatRank(e.getRank()) + " " + userName + " achieved " +
                                 Formatter.formatInteger(e.getScore()) + " points on "
                                 + osuService.getBeatmapTitle(e.getBeatmapID()) + " ["
                                 + osuService.getBeatmapVersion(e.getBeatmapID()) + "] ("

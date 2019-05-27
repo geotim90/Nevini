@@ -13,7 +13,6 @@ import de.nevini.resolvers.external.OsuModeResolver;
 import de.nevini.scope.Node;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,29 +59,13 @@ public class OsuEventsCommand extends Command {
         } else if (user.getEvents().isEmpty()) {
             event.reply("No events found.", event::complete);
         } else {
-            EmbedBuilder embed = event.createEmbedBuilder();
-            embed.setAuthor(game.getName(), null, game.getIcon());
-            embed.setTitle(user.getUsername(), "https://osu.ppy.sh/u/" + user.getID());
+            StringBuilder builder = new StringBuilder();
             for (OsuUser.Event e : user.getEvents()) {
-                String markdown = convertHtmlToMarkdown(e.getDisplayHTML());
-                if (StringUtils.isNotEmpty(markdown)) {
-                    embed.addField(Formatter.formatTimestamp(e.getDate()), markdown, false);
-                }
+                builder.append(Formatter.formatOsuDisplayHtml(e.getDisplayHTML())).append(" ")
+                        .append(Formatter.formatLargestUnitAgo(e.getDate())).append('\n');
             }
-            event.reply(embed, event::complete);
+            event.reply(builder.toString(), event::complete);
         }
-    }
-
-    private String convertHtmlToMarkdown(String html) {
-        return html.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
-                .replaceAll("<b><a href='(/u/\\d+)'>([^<]+)</a></b>", "[$2](https://osu.ppy.sh$1)") // resolve user references
-                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "[$2](https://osu.ppy.sh$1)") // resolve beatmap references
-                // resolve HTML formatting
-                .replaceAll("<b>([^<]+)</b>", "**$1**") // bold text emphasis
-                // resolve HTML entities
-                .replaceAll("&amp;", "&")
-                .replaceAll("&gt;", ">")
-                .replaceAll("&lt;", "<");
     }
 
 }

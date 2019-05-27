@@ -1,5 +1,6 @@
 package de.nevini.util;
 
+import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DecimalFormat;
@@ -13,6 +14,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Formatter {
 
@@ -86,8 +89,55 @@ public class Formatter {
         return NumberFormat.getIntegerInstance(Locale.US).format(value);
     }
 
+    public static String formatOsuDisplayHtml(String value) {
+        String markdown = value.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
+                .replaceAll("<b><a href='(/u/\\d+)'>([^<]+)</a></b>", "$2") // resolve user references
+                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "$2") // resolve beatmap references
+                // resolve HTML formatting
+                .replaceAll("<b>([^<]+)</b>", "**$1**") // bold text emphasis
+                // resolve HTML entities
+                .replaceAll("&amp;", "&")
+                .replaceAll("&gt;", ">")
+                .replaceAll("&lt;", "<");
+        Matcher rankMatcher = Pattern.compile("\\*\\*([ABCDF]|(?:SS?|X)[H+]?)\\*\\*").matcher(markdown);
+        if (rankMatcher.find()) {
+            return Formatter.formatRank(rankMatcher.group(1)) + markdown.substring(rankMatcher.end());
+        } else {
+            return markdown;
+        }
+    }
+
     public static String formatPercent(double value) {
         return new DecimalFormat("#0.##%", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
+    }
+
+    public static String formatRank(@NonNull String value) {
+        switch (value) {
+            case "A":
+                return "<:rankA:581903653078695936>";
+            case "B":
+                return "<:rankB:581903653200330756>";
+            case "C":
+                return "<:rankC:581903653200330768>";
+            case "D":
+            case "F":
+                return "<:rankD:581903653049204799>";
+            case "S":
+                return "<:rankS:581903652831232003>";
+            case "SH":
+            case "S+":
+                return "<:rankSH:581903653070438423>";
+            case "SS":
+            case "X":
+                return "<:rankSS:581903653112381470>";
+            case "SSH":
+            case "SS+":
+            case "XH":
+            case "X+":
+                return "<:rankSSH:581903653607178280>";
+            default:
+                return value.isEmpty() ? value : "**" + value + "**";
+        }
     }
 
     public static String formatSeconds(int seconds) {
