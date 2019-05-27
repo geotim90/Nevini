@@ -42,7 +42,7 @@ public class OsuStatsCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptUser(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefault(event, event.getMember(), member -> acceptUser(event, member));
     }
 
     private void acceptUser(CommandEvent event, Member member) {

@@ -35,11 +35,12 @@ public enum Node {
     GUILD_IGN_GET("guild.ign.get", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_SET("guild.ign.set", Module.GUILD, Permissions.MANAGE_NICKNAMES),
     OSU_BEATMAP("osu.beatmap", Module.OSU, Permissions.EVERYONE),
+    OSU_BEST("osu.best", Module.OSU, Permissions.EVERYONE),
     OSU_EVENTS("osu.events", Module.OSU, Permissions.EVERYONE),
     OSU_EVENTS_FEED(GUILD_FEED_SET.node, Module.OSU, GUILD_FEED_SET.defaultPermissions),
     OSU_RECENT("osu.recent", Module.OSU, Permissions.EVERYONE),
-    OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE),
-    ;
+    OSU_SCORES("osu.scores", Module.OSU, Permissions.EVERYONE),
+    OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE);
 
     private final String node;
     private final Module module;

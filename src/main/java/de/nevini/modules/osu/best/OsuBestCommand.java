@@ -31,7 +31,7 @@ public class OsuBestCommand extends Command {
     public OsuBestCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
                 .keyword("osu!best")
-                .node(Node.OSU_RECENT)
+                .node(Node.OSU_BEST)
                 .description("displays the top 100 scores of an osu! user")
                 .options(new CommandOptionDescriptor[]{
                         MemberResolver.describe().build(),
@@ -43,7 +43,7 @@ public class OsuBestCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptUser(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefault(event, event.getMember(), member -> acceptUser(event, member));
     }
 
     private void acceptUser(CommandEvent event, Member member) {

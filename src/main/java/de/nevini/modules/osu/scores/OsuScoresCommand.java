@@ -36,7 +36,7 @@ public class OsuScoresCommand extends Command {
     public OsuScoresCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
                 .keyword("osu!scores")
-                .node(Node.OSU_RECENT)
+                .node(Node.OSU_SCORES)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
                         OsuBeatmapIdResolver.describe().build(),
@@ -55,17 +55,17 @@ public class OsuScoresCommand extends Command {
     }
 
     private void acceptBeatmap(CommandEvent event, int beatmap) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event, event.getMember(), member ->
+        Resolvers.MEMBER.resolveOptionOrDefaultIfExists(event, event.getMember(), member ->
                 acceptBeatmapAndMember(event, beatmap, member));
     }
 
     private void acceptBeatmapAndMember(CommandEvent event, int beatmap, Member member) {
-        modeResolver.resolveArgumentOrOptionOrInputIfExists(event, mode ->
+        modeResolver.resolveOptionOrInputIfExists(event, mode ->
                 acceptBeatmapAndMemberAndMode(event, beatmap, member, mode));
     }
 
     private void acceptBeatmapAndMemberAndMode(CommandEvent event, int beatmap, Member member, GameMode mode) {
-        modsResolver.resolveArgumentOrOptionOrInputIfExists(event, mods ->
+        modsResolver.resolveOptionOrInputIfExists(event, mods ->
                 acceptBeatmapAndMemberAndModeAndMods(event, beatmap, member, mode, mods));
     }
 

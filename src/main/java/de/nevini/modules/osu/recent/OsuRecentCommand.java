@@ -44,7 +44,7 @@ public class OsuRecentCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefault(event, event.getMember(), member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
