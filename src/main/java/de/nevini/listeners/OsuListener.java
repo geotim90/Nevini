@@ -102,7 +102,7 @@ public class OsuListener {
                     .filter(e -> e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuUser.Event::getDate))
                     .forEach(e -> {
-                        String markdown = Formatter.formatTimestamp(e.getDate()) + " " + convertHtmlToMarkdown(e.getDisplayHTML());
+                        String markdown = convertHtmlToMarkdown(e.getDisplayHTML()) + " at " + Formatter.formatTimestamp(e.getDate());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
@@ -142,11 +142,12 @@ public class OsuListener {
                     .filter(e -> e.getBeatmapID() != 0 && !"F".equals(e.getRank()) && e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuScore::getDate))
                     .forEach(e -> {
-                        String markdown = Formatter.formatTimestamp(e.getDate()) + " " + "**" + e.getRank() + "** "
-                                + userName + " achieved " + Formatter.formatInteger(e.getScore()) + " points on "
+                        String markdown = "**" + e.getRank() + "** " + userName + " achieved " +
+                                Formatter.formatInteger(e.getScore()) + " points on "
                                 + osuService.getBeatmapTitle(e.getBeatmapID()) + " ["
                                 + osuService.getBeatmapVersion(e.getBeatmapID()) + "] ("
-                                + osuService.getBeatmapMode(e.getBeatmapID()).getName() + ")";
+                                + osuService.getBeatmapMode(e.getBeatmapID()).getName() + ") at "
+                                + Formatter.formatTimestamp(e.getDate());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
