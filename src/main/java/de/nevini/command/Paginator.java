@@ -21,7 +21,9 @@ public class Paginator {
 
     private static final String EMOTE_BACK = "\u25C0";
     private static final String EMOTE_CANCEL = "\u23F9";
+    private static final String EMOTE_FIRST = "\u23ee";
     private static final String EMOTE_NEXT = "\u25B6";
+    private static final String EMOTE_LAST = "\u23ed";
 
     @NonNull
     private final CommandEvent context;
@@ -84,9 +86,11 @@ public class Paginator {
     private void paginate(Message message, int pageNumber) {
         container = message;
         currentPage = pageNumber;
+        message.addReaction(EMOTE_FIRST).queue();
         message.addReaction(EMOTE_BACK).queue();
         message.addReaction(EMOTE_CANCEL).queue();
         message.addReaction(EMOTE_NEXT).queue();
+        message.addReaction(EMOTE_LAST).queue();
         context.getEventDispatcher().subscribe(MessageReactionAddEvent.class, event ->
                         message.getIdLong() == event.getMessageIdLong()
                                 && context.getAuthor().getIdLong() == event.getUser().getIdLong(),
@@ -103,6 +107,10 @@ public class Paginator {
             renderPage(currentPage - 1);
         } else if (EMOTE_CANCEL.equals(emote)) {
             expire();
+        } else if (EMOTE_FIRST.equals(emote)) {
+            renderPage(1);
+        } else if (EMOTE_LAST.equals(emote)) {
+            renderPage(getPageCount());
         }
         event.getReaction().removeReaction(event.getUser()).queue();
     }
