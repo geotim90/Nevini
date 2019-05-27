@@ -29,9 +29,9 @@ public class OsuStatsCommand extends Command {
     public OsuStatsCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
                 .keyword("osu!stats")
-                .aliases(new String[]{"osu!stat", "osu!user", "osu!player"})
+                .aliases(new String[]{"osu!user"})
                 .node(Node.OSU_STATS)
-                .description("displays osu! user stats")
+                .description("displays general information of an osu! user")
                 .options(new CommandOptionDescriptor[]{
                         MemberResolver.describe().build(),
                         OsuModeResolver.describe().build()

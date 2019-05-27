@@ -8,6 +8,7 @@ import com.oopsjpeg.osu4j.backend.*;
 import com.oopsjpeg.osu4j.exception.OsuAPIException;
 import de.nevini.db.game.GameData;
 import de.nevini.services.common.GameService;
+import de.nevini.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -16,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -45,6 +48,16 @@ public class OsuService {
             return beatmap == null ? Integer.toString(beatmapId) : beatmap.getTitle();
         } else {
             return beatmapName;
+        }
+    }
+
+    public Map<Integer, String> findBeatmaps(@NonNull String query) {
+        try {
+            int id = Integer.parseInt(query);
+            return Collections.singletonMap(id, getBeatmapName(id));
+        } catch (NumberFormatException ignore) {
+            return Finder.find(beatmapNameCache.entrySet(), Map.Entry::getValue, query).stream().collect(Collectors.toMap(
+                    Map.Entry::getKey, Map.Entry::getValue));
         }
     }
 

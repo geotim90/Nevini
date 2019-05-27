@@ -29,7 +29,6 @@ public class OsuEventsCommand extends Command {
     public OsuEventsCommand(@Autowired OsuService osu) {
         super(CommandDescriptor.builder()
                 .keyword("osu!events")
-                .aliases(new String[]{"osu!event"})
                 .children(new Command[]{
                         new OsuEventsFeedCommand()
                 })

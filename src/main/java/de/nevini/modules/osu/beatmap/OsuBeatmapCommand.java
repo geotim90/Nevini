@@ -2,6 +2,7 @@ package de.nevini.modules.osu.beatmap;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.command.*;
+import de.nevini.resolvers.external.OsuBeatmapIdResolver;
 import de.nevini.resolvers.external.OsuModeResolver;
 import de.nevini.scope.Node;
 import de.nevini.services.external.OsuService;
@@ -21,13 +22,9 @@ public class OsuBeatmapCommand extends Command {
                 .keyword("osu!beatmap")
                 .aliases(new String[]{"osu!b", "osu!bm", "osu!map"})
                 .node(Node.OSU_BEATMAP)
-                .description("displays osu! beatmap information")
+                .description("displays general information of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        CommandOptionDescriptor.builder()
-                                .syntax("<beatmap>")
-                                .description("The ID of the beatmap to look up.")
-                                .keyword("")
-                                .build(),
+                        OsuBeatmapIdResolver.describe().build(),
                         OsuModeResolver.describe().build()
                 })
                 .build());

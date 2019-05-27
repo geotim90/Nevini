@@ -33,7 +33,7 @@ public class OsuRecentCommand extends Command {
                 .keyword("osu!recent")
                 .aliases(new String[]{"osu!recents"})
                 .node(Node.OSU_RECENT)
-                .description("displays osu! user most recent plays")
+                .description("displays up to 50 most recent plays over the last 24 hours of an osu! user")
                 .options(new CommandOptionDescriptor[]{
                         MemberResolver.describe().build(),
                         OsuModeResolver.describe().build()
