@@ -21,7 +21,7 @@ public class GameResolver extends AbstractResolver<GameData> {
                 .aliases(new String[]{"//game"});
     }
 
-    public GameResolver() {
+    protected GameResolver() {
         super("game", new Pattern[]{Pattern.compile("(?i)(?:--|//)game(?:\\s+(.+))?")});
     }
 

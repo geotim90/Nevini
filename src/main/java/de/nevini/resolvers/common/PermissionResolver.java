@@ -4,7 +4,6 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
-import lombok.NonNull;
 import net.dv8tion.jda.core.Permission;
 
 import java.util.List;
@@ -20,13 +19,13 @@ public class PermissionResolver extends AbstractResolver<Permission> {
                 .aliases(new String[]{"//permission", "--perm", "//perm", "-p", "/p"});
     }
 
-    public PermissionResolver() {
+    protected PermissionResolver() {
         super("permission", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)(?:permission|perm)|[-/]p)(?:\\s+(.+))?")});
     }
 
     @Override
-    public List<Permission> findSorted(@NonNull CommandEvent event, String query) {
-        return Finder.find(Permission.values(), Permission::getName, query);
+    public List<Permission> findSorted(CommandEvent ignore, String query) {
+        return Finder.findAny(Permission.values(), p -> new String[]{p.getName(), p.name(), p.name().replace('_', ' ')}, query);
     }
 
     @Override

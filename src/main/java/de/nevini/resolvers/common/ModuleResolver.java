@@ -4,12 +4,10 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.scope.Module;
-import lombok.NonNull;
+import de.nevini.util.Finder;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ModuleResolver extends AbstractResolver<Module> {
 
@@ -21,14 +19,13 @@ public class ModuleResolver extends AbstractResolver<Module> {
                 .aliases(new String[]{"//module"});
     }
 
-    public ModuleResolver() {
+    protected ModuleResolver() {
         super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))?")});
     }
 
     @Override
-    public List<Module> findSorted(@NonNull CommandEvent event, String query) {
-        return event.getModuleService().findModules(query).stream()
-                .sorted(Comparator.comparing(Module::ordinal)).collect(Collectors.toList());
+    public List<Module> findSorted(CommandEvent ignore, String query) {
+        return Finder.find(Module.values(), Module::getName, query);
     }
 
     @Override

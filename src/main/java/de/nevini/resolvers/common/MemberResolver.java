@@ -23,7 +23,7 @@ public class MemberResolver extends AbstractResolver<Member> {
                 .aliases(new String[]{"//user", "--member", "//member", "-u", "/u", "-m", "/m"});
     }
 
-    public MemberResolver() {
+    protected MemberResolver() {
         super("user", new Pattern[]{
                 Pattern.compile("<@!?(\\d+)>"),
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")

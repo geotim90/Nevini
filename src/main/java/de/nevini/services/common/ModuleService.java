@@ -4,14 +4,11 @@ import de.nevini.db.module.ModuleData;
 import de.nevini.db.module.ModuleId;
 import de.nevini.db.module.ModuleRepository;
 import de.nevini.scope.Module;
-import de.nevini.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Slf4j
 @Service
@@ -36,10 +33,6 @@ public class ModuleService {
         ModuleData data = new ModuleData(guild.getIdLong(), module.getName(), active ? FLAG_ACTIVE : FLAG_INACTIVE);
         log.info("Save data: {}", data);
         moduleRepository.save(data);
-    }
-
-    public Collection<Module> findModules(String query) {
-        return Finder.find(Module.values(), Module::getName, query);
     }
 
 }

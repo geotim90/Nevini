@@ -5,7 +5,6 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
-import lombok.NonNull;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -25,8 +24,8 @@ public class OsuModeResolver extends AbstractResolver<GameMode> {
     }
 
     @Override
-    public List<GameMode> findSorted(@NonNull CommandEvent event, String query) {
-        return Finder.find(GameMode.values(), GameMode::getName, query);
+    public List<GameMode> findSorted(CommandEvent ignore, String query) {
+        return Finder.findAny(GameMode.values(), mode -> new String[]{mode.getName(), mode.name(), mode.name().replace('_', ' ')}, query);
     }
 
     @Override

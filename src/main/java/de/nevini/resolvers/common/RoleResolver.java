@@ -22,7 +22,7 @@ public class RoleResolver extends AbstractResolver<Role> {
                 .aliases(new String[]{"//role", "-r", "/r"});
     }
 
-    public RoleResolver() {
+    protected RoleResolver() {
         super("role", new Pattern[]{
                 Pattern.compile("<@&(\\d+)>"),
                 Pattern.compile("(?i)(?:(?:--|//)role|[-/]r)(?:\\s+(.+))?")
@@ -32,7 +32,7 @@ public class RoleResolver extends AbstractResolver<Role> {
     @Override
     public List<Role> findSorted(@NonNull CommandEvent event, String query) {
         return FinderUtil.findRoles(query, event.getGuild()).stream()
-                .sorted(Comparator.comparing(Role::getName))
+                .sorted(Comparator.comparing(Role::getPosition).reversed())
                 .collect(Collectors.toList());
     }
 
