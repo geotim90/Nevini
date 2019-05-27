@@ -8,6 +8,8 @@ import java.util.List;
 @Repository
 public interface FeedRepository extends CrudRepository<FeedData, FeedId> {
 
-    List<FeedData> findAllByType(String type);
+    List<FeedData> findAllByGuild(long guild);
+
+    List<FeedData> findAllByGuildAndChannel(long guild, long channel);
 
 }

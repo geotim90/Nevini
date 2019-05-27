@@ -32,7 +32,7 @@ public class OsuRecentCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!recent")
                 .aliases(new String[]{"osu!recents"})
-                .node(Node.OSU_STATS)
+                .node(Node.OSU_RECENT)
                 .description("displays osu! user most recent plays")
                 .options(new CommandOptionDescriptor[]{
                         MemberResolver.describe().build(),

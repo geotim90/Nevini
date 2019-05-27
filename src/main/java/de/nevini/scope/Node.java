@@ -23,6 +23,8 @@ public enum Node {
     CORE_PREFIX_GET("core.prefix.get", Module.CORE, Permissions.EVERYONE),
     CORE_PREFIX_SET("core.prefix.set", Module.CORE, Permissions.MANAGE_SERVER),
     GUILD_ACTIVITY("guild.activity", Module.GUILD, Permissions.EVERYONE),
+    GUILD_FEED_GET("guild.feed.get", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_FEED_SET("guild.feed.set", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FIND_CHANNEL("guild.find.channel", Module.GUILD, Permissions.EVERYONE),
     GUILD_FIND_GAME("guild.find.game", Module.GUILD, Permissions.EVERYONE),
     GUILD_FIND_MODULE("guild.find.module", Module.GUILD, Permissions.MANAGE_SERVER),
@@ -32,9 +34,11 @@ public enum Node {
     GUILD_FIND_USER("guild.find.user", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_GET("guild.ign.get", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_SET("guild.ign.set", Module.GUILD, Permissions.MANAGE_NICKNAMES),
-    OSU_ROLL("osu.roll", Module.OSU, Permissions.EVERYONE),
+    OSU_BEATMAP("osu.beatmap", Module.OSU, Permissions.EVERYONE),
+    OSU_EVENTS("osu.events", Module.OSU, Permissions.EVERYONE),
+    OSU_EVENTS_FEED(GUILD_FEED_SET.node, Module.OSU, GUILD_FEED_SET.defaultPermissions),
+    OSU_RECENT("osu.recent", Module.OSU, Permissions.EVERYONE),
     OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE),
-    FEED_OSU_STATS("feed.osu.stats", Module.OSU, Permissions.MANAGE_SERVER),
     ;
 
     private final String node;

@@ -33,7 +33,7 @@ public class OsuEventsCommand extends Command {
                 .children(new Command[]{
                         new OsuEventsFeedCommand()
                 })
-                .node(Node.OSU_STATS)
+                .node(Node.OSU_EVENTS)
                 .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{
                         MemberResolver.describe().build(),

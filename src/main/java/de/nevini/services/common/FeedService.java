@@ -11,6 +11,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class FeedService {
@@ -40,6 +42,14 @@ public class FeedService {
 
     public FeedData getSubscription(@NonNull Guild guild, @NonNull Feed feed) {
         return feedRepository.findById(new FeedId(guild.getIdLong(), feed.getType())).orElse(null);
+    }
+
+    public List<FeedData> getSubscriptions(@NonNull Guild guild) {
+        return feedRepository.findAllByGuild(guild.getIdLong());
+    }
+
+    public List<FeedData> getSubscriptions(@NonNull TextChannel channel) {
+        return feedRepository.findAllByGuildAndChannel(channel.getGuild().getIdLong(), channel.getIdLong());
     }
 
     public synchronized void updateSubscription(@NonNull TextChannel channel, @NonNull Feed feed, long uts) {
