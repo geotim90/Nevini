@@ -11,8 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ModuleId implements Serializable {
 
-	private Long guild;
+    private Long guild;
 
-	private String module;
+    private String module;
 
 }

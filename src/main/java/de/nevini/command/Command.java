@@ -92,8 +92,10 @@ public abstract class Command {
         if (event.getModuleService().isModuleActive(event.getGuild(), getModule())) {
             return true;
         } else {
-            event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
-                    + "** module is disabled on **" + event.getGuild().getName() + "**!");
+            if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+                event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
+                        + "** module is disabled on **" + event.getGuild().getName() + "**!");
+            }
             return false;
         }
     }
@@ -116,13 +118,17 @@ public abstract class Command {
             if (missingPermissions.length == 0) {
                 return true;
             } else if (missingPermissions.length == 1) {
-                event.reply(CommandReaction.ERROR, "I need the **" + missingPermissions[0]
-                        + "** permission to execute that command!");
+                if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                    event.reply(CommandReaction.ERROR, "I need the **" + missingPermissions[0]
+                            + "** permission to execute that command!");
+                }
                 return false;
             } else {
-                event.reply(CommandReaction.ERROR, "I need the **"
-                        + Formatter.join(missingPermissions, "**, **", "** and **")
-                        + "** permissions to execute that command!");
+                if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                    event.reply(CommandReaction.ERROR, "I need the **"
+                            + Formatter.join(missingPermissions, "**, **", "** and **")
+                            + "** permissions to execute that command!");
+                }
                 return false;
             }
         }
@@ -137,17 +143,23 @@ public abstract class Command {
                 if (missingPermissions.length == 0) {
                     return true;
                 } else if (missingPermissions.length == 1) {
-                    event.reply(CommandReaction.ERROR, "You need the **" + missingPermissions[0]
-                            + "** permission to execute that command!");
+                    if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                        event.reply(CommandReaction.ERROR, "You need the **" + missingPermissions[0]
+                                + "** permission to execute that command!");
+                    }
                     return false;
                 } else {
-                    event.reply(CommandReaction.ERROR, "You need the **"
-                            + Formatter.join(missingPermissions, "**, **", "** and **")
-                            + "** permissions to execute that command!");
+                    if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                        event.reply(CommandReaction.ERROR, "You need the **"
+                                + Formatter.join(missingPermissions, "**, **", "** and **")
+                                + "** permissions to execute that command!");
+                    }
                     return false;
                 }
             } else {
-                event.reply(CommandReaction.PROHIBITED, "You do not have permission to execute that command.");
+                if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                    event.reply(CommandReaction.PROHIBITED, "You do not have permission to execute that command.");
+                }
                 return false;
             }
         } else {

@@ -8,9 +8,11 @@ import de.nevini.scope.Module;
 import de.nevini.scope.Node;
 import de.nevini.scope.Permissions;
 import de.nevini.util.Formatter;
+import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 @Component
@@ -118,6 +120,23 @@ public class HelpCommand extends Command {
                             .append(Formatter.join(option.getAliases(), "**, **", "** or **"))
                             .append("** instead of **").append(option.getKeyword()).append("**");
                 }
+            }
+            if (command.getNode() != null) {
+                String[] permissions = Arrays.stream(command.getNode().getDefaultPermissions())
+                        .map(Permission::getName).toArray(String[]::new);
+                builder.append("\n\n__Permissions__");
+                if (permissions.length > 0) {
+                    builder.append("\nBy default, you need the **");
+                    if (permissions.length == 1) {
+                        builder.append(permissions[0]).append("** permission");
+                    } else {
+                        builder.append(Formatter.join(permissions, "**, **", "** and **"))
+                                .append("** permissions");
+                    }
+                    builder.append(" to execute this command.");
+                }
+                builder.append("\nPermission overrides may be applied on node **")
+                        .append(command.getNode().getNode()).append("**.");
             }
             event.replyDm(builder.toString(), ignore -> event.complete(true));
         } else {

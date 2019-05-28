@@ -63,6 +63,7 @@ public class OsuService {
 
     private OsuBeatmap getBeatmapFromApi(int beatmapId) {
         try {
+            log.info("Requesting beatmap (id={})", beatmapId);
             return osu.beatmaps.query(new EndpointBeatmaps.ArgumentsBuilder().setBeatmapID(beatmapId).build()).get(0);
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get beatmap {}", beatmapId, e);
@@ -104,6 +105,7 @@ public class OsuService {
             builder.setMods(modSet);
         }
         try {
+            log.info("Requesting scores (beatmap={}, ign={}, mode={}, mods={})", beatmap, ign, mode, mods);
             return osu.scores.query(builder.build());
         } catch (OsuAPIException | RuntimeException e) {
             log.info("Failed to get scores for {}", beatmap, e);
@@ -120,6 +122,7 @@ public class OsuService {
     }
 
     public OsuUser getUser(int user, GameMode mode, int eventDays) {
+        log.info("Requesting users (user={}, mode={}, eventDays={})", user, mode, eventDays);
         return getUser(new EndpointUsers.ArgumentsBuilder(user), mode, eventDays);
     }
 
@@ -132,6 +135,7 @@ public class OsuService {
     }
 
     public OsuUser getUser(@NonNull String user, GameMode mode, int eventDays) {
+        log.info("Requesting users (user={}, mode={}, eventDays={})", user, mode, eventDays);
         return getUser(new EndpointUsers.ArgumentsBuilder(user), mode, eventDays);
     }
 
@@ -152,6 +156,7 @@ public class OsuService {
 
     public List<OsuScore> getUserBest(@NonNull String user, GameMode mode) {
         try {
+            log.info("Requesting userBests (user={}, mode={})", user, mode);
             return osu.userBests.query(new EndpointUserBests.ArgumentsBuilder(user)
                     .setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setLimit(100).build());
         } catch (OsuAPIException | RuntimeException e) {
@@ -172,6 +177,7 @@ public class OsuService {
 
     public List<OsuScore> getUserRecent(@NonNull String user, GameMode mode) {
         try {
+            log.info("Requesting userRecents (user={}, mode={})", user, mode);
             return osu.userRecents.query(new EndpointUserRecents.ArgumentsBuilder(user)
                     .setMode(ObjectUtils.defaultIfNull(mode, GameMode.STANDARD)).setLimit(50).build());
         } catch (OsuAPIException | RuntimeException e) {

@@ -69,27 +69,30 @@ public class OsuListener {
             }
             if (event.getGuild() != null) {
                 // update osu! events for subscribed channels
-                FeedData eventsFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
-                if (eventsFeed != null) {
-                    TextChannel channel = event.getGuild().getTextChannelById(eventsFeed.getChannel());
-                    if (channel != null) {
-                        updateEvents(event, eventsFeed, channel);
+                synchronized (this) {
+                    FeedData eventsFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
+                    if (eventsFeed != null) {
+                        TextChannel channel = event.getGuild().getTextChannelById(eventsFeed.getChannel());
+                        if (channel != null) {
+                            updateEvents(event, eventsFeed, channel);
+                        }
                     }
                 }
                 // update osu! plays for subscribed channels
-                FeedData recentFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_RECENT);
-                if (recentFeed != null) {
-                    TextChannel channel = event.getGuild().getTextChannelById(recentFeed.getChannel());
-                    if (channel != null) {
-                        updateRecent(event, recentFeed, channel);
+                synchronized (this) {
+                    FeedData recentFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_RECENT);
+                    if (recentFeed != null) {
+                        TextChannel channel = event.getGuild().getTextChannelById(recentFeed.getChannel());
+                        if (channel != null) {
+                            updateRecent(event, recentFeed, channel);
+                        }
                     }
                 }
             }
         }
     }
 
-    // synchronized to prevent uts race conditions
-    private synchronized void updateEvents(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
+    private void updateEvents(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
         ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
         Member member = event.getMember();
         String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
@@ -114,8 +117,7 @@ public class OsuListener {
         }
     }
 
-    // synchronized to prevent uts race conditions
-    private synchronized void updateRecent(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
+    private void updateRecent(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
         ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
         Member member = event.getMember();
         String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
