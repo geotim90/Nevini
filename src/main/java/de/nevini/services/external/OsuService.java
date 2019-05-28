@@ -37,7 +37,8 @@ public class OsuService {
 
     /**
      * Attempts to find beatmaps by id or name.<br>
-     * If a valid id is provided, this will query up-to-date beatmap information from the osu!api.<br>
+     * If a valid id is provided, this will query the <em>cached</em> beatmap information from or retrieve it from the
+     * osu!api.<br>
      * If part of a title is provided, this will query the <em>cached</em> beatmaps and return the best matches.
      */
     public Collection<OsuBeatmap> findBeatmaps(@NonNull String query) {
@@ -49,6 +50,9 @@ public class OsuService {
         }
     }
 
+    /**
+     * Retrieves beatmap information from the osu!api.
+     */
     public OsuBeatmap getBeatmap(int beatmapId) {
         OsuBeatmap beatmap = getBeatmapFromApi(beatmapId);
         if (beatmap != null) {
@@ -71,19 +75,12 @@ public class OsuService {
         }
     }
 
-    public String getBeatmapTitle(int beatmapId) {
+    public String getBeatmapString(int beatmapId) {
         OsuBeatmap beatmap = getBeatmapFromCacheOrApi(beatmapId);
-        return beatmap == null ? Integer.toString(beatmapId) : beatmap.getTitle();
-    }
-
-    public String getBeatmapVersion(int beatmapId) {
-        OsuBeatmap beatmap = getBeatmapFromCacheOrApi(beatmapId);
-        return beatmap == null ? "?" : beatmap.getVersion();
-    }
-
-    public GameMode getBeatmapMode(int beatmapId) {
-        OsuBeatmap beatmap = getBeatmapFromCacheOrApi(beatmapId);
-        return beatmap == null ? GameMode.STANDARD : beatmap.getMode();
+        return beatmap == null
+                ? "https://osu.ppy.sh/b/" + beatmapId
+                : beatmap.getArtist() + " - " + beatmap.getTitle()
+                + " [" + beatmap.getVersion() + "] (" + beatmap.getMode() + ")";
     }
 
     public GameData getGame() {

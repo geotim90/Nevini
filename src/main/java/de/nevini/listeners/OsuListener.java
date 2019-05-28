@@ -132,11 +132,9 @@ public class OsuListener {
                     .filter(e -> e.getBeatmapID() != 0 && !"F".equals(e.getRank()) && e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuScore::getDate))
                     .forEach(e -> {
-                        String markdown = Formatter.formatRank(e.getRank()) + " " + userName + " achieved " +
+                        String markdown = Formatter.formatOsuRank(e.getRank()) + " " + userName + " achieved " +
                                 Formatter.formatInteger(e.getScore()) + " points on "
-                                + osuService.getBeatmapTitle(e.getBeatmapID()) + " ["
-                                + osuService.getBeatmapVersion(e.getBeatmapID()) + "] ("
-                                + osuService.getBeatmapMode(e.getBeatmapID()).getName() + ") at "
+                                + osuService.getBeatmapString(e.getBeatmapID()) + " at "
                                 + Formatter.formatTimestamp(e.getDate());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();

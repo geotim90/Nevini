@@ -101,17 +101,13 @@ public class Formatter {
                 .replaceAll("&lt;", "<");
         Matcher rankMatcher = Pattern.compile("\\*\\*([ABCDF]|(?:SS?|X)[H+]?)\\*\\*").matcher(markdown);
         if (rankMatcher.find()) {
-            return Formatter.formatRank(rankMatcher.group(1)) + markdown.substring(rankMatcher.end());
+            return Formatter.formatOsuRank(rankMatcher.group(1)) + markdown.substring(rankMatcher.end());
         } else {
             return markdown;
         }
     }
 
-    public static String formatPercent(double value) {
-        return new DecimalFormat("#0.##%", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
-    }
-
-    public static String formatRank(@NonNull String value) {
+    public static String formatOsuRank(@NonNull String value) {
         switch (value) {
             case "A":
                 return "<:rankA:581903653078695936>";
@@ -138,6 +134,10 @@ public class Formatter {
             default:
                 return value.isEmpty() ? value : "**" + value + "**";
         }
+    }
+
+    public static String formatPercent(double value) {
+        return new DecimalFormat("#0.##%", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
     }
 
     public static String formatSeconds(int seconds) {
