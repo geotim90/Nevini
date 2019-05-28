@@ -11,14 +11,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PermissionId implements Serializable {
 
-	private Long guild;
+    private Long guild;
 
-	private Long channel;
+    private Long channel;
 
-	private Byte type;
+    private Byte type;
 
-	private Long id;
+    private Long id;
 
-	private String node;
+    private String node;
 
 }

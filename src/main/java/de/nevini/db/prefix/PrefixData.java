@@ -15,9 +15,9 @@ import javax.persistence.Table;
 @Table(name = "prefix")
 public class PrefixData {
 
-	@Id
-	private Long guild;
+    @Id
+    private Long guild;
 
-	private String prefix;
+    private String prefix;
 
 }
