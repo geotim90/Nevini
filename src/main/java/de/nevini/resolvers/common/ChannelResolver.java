@@ -24,7 +24,7 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
 
     protected ChannelResolver() {
         super("channel", new Pattern[]{
-                Pattern.compile("<@#(\\d+)>"),
+                Pattern.compile("<#(\\d+)>"),
                 Pattern.compile("(?i)(?:(?:--|//)channel|[-/]c)(?:\\s+(.+))?")
         });
     }
