@@ -41,6 +41,7 @@ public class MemberResolver extends AbstractResolver<Member> {
                     .map(data -> event.getGuild().getMemberById(data.getUser()))
                     .filter(Objects::nonNull)
                     .sorted(Comparator.comparing(Member::getEffectiveName))
+                    .distinct()
                     .collect(Collectors.toList());
         } else {
             return discordMatches;
