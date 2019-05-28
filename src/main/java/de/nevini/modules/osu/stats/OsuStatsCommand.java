@@ -70,11 +70,11 @@ public class OsuStatsCommand extends Command {
             embed.addField("Total Hits", Formatter.formatInteger(user.getTotalHits()), true);
             embed.addField("Performance Points", Formatter.formatInteger(user.getPP()), true);
             embed.addField("Level", Formatter.formatFloat(user.getLevel()), true);
-            embed.addField("SS+", Formatter.formatInteger(user.getCountRankSSH()), true);
-            embed.addField("SS", Formatter.formatInteger(user.getCountRankSS()), true);
-            embed.addField("S+", Formatter.formatInteger(user.getCountRankSH()), true);
-            embed.addField("S", Formatter.formatInteger(user.getCountRankSS()), true);
-            embed.addField("A", Formatter.formatInteger(user.getCountRankA()), true);
+            embed.addField(Formatter.formatRank("SS+"), Formatter.formatInteger(user.getCountRankSSH()), true);
+            embed.addField(Formatter.formatRank("SS"), Formatter.formatInteger(user.getCountRankSS()), true);
+            embed.addField(Formatter.formatRank("S+"), Formatter.formatInteger(user.getCountRankSH()), true);
+            embed.addField(Formatter.formatRank("S"), Formatter.formatInteger(user.getCountRankSS()), true);
+            embed.addField(Formatter.formatRank("A"), Formatter.formatInteger(user.getCountRankA()), true);
             embed.addField("300s", Formatter.formatInteger(user.getHit300()), true);
             embed.addField("100s", Formatter.formatInteger(user.getHit100()), true);
             embed.addField("50s", Formatter.formatInteger(user.getHit50()), true);
