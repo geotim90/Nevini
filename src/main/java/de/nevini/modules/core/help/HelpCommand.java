@@ -121,18 +121,22 @@ public class HelpCommand extends Command {
                             .append("** instead of **").append(option.getKeyword()).append("**");
                 }
             }
-            if (command.getNode() != null && command.getNode().getDefaultPermissions().length > 0) {
+            if (command.getNode() != null) {
                 String[] permissions = Arrays.stream(command.getNode().getDefaultPermissions())
                         .map(Permission::getName).toArray(String[]::new);
                 builder.append("\n\n__Permissions__");
-                builder.append("\nBy default, you need the **");
-                if (permissions.length == 1) {
-                    builder.append(permissions[0]).append("** permission");
-                } else {
-                    builder.append(Formatter.join(permissions, "**, **", "** and **"))
-                            .append("** permissions");
+                if (permissions.length > 0) {
+                    builder.append("\nBy default, you need the **");
+                    if (permissions.length == 1) {
+                        builder.append(permissions[0]).append("** permission");
+                    } else {
+                        builder.append(Formatter.join(permissions, "**, **", "** and **"))
+                                .append("** permissions");
+                    }
+                    builder.append("to execute this command.");
                 }
-                builder.append("to execute this command. Permission overrides may apply.");
+                builder.append("\nPermission overrides may be applied on node **")
+                        .append(command.getNode().getNode()).append("**.");
             }
             event.replyDm(builder.toString(), ignore -> event.complete(true));
         } else {
