@@ -133,7 +133,7 @@ public class HelpCommand extends Command {
                         builder.append(Formatter.join(permissions, "**, **", "** and **"))
                                 .append("** permissions");
                     }
-                    builder.append("to execute this command.");
+                    builder.append(" to execute this command.");
                 }
                 builder.append("\nPermission overrides may be applied on node **")
                         .append(command.getNode().getNode()).append("**.");
