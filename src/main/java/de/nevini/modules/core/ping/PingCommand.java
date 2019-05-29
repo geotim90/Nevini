@@ -4,7 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
-import net.dv8tion.jda.core.Permission;
+import de.nevini.scope.Permissions;
 import org.springframework.stereotype.Component;
 
 import java.time.temporal.ChronoUnit;
@@ -17,8 +17,8 @@ public class PingCommand extends Command {
                 .keyword("ping")
                 .guildOnly(false)
                 .node(Node.CORE_PING)
-                .minimumBotPermissions(new Permission[0])
-                .minimumUserPermissions(new Permission[0])
+                .minimumBotPermissions(Permissions.NONE)
+                .minimumUserPermissions(Permissions.NONE)
                 .description("measures the bot's communication latency")
                 .build());
     }
