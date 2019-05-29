@@ -34,19 +34,24 @@ public class MemberResolver extends AbstractResolver<Member> {
 
     @Override
     public List<Member> findSorted(@NonNull CommandEvent event, String query) {
-        List<Member> discordMatches = FinderUtil.findMembers(query, event.getGuild()).stream()
+        List<Member> matches = FinderUtil.findMembers(query, event.getGuild()).stream()
                 .filter(m -> !m.getUser().isBot())
                 .sorted(Comparator.comparing(Member::getEffectiveName))
                 .collect(Collectors.toList());
-        if (discordMatches.isEmpty()) {
-            return event.getIgnService().findByIgn(event.getGuild(), query).stream()
+
+        if (matches.isEmpty()) {
+            matches = event.getIgnService().findByIgn(event.getGuild(), query).stream()
                     .map(data -> event.getGuild().getMemberById(data.getUser()))
                     .filter(Objects::nonNull)
                     .sorted(Comparator.comparing(Member::getEffectiveName))
                     .distinct()
                     .collect(Collectors.toList());
+        }
+
+        if (matches.isEmpty() && (query.startsWith("@") || query.startsWith("!"))) {
+            return findSorted(event, query.substring(1));
         } else {
-            return discordMatches;
+            return matches;
         }
     }
 
