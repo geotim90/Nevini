@@ -33,9 +33,15 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
 
     @Override
     public List<TextChannel> findSorted(@NonNull CommandEvent event, String query) {
-        return FinderUtil.findTextChannels(query, event.getGuild()).stream()
+        List<TextChannel> matches = FinderUtil.findTextChannels(query, event.getGuild()).stream()
                 .sorted(Comparator.comparing(TextChannel::getName))
                 .collect(Collectors.toList());
+
+        if (matches.isEmpty() && query.startsWith("#")) {
+            return findSorted(event, query.substring(1));
+        } else {
+            return matches;
+        }
     }
 
     @Override

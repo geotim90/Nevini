@@ -32,9 +32,15 @@ public class RoleResolver extends AbstractResolver<Role> {
 
     @Override
     public List<Role> findSorted(@NonNull CommandEvent event, String query) {
-        return FinderUtil.findRoles(query, event.getGuild()).stream()
+        List<Role> matches = FinderUtil.findRoles(query, event.getGuild()).stream()
                 .sorted(Comparator.comparing(Role::getPosition).reversed())
                 .collect(Collectors.toList());
+
+        if (matches.isEmpty() && (query.startsWith("@") || query.startsWith("&"))) {
+            return findSorted(event, query.substring(1));
+        } else {
+            return matches;
+        }
     }
 
     @Override
