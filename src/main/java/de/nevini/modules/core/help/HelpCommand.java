@@ -33,8 +33,8 @@ public class HelpCommand extends Command {
                                 .keyword("command")
                                 .build()
                 })
-                .details("If no valid command is provided, this will display a list of commands.\n"
-                        + "If a valid command is provided, this will display details on that specific command.")
+                .details("If a valid command is provided, this will display details on that specific command.\n"
+                        + "If no valid command is provided, this will display a list of commands.")
                 .build());
     }
 
@@ -108,7 +108,9 @@ public class HelpCommand extends Command {
             if (StringUtils.isNotEmpty(command.getDetails())) {
                 builder.append("\n\n__Details__\n").append(command.getDetails());
             }
-            if (command.getAliases().length > 0 || command.getOptions().length > 0) {
+            if (command.getAliases().length > 0
+                    || Arrays.stream(command.getOptions()).anyMatch(e -> e.getAliases().length > 0)
+            ) {
                 builder.append("\n\n__Aliases__");
                 if (command.getAliases().length > 0) {
                     builder.append("\nYou can also use **")
@@ -116,9 +118,11 @@ public class HelpCommand extends Command {
                             .append("** instead of **").append(command.getKeyword()).append("**");
                 }
                 for (CommandOptionDescriptor option : command.getOptions()) {
-                    builder.append("\nYou can also use **")
-                            .append(Formatter.join(option.getAliases(), "**, **", "** or **"))
-                            .append("** instead of **").append(option.getKeyword()).append("**");
+                    if (option.getAliases().length > 0) {
+                        builder.append("\nYou can also use **")
+                                .append(Formatter.join(option.getAliases(), "**, **", "** or **"))
+                                .append("** instead of **").append(option.getKeyword()).append("**");
+                    }
                 }
             }
             if (command.getNode() != null) {

@@ -17,7 +17,8 @@ public class RoleResolver extends AbstractResolver<Role> {
     public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
         return CommandOptionDescriptor.builder()
                 .syntax("[--role] <role>")
-                .description("Refers to a specific role. The flag is optional if a role mention is used.")
+                .description("Refers to a specific role using a role mention, id or name."
+                        + " The `--role` flag is optional if a role mention is used.")
                 .keyword("--role")
                 .aliases(new String[]{"//role", "-r", "/r"});
     }

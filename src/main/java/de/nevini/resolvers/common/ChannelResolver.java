@@ -17,7 +17,9 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
     public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
         return CommandOptionDescriptor.builder()
                 .syntax("[--channel] [<channel>]")
-                .description("Refers to a specific channel. The flag is optional if a channel mention is used. Refers to the current channel by default.")
+                .description("Refers to a specific text channel using a channel mention, id or name."
+                        + " The `--channel` flag is optional if a channel mention is used."
+                        + " Refers to the current channel if only the `--channel` flag is provided.")
                 .keyword("--channel")
                 .aliases(new String[]{"//channel", "-c", "/c"});
     }
