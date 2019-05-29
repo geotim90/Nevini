@@ -38,6 +38,8 @@ public class DocsGenerator {
             return;
         }
 
+        log.info("Generating docs: {}", path);
+
         List<Command> commands = commandContext.getCommands().values().stream()
                 .sorted(Comparator.comparing(Command::getKeyword))
                 .distinct().collect(Collectors.toList());
@@ -51,7 +53,10 @@ public class DocsGenerator {
             } catch (IOException e) {
                 log.error("Error while generating docs: ", e);
             }
+            log.info("Generated md for module: {}", module.getName());
         }
+
+        log.info("Finished generating docs.");
     }
 
     private void generateModuleDoc(Module module, List<Command> commands, PrintWriter out) {
@@ -65,7 +70,7 @@ public class DocsGenerator {
         out.println("Command | Description");
         out.println("--------|------------");
         for (Command command : commands) {
-            out.println("[" + command.getKeyword() + "](#command-" + command.getKeyword() + ") | "
+            out.println("[" + command.getKeyword() + "](#command-" + href(command.getKeyword()) + ") | "
                     + command.getDescription());
         }
 
@@ -76,39 +81,24 @@ public class DocsGenerator {
     }
 
     private void generateCommandDoc(Command command, String chain, PrintWriter out) {
+        // do not generate documentation for owner commands
+        if (command.isOwnerOnly()) {
+            return;
+        }
+
         // command header
         out.println();
-        out.println("## Command: `" + command.getKeyword() + "`");
-
-        // command list
+        out.println(StringUtils.repeat('#', StringUtils.countMatches(chain, ' '))
+                + "## Command: `" + chain + "`");
         out.println();
-        out.println("Command | Description");
-        out.println("--------|------------");
-        out.println("[" + chain + "](#command-" + chain.replace(' ', '-') + ") | "
-                + command.getDescription());
-        for (Command child : command.getChildren()) {
-            out.println("[" + chain + " " + child.getKeyword() + "](#command-"
-                    + chain.replace(' ', '-') + "-" + child.getKeyword() + ") | "
-                    + child.getDescription());
-        }
-
-        // option list
-        if (command.getOptions().length > 0) {
-            out.println();
-            out.println("Option | Description");
-            out.println("-------|------------");
-            for (CommandOptionDescriptor option : command.getOptions()) {
-                out.println(option.getSyntax().replaceAll("([\\[\\]<>])", "\\\\$1") + " | "
-                        + option.getDescription());
-            }
-        }
+        out.println(StringUtils.capitalize(command.getDescription()) + '.');
 
         // details
         if (StringUtils.isNotEmpty(command.getDetails())) {
             out.println();
             out.println(command.getDetails()
-                    .replace("\n\n", System.lineSeparator() + System.lineSeparator())
-                    .replace("\n", "<br>" + System.lineSeparator()));
+                    .replace("\n", "<br>" + System.lineSeparator())
+                    .replace("<br>" + System.lineSeparator() + "<br>" + System.lineSeparator(), "\n\n"));
         }
 
         // permission node
@@ -123,9 +113,20 @@ public class DocsGenerator {
                 } else {
                     out.print(Formatter.join(permissions, "**, **", "** and **") + "** permissions");
                 }
-                out.println(" to execute this command.");
+                out.println(" to execute this command.<br>");
             }
             out.println("Permission overrides may be applied on node **" + command.getNode().getNode() + "**.");
+        }
+
+        // option list
+        if (command.getOptions().length > 0) {
+            out.println();
+            out.println("Option | Description");
+            out.println("-------|------------");
+            for (CommandOptionDescriptor option : command.getOptions()) {
+                out.println(option.getSyntax().replaceAll("([\\[\\]<>])", "\\\\$1") + " | "
+                        + option.getDescription());
+            }
         }
 
         // aliases
@@ -146,9 +147,24 @@ public class DocsGenerator {
         }
 
         // children
-        for (Command child : command.getChildren()) {
-            generateCommandDoc(child, chain + ' ' + child.getKeyword(), out);
+        if (command.getChildren().length > 0) {
+            out.println();
+            out.println("Command | Description");
+            out.println("--------|------------");
+            String a = "#command-" + href(chain);
+            for (Command child : command.getChildren()) {
+                out.println("[" + chain + " " + href(child.getKeyword()) + "](" + a + "-" + href(child.getKeyword())
+                        + ") | " + child.getDescription());
+            }
+
+            for (Command child : command.getChildren()) {
+                generateCommandDoc(child, chain + ' ' + child.getKeyword(), out);
+            }
         }
+    }
+
+    private String href(String chain) {
+        return chain.replace(' ', '-').replaceAll("[!]", "");
     }
 
 }

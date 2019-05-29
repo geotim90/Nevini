@@ -47,13 +47,11 @@ Each command may define its own alternative syntax in case it deviates from thos
 
 Keyword      | Aliases
 -------------|--------
---*keyword*  | //*keyword*
--*keyword*   | /*keyword*
---channel    | -c
---feed       | -f
---node       | -n
---permission | --perm<br>-p
---role       | -r
---server     | -s<br>--guild<br>-g
---user       | -u<br>--member<br>-m
 get          | display<br>echo<br>list<br>print<br>show
+--channel    | //channel<br>-c<br>/c
+--feed       | //feed<br>-f<br>/f
+--node       | //node<br>-n<br>/n
+--permission | //permission<br>--perm<br>//perm<br>-p<br>/p
+--role       | //role<br>-r<br>/r
+--server     | //server<br>-s<br>/s<br>--guild<br>//guild<br>-g<br>/g
+--user       | //user<br>-u<br>/u<br>--member<br>//member<br>-m<br>/m
