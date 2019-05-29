@@ -27,6 +27,11 @@ Please refer to the documentation of each individual command to see which option
 Syntax                        | Description
 ------------------------------|------------
 \[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
+--feed \<type\>               | Refers to a specific feed type.
+--game \<game\>               | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
+--module \<module\>           | Refers to a specific bot module.
+--node \<node\>               | Refers to a specific permission node for bot commands.
+--permission \<permission\>   | Refers to a specific permission (e.g. "Manage Server").
 \[--role\] \<role\>           | Refers to a specific role using a role mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 \[--user\] \[\<user\>\]       | Refers to a specific user using a mention, id or name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
 
@@ -50,6 +55,7 @@ Keyword      | Aliases
 get          | display<br>echo<br>list<br>print<br>show
 --channel    | //channel<br>-c<br>/c
 --feed       | //feed<br>-f<br>/f
+--game       | //game
 --node       | //node<br>-n<br>/n
 --permission | //permission<br>--perm<br>//perm<br>-p<br>/p
 --role       | //role<br>-r<br>/r
