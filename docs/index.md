@@ -27,7 +27,7 @@ Use the `help --all` command to get a list of all supported commands.
 Nevini has multiple modules, which can be activated seperately.
 By default, only the `core` and `guild` modules are active.
 Other modules can be activated with the `module add` command.
-Each module has its own documentation in the [docs folder](./README) of the repository.
+Each module has its own documentation in the [docs folder](./docs) of the repository.
 
 ## Permissions
 
