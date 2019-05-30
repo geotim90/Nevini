@@ -1,123 +1,52 @@
----
-layout: default
----
+# Nevini
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+Nevini is an open-source multi-purpose Discord bot.
+Its primary instance is hosted by [Geotim](https://github.com/geotim90), who is also the owner of this repository.
+Feel free to make suggestions in the [Issues](https://github.com/geotim90/Nevini/issues) section or even submit you own pull requests.
+The code is licensed under [Apache License Version 2.0](#license).
 
-[Link to another page](./another-page.html).
+## Invite
 
-There should be whitespace between paragraphs.
+You can add Nevini to your Discord server by inviting the bot using the link below.
+You need to be the owner of the Discord server or have the "Administrator" or "Manage Server" permission in order to do this.
+You can grant or restrict permissions for Nevini as you wish.
+Nevini will default to direct messages if everything else fails.
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+https://discordapp.com/oauth2/authorize?client_id=570972920692736002&scope=bot&permissions=519232.
 
-# Header 1
+## Commands
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+To execute commands, write a message that begins with `>` or `@Nevini` in a channel where Nevini can read messages.
+You can change the `>` prefix using the `prefix set` command.
+The `@Nevini` mention can be changed by setting a nickname for the bot.
+Use the `help` command to get a list of commands available on your server.
+Use the `help --all` command to get a list of all supported commands.
 
-## Header 2
+## Modules
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+Nevini has multiple modules, which can be activated seperately.
+By default, only the `core` and `guild` modules are active.
+Other modules can be activated with the `module add` command.
+Each module has its own documentation in the [docs folder](./README) of the repository.
 
-### Header 3
+## Permissions
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
+Nevini uses its own permission system that is based on how the Discord permission system works.
+For more details, check the core module documentation in the docs folder.
+Server owners and administrators are not restricted by permissions.
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
+## Support
 
-#### Header 4
+For additional help and support, join [Geozone](https://discord.gg/jKVZFhD) and feel free to ask any questions in the
+support channel there.
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+## License
 
-##### Header 5
+Copyright &copy; 2019 [Geotim](https://github.com/geotim90)
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use files in this repository except in
+compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
 
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
