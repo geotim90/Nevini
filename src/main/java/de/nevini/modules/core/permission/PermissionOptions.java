@@ -61,8 +61,9 @@ public class PermissionOptions {
                 + "9. Channel-specific user permissions\n\n"
                 + "If multiple overrides on the same \"level\" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.\n"
                 + "Server owners and administrators are not restricted by permission node overrides.\n"
-                + "Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.\n"
-                + "Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.";
+                + "Users can only configure permissions for permission nodes they have themselves.\n"
+                + "Users can only configure permissions for roles of a lower position than their highest role.\n"
+                + "Users can only configure permissions for users whose highest role is lower than their highest role.";
     }
 
     private static final Pattern ALL_FLAG = Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)");

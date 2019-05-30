@@ -28,6 +28,7 @@ public class IgnSetCommand extends Command {
                         MemberResolver.describe().build(),
                         GameResolver.describe().build()
                 })
+                .details("Users can only configure in-game names for users whose highest role is lower than their highest role.")
                 .build());
     }
 
@@ -45,8 +46,12 @@ public class IgnSetCommand extends Command {
     }
 
     private void acceptName(CommandEvent event, Member member, GameData game, String name) {
-        event.getIgnService().setIgn(member, game, name);
-        event.reply(CommandReaction.OK, event::complete);
+        if (event.getMember().canInteract(member)) {
+            event.getIgnService().setIgn(member, game, name);
+            event.reply(CommandReaction.OK, event::complete);
+        } else {
+            event.reply(CommandReaction.PROHIBITED, "You can only configure in-game names for users whose highest role is lower than your highest role!", event::complete);
+        }
     }
 
 }
