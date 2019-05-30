@@ -242,6 +242,8 @@ get | display<br>echo<br>list<br>print<br>show
 
 Configures the in-game name for a specific user in a specific game.
 
+Users can only configure in-game names for users whose highest role is lower than their highest role.
+
 By default, you need the **Manage Nicknames** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.ign.set**.
 

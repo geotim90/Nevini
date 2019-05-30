@@ -125,8 +125,9 @@ Permission node overrides for bot commands are applied in the following order:<b
 
 If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
 Server owners and administrators are not restricted by permission node overrides.<br>
-Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.<br>
-Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
 
 By default, you need the **Manage Permissions** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.get**.
@@ -169,8 +170,9 @@ Permission node overrides for bot commands are applied in the following order:<b
 
 If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
 Server owners and administrators are not restricted by permission node overrides.<br>
-Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.<br>
-Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
 
 By default, you need the **Manage Permissions** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.debug**.
@@ -212,8 +214,9 @@ Permission node overrides for bot commands are applied in the following order:<b
 
 If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
 Server owners and administrators are not restricted by permission node overrides.<br>
-Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.<br>
-Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
 
 By default, you need the **Manage Permissions** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.allow**.
@@ -256,8 +259,9 @@ Permission node overrides for bot commands are applied in the following order:<b
 
 If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
 Server owners and administrators are not restricted by permission node overrides.<br>
-Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.<br>
-Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
 
 By default, you need the **Manage Permissions** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.deny**.
@@ -300,8 +304,9 @@ Permission node overrides for bot commands are applied in the following order:<b
 
 If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
 Server owners and administrators are not restricted by permission node overrides.<br>
-Users cannot configure permissions for roles above their own or configure permission nodes they do not have themselves.<br>
-Users cannot configure permissions for users with roles above their own or configure permission nodes they do not have themselves.
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
 
 By default, you need the **Manage Permissions** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.reset**.
