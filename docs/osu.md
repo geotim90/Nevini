@@ -35,7 +35,7 @@ Permission overrides may be applied on node **osu.best**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode (osu!, osu!taiko, osu!catch or osu!mania).
 
 Keyword | Aliases
@@ -51,7 +51,7 @@ Permission overrides may be applied on node **osu.events**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode (osu!, osu!taiko, osu!catch or osu!mania).
 
 Keyword | Aliases
@@ -100,7 +100,7 @@ Permission overrides may be applied on node **osu.recent**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode (osu!, osu!taiko, osu!catch or osu!mania).
 
 Keyword | Aliases
@@ -141,7 +141,7 @@ Permission overrides may be applied on node **osu.scores**.
 Option | Description
 -------|------------
 --beatmap \<beatmap\> | Refers to an osu! beatmap.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode (osu!, osu!taiko, osu!catch or osu!mania).
 --mods \<mods\> | Refers to osu! mods. Examples: `No fail`, `NF`, `HDHR`, `HDHRNCFL`
 
@@ -160,7 +160,7 @@ Permission overrides may be applied on node **osu.stats**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode (osu!, osu!taiko, osu!catch or osu!mania).
 
 Keyword | Aliases

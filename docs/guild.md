@@ -17,7 +17,7 @@ Permission overrides may be applied on node **guild.activity**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
 
 Keyword | Aliases
@@ -114,7 +114,7 @@ Permission overrides may be applied on node **guild.find.user**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -229,7 +229,7 @@ Permission overrides may be applied on node **guild.ign.get**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
 
 Keyword | Aliases
@@ -248,7 +248,7 @@ Permission overrides may be applied on node **guild.ign.set**.
 Option | Description
 -------|------------
 \[--name\] \<name\> | The in-game name to use. The flag is optional if this option is provided first.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
 
 Keyword | Aliases

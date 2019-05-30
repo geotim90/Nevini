@@ -138,7 +138,7 @@ Option | Description
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
 --permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 \[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
@@ -182,7 +182,7 @@ Option | Description
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
 --permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 \[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
@@ -225,7 +225,7 @@ Option | Description
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
 --permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 \[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
@@ -269,7 +269,7 @@ Option | Description
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
 --permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 \[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
@@ -313,7 +313,7 @@ Option | Description
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
 --permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id or name. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
 \[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases

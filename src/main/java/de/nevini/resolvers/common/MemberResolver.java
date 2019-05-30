@@ -18,7 +18,7 @@ public class MemberResolver extends AbstractResolver<Member> {
     public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
         return CommandOptionDescriptor.builder()
                 .syntax("[--user] [<user>]")
-                .description("Refers to a specific user using a mention, id or name."
+                .description("Refers to a specific user using a mention, id, name, nickname or ign."
                         + " The `--user` flag is optional if a user mention is used."
                         + " Refers to the current user if only the `--user` flag is provided.")
                 .keyword("--user")
