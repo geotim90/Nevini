@@ -15,21 +15,25 @@ import java.util.stream.Collectors;
 
 public class MemberResolver extends AbstractResolver<Member> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("[--user] [<user>]")
-                .description("Refers to a specific user using a mention, id, name, nickname or ign."
-                        + " The `--user` flag is optional if a user mention is used."
-                        + " Refers to the current user if only the `--user` flag is provided.")
-                .keyword("--user")
-                .aliases(new String[]{"//user", "--member", "//member", "-u", "/u", "-m", "/m"});
-    }
-
     protected MemberResolver() {
         super("user", new Pattern[]{
                 Pattern.compile("<@!?(\\d+)>"),
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")
         });
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
+        return CommandOptionDescriptor.builder()
+                .syntax("[--user] [<user>]")
+                .description("Refers to " + (list ? "all users" : "a specific user")
+                        + " with a matching mention, id, name, nickname or in-game name.\n"
+                        + "The `--user` flag is optional if a user mention is used"
+                        + (argument ? " or this option is provided first" : "") + ".\n"
+                        + "Refers to the current user if only the `--user` flag is provided.")
+                .keyword("--user")
+                .aliases(new String[]{"//user", "--member", "//member", "-u", "/u", "-m", "/m"})
+                .build();
     }
 
     @Override

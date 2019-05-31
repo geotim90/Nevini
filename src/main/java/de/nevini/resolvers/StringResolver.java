@@ -1,6 +1,7 @@
 package de.nevini.resolvers;
 
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,12 +15,18 @@ public class StringResolver extends AbstractResolver<String> {
         return Pattern.compile("(?i)(?:--|//)" + Pattern.quote(optionName) + "(?:\\s+(.+))?");
     }
 
-    public StringResolver(@NonNull String typeName) {
-        super(typeName, new Pattern[0]);
+    private final CommandOptionDescriptor descriptor;
+
+    public StringResolver(
+            @NonNull String typeName, @NonNull String optionName, @NonNull CommandOptionDescriptor descriptor
+    ) {
+        super(typeName, new Pattern[]{compileOptionPattern(optionName)});
+        this.descriptor = descriptor;
     }
 
-    public StringResolver(@NonNull String typeName, @NonNull String optionName) {
-        super(typeName, new Pattern[]{compileOptionPattern(optionName)});
+    @Override
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
+        return descriptor;
     }
 
     @Override

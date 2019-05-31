@@ -71,7 +71,8 @@ public class HelpCommand extends Command {
         }
         builder.append("\n\nTo add me to your server, visit " +
                 "<https://discordapp.com/oauth2/authorize?client_id=570972920692736002&scope=bot&permissions=519232>");
-        builder.append("\n\nFor additional help and support, join ").append(event.getServerInvite());
+        builder.append("\n\nFurther documentation can be viewed under <https://nevini.de/>")
+                .append("\n\nFor additional help and support, join ").append(event.getServerInvite());
         event.replyDm(builder.toString(), ignore -> event.complete(true));
     }
 
@@ -123,7 +124,8 @@ public class HelpCommand extends Command {
             if (command.getOptions().length > 0) {
                 builder.append("\n\n__Options__");
                 for (CommandOptionDescriptor option : command.getOptions()) {
-                    builder.append("\n**").append(option.getSyntax()).append("** - ").append(option.getDescription());
+                    builder.append("\n**").append(option.getSyntax()).append("** - ")
+                            .append(option.getDescription().replace('\n', ' '));
                 }
             }
 

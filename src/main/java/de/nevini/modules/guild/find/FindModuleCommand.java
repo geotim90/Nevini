@@ -4,7 +4,6 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.resolvers.common.ModuleResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Module;
 import de.nevini.scope.Node;
@@ -20,7 +19,7 @@ public class FindModuleCommand extends Command {
                 .node(Node.GUILD_FIND_MODULE)
                 .description("finds moduels by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
-                        ModuleResolver.describe().build()
+                        Resolvers.MODULE.describe(true, true)
                 })
                 .build());
     }

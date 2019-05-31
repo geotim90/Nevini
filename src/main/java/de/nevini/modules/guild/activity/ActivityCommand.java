@@ -5,8 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.GameResolver;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import de.nevini.util.Formatter;
@@ -27,15 +25,17 @@ public class ActivityCommand extends Command {
                 .node(Node.GUILD_ACTIVITY)
                 .description("displays user and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
-                        MemberResolver.describe().build(),
-                        GameResolver.describe().build()
+                        Resolvers.MEMBER.describe(false, true),
+                        Resolvers.GAME.describe()
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event, event.getMember(), member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event,
+                event.getMember(),
+                member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
@@ -101,7 +101,8 @@ public class ActivityCommand extends Command {
         if (lastPlayed == null) {
             event.reply(member.getEffectiveName() + " has not played this game recently.", event::complete);
         } else {
-            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed), event::complete);
+            event.reply(member.getEffectiveName() + " played this game "
+                    + Formatter.formatLargestUnitAgo(lastPlayed), event::complete);
         }
     }
 

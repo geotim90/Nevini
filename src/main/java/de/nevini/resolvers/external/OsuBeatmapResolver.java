@@ -14,25 +14,28 @@ import java.util.stream.Collectors;
 
 public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--beatmap <beatmap>")
-                .description("Refers to an osu! beatmap.")
-                .keyword("--beatmap")
-                .aliases(new String[]{"//beatmap", "--bm", "//bm"});
-    }
-
-    private final OsuService osuService;
-
-    public OsuBeatmapResolver(@NonNull OsuService osuService) {
+    protected OsuBeatmapResolver() {
         super("beatmap", new Pattern[]{Pattern.compile("(?i)(?:--|//)(?:beatmap|bm)(?:\\s+(.+))?")});
-        this.osuService = osuService;
     }
-
 
     @Override
-    public List<OsuBeatmap> findSorted(CommandEvent ignored, String query) {
-        return osuService.findBeatmaps(query).stream().sorted(Comparator.comparing(OsuBeatmap::getTitle))
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
+        return CommandOptionDescriptor.builder()
+                .syntax(argument ? "[--beatmap] <beatmap>" : "--beatmap <beatmap>")
+                .description("Refers to " + (list ? "all osu! beatmaps" : "an osu! beatmap")
+                        + " with a matching id or name."
+                        + (argument
+                        ? "\nThe `--beatmap` flag is optional if this option is provided first."
+                        : ""))
+                .keyword("--beatmap")
+                .aliases(new String[]{"//beatmap", "--bm", "//bm"})
+                .build();
+    }
+
+    @Override
+    public List<OsuBeatmap> findSorted(@NonNull CommandEvent event, String query) {
+        return event.locate(OsuService.class).findBeatmaps(query).stream()
+                .sorted(Comparator.comparing(OsuBeatmap::getTitle))
                 .collect(Collectors.toList());
     }
 
@@ -43,7 +46,8 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
     @Override
     protected String getFieldValueForPicker(OsuBeatmap item) {
-        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/" + item.getID() + ")";
+        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/" + item.getID()
+                + ")";
     }
 
 }

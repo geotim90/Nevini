@@ -13,16 +13,20 @@ import java.util.stream.Collectors;
 
 public class GameResolver extends AbstractResolver<GameData> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--game <game>")
-                .description("Refers to a specific game. You can provide (part of) the name of a game or its application ID.")
-                .keyword("--game")
-                .aliases(new String[]{"//game"});
-    }
-
     protected GameResolver() {
         super("game", new Pattern[]{Pattern.compile("(?i)(?:--|//)game(?:\\s+(.+))?")});
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
+        return CommandOptionDescriptor.builder()
+                .syntax(argument ? "[--game] <game>" : "--game <game>")
+                .description("Refers to " + (list ? "all games" : "a specific game")
+                        + " with a matching id or name."
+                        + (argument ? "\nThe `--game` flag is optional if this option is provided first." : ""))
+                .keyword("--game")
+                .aliases(new String[]{"//game"})
+                .build();
     }
 
     @Override

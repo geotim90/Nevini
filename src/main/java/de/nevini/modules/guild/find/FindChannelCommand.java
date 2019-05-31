@@ -4,7 +4,6 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.resolvers.common.ChannelResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -21,7 +20,7 @@ public class FindChannelCommand extends Command {
                 .node(Node.GUILD_FIND_CHANNEL)
                 .description("finds text channels by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
-                        ChannelResolver.describe().build()
+                        Resolvers.CHANNEL.describe(true, true)
                 })
                 .build());
     }

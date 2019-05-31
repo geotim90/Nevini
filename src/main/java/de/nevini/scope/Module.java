@@ -13,11 +13,11 @@ import lombok.ToString;
 public enum Module {
 
     CORE("core", true, true,
-            "These commands are a core part of Nevini and are always available."
-                    + " In other words, this module is active by default and cannot be deactivated."),
+            "These commands are a core part of Nevini and are always available. "
+                    + "In other words, this module is active by default and cannot be deactivated."),
     GUILD("guild", true, false,
-            "These commands help manage a server (aka. guild) and monitor user (aka. member) activity."
-                    + " This modules is active by default but can be deactivated."),
+            "These commands help manage a server (aka. guild) and monitor user (aka. member) activity. "
+                    + "This modules is active by default but can be deactivated."),
     OSU("osu", false, false,
             "These commands are related to [osu!](https://osu.ppy.sh)."),
     ;

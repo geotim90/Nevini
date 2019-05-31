@@ -48,15 +48,21 @@ public class PermissionService {
         return hasPermission(channel.getGuild(), null, null, user, channel, node, CHANNEL_ROLE);
     }
 
-    public boolean hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node) {
+    public boolean hasChannelPermissionPermission(
+            @NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node
+    ) {
         return hasPermission(channel.getGuild(), permission, null, null, channel, node, CHANNEL_PERMISSION);
     }
 
-    public boolean hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Role role, @NonNull Node node) {
+    public boolean hasChannelPermissionPermission(
+            @NonNull TextChannel channel, @NonNull Role role, @NonNull Node node
+    ) {
         return hasPermission(channel.getGuild(), null, role, null, channel, node, CHANNEL_PERMISSION);
     }
 
-    public boolean hasChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node) {
+    public boolean hasChannelPermissionPermission(
+            @NonNull TextChannel channel, @NonNull Member user, @NonNull Node node
+    ) {
         return hasPermission(channel.getGuild(), null, null, user, channel, node, CHANNEL_PERMISSION);
     }
 
@@ -92,7 +98,15 @@ public class PermissionService {
         return hasPermission(server, null, null, null, null, node, SERVER);
     }
 
-    private boolean hasPermission(@NonNull Guild server, Permission permission, Role role, Member user, TextChannel channel, @NonNull Node node, byte scope) {
+    private boolean hasPermission(
+            @NonNull Guild server,
+            Permission permission,
+            Role role,
+            Member user,
+            TextChannel channel,
+            @NonNull Node node,
+            byte scope
+    ) {
         if (user != null && (user.isOwner() || user.hasPermission(Permission.ADMINISTRATOR))) {
             return true;
         } else if (role != null && role.hasPermission(Permission.ADMINISTRATOR)) {
@@ -246,7 +260,8 @@ public class PermissionService {
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
                 CHANNEL_PERMISSION,
-                Permission.getPermissions(PermissionUtil.getEffectivePermission(channel, role)).stream().map(Permission::getRawValue).collect(Collectors.toList()),
+                Permission.getPermissions(PermissionUtil.getEffectivePermission(channel, role)).stream()
+                        .map(Permission::getRawValue).collect(Collectors.toList()),
                 node.getNode()
         ));
     }
@@ -374,7 +389,9 @@ public class PermissionService {
         }
     }
 
-    public void setChannelUserPermission(@NonNull TextChannel channel, @NonNull Member user, @NonNull Node node, Boolean override) {
+    public void setChannelUserPermission(
+            @NonNull TextChannel channel, @NonNull Member user, @NonNull Node node, Boolean override
+    ) {
         setPermission(new PermissionData(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -384,7 +401,9 @@ public class PermissionService {
                 null), override);
     }
 
-    public void setChannelRolePermission(@NonNull TextChannel channel, @NonNull Role role, @NonNull Node node, Boolean override) {
+    public void setChannelRolePermission(
+            @NonNull TextChannel channel, @NonNull Role role, @NonNull Node node, Boolean override
+    ) {
         setPermission(new PermissionData(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -394,7 +413,9 @@ public class PermissionService {
                 null), override);
     }
 
-    public void setChannelPermissionPermission(@NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node, Boolean override) {
+    public void setChannelPermissionPermission(
+            @NonNull TextChannel channel, @NonNull Permission permission, @NonNull Node node, Boolean override
+    ) {
         setPermission(new PermissionData(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -434,7 +455,9 @@ public class PermissionService {
                 null), override);
     }
 
-    public void setPermissionPermission(@NonNull Guild server, @NonNull Permission permission, @NonNull Node node, Boolean override) {
+    public void setPermissionPermission(
+            @NonNull Guild server, @NonNull Permission permission, @NonNull Node node, Boolean override
+    ) {
         setPermission(new PermissionData(
                 server.getIdLong(),
                 -1L,

@@ -1,7 +1,10 @@
 package de.nevini.command;
 
 import de.nevini.listeners.EventDispatcher;
+import de.nevini.scope.Locatable;
 import de.nevini.services.common.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +26,6 @@ public class CommandContext {
     private final String serverInvite;
 
     private final Map<String, Command> commands;
-
     private final EventDispatcher eventDispatcher;
 
     private final ActivityService activityService;
@@ -33,6 +35,9 @@ public class CommandContext {
     private final ModuleService moduleService;
     private final PermissionService permissionService;
     private final PrefixService prefixService;
+
+    @Getter(AccessLevel.PRIVATE)
+    private final ApplicationContext applicationContext;
 
     public CommandContext(
             @Value("${bot.lockdown:true}") boolean lockdown,
@@ -63,7 +68,6 @@ public class CommandContext {
             }
         });
         this.commands = Collections.unmodifiableMap(commands);
-
         this.eventDispatcher = eventDispatcher;
 
         this.activityService = activityService;
@@ -73,6 +77,12 @@ public class CommandContext {
         this.moduleService = moduleService;
         this.permissionService = permissionService;
         this.prefixService = prefixService;
+
+        this.applicationContext = applicationContext;
+    }
+
+    public <T extends Locatable> T locate(Class<T> type) {
+        return applicationContext.getBeansOfType(type).values().stream().findFirst().orElse(null);
     }
 
 }

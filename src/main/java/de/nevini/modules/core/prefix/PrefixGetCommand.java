@@ -4,6 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
+import de.nevini.scope.Permissions;
 
 public class PrefixGetCommand extends Command {
 
@@ -12,6 +13,7 @@ public class PrefixGetCommand extends Command {
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.CORE_PREFIX_GET)
+                .minimumBotPermissions(Permissions.TALK)
                 .description("displays the currently configured command prefix")
                 .build());
     }

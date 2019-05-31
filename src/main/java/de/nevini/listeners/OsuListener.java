@@ -95,32 +95,42 @@ public class OsuListener {
     private void updateEvents(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
         ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
         Member member = event.getMember();
-        String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
+        String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()),
+                member.getEffectiveName());
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
         int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(uts, now), 31));
-        log.info("Querying user events for {} days ({} to {})", days, Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
+        log.info(
+                "Querying user events for {} days ({} to {})",
+                days,
+                Formatter.formatTimestamp(uts),
+                Formatter.formatTimestamp(now)
+        );
         OsuUser user = osuService.getUser(ign, GameMode.STANDARD, days);
         if (user != null) {
             user.getEvents().stream()
                     .filter(e -> e.getDate().isAfter(uts))
                     .sorted(Comparator.comparing(OsuUser.Event::getDate))
                     .forEach(e -> {
-                        String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHTML()) + " at " + Formatter.formatTimestamp(e.getDate());
-                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
+                        String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHTML())
+                                + " at " + Formatter.formatTimestamp(e.getDate());
+                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
+                                channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
             user.getEvents().stream()
                     .filter(e -> e.getDate().isAfter(uts))
                     .map(OsuUser.Event::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.toInstant().toEpochMilli()));
+                    .ifPresent(max ->
+                            feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.toInstant().toEpochMilli()));
         }
     }
 
     private void updateRecent(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
         ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
         Member member = event.getMember();
-        String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
+        String ign = StringUtils.defaultIfEmpty(
+                ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
         log.info("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
         List<OsuScore> scores = osuService.getUserRecent(ign, GameMode.STANDARD);
@@ -136,14 +146,16 @@ public class OsuListener {
                                 Formatter.formatInteger(e.getScore()) + " points on "
                                 + osuService.getBeatmapString(e.getBeatmapID()) + " at "
                                 + Formatter.formatTimestamp(e.getDate());
-                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(), markdown);
+                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(),
+                                markdown);
                         channel.sendMessage(markdown).queue();
                     });
             scores.stream()
                     .filter(e -> e.getDate().isAfter(uts))
                     .map(OsuScore::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_RECENT, max.toInstant().toEpochMilli()));
+                    .ifPresent(max ->
+                            feedService.updateSubscription(channel, Feed.OSU_RECENT, max.toInstant().toEpochMilli()));
         }
     }
 

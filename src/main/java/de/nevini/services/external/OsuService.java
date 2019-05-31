@@ -4,6 +4,7 @@ import com.oopsjpeg.osu4j.*;
 import com.oopsjpeg.osu4j.backend.*;
 import com.oopsjpeg.osu4j.exception.OsuAPIException;
 import de.nevini.db.game.GameData;
+import de.nevini.scope.Locatable;
 import de.nevini.services.common.GameService;
 import de.nevini.util.Finder;
 import lombok.NonNull;
@@ -19,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
-public class OsuService {
+public class OsuService implements Locatable {
 
     private final Map<Integer, OsuBeatmap> beatmapCache = new ConcurrentHashMap<>();
     private final Map<Integer, String> userNameCache = new ConcurrentHashMap<>();

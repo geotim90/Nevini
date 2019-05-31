@@ -1,9 +1,6 @@
 package de.nevini.resolvers;
 
-import de.nevini.command.Cleaner;
-import de.nevini.command.CommandEvent;
-import de.nevini.command.CommandReaction;
-import de.nevini.command.Picker;
+import de.nevini.command.*;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -26,6 +23,12 @@ public abstract class AbstractResolver<T> {
         this.optionPatterns = optionPatterns;
     }
 
+    public CommandOptionDescriptor describe() {
+        return describe(false, false);
+    }
+
+    public abstract CommandOptionDescriptor describe(boolean list, boolean argument);
+
     public abstract List<T> findSorted(@NonNull CommandEvent event, String query);
 
     private String getFromOptions(@NonNull CommandEvent event) {
@@ -38,7 +41,9 @@ public abstract class AbstractResolver<T> {
         return null;
     }
 
-    public void resolveArgumentOrOptionOrDefault(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
+    public void resolveArgumentOrOptionOrDefault(
+            @NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback
+    ) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
             callback.accept(defaultValue);
@@ -47,7 +52,9 @@ public abstract class AbstractResolver<T> {
         }
     }
 
-    public void resolveArgumentOrOptionOrDefaultIfExists(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
+    public void resolveArgumentOrOptionOrDefaultIfExists(
+            @NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback
+    ) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (query == null) {
             callback.accept(null);
@@ -87,7 +94,9 @@ public abstract class AbstractResolver<T> {
         }
     }
 
-    public void resolveOptionOrDefaultIfExists(@NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback) {
+    public void resolveOptionOrDefaultIfExists(
+            @NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback
+    ) {
         String query = getFromOptions(event);
         if (query == null) {
             callback.accept(null);
@@ -166,7 +175,9 @@ public abstract class AbstractResolver<T> {
     @NonNull
     protected abstract String getFieldValueForPicker(T item);
 
-    public void resolveListArgumentOrOptionOrDefault(@NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback) {
+    public void resolveListArgumentOrOptionOrDefault(
+            @NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback
+    ) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
             callback.accept(defaultList);
@@ -175,7 +186,9 @@ public abstract class AbstractResolver<T> {
         }
     }
 
-    public void resolveListArgumentOrOptionOrDefaultIfExists(@NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback) {
+    public void resolveListArgumentOrOptionOrDefaultIfExists(
+            @NonNull CommandEvent event, List<T> defaultList, @NonNull Consumer<List<T>> callback
+    ) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (query == null) {
             callback.accept(Collections.emptyList());
@@ -189,18 +202,24 @@ public abstract class AbstractResolver<T> {
     public void resolveListArgumentOrOptionOrInput(@NonNull CommandEvent event, @NonNull Consumer<List<T>> callback) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (StringUtils.isEmpty(query)) {
-            event.reply("Please enter a " + typeName + " below:", message -> waitForListInput(event, message, callback));
+            event.reply(
+                    "Please enter a " + typeName + " below:",
+                    message -> waitForListInput(event, message, callback)
+            );
         } else {
             resolveListInput(event, query, callback);
         }
     }
 
-    public void resolveListArgumentOrOptionOrInputIfExists(@NonNull CommandEvent event, @NonNull Consumer<List<T>> callback) {
+    public void resolveListArgumentOrOptionOrInputIfExists(
+            @NonNull CommandEvent event, @NonNull Consumer<List<T>> callback
+    ) {
         String query = StringUtils.defaultIfEmpty(event.getArgument(), getFromOptions(event));
         if (query == null) {
             callback.accept(null);
         } else if (query.isEmpty()) {
-            event.reply("Please enter a " + typeName + " below:", message -> waitForListInput(event, message, callback));
+            event.reply("Please enter a " + typeName + " below:",
+                    message -> waitForListInput(event, message, callback));
         } else {
             resolveListInput(event, query, callback);
         }
@@ -244,7 +263,8 @@ public abstract class AbstractResolver<T> {
     }
 
     private void replyAmbiguous(CommandEvent event) {
-        event.reply(CommandReaction.WARNING, "Too many " + typeName + "s matched your input! Please be more specific next time.", event::complete);
+        event.reply(CommandReaction.WARNING, "Too many " + typeName
+                + "s matched your input! Please be more specific next time.", event::complete);
     }
 
     private void replyCancelled(CommandEvent event) {
@@ -260,7 +280,8 @@ public abstract class AbstractResolver<T> {
     }
 
     private void replyUnknown(CommandEvent event) {
-        event.reply(CommandReaction.WARNING, "I could not find any " + typeName + " that matched your input!", event::complete);
+        event.reply(CommandReaction.WARNING, "I could not find any " + typeName + " that matched your input!",
+                event::complete);
     }
 
 }

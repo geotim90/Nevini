@@ -3,7 +3,7 @@ package de.nevini.modules.core.permission;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.command.CommandReaction;
-import de.nevini.resolvers.common.*;
+import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import lombok.Data;
 import lombok.NonNull;
@@ -23,12 +23,9 @@ import java.util.regex.Pattern;
 @Data
 public class PermissionOptions {
 
-    static CommandOptionDescriptor[] getCommandOptionDescriptors() {
+    static CommandOptionDescriptor[] getCommandOptionDescriptors(boolean resolveNodeList) {
         return new CommandOptionDescriptor[]{
-                NodeResolver.describe()
-                        .syntax("[--node] <node>")
-                        .description("Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.")
-                        .build(),
+                Resolvers.NODE.describe(resolveNodeList, true),
                 CommandOptionDescriptor.builder()
                         .syntax("--all")
                         .description("Explicitly refers to all permission nodes.")
@@ -37,14 +34,15 @@ public class PermissionOptions {
                         .build(),
                 CommandOptionDescriptor.builder()
                         .syntax("--server")
-                        .description("Changes the scope to server-wide permissions instead of channel-specific permissions.")
+                        .description("Changes the scope to server-wide permissions "
+                                + "instead of channel-specific permissions.")
                         .keyword("--server")
                         .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
                         .build(),
-                PermissionResolver.describe().build(),
-                RoleResolver.describe().build(),
-                MemberResolver.describe().build(),
-                ChannelResolver.describe().build()
+                Resolvers.PERMISSION.describe(),
+                Resolvers.ROLE.describe(),
+                Resolvers.MEMBER.describe(),
+                Resolvers.CHANNEL.describe()
         };
     }
 
@@ -59,7 +57,8 @@ public class PermissionOptions {
                 + "7. Channel-specific permissions based on effective permissions (e.g. \"Manage Server\")\n"
                 + "8. Channel-specific role permissions\n"
                 + "9. Channel-specific user permissions\n\n"
-                + "If multiple overrides on the same \"level\" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.\n"
+                + "If multiple overrides on the same \"level\" disagree with each other (e.g. conflicting roles), "
+                + "**allow** will trump **deny**.\n"
                 + "Server owners and administrators are not restricted by permission node overrides.\n"
                 + "Users can only configure permissions for permission nodes they have themselves.\n"
                 + "Users can only configure permissions for roles of a lower position than their highest role.\n"
@@ -139,7 +138,10 @@ public class PermissionOptions {
                 this.nodes = Arrays.asList(Node.values());
                 callback.accept(this);
             } else {
-                event.reply(CommandReaction.WARNING, "You cannot select all nodes and specific nodes at the same time!");
+                event.reply(
+                        CommandReaction.WARNING,
+                        "You cannot select all nodes and specific nodes at the same time!"
+                );
             }
         } else {
             this.nodes = ObjectUtils.defaultIfNull(nodes, Collections.emptyList());

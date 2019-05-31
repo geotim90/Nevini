@@ -4,7 +4,6 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.resolvers.common.PermissionResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -20,14 +19,15 @@ public class FindPermissionCommand extends Command {
                 .node(Node.GUILD_FIND_MODULE)
                 .description("finds permission by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
-                        PermissionResolver.describe().build()
+                        Resolvers.PERMISSION.describe(true, true)
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.PERMISSION.resolveListArgumentOrOptionOrInput(event, permissions -> acceptPermissions(event, permissions));
+        Resolvers.PERMISSION.resolveListArgumentOrOptionOrInput(event,
+                permissions -> acceptPermissions(event, permissions));
     }
 
     private void acceptPermissions(CommandEvent event, List<Permission> permissions) {

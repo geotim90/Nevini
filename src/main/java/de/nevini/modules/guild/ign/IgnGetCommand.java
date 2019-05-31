@@ -5,8 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.GameResolver;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -25,15 +23,17 @@ public class IgnGetCommand extends Command {
                 .node(Node.GUILD_IGN_GET)
                 .description("displays in-game names for a user and/or game")
                 .options(new CommandOptionDescriptor[]{
-                        MemberResolver.describe().build(),
-                        GameResolver.describe().build()
+                        Resolvers.MEMBER.describe(false, true),
+                        Resolvers.GAME.describe()
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event, event.getMember(), member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event,
+                event.getMember(),
+                member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
@@ -85,7 +85,8 @@ public class IgnGetCommand extends Command {
     private void displayMemberGameIgn(CommandEvent event, Member member, GameData game) {
         String ign = event.getIgnService().getIgn(member, game);
         if (StringUtils.isEmpty(ign)) {
-            event.reply("I do not have an in-game name for " + member.getEffectiveName() + " in " + game.getName() + ".", event::complete);
+            event.reply("I do not have an in-game name for " + member.getEffectiveName() + " in "
+                    + game.getName() + ".", event::complete);
         } else {
             event.reply(ign, event::complete);
         }

@@ -11,7 +11,7 @@ public class PermissionResetCommand extends PermissionSetCommand {
                 .aliases(new String[]{"clear", "default"})
                 .node(Node.CORE_PERMISSION_RESET)
                 .description("resets permission node overrides for bot commands")
-                .options(PermissionOptions.getCommandOptionDescriptors())
+                .options(PermissionOptions.getCommandOptionDescriptors(true))
                 .details(PermissionOptions.getCommandDescriptorDetails())
                 .build(), "reset", null);
     }

@@ -17,8 +17,8 @@ Permission overrides may be applied on node **guild.activity**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
---game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--game \<game\> | Refers to a specific game with a matching id or name.
 
 Keyword | Aliases
 --------|--------
@@ -54,8 +54,8 @@ Permission overrides may be applied on node **guild.feed.get**.
 
 Option | Description
 -------|------------
---feed \<type\> | Refers to a specific feed type.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+\[--feed\] \<type\> | Refers to a specific feed type with a matching name.<br>The `--feed` flag is optional if this option is provided first.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 --all | Explicitly refers to all possible feeds.
 
 Keyword | Aliases
@@ -77,8 +77,8 @@ Permission overrides may be applied on node **guild.feed.set**.
 
 Option | Description
 -------|------------
---feed \<type\> | Refers to a specific feed type.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+\[--feed\] \<type\> | Refers to a specific feed type with a matching name.<br>The `--feed` flag is optional if this option is provided first.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -114,7 +114,7 @@ Permission overrides may be applied on node **guild.find.user**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to all users with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -129,7 +129,7 @@ Permission overrides may be applied on node **guild.find.role**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
+\[--role\] \<role\> | Refers to all roles with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -145,7 +145,7 @@ Permission overrides may be applied on node **guild.find.module**.
 
 Option | Description
 -------|------------
---permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
+\[--permission\] \<permission\> | Refers to all permissions with a matching name (e.g. "Manage Server").<br>The `--permission` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -160,7 +160,7 @@ Permission overrides may be applied on node **guild.find.module**.
 
 Option | Description
 -------|------------
---node \<node\> | Refers to a specific permission node for bot commands.
+\[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -175,7 +175,7 @@ Permission overrides may be applied on node **guild.find.module**.
 
 Option | Description
 -------|------------
---module \<module\> | Refers to a specific bot module.
+\[--module\] \<module\> | Refers to all bot modules with a matching name.<br>The `--module` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -189,7 +189,7 @@ Permission overrides may be applied on node **guild.find.game**.
 
 Option | Description
 -------|------------
---game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
+\[--game\] \<game\> | Refers to all games with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -203,7 +203,7 @@ Permission overrides may be applied on node **guild.find.channel**.
 
 Option | Description
 -------|------------
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to all text channels with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used or this option is provided first.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -229,8 +229,8 @@ Permission overrides may be applied on node **guild.ign.get**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
---game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--game \<game\> | Refers to a specific game with a matching id or name.
 
 Keyword | Aliases
 --------|--------
@@ -242,14 +242,16 @@ get | display<br>echo<br>list<br>print<br>show
 
 Configures the in-game name for a specific user in a specific game.
 
+Users can only configure in-game names for users whose highest role is lower than their highest role.
+
 By default, you need the **Manage Nicknames** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.ign.set**.
 
 Option | Description
 -------|------------
 \[--name\] \<name\> | The in-game name to use. The flag is optional if this option is provided first.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
---game \<game\> | Refers to a specific game. You can provide (part of) the name of a game or its application ID.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+--game \<game\> | Refers to a specific game with a matching id or name.
 
 Keyword | Aliases
 --------|--------

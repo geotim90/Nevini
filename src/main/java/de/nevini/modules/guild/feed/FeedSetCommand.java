@@ -1,8 +1,6 @@
 package de.nevini.modules.guild.feed;
 
 import de.nevini.command.*;
-import de.nevini.resolvers.common.ChannelResolver;
-import de.nevini.resolvers.common.FeedResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
@@ -18,8 +16,8 @@ public class FeedSetCommand extends Command {
                 .node(Node.GUILD_FEED_SET)
                 .description("displays a list of feeds")
                 .options(new CommandOptionDescriptor[]{
-                        FeedResolver.describe().build(),
-                        ChannelResolver.describe().build()
+                        Resolvers.FEED.describe(false, true),
+                        Resolvers.CHANNEL.describe()
                 })
                 .details("Providing a channel will cause the bot to post feed updates in said channel.\n"
                         + "If no channel is provided, the bot will stop the feed.")

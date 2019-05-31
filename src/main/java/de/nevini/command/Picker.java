@@ -37,7 +37,9 @@ public class Picker<T> {
 
     private void checkLength() {
         if (items.size() > MAX) {
-            throw new UnsupportedOperationException(getClass().getSimpleName() + " only supports up to " + MAX + " items!");
+            throw new UnsupportedOperationException(
+                    getClass().getSimpleName() + " only supports up to " + MAX + " items!"
+            );
         }
     }
 

@@ -109,11 +109,14 @@ public abstract class Command {
     }
 
     private boolean checkBotPermission(CommandEvent event) {
-        if (!event.isFromType(ChannelType.TEXT) || event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), getMinimumBotPermissions())) {
+        if (!event.isFromType(ChannelType.TEXT)
+                || event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), getMinimumBotPermissions())
+        ) {
             return true;
         } else {
             String[] missingPermissions = Arrays.stream(getMinimumBotPermissions())
-                    .filter(permission -> !event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), permission))
+                    .filter(permission ->
+                            !event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), permission))
                     .map(Permission::getName).toArray(String[]::new);
             if (missingPermissions.length == 0) {
                 return true;
@@ -136,7 +139,9 @@ public abstract class Command {
 
     private boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
-            if (getNode() == null || event.getPermissionService().hasChannelUserPermission(event.getTextChannel(), event.getMember(), getNode())) {
+            if (getNode() == null || event.getPermissionService().hasChannelUserPermission(
+                    event.getTextChannel(), event.getMember(), getNode())
+            ) {
                 String[] missingPermissions = Arrays.stream(getMinimumUserPermissions())
                         .filter(p -> !event.getMember().hasPermission(event.getTextChannel(), p))
                         .map(Permission::getName).toArray(String[]::new);

@@ -1,11 +1,11 @@
 package de.nevini.command;
 
+import de.nevini.scope.Permissions;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -37,7 +37,9 @@ public class CommandEvent {
 
     private final CommandOptions options;
 
-    public CommandEvent(@NonNull CommandContext context, @NonNull MessageReceivedEvent event, @NonNull CommandOptions options) {
+    public CommandEvent(
+            @NonNull CommandContext context, @NonNull MessageReceivedEvent event, @NonNull CommandOptions options
+    ) {
         this.context = context;
         this.event = event;
         this.options = options;
@@ -56,28 +58,17 @@ public class CommandEvent {
     }
 
     public boolean canEmbed() {
-        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(),
-                Permission.MESSAGE_READ,
-                Permission.MESSAGE_WRITE,
-                Permission.MESSAGE_HISTORY,
-                Permission.MESSAGE_EMBED_LINKS,
-                Permission.MESSAGE_ADD_REACTION
-        );
+        return !isFromType(ChannelType.TEXT)
+                || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.BOT_EMBED);
     }
 
     public boolean canReact() {
-        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(),
-                Permission.MESSAGE_READ,
-                Permission.MESSAGE_HISTORY,
-                Permission.MESSAGE_ADD_REACTION
-        );
+        return !isFromType(ChannelType.TEXT)
+                || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.REACT);
     }
 
     public boolean canTalk() {
-        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(),
-                Permission.MESSAGE_READ,
-                Permission.MESSAGE_WRITE
-        );
+        return !isFromType(ChannelType.TEXT) || getTextChannel().canTalk();
     }
 
     public void reply(@NonNull CommandReaction reaction) {
@@ -96,7 +87,9 @@ public class CommandEvent {
         reply(reaction, content, ignore());
     }
 
-    public void reply(@NonNull CommandReaction reaction, @NonNull String content, @NonNull Consumer<? super Message> callback) {
+    public void reply(
+            @NonNull CommandReaction reaction, @NonNull String content, @NonNull Consumer<? super Message> callback
+    ) {
         if (!canTalk() && canReact()) {
             addReaction(reaction.getUnicode(), ignore());
         }
@@ -182,7 +175,8 @@ public class CommandEvent {
         if (getGuild() != null) {
             embedBuilder.setAuthor(getGuild().getName(), null, getGuild().getIconUrl());
             embedBuilder.setColor(getGuild().getSelfMember().getColor());
-            embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(), getJDA().getSelfUser().getAvatarUrl());
+            embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(),
+                    getJDA().getSelfUser().getAvatarUrl());
         } else {
             embedBuilder.setAuthor(getJDA().getSelfUser().getName(), null, getJDA().getSelfUser().getAvatarUrl());
             embedBuilder.setColor(Color.BLUE);

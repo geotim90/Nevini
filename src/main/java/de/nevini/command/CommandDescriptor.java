@@ -1,6 +1,7 @@
 package de.nevini.command;
 
 import de.nevini.scope.Node;
+import de.nevini.scope.Permissions;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -55,20 +56,15 @@ public class CommandDescriptor {
      * <ul>
      * <li>{@link Permission#MESSAGE_READ}</li>
      * <li>{@link Permission#MESSAGE_WRITE}</li>
-     * <li>{@link Permission#MESSAGE_EMBED_LINKS}</li>
-     * <li>{@link Permission#MESSAGE_ADD_REACTION}</li>
      * <li>{@link Permission#MESSAGE_HISTORY}</li>
+     * <li>{@link Permission#MESSAGE_ADD_REACTION}</li>
+     * <li>{@link Permission#MESSAGE_EXT_EMOJI}</li>
+     * <li>{@link Permission#MESSAGE_EMBED_LINKS}</li>
      * </ul>
      */
     @NonNull
     @Builder.Default
-    private final Permission[] minimumBotPermissions = {
-            Permission.MESSAGE_READ,
-            Permission.MESSAGE_WRITE,
-            Permission.MESSAGE_HISTORY,
-            Permission.MESSAGE_EMBED_LINKS,
-            Permission.MESSAGE_ADD_REACTION
-    };
+    private final Permission[] minimumBotPermissions = Permissions.BOT_EMBED;
 
     /**
      * The minimum user permissions required for this command to function.
@@ -81,11 +77,7 @@ public class CommandDescriptor {
      */
     @NonNull
     @Builder.Default
-    private final Permission[] minimumUserPermissions = {
-            Permission.MESSAGE_READ,
-            Permission.MESSAGE_WRITE,
-            Permission.MESSAGE_HISTORY
-    };
+    private final Permission[] minimumUserPermissions = Permissions.TALK;
 
     /**
      * A short description of this command (required).

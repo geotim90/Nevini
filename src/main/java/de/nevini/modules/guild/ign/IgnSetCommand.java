@@ -3,15 +3,19 @@ package de.nevini.modules.guild.ign;
 import de.nevini.command.*;
 import de.nevini.db.game.GameData;
 import de.nevini.resolvers.StringResolver;
-import de.nevini.resolvers.common.GameResolver;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.entities.Member;
 
 public class IgnSetCommand extends Command {
 
-    private static final StringResolver nameResolver = new StringResolver("in-game name", "name");
+    private static final StringResolver nameResolver = new StringResolver("in-game name", "name",
+            CommandOptionDescriptor.builder()
+                    .syntax("[--name] <name>")
+                    .description("The in-game name to use. The flag is optional if this option is provided first.")
+                    .keyword("--name")
+                    .aliases(new String[]{"//name"})
+                    .build());
 
     public IgnSetCommand() {
         super(CommandDescriptor.builder()
@@ -19,16 +23,12 @@ public class IgnSetCommand extends Command {
                 .node(Node.GUILD_IGN_SET)
                 .description("configures the in-game name for a specific user in a specific game")
                 .options(new CommandOptionDescriptor[]{
-                        CommandOptionDescriptor.builder()
-                                .syntax("[--name] <name>")
-                                .description("The in-game name to use. The flag is optional if this option is provided first.")
-                                .keyword("--name")
-                                .aliases(new String[]{"//name"})
-                                .build(),
-                        MemberResolver.describe().build(),
-                        GameResolver.describe().build()
+                        nameResolver.describe(),
+                        Resolvers.MEMBER.describe(),
+                        Resolvers.GAME.describe()
                 })
-                .details("Users can only configure in-game names for users whose highest role is lower than their highest role.")
+                .details("Users can only configure in-game names "
+                        + "for users whose highest role is lower than their highest role.")
                 .build());
     }
 
@@ -50,7 +50,8 @@ public class IgnSetCommand extends Command {
             event.getIgnService().setIgn(member, game, name);
             event.reply(CommandReaction.OK, event::complete);
         } else {
-            event.reply(CommandReaction.PROHIBITED, "You can only configure in-game names for users whose highest role is lower than your highest role!", event::complete);
+            event.reply(CommandReaction.PROHIBITED, "You can only configure in-game names "
+                    + "for users whose highest role is lower than your highest role!", event::complete);
         }
     }
 

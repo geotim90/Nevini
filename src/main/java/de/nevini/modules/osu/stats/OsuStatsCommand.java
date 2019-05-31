@@ -7,52 +7,50 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
-import de.nevini.resolvers.external.OsuModeResolver;
+import de.nevini.resolvers.external.OsuResolvers;
 import de.nevini.scope.Node;
 import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OsuStatsCommand extends Command {
 
-    private static final OsuModeResolver modeResolver = new OsuModeResolver();
-
-    private final OsuService osu;
-
-    public OsuStatsCommand(@Autowired OsuService osu) {
+    public OsuStatsCommand() {
         super(CommandDescriptor.builder()
                 .keyword("osu!stats")
                 .aliases(new String[]{"osu!user"})
                 .node(Node.OSU_STATS)
                 .description("displays general information of an osu! user")
                 .options(new CommandOptionDescriptor[]{
-                        MemberResolver.describe().build(),
-                        OsuModeResolver.describe().build()
+                        Resolvers.MEMBER.describe(false, true),
+                        OsuResolvers.MODE.describe()
                 })
                 .build());
-        this.osu = osu;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefault(event, event.getMember(), member -> acceptUser(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefault(
+                event,
+                event.getMember(),
+                member -> acceptUser(event, member)
+        );
     }
 
     private void acceptUser(CommandEvent event, Member member) {
-        modeResolver.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, member, mode));
+        OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, member, mode));
     }
 
     private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
-        GameData game = osu.getGame();
+        OsuService osuService = event.locate(OsuService.class);
+        GameData game = osuService.getGame();
         String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
-        OsuUser user = osu.getUser(ign, mode);
+        OsuUser user = osuService.getUser(ign, mode);
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else {
