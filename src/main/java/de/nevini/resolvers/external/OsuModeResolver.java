@@ -11,16 +11,20 @@ import java.util.regex.Pattern;
 
 public class OsuModeResolver extends AbstractResolver<GameMode> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--mode <mode>")
-                .description("Refers to an osu! game mode (osu!, osu!taiko, osu!catch or osu!mania).")
-                .keyword("--mode")
-                .aliases(new String[]{"//mode"});
-    }
-
     public OsuModeResolver() {
         super("mode", new Pattern[]{Pattern.compile("(?i)(?:--|//)mode(?:\\s+(.+))?")});
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        return CommandOptionDescriptor.builder()
+                .syntax(resolvesArgument ? "[--mode] <mode>" : "--mode <mode>")
+                .description("Refers to " + (resolvesList ? "all osu! game modes" : "an osu! game mode")
+                        + " with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`)."
+                        + (resolvesArgument ? "\nThe `--mode` flag is optional if this option is provided first." : ""))
+                .keyword("--mode")
+                .aliases(new String[]{"//mode"})
+                .build();
     }
 
     @Override

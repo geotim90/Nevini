@@ -1,7 +1,6 @@
 package de.nevini.modules.core.module;
 
 import de.nevini.command.*;
-import de.nevini.resolvers.common.ModuleResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Module;
 import de.nevini.scope.Node;
@@ -15,10 +14,7 @@ public class ModuleActivateCommand extends Command {
                 .node(Node.CORE_MODULE_ACTIVATE)
                 .description("activates a module")
                 .options(new CommandOptionDescriptor[]{
-                        ModuleResolver.describe()
-                                .syntax("[--module] <module>")
-                                .description("The name (or part of the name) of the module to activate. The flag is optional.")
-                                .build()
+                        Resolvers.MODULE.describe(true, false)
                 })
                 .build());
     }

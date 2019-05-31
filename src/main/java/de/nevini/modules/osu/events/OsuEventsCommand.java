@@ -7,7 +7,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.resolvers.external.OsuModeResolver;
 import de.nevini.scope.Node;
@@ -34,8 +33,8 @@ public class OsuEventsCommand extends Command {
                 .node(Node.OSU_EVENTS)
                 .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{
-                        MemberResolver.describe().build(),
-                        OsuModeResolver.describe().build()
+                        Resolvers.MEMBER.describe(true, false),
+                        modeResolver.describe(false, false)
                 })
                 .build());
         this.osu = osu;

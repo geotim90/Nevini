@@ -5,8 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.feed.FeedData;
-import de.nevini.resolvers.common.ChannelResolver;
-import de.nevini.resolvers.common.FeedResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
@@ -28,8 +26,8 @@ public class FeedGetCommand extends Command {
                 .node(Node.GUILD_FEED_GET)
                 .description("displays a list of feeds")
                 .options(new CommandOptionDescriptor[]{
-                        FeedResolver.describe().build(),
-                        ChannelResolver.describe().build(),
+                        Resolvers.FEED.describe(true, false),
+                        Resolvers.CHANNEL.describe(false, false),
                         CommandOptionDescriptor.builder()
                                 .syntax("--all")
                                 .description("Explicitly refers to all possible feeds.")

@@ -5,7 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.GameResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -20,7 +19,7 @@ public class FindGameCommand extends Command {
                 .node(Node.GUILD_FIND_GAME)
                 .description("finds games by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
-                        GameResolver.describe().build()
+                        Resolvers.GAME.describe(true, true)
                 })
                 .build());
     }

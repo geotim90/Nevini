@@ -1,6 +1,7 @@
 package de.nevini.resolvers;
 
 import de.nevini.command.CommandEvent;
+import de.nevini.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,6 +21,11 @@ public class StringResolver extends AbstractResolver<String> {
 
     public StringResolver(@NonNull String typeName, @NonNull String optionName) {
         super(typeName, new Pattern[]{compileOptionPattern(optionName)});
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

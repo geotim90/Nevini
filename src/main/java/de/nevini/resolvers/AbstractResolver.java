@@ -1,9 +1,6 @@
 package de.nevini.resolvers;
 
-import de.nevini.command.Cleaner;
-import de.nevini.command.CommandEvent;
-import de.nevini.command.CommandReaction;
-import de.nevini.command.Picker;
+import de.nevini.command.*;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -25,6 +22,8 @@ public abstract class AbstractResolver<T> {
         this.typeName = typeName;
         this.optionPatterns = optionPatterns;
     }
+
+    public abstract CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList);
 
     public abstract List<T> findSorted(@NonNull CommandEvent event, String query);
 

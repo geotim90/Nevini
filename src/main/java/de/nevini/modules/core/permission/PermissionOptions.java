@@ -3,7 +3,7 @@ package de.nevini.modules.core.permission;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.command.CommandReaction;
-import de.nevini.resolvers.common.*;
+import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import lombok.Data;
 import lombok.NonNull;
@@ -23,12 +23,9 @@ import java.util.regex.Pattern;
 @Data
 public class PermissionOptions {
 
-    static CommandOptionDescriptor[] getCommandOptionDescriptors() {
+    static CommandOptionDescriptor[] getCommandOptionDescriptors(boolean resolveNodeList) {
         return new CommandOptionDescriptor[]{
-                NodeResolver.describe()
-                        .syntax("[--node] <node>")
-                        .description("Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.")
-                        .build(),
+                Resolvers.NODE.describe(true, resolveNodeList),
                 CommandOptionDescriptor.builder()
                         .syntax("--all")
                         .description("Explicitly refers to all permission nodes.")
@@ -41,10 +38,10 @@ public class PermissionOptions {
                         .keyword("--server")
                         .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
                         .build(),
-                PermissionResolver.describe().build(),
-                RoleResolver.describe().build(),
-                MemberResolver.describe().build(),
-                ChannelResolver.describe().build()
+                Resolvers.PERMISSION.describe(false, false),
+                Resolvers.ROLE.describe(false, false),
+                Resolvers.MEMBER.describe(false, false),
+                Resolvers.CHANNEL.describe(false, false)
         };
     }
 

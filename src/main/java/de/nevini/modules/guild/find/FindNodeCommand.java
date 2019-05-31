@@ -4,7 +4,6 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
-import de.nevini.resolvers.common.NodeResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -19,7 +18,7 @@ public class FindNodeCommand extends Command {
                 .node(Node.GUILD_FIND_MODULE)
                 .description("finds nodes by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
-                        NodeResolver.describe().build()
+                        Resolvers.NODE.describe(true, true)
                 })
                 .build());
     }

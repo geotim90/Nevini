@@ -14,14 +14,6 @@ import java.util.stream.Collectors;
 
 public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--beatmap <beatmap>")
-                .description("Refers to an osu! beatmap.")
-                .keyword("--beatmap")
-                .aliases(new String[]{"//beatmap", "--bm", "//bm"});
-    }
-
     private final OsuService osuService;
 
     public OsuBeatmapResolver(@NonNull OsuService osuService) {
@@ -29,6 +21,18 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
         this.osuService = osuService;
     }
 
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        return CommandOptionDescriptor.builder()
+                .syntax(resolvesArgument ? "[--beatmap] <beatmap>" : "--beatmap <beatmap>")
+                .description("Refers to " + (resolvesList ? "all osu! beatmaps" : "an osu! beatmap")
+                        + " with a matching id or name."
+                        + (resolvesArgument ? "\nThe `--beatmap` flag is optional if this option is provided first." : ""))
+                .keyword("--beatmap")
+                .aliases(new String[]{"//beatmap", "--bm", "//bm"})
+                .build();
+    }
 
     @Override
     public List<OsuBeatmap> findSorted(CommandEvent ignored, String query) {

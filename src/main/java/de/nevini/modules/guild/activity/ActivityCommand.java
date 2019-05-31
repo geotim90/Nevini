@@ -5,8 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.GameResolver;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import de.nevini.util.Formatter;
@@ -27,8 +25,8 @@ public class ActivityCommand extends Command {
                 .node(Node.GUILD_ACTIVITY)
                 .description("displays user and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
-                        MemberResolver.describe().build(),
-                        GameResolver.describe().build()
+                        Resolvers.MEMBER.describe(true, false),
+                        Resolvers.GAME.describe(false, false)
                 })
                 .build());
     }

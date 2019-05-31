@@ -5,8 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.GameResolver;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -25,8 +23,8 @@ public class IgnGetCommand extends Command {
                 .node(Node.GUILD_IGN_GET)
                 .description("displays in-game names for a user and/or game")
                 .options(new CommandOptionDescriptor[]{
-                        MemberResolver.describe().build(),
-                        GameResolver.describe().build()
+                        Resolvers.MEMBER.describe(true, false),
+                        Resolvers.GAME.describe(false, false)
                 })
                 .build());
     }

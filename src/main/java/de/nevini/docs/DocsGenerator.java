@@ -125,7 +125,7 @@ public class DocsGenerator {
             out.println("-------|------------");
             for (CommandOptionDescriptor option : command.getOptions()) {
                 out.println(option.getSyntax().replaceAll("([\\[\\]<>])", "\\\\$1") + " | "
-                        + option.getDescription());
+                        + option.getDescription().replace("\n", "<br>"));
             }
         }
 

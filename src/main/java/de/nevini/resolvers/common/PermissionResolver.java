@@ -11,16 +11,20 @@ import java.util.regex.Pattern;
 
 public class PermissionResolver extends AbstractResolver<Permission> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--permission <permission>")
-                .description("Refers to a specific permission (e.g. \"Manage Server\").")
-                .keyword("--permission")
-                .aliases(new String[]{"//permission", "--perm", "//perm", "-p", "/p"});
-    }
-
     protected PermissionResolver() {
         super("permission", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)(?:permission|perm)|[-/]p)(?:\\s+(.+))?")});
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        return CommandOptionDescriptor.builder()
+                .syntax(resolvesArgument ? "[--permission] <permission>" : "--permission <permission>")
+                .description("Refers to " + (resolvesList ? "all permissions" : "a specific permission")
+                        + " with a matching name (e.g. \"Manage Server\")."
+                        + (resolvesArgument ? "\nThe `--permission` flag is optional if this option is provided first." : ""))
+                .keyword("--feed")
+                .aliases(new String[]{"//feed", "-f", "/f"})
+                .build();
     }
 
     @Override

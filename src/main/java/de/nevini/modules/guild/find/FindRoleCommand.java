@@ -5,7 +5,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.common.Resolvers;
-import de.nevini.resolvers.common.RoleResolver;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
@@ -21,7 +20,7 @@ public class FindRoleCommand extends Command {
                 .node(Node.GUILD_FIND_ROLE)
                 .description("finds roles by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
-                        RoleResolver.describe().build()
+                        Resolvers.ROLE.describe(true, true)
                 })
                 .build());
     }

@@ -14,21 +14,25 @@ import java.util.stream.Collectors;
 
 public class ChannelResolver extends AbstractResolver<TextChannel> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("[--channel] [<channel>]")
-                .description("Refers to a specific text channel using a channel mention, id or name."
-                        + " The `--channel` flag is optional if a channel mention is used."
-                        + " Refers to the current channel if only the `--channel` flag is provided.")
-                .keyword("--channel")
-                .aliases(new String[]{"//channel", "-c", "/c"});
-    }
-
     protected ChannelResolver() {
         super("channel", new Pattern[]{
                 Pattern.compile("<#(\\d+)>"),
                 Pattern.compile("(?i)(?:(?:--|//)channel|[-/]c)(?:\\s+(.+))?")
         });
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        return CommandOptionDescriptor.builder()
+                .syntax("[--channel] [<channel>]")
+                .description("Refers to " + (resolvesList ? "all text channels" : "a specific text channel")
+                        + " with a matching mention, id or name.\n"
+                        + "The `--channel` flag is optional if a channel mention is used"
+                        + (resolvesArgument ? " or this option is provided first" : "") + ".\n"
+                        + "Refers to the current channel if only the `--channel` flag is provided.")
+                .keyword("--channel")
+                .aliases(new String[]{"//channel", "-c", "/c"})
+                .build();
     }
 
     @Override

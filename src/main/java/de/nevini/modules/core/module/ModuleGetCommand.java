@@ -1,7 +1,6 @@
 package de.nevini.modules.core.module;
 
 import de.nevini.command.*;
-import de.nevini.resolvers.common.ModuleResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Module;
 import de.nevini.scope.Node;
@@ -19,12 +18,10 @@ public class ModuleGetCommand extends Command {
                 .node(Node.CORE_MODULE_GET)
                 .description("displays a list of modules")
                 .options(new CommandOptionDescriptor[]{
-                        ModuleResolver.describe()
-                                .syntax("[--module] <module>")
-                                .description("The name (or part of the name) of the modules to display. The flag is optional.")
-                                .build()
+                        Resolvers.MODULE.describe(true, true)
                 })
-                .details("If no module is provided, this will display a list of all modules.")
+                .details("If a module is provided, this will display a list of all matching modules.\n"
+                        + "If no module is provided, this will display a list of all modules.")
                 .build());
     }
 

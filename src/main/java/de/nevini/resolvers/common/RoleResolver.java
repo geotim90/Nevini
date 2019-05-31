@@ -14,20 +14,24 @@ import java.util.stream.Collectors;
 
 public class RoleResolver extends AbstractResolver<Role> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("[--role] <role>")
-                .description("Refers to a specific role using a role mention, id or name."
-                        + " The `--role` flag is optional if a role mention is used.")
-                .keyword("--role")
-                .aliases(new String[]{"//role", "-r", "/r"});
-    }
-
     protected RoleResolver() {
         super("role", new Pattern[]{
                 Pattern.compile("<@&(\\d+)>"),
                 Pattern.compile("(?i)(?:(?:--|//)role|[-/]r)(?:\\s+(.+))?")
         });
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        return CommandOptionDescriptor.builder()
+                .syntax("[--role] <role>")
+                .description("Refers to " + (resolvesList ? "all roles" : "a specific role")
+                        + " with a matching mention, id or name.\n"
+                        + "The `--role` flag is optional if a channel mention is used"
+                        + (resolvesArgument ? " or this option is provided first" : "") + ".")
+                .keyword("--role")
+                .aliases(new String[]{"//role", "-r", "/r"})
+                .build();
     }
 
     @Override

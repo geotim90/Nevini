@@ -124,7 +124,8 @@ public class HelpCommand extends Command {
             if (command.getOptions().length > 0) {
                 builder.append("\n\n__Options__");
                 for (CommandOptionDescriptor option : command.getOptions()) {
-                    builder.append("\n**").append(option.getSyntax()).append("** - ").append(option.getDescription());
+                    builder.append("\n**").append(option.getSyntax()).append("** - ")
+                            .append(option.getDescription().replace('\n', ' '));
                 }
             }
 

@@ -9,7 +9,6 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
-import de.nevini.resolvers.common.MemberResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.resolvers.external.OsuBeatmapResolver;
 import de.nevini.resolvers.external.OsuModeResolver;
@@ -40,10 +39,10 @@ public class OsuScoresCommand extends Command {
                 .node(Node.OSU_SCORES)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        OsuBeatmapResolver.describe().build(),
-                        MemberResolver.describe().build(),
-                        OsuModeResolver.describe().build(),
-                        OsuModsResolver.describe().build()
+                        new OsuBeatmapResolver(osu).describe(true, false),
+                        Resolvers.MEMBER.describe(false, false),
+                        modeResolver.describe(false, false),
+                        modsResolver.describe(false, false)
                 })
                 .build());
         this.beatmapIdResolver = new OsuBeatmapResolver(osu);

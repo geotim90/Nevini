@@ -5,7 +5,7 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.modules.guild.feed.FeedSetCommand;
-import de.nevini.resolvers.common.ChannelResolver;
+import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
 
@@ -20,7 +20,7 @@ public class OsuEventsFeedCommand extends Command {
                 .node(Node.OSU_EVENTS_FEED)
                 .description("subscribes to osu! events")
                 .options(new CommandOptionDescriptor[]{
-                        ChannelResolver.describe().build()
+                        Resolvers.CHANNEL.describe(false, false)
                 })
                 .details("Providing a channel will cause the bot to post osu! events for all guild members in said channel.\n"
                         + "If no channel is provided, the bot will stop the feed.")

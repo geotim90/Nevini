@@ -23,7 +23,7 @@ public class PermissionGetCommand extends Command {
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.CORE_PERMISSION_GET)
                 .description("displays effective permissions for bot commands")
-                .options(PermissionOptions.getCommandOptionDescriptors())
+                .options(PermissionOptions.getCommandOptionDescriptors(true))
                 .details(PermissionOptions.getCommandDescriptorDetails())
                 .build());
     }

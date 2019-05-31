@@ -11,16 +11,20 @@ import java.util.regex.Pattern;
 
 public class ModuleResolver extends AbstractResolver<Module> {
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--module <module>")
-                .description("Refers to a specific bot module.")
-                .keyword("--module")
-                .aliases(new String[]{"//module"});
-    }
-
     protected ModuleResolver() {
         super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))?")});
+    }
+
+    @Override
+    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+        return CommandOptionDescriptor.builder()
+                .syntax(resolvesArgument ? "[--module] <module>" : "--module <module>")
+                .description("Refers to " + (resolvesList ? "all bot modules" : "a specific bot module")
+                        + " with a matching name."
+                        + (resolvesArgument ? "\nThe `--module` flag is optional if this option is provided first." : ""))
+                .keyword("--module")
+                .aliases(new String[]{"//module"})
+                .build();
     }
 
     @Override

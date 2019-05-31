@@ -3,6 +3,7 @@ package de.nevini.modules.core.prefix;
 import de.nevini.command.*;
 import de.nevini.resolvers.StringResolver;
 import de.nevini.scope.Node;
+import de.nevini.scope.Permissions;
 
 public class PrefixSetCommand extends Command {
 
@@ -12,6 +13,7 @@ public class PrefixSetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.CORE_PREFIX_SET)
+                .minimumBotPermissions(Permissions.TALK)
                 .description("configures the command prefix")
                 .options(new CommandOptionDescriptor[]{
                         CommandOptionDescriptor.builder()
