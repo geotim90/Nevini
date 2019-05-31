@@ -12,6 +12,7 @@ import de.nevini.db.game.GameData;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.resolvers.external.OsuResolvers;
 import de.nevini.scope.Node;
+import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -60,11 +61,12 @@ public class OsuScoresCommand extends Command {
     private void acceptBeatmapAndMemberAndModeAndMods(
             CommandEvent event, OsuBeatmap beatmap, Member member, GameMode mode, GameMod[] mods
     ) {
-        GameData game = event.getOsuService().getGame();
+        OsuService osuService = event.locate(OsuService.class);
+        GameData game = osuService.getGame();
         String ign = member != null
                 ? StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName())
                 : null;
-        List<OsuScore> scores = event.getOsuService().getScores(beatmap.getID(), ign, mode, mods);
+        List<OsuScore> scores = osuService.getScores(beatmap.getID(), ign, mode, mods);
         if (scores == null || scores.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
@@ -75,7 +77,7 @@ public class OsuScoresCommand extends Command {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger(score.getScore()) + " - "
                                 + Formatter.formatLargestUnitAgo(score.getDate()),
-                        "[" + event.getOsuService().getUserName(score.getUserID()) + "](https://osu.ppy.sh/u/"
+                        "[" + osuService.getUserName(score.getUserID()) + "](https://osu.ppy.sh/u/"
                                 + score.getUserID() + ")",
                         false);
             }

@@ -4,6 +4,7 @@ import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
+import de.nevini.services.external.OsuService;
 import lombok.NonNull;
 
 import java.util.Comparator;
@@ -31,7 +32,8 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
     @Override
     public List<OsuBeatmap> findSorted(@NonNull CommandEvent event, String query) {
-        return event.getOsuService().findBeatmaps(query).stream().sorted(Comparator.comparing(OsuBeatmap::getTitle))
+        return event.locate(OsuService.class).findBeatmaps(query).stream()
+                .sorted(Comparator.comparing(OsuBeatmap::getTitle))
                 .collect(Collectors.toList());
     }
 

@@ -1,8 +1,10 @@
 package de.nevini.command;
 
 import de.nevini.listeners.EventDispatcher;
+import de.nevini.scope.Locatable;
 import de.nevini.services.common.*;
-import de.nevini.services.external.OsuService;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +26,6 @@ public class CommandContext {
     private final String serverInvite;
 
     private final Map<String, Command> commands;
-
     private final EventDispatcher eventDispatcher;
 
     private final ActivityService activityService;
@@ -32,9 +33,11 @@ public class CommandContext {
     private final GameService gameService;
     private final IgnService ignService;
     private final ModuleService moduleService;
-    private final OsuService osuService;
     private final PermissionService permissionService;
     private final PrefixService prefixService;
+
+    @Getter(AccessLevel.PRIVATE)
+    private final ApplicationContext applicationContext;
 
     public CommandContext(
             @Value("${bot.lockdown:true}") boolean lockdown,
@@ -48,7 +51,6 @@ public class CommandContext {
             @Autowired GameService gameService,
             @Autowired IgnService ignService,
             @Autowired ModuleService moduleService,
-            @Autowired OsuService osuService,
             @Autowired PermissionService permissionService,
             @Autowired PrefixService prefixService
     ) {
@@ -66,7 +68,6 @@ public class CommandContext {
             }
         });
         this.commands = Collections.unmodifiableMap(commands);
-
         this.eventDispatcher = eventDispatcher;
 
         this.activityService = activityService;
@@ -74,9 +75,14 @@ public class CommandContext {
         this.gameService = gameService;
         this.ignService = ignService;
         this.moduleService = moduleService;
-        this.osuService = osuService;
         this.permissionService = permissionService;
         this.prefixService = prefixService;
+
+        this.applicationContext = applicationContext;
+    }
+
+    public <T extends Locatable> T locate(Class<T> type) {
+        return applicationContext.getBeansOfType(type).values().stream().findFirst().orElse(null);
     }
 
 }

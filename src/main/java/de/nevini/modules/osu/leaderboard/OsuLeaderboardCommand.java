@@ -6,6 +6,7 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.db.game.GameData;
 import de.nevini.scope.Node;
+import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -33,11 +34,12 @@ public class OsuLeaderboardCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        GameData game = event.getOsuService().getGame();
+        OsuService osuService = event.locate(OsuService.class);
+        GameData game = osuService.getGame();
         List<OsuUser> rankedUsers = event.getGuild().getMembers().stream().filter(member -> !member.getUser().isBot())
                 .map(member -> {
                     String ign = event.getIgnService().getIgn(member, game);
-                    return StringUtils.isEmpty(ign) ? null : event.getOsuService().getUser(ign);
+                    return StringUtils.isEmpty(ign) ? null : osuService.getUser(ign);
                 })
                 .filter(user -> user != null && user.getRank() > 0).sorted(Comparator.comparing(OsuUser::getRank))
                 .limit(10).collect(Collectors.toList());

@@ -7,6 +7,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.external.OsuResolvers;
 import de.nevini.scope.Node;
+import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +37,7 @@ public class OsuBeatmapCommand extends Command {
         if (beatmap == null) {
             event.reply("Beatmap not found.", event::complete);
         } else {
-            beatmap = event.getOsuService().getBeatmap(beatmap.getID()); // update information - beatmap may have been cached
+            beatmap = event.locate(OsuService.class).getBeatmap(beatmap.getID()); // update information - beatmap may have been cached
             EmbedBuilder embed = event.createEmbedBuilder();
             event.getGameService().findGames("osu!").stream().findFirst().ifPresent(
                     game -> embed.setAuthor(game.getName(), null, game.getIcon())

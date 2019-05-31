@@ -10,6 +10,7 @@ import de.nevini.db.game.GameData;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.resolvers.external.OsuResolvers;
 import de.nevini.scope.Node;
+import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -43,22 +44,23 @@ public class OsuBestCommand extends Command {
     }
 
     private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
-        GameData game = event.getOsuService().getGame();
+        OsuService osuService = event.locate(OsuService.class);
+        GameData game = osuService.getGame();
         String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
-        List<OsuScore> scores = event.getOsuService().getUserBest(ign, mode);
+        List<OsuScore> scores = osuService.getUserBest(ign, mode);
         if (scores == null || scores.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
             EmbedBuilder embed = event.createEmbedBuilder();
             embed.setAuthor(game.getName(), null, game.getIcon());
             int userId = scores.get(0).getUserID();
-            String userName = event.getOsuService().getUserName(userId);
+            String userName = osuService.getUserName(userId);
             embed.setTitle(userName, "https://osu.ppy.sh/u/" + userId);
             for (OsuScore score : scores) {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger((int) Math.floor(score.getPp())) + "pp - "
                                 + Formatter.formatLargestUnitAgo(score.getDate()),
-                        "[" + event.getOsuService().getBeatmapString(score.getBeatmapID())
+                        "[" + osuService.getBeatmapString(score.getBeatmapID())
                                 + "](https://osu.ppy.sh/b/" + score.getBeatmapID() + ")",
                         false);
             }

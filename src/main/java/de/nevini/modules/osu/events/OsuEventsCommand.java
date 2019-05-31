@@ -10,6 +10,7 @@ import de.nevini.db.game.GameData;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.resolvers.external.OsuResolvers;
 import de.nevini.scope.Node;
+import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.entities.Member;
 import org.apache.commons.lang3.StringUtils;
@@ -43,9 +44,10 @@ public class OsuEventsCommand extends Command {
     }
 
     private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
-        GameData game = event.getOsuService().getGame();
+        OsuService osuService = event.locate(OsuService.class);
+        GameData game = osuService.getGame();
         String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
-        OsuUser user = mode == null ? event.getOsuService().getUser(ign) : event.getOsuService().getUser(ign, mode, 31);
+        OsuUser user = mode == null ? osuService.getUser(ign) : osuService.getUser(ign, mode, 31);
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else if (user.getEvents().isEmpty()) {
