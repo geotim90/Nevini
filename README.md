@@ -1,7 +1,7 @@
 # Nevini
 
 Nevini is an open-source multi-purpose Discord bot.
-Its primary instance is hosted by [Geotim](https://github.com/geotim90), who is also the owner of this repository.
+Its primary instance is hosted by [Geotim](https://github.com/geotim90), who is also the owner of the [GitHub repository](https://github.com/geotim90/Nevini).
 Feel free to make suggestions in the [Issues](https://github.com/geotim90/Nevini/issues) section or even submit you own pull requests.
 The code is licensed under [Apache License Version 2.0](#license).
 
@@ -28,6 +28,7 @@ Nevini has multiple modules, which can be activated seperately.
 By default, only the `core` and `guild` modules are active.
 Other modules can be activated with the `module add` command.
 Each module has its own documentation in the docs folder of the repository.
+A more accessible version of the documentation is available under [nevini.de](https://nevini.de/).
 
 ## Permissions
 
