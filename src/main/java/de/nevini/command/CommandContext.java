@@ -2,6 +2,7 @@ package de.nevini.command;
 
 import de.nevini.listeners.EventDispatcher;
 import de.nevini.services.common.*;
+import de.nevini.services.external.OsuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,7 @@ public class CommandContext {
     private final GameService gameService;
     private final IgnService ignService;
     private final ModuleService moduleService;
+    private final OsuService osuService;
     private final PermissionService permissionService;
     private final PrefixService prefixService;
 
@@ -46,6 +48,7 @@ public class CommandContext {
             @Autowired GameService gameService,
             @Autowired IgnService ignService,
             @Autowired ModuleService moduleService,
+            @Autowired OsuService osuService,
             @Autowired PermissionService permissionService,
             @Autowired PrefixService prefixService
     ) {
@@ -71,6 +74,7 @@ public class CommandContext {
         this.gameService = gameService;
         this.ignService = ignService;
         this.moduleService = moduleService;
+        this.osuService = osuService;
         this.permissionService = permissionService;
         this.prefixService = prefixService;
     }

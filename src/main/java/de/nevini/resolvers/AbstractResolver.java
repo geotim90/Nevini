@@ -23,6 +23,10 @@ public abstract class AbstractResolver<T> {
         this.optionPatterns = optionPatterns;
     }
 
+    public CommandOptionDescriptor describe() {
+        return describe(false, false);
+    }
+
     public abstract CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList);
 
     public abstract List<T> findSorted(@NonNull CommandEvent event, String query);

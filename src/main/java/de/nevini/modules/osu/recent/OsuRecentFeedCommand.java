@@ -20,7 +20,7 @@ public class OsuRecentFeedCommand extends Command {
                 .node(Node.OSU_RECENT_FEED)
                 .description("subscribes to osu! plays")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.CHANNEL.describe(false, false)
+                        Resolvers.CHANNEL.describe()
                 })
                 .details("Providing a channel will cause the bot to post osu! plays for all guild members in said channel.\n"
                         + "If no channel is provided, the bot will stop the feed.")

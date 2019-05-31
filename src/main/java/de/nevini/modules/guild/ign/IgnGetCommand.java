@@ -24,7 +24,7 @@ public class IgnGetCommand extends Command {
                 .description("displays in-game names for a user and/or game")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(true, false),
-                        Resolvers.GAME.describe(false, false)
+                        Resolvers.GAME.describe()
                 })
                 .build());
     }

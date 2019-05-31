@@ -9,7 +9,13 @@ import net.dv8tion.jda.core.entities.Member;
 
 public class IgnSetCommand extends Command {
 
-    private static final StringResolver nameResolver = new StringResolver("in-game name", "name");
+    private static final StringResolver nameResolver = new StringResolver("in-game name", "name",
+            CommandOptionDescriptor.builder()
+                    .syntax("[--name] <name>")
+                    .description("The in-game name to use. The flag is optional if this option is provided first.")
+                    .keyword("--name")
+                    .aliases(new String[]{"//name"})
+                    .build());
 
     public IgnSetCommand() {
         super(CommandDescriptor.builder()
@@ -17,14 +23,9 @@ public class IgnSetCommand extends Command {
                 .node(Node.GUILD_IGN_SET)
                 .description("configures the in-game name for a specific user in a specific game")
                 .options(new CommandOptionDescriptor[]{
-                        CommandOptionDescriptor.builder()
-                                .syntax("[--name] <name>")
-                                .description("The in-game name to use. The flag is optional if this option is provided first.")
-                                .keyword("--name")
-                                .aliases(new String[]{"//name"})
-                                .build(),
-                        Resolvers.MEMBER.describe(false, false),
-                        Resolvers.GAME.describe(false, false)
+                        nameResolver.describe(),
+                        Resolvers.MEMBER.describe(),
+                        Resolvers.GAME.describe()
                 })
                 .details("Users can only configure in-game names for users whose highest role is lower than their highest role.")
                 .build());

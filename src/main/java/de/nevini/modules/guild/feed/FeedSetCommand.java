@@ -17,7 +17,7 @@ public class FeedSetCommand extends Command {
                 .description("displays a list of feeds")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.FEED.describe(true, false),
-                        Resolvers.CHANNEL.describe(false, false)
+                        Resolvers.CHANNEL.describe()
                 })
                 .details("Providing a channel will cause the bot to post feed updates in said channel.\n"
                         + "If no channel is provided, the bot will stop the feed.")

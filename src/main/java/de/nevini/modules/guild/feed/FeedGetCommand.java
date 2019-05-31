@@ -27,7 +27,7 @@ public class FeedGetCommand extends Command {
                 .description("displays a list of feeds")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.FEED.describe(true, false),
-                        Resolvers.CHANNEL.describe(false, false),
+                        Resolvers.CHANNEL.describe(),
                         CommandOptionDescriptor.builder()
                                 .syntax("--all")
                                 .description("Explicitly refers to all possible feeds.")

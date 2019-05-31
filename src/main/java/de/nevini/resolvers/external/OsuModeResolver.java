@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class OsuModeResolver extends AbstractResolver<GameMode> {
 
-    public OsuModeResolver() {
+    protected OsuModeResolver() {
         super("mode", new Pattern[]{Pattern.compile("(?i)(?:--|//)mode(?:\\s+(.+))?")});
     }
 

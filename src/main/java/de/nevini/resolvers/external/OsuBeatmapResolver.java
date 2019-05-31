@@ -4,7 +4,6 @@ import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
-import de.nevini.services.external.OsuService;
 import lombok.NonNull;
 
 import java.util.Comparator;
@@ -14,13 +13,9 @@ import java.util.stream.Collectors;
 
 public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
-    private final OsuService osuService;
-
-    public OsuBeatmapResolver(@NonNull OsuService osuService) {
+    protected OsuBeatmapResolver() {
         super("beatmap", new Pattern[]{Pattern.compile("(?i)(?:--|//)(?:beatmap|bm)(?:\\s+(.+))?")});
-        this.osuService = osuService;
     }
-
 
     @Override
     public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
@@ -35,8 +30,8 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
     }
 
     @Override
-    public List<OsuBeatmap> findSorted(CommandEvent ignored, String query) {
-        return osuService.findBeatmaps(query).stream().sorted(Comparator.comparing(OsuBeatmap::getTitle))
+    public List<OsuBeatmap> findSorted(@NonNull CommandEvent event, String query) {
+        return event.getOsuService().findBeatmaps(query).stream().sorted(Comparator.comparing(OsuBeatmap::getTitle))
                 .collect(Collectors.toList());
     }
 

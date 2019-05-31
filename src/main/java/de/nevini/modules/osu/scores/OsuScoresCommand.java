@@ -10,16 +10,12 @@ import de.nevini.command.CommandEvent;
 import de.nevini.command.CommandOptionDescriptor;
 import de.nevini.db.game.GameData;
 import de.nevini.resolvers.common.Resolvers;
-import de.nevini.resolvers.external.OsuBeatmapResolver;
-import de.nevini.resolvers.external.OsuModeResolver;
-import de.nevini.resolvers.external.OsuModsResolver;
+import de.nevini.resolvers.external.OsuResolvers;
 import de.nevini.scope.Node;
-import de.nevini.services.external.OsuService;
 import de.nevini.util.Formatter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,31 +23,23 @@ import java.util.List;
 @Component
 public class OsuScoresCommand extends Command {
 
-    private static final OsuModeResolver modeResolver = new OsuModeResolver();
-    private static final OsuModsResolver modsResolver = new OsuModsResolver();
-
-    private final OsuBeatmapResolver beatmapIdResolver;
-    private final OsuService osu;
-
-    public OsuScoresCommand(@Autowired OsuService osu) {
+    public OsuScoresCommand() {
         super(CommandDescriptor.builder()
                 .keyword("osu!scores")
                 .node(Node.OSU_SCORES)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        new OsuBeatmapResolver(osu).describe(true, false),
-                        Resolvers.MEMBER.describe(false, false),
-                        modeResolver.describe(false, false),
-                        modsResolver.describe(false, false)
+                        OsuResolvers.BEATMAP.describe(true, false),
+                        Resolvers.MEMBER.describe(),
+                        OsuResolvers.MODE.describe(),
+                        OsuResolvers.MODS.describe()
                 })
                 .build());
-        this.beatmapIdResolver = new OsuBeatmapResolver(osu);
-        this.osu = osu;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        beatmapIdResolver.resolveArgumentOrOptionOrInput(event, beatmap -> acceptBeatmap(event, beatmap));
+        OsuResolvers.BEATMAP.resolveArgumentOrOptionOrInput(event, beatmap -> acceptBeatmap(event, beatmap));
     }
 
     private void acceptBeatmap(CommandEvent event, OsuBeatmap beatmap) {
@@ -60,23 +48,23 @@ public class OsuScoresCommand extends Command {
     }
 
     private void acceptBeatmapAndMember(CommandEvent event, OsuBeatmap beatmap, Member member) {
-        modeResolver.resolveOptionOrInputIfExists(event, mode ->
+        OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode ->
                 acceptBeatmapAndMemberAndMode(event, beatmap, member, mode));
     }
 
     private void acceptBeatmapAndMemberAndMode(CommandEvent event, OsuBeatmap beatmap, Member member, GameMode mode) {
-        modsResolver.resolveOptionOrInputIfExists(event, mods ->
+        OsuResolvers.MODS.resolveOptionOrInputIfExists(event, mods ->
                 acceptBeatmapAndMemberAndModeAndMods(event, beatmap, member, mode, mods));
     }
 
     private void acceptBeatmapAndMemberAndModeAndMods(
             CommandEvent event, OsuBeatmap beatmap, Member member, GameMode mode, GameMod[] mods
     ) {
-        GameData game = osu.getGame();
+        GameData game = event.getOsuService().getGame();
         String ign = member != null
                 ? StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName())
                 : null;
-        List<OsuScore> scores = osu.getScores(beatmap.getID(), ign, mode, mods);
+        List<OsuScore> scores = event.getOsuService().getScores(beatmap.getID(), ign, mode, mods);
         if (scores == null || scores.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
@@ -87,7 +75,7 @@ public class OsuScoresCommand extends Command {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger(score.getScore()) + " - "
                                 + Formatter.formatLargestUnitAgo(score.getDate()),
-                        "[" + osu.getUserName(score.getUserID()) + "](https://osu.ppy.sh/u/"
+                        "[" + event.getOsuService().getUserName(score.getUserID()) + "](https://osu.ppy.sh/u/"
                                 + score.getUserID() + ")",
                         false);
             }

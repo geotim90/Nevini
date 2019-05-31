@@ -38,10 +38,10 @@ public class PermissionOptions {
                         .keyword("--server")
                         .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
                         .build(),
-                Resolvers.PERMISSION.describe(false, false),
-                Resolvers.ROLE.describe(false, false),
-                Resolvers.MEMBER.describe(false, false),
-                Resolvers.CHANNEL.describe(false, false)
+                Resolvers.PERMISSION.describe(),
+                Resolvers.ROLE.describe(),
+                Resolvers.MEMBER.describe(),
+                Resolvers.CHANNEL.describe()
         };
     }
 

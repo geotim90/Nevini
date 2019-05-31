@@ -26,7 +26,7 @@ public class ActivityCommand extends Command {
                 .description("displays user and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(true, false),
-                        Resolvers.GAME.describe(false, false)
+                        Resolvers.GAME.describe()
                 })
                 .build());
     }

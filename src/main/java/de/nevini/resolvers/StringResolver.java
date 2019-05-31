@@ -15,17 +15,16 @@ public class StringResolver extends AbstractResolver<String> {
         return Pattern.compile("(?i)(?:--|//)" + Pattern.quote(optionName) + "(?:\\s+(.+))?");
     }
 
-    public StringResolver(@NonNull String typeName) {
-        super(typeName, new Pattern[0]);
-    }
+    private final CommandOptionDescriptor descriptor;
 
-    public StringResolver(@NonNull String typeName, @NonNull String optionName) {
+    public StringResolver(@NonNull String typeName, @NonNull String optionName, @NonNull CommandOptionDescriptor descriptor) {
         super(typeName, new Pattern[]{compileOptionPattern(optionName)});
+        this.descriptor = descriptor;
     }
 
     @Override
     public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
-        throw new UnsupportedOperationException();
+        return descriptor;
     }
 
     @Override

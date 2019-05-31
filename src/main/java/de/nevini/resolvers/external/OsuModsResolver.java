@@ -34,15 +34,7 @@ public class OsuModsResolver extends AbstractResolver<GameMod[]> {
         MODS = Collections.unmodifiableMap(mods);
     }
 
-    public static CommandOptionDescriptor.CommandOptionDescriptorBuilder describe() {
-        return CommandOptionDescriptor.builder()
-                .syntax("--mods <mods>")
-                .description("Refers to osu! mods using a name (e.g. \"No Fail\") or short codes (e.g. `NF`, `HDHR`, `HDHRNCFL`)")
-                .keyword("--mods")
-                .aliases(new String[]{"//mods", "--mod", "//mod"});
-    }
-
-    public OsuModsResolver() {
+    protected OsuModsResolver() {
         super("mods", new Pattern[]{Pattern.compile("(?i)(?:--|//)mods?(?:\\s+(.+))?")});
     }
 
