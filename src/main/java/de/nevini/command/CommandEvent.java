@@ -37,7 +37,9 @@ public class CommandEvent {
 
     private final CommandOptions options;
 
-    public CommandEvent(@NonNull CommandContext context, @NonNull MessageReceivedEvent event, @NonNull CommandOptions options) {
+    public CommandEvent(
+            @NonNull CommandContext context, @NonNull MessageReceivedEvent event, @NonNull CommandOptions options
+    ) {
         this.context = context;
         this.event = event;
         this.options = options;
@@ -56,11 +58,13 @@ public class CommandEvent {
     }
 
     public boolean canEmbed() {
-        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.BOT_EMBED);
+        return !isFromType(ChannelType.TEXT)
+                || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.BOT_EMBED);
     }
 
     public boolean canReact() {
-        return !isFromType(ChannelType.TEXT) || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.REACT);
+        return !isFromType(ChannelType.TEXT)
+                || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.REACT);
     }
 
     public boolean canTalk() {
@@ -83,7 +87,9 @@ public class CommandEvent {
         reply(reaction, content, ignore());
     }
 
-    public void reply(@NonNull CommandReaction reaction, @NonNull String content, @NonNull Consumer<? super Message> callback) {
+    public void reply(
+            @NonNull CommandReaction reaction, @NonNull String content, @NonNull Consumer<? super Message> callback
+    ) {
         if (!canTalk() && canReact()) {
             addReaction(reaction.getUnicode(), ignore());
         }
@@ -169,7 +175,8 @@ public class CommandEvent {
         if (getGuild() != null) {
             embedBuilder.setAuthor(getGuild().getName(), null, getGuild().getIconUrl());
             embedBuilder.setColor(getGuild().getSelfMember().getColor());
-            embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(), getJDA().getSelfUser().getAvatarUrl());
+            embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(),
+                    getJDA().getSelfUser().getAvatarUrl());
         } else {
             embedBuilder.setAuthor(getJDA().getSelfUser().getName(), null, getJDA().getSelfUser().getAvatarUrl());
             embedBuilder.setColor(Color.BLUE);

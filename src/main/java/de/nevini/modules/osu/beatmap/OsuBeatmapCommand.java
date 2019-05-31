@@ -37,7 +37,9 @@ public class OsuBeatmapCommand extends Command {
         if (beatmap == null) {
             event.reply("Beatmap not found.", event::complete);
         } else {
-            beatmap = event.locate(OsuService.class).getBeatmap(beatmap.getID()); // update information - beatmap may have been cached
+            // update information - beatmap may have been cached
+            beatmap = event.locate(OsuService.class).getBeatmap(beatmap.getID());
+
             EmbedBuilder embed = event.createEmbedBuilder();
             event.getGameService().findGames("osu!").stream().findFirst().ifPresent(
                     game -> embed.setAuthor(game.getName(), null, game.getIcon())

@@ -33,7 +33,9 @@ public class ActivityCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event, event.getMember(), member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event,
+                event.getMember(),
+                member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
@@ -99,7 +101,8 @@ public class ActivityCommand extends Command {
         if (lastPlayed == null) {
             event.reply(member.getEffectiveName() + " has not played this game recently.", event::complete);
         } else {
-            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed), event::complete);
+            event.reply(member.getEffectiveName() + " played this game "
+                    + Formatter.formatLargestUnitAgo(lastPlayed), event::complete);
         }
     }
 

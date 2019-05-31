@@ -34,7 +34,8 @@ public class PermissionOptions {
                         .build(),
                 CommandOptionDescriptor.builder()
                         .syntax("--server")
-                        .description("Changes the scope to server-wide permissions instead of channel-specific permissions.")
+                        .description("Changes the scope to server-wide permissions "
+                                + "instead of channel-specific permissions.")
                         .keyword("--server")
                         .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
                         .build(),
@@ -56,7 +57,8 @@ public class PermissionOptions {
                 + "7. Channel-specific permissions based on effective permissions (e.g. \"Manage Server\")\n"
                 + "8. Channel-specific role permissions\n"
                 + "9. Channel-specific user permissions\n\n"
-                + "If multiple overrides on the same \"level\" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.\n"
+                + "If multiple overrides on the same \"level\" disagree with each other (e.g. conflicting roles), "
+                + "**allow** will trump **deny**.\n"
                 + "Server owners and administrators are not restricted by permission node overrides.\n"
                 + "Users can only configure permissions for permission nodes they have themselves.\n"
                 + "Users can only configure permissions for roles of a lower position than their highest role.\n"
@@ -136,7 +138,10 @@ public class PermissionOptions {
                 this.nodes = Arrays.asList(Node.values());
                 callback.accept(this);
             } else {
-                event.reply(CommandReaction.WARNING, "You cannot select all nodes and specific nodes at the same time!");
+                event.reply(
+                        CommandReaction.WARNING,
+                        "You cannot select all nodes and specific nodes at the same time!"
+                );
             }
         } else {
             this.nodes = ObjectUtils.defaultIfNull(nodes, Collections.emptyList());

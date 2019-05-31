@@ -21,7 +21,9 @@ public class PermissionResolver extends AbstractResolver<Permission> {
                 .syntax(resolvesArgument ? "[--permission] <permission>" : "--permission <permission>")
                 .description("Refers to " + (resolvesList ? "all permissions" : "a specific permission")
                         + " with a matching name (e.g. \"Manage Server\")."
-                        + (resolvesArgument ? "\nThe `--permission` flag is optional if this option is provided first." : ""))
+                        + (resolvesArgument
+                        ? "\nThe `--permission` flag is optional if this option is provided first."
+                        : ""))
                 .keyword("--feed")
                 .aliases(new String[]{"//feed", "-f", "/f"})
                 .build();
@@ -29,7 +31,8 @@ public class PermissionResolver extends AbstractResolver<Permission> {
 
     @Override
     public List<Permission> findSorted(CommandEvent ignore, String query) {
-        return Finder.findAny(Permission.values(), p -> new String[]{p.getName(), p.name(), p.name().replace('_', ' ')}, query);
+        return Finder.findAny(Permission.values(), p -> new String[]{p.getName(), p.name(),
+                p.name().replace('_', ' ')}, query);
     }
 
     @Override

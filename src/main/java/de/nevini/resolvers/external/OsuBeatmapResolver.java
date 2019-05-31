@@ -24,7 +24,9 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
                 .syntax(resolvesArgument ? "[--beatmap] <beatmap>" : "--beatmap <beatmap>")
                 .description("Refers to " + (resolvesList ? "all osu! beatmaps" : "an osu! beatmap")
                         + " with a matching id or name."
-                        + (resolvesArgument ? "\nThe `--beatmap` flag is optional if this option is provided first." : ""))
+                        + (resolvesArgument
+                        ? "\nThe `--beatmap` flag is optional if this option is provided first."
+                        : ""))
                 .keyword("--beatmap")
                 .aliases(new String[]{"//beatmap", "--bm", "//bm"})
                 .build();
@@ -44,7 +46,8 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
     @Override
     protected String getFieldValueForPicker(OsuBeatmap item) {
-        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/" + item.getID() + ")";
+        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/" + item.getID()
+                + ")";
     }
 
 }

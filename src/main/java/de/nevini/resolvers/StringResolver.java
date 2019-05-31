@@ -17,7 +17,9 @@ public class StringResolver extends AbstractResolver<String> {
 
     private final CommandOptionDescriptor descriptor;
 
-    public StringResolver(@NonNull String typeName, @NonNull String optionName, @NonNull CommandOptionDescriptor descriptor) {
+    public StringResolver(
+            @NonNull String typeName, @NonNull String optionName, @NonNull CommandOptionDescriptor descriptor
+    ) {
         super(typeName, new Pattern[]{compileOptionPattern(optionName)});
         this.descriptor = descriptor;
     }

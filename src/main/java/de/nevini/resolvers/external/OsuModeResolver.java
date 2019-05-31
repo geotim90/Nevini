@@ -29,7 +29,8 @@ public class OsuModeResolver extends AbstractResolver<GameMode> {
 
     @Override
     public List<GameMode> findSorted(CommandEvent ignore, String query) {
-        return Finder.findAny(GameMode.values(), mode -> new String[]{mode.getName(), mode.name(), mode.name().replace('_', ' ')}, query);
+        return Finder.findAny(GameMode.values(), mode -> new String[]{mode.getName(), mode.name(),
+                mode.name().replace('_', ' ')}, query);
     }
 
     @Override

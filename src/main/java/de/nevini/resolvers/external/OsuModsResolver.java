@@ -42,7 +42,8 @@ public class OsuModsResolver extends AbstractResolver<GameMod[]> {
     public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
         return CommandOptionDescriptor.builder()
                 .syntax(resolvesArgument ? "[--mods] <mods>" : "--mods <mods>")
-                .description("Refers to osu! mods with a matching name (e.g. \"No Fail\") or short code (e.g. `NF`, `HDHR`, `HDHRNCFL`)."
+                .description("Refers to osu! mods with a matching name (e.g. \"No Fail\") "
+                        + "or short code (e.g. `NF`, `HDHR`, `HDHRNCFL`)."
                         + (resolvesArgument ? "\nThe `--mods` flag is optional if this option is provided first." : ""))
                 .keyword("--mods")
                 .aliases(new String[]{"//mods", "--mod", "//mod"})

@@ -26,7 +26,8 @@ public class FindPermissionCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.PERMISSION.resolveListArgumentOrOptionOrInput(event, permissions -> acceptPermissions(event, permissions));
+        Resolvers.PERMISSION.resolveListArgumentOrOptionOrInput(event,
+                permissions -> acceptPermissions(event, permissions));
     }
 
     private void acceptPermissions(CommandEvent event, List<Permission> permissions) {

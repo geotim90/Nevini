@@ -32,31 +32,44 @@ public class ActivityService {
     }
 
     public long getActivityOnline(User user) {
-        Optional<ActivityData> data = activityRepository.findById(new ActivityId(user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong()));
+        Optional<ActivityData> data = activityRepository.findById(
+                new ActivityId(user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong())
+        );
         return data.isPresent() ? data.get().getUts() : 0;
     }
 
     public synchronized void updateActivityOnline(User user) {
-        ActivityData data = new ActivityData(user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong(), System.currentTimeMillis());
+        ActivityData data = new ActivityData(
+                user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong(), System.currentTimeMillis()
+        );
         log.info("Save data: {}", data);
         activityRepository.save(data);
     }
 
     public long getActivityMessage(Member member) {
-        Optional<ActivityData> data = activityRepository.findById(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE, member.getGuild().getIdLong()));
+        Optional<ActivityData> data = activityRepository.findById(
+                new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE, member.getGuild().getIdLong())
+        );
         return data.isPresent() ? data.get().getUts() : 0;
     }
 
     public synchronized void updateActivityMessage(Message message) {
         if (message.getGuild() != null) {
-            ActivityData data = new ActivityData(message.getAuthor().getIdLong(), ACTIVITY_TYPE_MESSAGE, message.getGuild().getIdLong(), message.getCreationTime().toInstant().toEpochMilli());
+            ActivityData data = new ActivityData(
+                    message.getAuthor().getIdLong(),
+                    ACTIVITY_TYPE_MESSAGE,
+                    message.getGuild().getIdLong(),
+                    message.getCreationTime().toInstant().toEpochMilli()
+            );
             log.info("Save data: {}", data);
             activityRepository.save(data);
         }
     }
 
     public Map<Long, Long> getActivityPlaying(User user) {
-        Collection<ActivityData> data = activityRepository.findAllByUserAndType(user.getIdLong(), ACTIVITY_TYPE_PLAYING);
+        Collection<ActivityData> data = activityRepository.findAllByUserAndType(
+                user.getIdLong(), ACTIVITY_TYPE_PLAYING
+        );
         return data.stream().collect(Collectors.toMap(ActivityData::getId, ActivityData::getUts));
     }
 
@@ -66,12 +79,16 @@ public class ActivityService {
     }
 
     public Long getActivityPlaying(User user, GameData game) {
-        Optional<ActivityData> data = activityRepository.findById(new ActivityId(user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId()));
+        Optional<ActivityData> data = activityRepository.findById(
+                new ActivityId(user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId())
+        );
         return data.map(ActivityData::getUts).orElse(null);
     }
 
     public synchronized void updateActivityPlaying(User user, RichPresence presence) {
-        ActivityData data = new ActivityData(user.getIdLong(), ACTIVITY_TYPE_PLAYING, presence.getApplicationIdLong(), System.currentTimeMillis());
+        ActivityData data = new ActivityData(
+                user.getIdLong(), ACTIVITY_TYPE_PLAYING, presence.getApplicationIdLong(), System.currentTimeMillis()
+        );
         log.info("Save data: {}", data);
         activityRepository.save(data);
     }

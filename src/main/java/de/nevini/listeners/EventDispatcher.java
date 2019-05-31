@@ -80,7 +80,9 @@ public class EventDispatcher implements EventListener {
             if (timeout > 0 && timeoutUnit != null) {
                 scheduledExecutorService.schedule(() -> {
                     synchronized (callbacks) {
-                        if ((callbacks.removeMapping(eventType, eventTypeCallback) || timeoutAlways) && timeoutCallback != null) {
+                        if ((callbacks.removeMapping(eventType, eventTypeCallback) || timeoutAlways)
+                                && timeoutCallback != null
+                        ) {
                             timeoutCallback.run();
                         }
                     }
@@ -144,7 +146,11 @@ public class EventDispatcher implements EventListener {
                     Iterator<EventTypeCallback<?>> iterator = callbacks.get(eventType).iterator();
                     while (iterator.hasNext()) {
                         EventTypeCallback<?> callback = iterator.next();
-                        log.debug("Calling callback for {} {}", event.getClass().getSimpleName(), event.getResponseNumber());
+                        log.debug(
+                                "Calling callback for {} {}",
+                                event.getClass().getSimpleName(),
+                                event.getResponseNumber()
+                        );
                         if (callback.onEvent(event) && callback.isOnlyOnce()) {
                             iterator.remove();
                         }

@@ -13,7 +13,9 @@ public abstract class PermissionSetCommand extends Command {
     private final String verb;
     private final Boolean override;
 
-    protected PermissionSetCommand(@NonNull CommandDescriptor commandDescriptor, @NonNull String verb, Boolean override) {
+    protected PermissionSetCommand(
+            @NonNull CommandDescriptor commandDescriptor, @NonNull String verb, Boolean override
+    ) {
         super(commandDescriptor);
         this.verb = verb;
         this.override = override;
@@ -54,35 +56,52 @@ public abstract class PermissionSetCommand extends Command {
 
     private boolean canSetPermission(CommandEvent event, PermissionOptions options) {
         if (options.isServer()) {
-            if (options.getNodes().stream().anyMatch(node -> !event.getPermissionService().hasUserPermission(event.getMember(), node))) {
-                event.reply(CommandReaction.PROHIBITED, "You can only configure server-level permissions for permission nodes you have yourself!", event::complete);
+            if (options.getNodes().stream()
+                    .anyMatch(node -> !event.getPermissionService().hasUserPermission(event.getMember(), node))
+            ) {
+                event.reply(CommandReaction.PROHIBITED,
+                        "You can only configure server-level permissions for permission nodes you have yourself!",
+                        event::complete);
                 return false;
             } else if (options.getPermission() != null) {
                 if (!event.getMember().hasPermission(options.getPermission())) {
-                    event.reply(CommandReaction.PROHIBITED, "You can only configure server-level permissions for Discord permissions you have yourself!", event::complete);
+                    event.reply(
+                            CommandReaction.PROHIBITED,
+                            "You can only configure server-level permissions "
+                                    + "for Discord permissions you have yourself!",
+                            event::complete
+                    );
                     return false;
                 }
             }
         } else {
             TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
-            if (options.getNodes().stream().anyMatch(node -> !event.getPermissionService().hasChannelUserPermission(channel, event.getMember(), node))) {
-                event.reply(CommandReaction.PROHIBITED, "You can only configure channel-level permissions for permission nodes you have yourself!", event::complete);
+            if (options.getNodes().stream().anyMatch(node ->
+                    !event.getPermissionService().hasChannelUserPermission(channel, event.getMember(), node))
+            ) {
+                event.reply(CommandReaction.PROHIBITED,
+                        "You can only configure channel-level permissions "
+                                + "for permission nodes you have yourself!",
+                        event::complete);
                 return false;
             } else if (options.getPermission() != null) {
                 if (!event.getMember().hasPermission(channel, options.getPermission())) {
-                    event.reply(CommandReaction.PROHIBITED, "You can only configure channel-level permissions for Discord permissions you have yourself!", event::complete);
+                    event.reply(CommandReaction.PROHIBITED, "You can only configure channel-level permissions "
+                            + "for Discord permissions you have yourself!", event::complete);
                     return false;
                 }
             }
         }
         if (options.getRole() != null) {
             if (!event.getMember().canInteract(options.getRole())) {
-                event.reply(CommandReaction.PROHIBITED, "You can only configure permissions for roles of a lower position than your highest role!", event::complete);
+                event.reply(CommandReaction.PROHIBITED, "You can only configure permissions "
+                        + "for roles of a lower position than your highest role!", event::complete);
                 return false;
             }
         } else if (options.getMember() != null) {
             if (!event.getMember().canInteract(options.getMember())) {
-                event.reply(CommandReaction.PROHIBITED, "You can only configure permissions for users whose highest role is lower than your highest role!", event::complete);
+                event.reply(CommandReaction.PROHIBITED, "You can only configure permissions "
+                        + "for users whose highest role is lower than your highest role!", event::complete);
                 return false;
             }
         }
@@ -90,8 +109,8 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void setServerPermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for *everyone* on **" + event.getGuild().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for *everyone* on **" + event.getGuild().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
@@ -102,20 +121,23 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void setPermissionPermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for **" + options.getPermission().getName() + "** on **" + event.getGuild().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for **" + options.getPermission().getName() + "** on **"
+                + event.getGuild().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
-                event.getPermissionService().setPermissionPermission(event.getGuild(), options.getPermission(), node, override);
+                event.getPermissionService()
+                        .setPermissionPermission(event.getGuild(), options.getPermission(), node, override);
             }
             event.reply(CommandReaction.OK, event::complete);
         });
     }
 
     private void setRolePermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for **" + options.getRole().getName() + "** on **" + event.getGuild().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for **" + options.getRole().getName() + "** on **"
+                + event.getGuild().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
@@ -126,8 +148,9 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void setUserPermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for **" + options.getMember().getEffectiveName() + "** on **" + event.getGuild().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for **" + options.getMember().getEffectiveName() + "** on **"
+                + event.getGuild().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
@@ -138,8 +161,8 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void setChannelPermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for *everyone* in **" + event.getChannel().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for *everyone* in **" + event.getChannel().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
@@ -150,24 +173,28 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void setChannelPermissionPermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for **" + options.getPermission().getName() + "** in **" + event.getChannel().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for **" + options.getPermission().getName() + "** in **"
+                + event.getChannel().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
-                event.getPermissionService().setChannelPermissionPermission(options.getChannel(), options.getPermission(), node, override);
+                event.getPermissionService()
+                        .setChannelPermissionPermission(options.getChannel(), options.getPermission(), node, override);
             }
             event.reply(CommandReaction.OK, event::complete);
         });
     }
 
     private void setChannelRolePermissions(CommandEvent event, PermissionOptions options) {
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for **" + options.getRole().getName() + "** in **" + event.getChannel().getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for **" + options.getRole().getName() + "** in **"
+                + event.getChannel().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
-                event.getPermissionService().setChannelRolePermission(options.getChannel(), options.getRole(), node, override);
+                event.getPermissionService()
+                        .setChannelRolePermission(options.getChannel(), options.getRole(), node, override);
             }
             event.reply(CommandReaction.OK, event::complete);
         });
@@ -175,8 +202,9 @@ public abstract class PermissionSetCommand extends Command {
 
     private void setChannelUserPermissions(CommandEvent event, PermissionOptions options) {
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
-        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb + "__ the following permissions " +
-                "for **" + options.getMember().getEffectiveName() + "** in **" + channel.getName() + "**?\n");
+        StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
+                + "__ the following permissions " + "for **" + options.getMember().getEffectiveName() + "** in **"
+                + channel.getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {

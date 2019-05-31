@@ -72,7 +72,9 @@ public class PermissionGetCommand extends Command {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
                 boolean allowed = event.getPermissionService().hasServerPermission(event.getGuild(), node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -86,8 +88,11 @@ public class PermissionGetCommand extends Command {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
-                boolean allowed = event.getPermissionService().hasPermissionPermission(event.getGuild(), permission, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                boolean allowed = event.getPermissionService()
+                        .hasPermissionPermission(event.getGuild(), permission, node);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -102,7 +107,9 @@ public class PermissionGetCommand extends Command {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
                 boolean allowed = event.getPermissionService().hasRolePermission(role, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -117,7 +124,9 @@ public class PermissionGetCommand extends Command {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
                 boolean allowed = event.getPermissionService().hasUserPermission(member, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -132,7 +141,9 @@ public class PermissionGetCommand extends Command {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
                 boolean allowed = event.getPermissionService().hasChannelPermission(channel, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -142,13 +153,17 @@ public class PermissionGetCommand extends Command {
         Permission permission = options.getPermission();
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
-        embedBuilder.setDescription("Effective permissions for **" + permission.getName() + "** in **" + channel.getName() + "**:");
+        embedBuilder.setDescription(
+                "Effective permissions for **" + permission.getName() + "** in **" + channel.getName() + "**:");
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
-                boolean allowed = event.getPermissionService().hasChannelPermissionPermission(channel, permission, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                boolean allowed = event.getPermissionService()
+                        .hasChannelPermissionPermission(channel, permission, node);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -158,13 +173,17 @@ public class PermissionGetCommand extends Command {
         Role role = options.getRole();
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
-        embedBuilder.setDescription("Effective permissions for **" + role.getName() + "** in **" + channel.getName() + "**:");
+        embedBuilder.setDescription(
+                "Effective permissions for **" + role.getName() + "** in **" + channel.getName() + "**:"
+        );
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
                 boolean allowed = event.getPermissionService().hasChannelRolePermission(channel, role, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);
@@ -174,13 +193,17 @@ public class PermissionGetCommand extends Command {
         Member member = ObjectUtils.defaultIfNull(options.getMember(), event.getMember());
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
         EmbedBuilder embedBuilder = event.createEmbedBuilder();
-        embedBuilder.setDescription("Effective permissions for **" + member.getEffectiveName() + "** in **" + channel.getName() + "**:");
+        embedBuilder.setDescription(
+                "Effective permissions for **" + member.getEffectiveName() + "** in **" + channel.getName() + "**:"
+        );
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
                 embedBuilder.addField(node.getNode(), CommandReaction.DISABLED.getUnicode(), true);
             } else {
                 boolean allowed = event.getPermissionService().hasChannelUserPermission(channel, member, node);
-                embedBuilder.addField(node.getNode(), allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(), true);
+                embedBuilder.addField(node.getNode(),
+                        allowed ? CommandReaction.OK.getUnicode() : CommandReaction.PROHIBITED.getUnicode(),
+                        true);
             }
         }
         event.reply(embedBuilder);

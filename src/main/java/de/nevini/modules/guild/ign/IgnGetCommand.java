@@ -31,7 +31,9 @@ public class IgnGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event, event.getMember(), member -> acceptMember(event, member));
+        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event,
+                event.getMember(),
+                member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
@@ -83,7 +85,8 @@ public class IgnGetCommand extends Command {
     private void displayMemberGameIgn(CommandEvent event, Member member, GameData game) {
         String ign = event.getIgnService().getIgn(member, game);
         if (StringUtils.isEmpty(ign)) {
-            event.reply("I do not have an in-game name for " + member.getEffectiveName() + " in " + game.getName() + ".", event::complete);
+            event.reply("I do not have an in-game name for " + member.getEffectiveName() + " in "
+                    + game.getName() + ".", event::complete);
         } else {
             event.reply(ign, event::complete);
         }

@@ -29,7 +29,8 @@ public class FeedResolver extends AbstractResolver<Feed> {
 
     @Override
     public List<Feed> findSorted(CommandEvent ignored, String query) {
-        return Finder.findAny(Feed.values(), feed -> new String[]{feed.getType(), feed.getName(), feed.name(), feed.name().replace('_', ' ')}, query);
+        return Finder.findAny(Feed.values(), feed -> new String[]{feed.getType(), feed.getName(), feed.name(),
+                feed.name().replace('_', ' ')}, query);
     }
 
     @Override
