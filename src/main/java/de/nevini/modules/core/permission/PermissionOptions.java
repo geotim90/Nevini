@@ -25,7 +25,7 @@ public class PermissionOptions {
 
     static CommandOptionDescriptor[] getCommandOptionDescriptors(boolean resolveNodeList) {
         return new CommandOptionDescriptor[]{
-                Resolvers.NODE.describe(true, resolveNodeList),
+                Resolvers.NODE.describe(resolveNodeList, true),
                 CommandOptionDescriptor.builder()
                         .syntax("--all")
                         .description("Explicitly refers to all permission nodes.")

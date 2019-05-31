@@ -14,7 +14,7 @@ public class ModuleActivateCommand extends Command {
                 .node(Node.CORE_MODULE_ACTIVATE)
                 .description("activates a module")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MODULE.describe(true, false)
+                        Resolvers.MODULE.describe(false, true)
                 })
                 .build());
     }

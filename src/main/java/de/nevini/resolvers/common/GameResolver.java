@@ -18,12 +18,12 @@ public class GameResolver extends AbstractResolver<GameData> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--game] <game>" : "--game <game>")
-                .description("Refers to " + (resolvesList ? "all games" : "a specific game")
+                .syntax(argument ? "[--game] <game>" : "--game <game>")
+                .description("Refers to " + (list ? "all games" : "a specific game")
                         + " with a matching id or name."
-                        + (resolvesArgument ? "\nThe `--game` flag is optional if this option is provided first." : ""))
+                        + (argument ? "\nThe `--game` flag is optional if this option is provided first." : ""))
                 .keyword("--game")
                 .aliases(new String[]{"//game"})
                 .build();

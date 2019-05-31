@@ -14,7 +14,7 @@ public class ModuleDeactivateCommand extends Command {
                 .node(Node.CORE_MODULE_DEACTIVATE)
                 .description("deactivates a module")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MODULE.describe(true, false)
+                        Resolvers.MODULE.describe(false, true)
                 })
                 .build());
     }

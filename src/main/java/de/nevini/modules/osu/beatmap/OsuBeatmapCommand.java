@@ -23,7 +23,7 @@ public class OsuBeatmapCommand extends Command {
                 .node(Node.OSU_BEATMAP)
                 .description("displays general information of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        OsuResolvers.BEATMAP.describe(true, false)
+                        OsuResolvers.BEATMAP.describe(false, true)
                 })
                 .build());
     }

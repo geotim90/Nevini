@@ -16,12 +16,12 @@ public class FeedResolver extends AbstractResolver<Feed> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--feed] <type>" : "--feed <type>")
-                .description("Refers to " + (resolvesList ? "all feed types" : "a specific feed type")
+                .syntax(argument ? "[--feed] <type>" : "--feed <type>")
+                .description("Refers to " + (list ? "all feed types" : "a specific feed type")
                         + " with a matching name."
-                        + (resolvesArgument ? "\nThe `--feed` flag is optional if this option is provided first." : ""))
+                        + (argument ? "\nThe `--feed` flag is optional if this option is provided first." : ""))
                 .keyword("--feed")
                 .aliases(new String[]{"//feed", "-f", "/f"})
                 .build();

@@ -44,6 +44,7 @@ Command | Description
 
 Displays a list of modules.
 
+If a module is provided, this will display a list of all matching modules.<br>
 If no module is provided, this will display a list of all modules.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
@@ -51,7 +52,7 @@ Permission overrides may be applied on node **core.module.get**.
 
 Option | Description
 -------|------------
-\[--module\] \<module\> | The name (or part of the name) of the modules to display. The flag is optional.
+\[--module\] \<module\> | Refers to all bot modules with a matching name.<br>The `--module` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -67,7 +68,7 @@ Permission overrides may be applied on node **core.module.activate**.
 
 Option | Description
 -------|------------
-\[--module\] \<module\> | The name (or part of the name) of the module to activate. The flag is optional.
+\[--module\] \<module\> | Refers to a specific bot module with a matching name.<br>The `--module` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -83,7 +84,7 @@ Permission overrides may be applied on node **core.module.deactivate**.
 
 Option | Description
 -------|------------
-\[--module\] \<module\> | The name (or part of the name) of the module to deactivate. The flag is optional.
+\[--module\] \<module\> | Refers to a specific bot module with a matching name.<br>The `--module` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -134,13 +135,13 @@ Permission overrides may be applied on node **core.permission.get**.
 
 Option | Description
 -------|------------
-\[--node\] \<node\> | Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.
+\[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
---permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
-\[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+--permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -179,13 +180,13 @@ Permission overrides may be applied on node **core.permission.debug**.
 
 Option | Description
 -------|------------
-\[--node\] \<node\> | Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.
+\[--node\] \<node\> | Refers to a specific permission node for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
---permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
-\[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+--permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -223,13 +224,13 @@ Permission overrides may be applied on node **core.permission.allow**.
 
 Option | Description
 -------|------------
-\[--node\] \<node\> | Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.
+\[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
---permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
-\[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+--permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -268,13 +269,13 @@ Permission overrides may be applied on node **core.permission.deny**.
 
 Option | Description
 -------|------------
-\[--node\] \<node\> | Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.
+\[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
---permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
-\[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+--permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------
@@ -313,13 +314,13 @@ Permission overrides may be applied on node **core.permission.reset**.
 
 Option | Description
 -------|------------
-\[--node\] \<node\> | Specifies which permission node(s) for bot commands to consider. The flag is optional if this option is provided first.
+\[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
 --server | Changes the scope to server-wide permissions instead of channel-specific permissions.
---permission \<permission\> | Refers to a specific permission (e.g. "Manage Server").
-\[--role\] \<role\> | Refers to a specific role using a role mention, id or name. The `--role` flag is optional if a role mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user using a mention, id, name, nickname or ign. The `--user` flag is optional if a user mention is used. Refers to the current user if only the `--user` flag is provided.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel using a channel mention, id or name. The `--channel` flag is optional if a channel mention is used. Refers to the current channel if only the `--channel` flag is provided.
+--permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
 
 Keyword | Aliases
 --------|--------

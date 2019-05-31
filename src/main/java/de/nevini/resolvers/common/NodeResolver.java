@@ -16,16 +16,16 @@ public class NodeResolver extends AbstractResolver<Node> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--node] <node>" : "--node <node>")
-                .description("Refers to " + (resolvesList
+                .syntax(argument ? "[--node] <node>" : "--node <node>")
+                .description("Refers to " + (list
                         ? "all permission nodes for bot commands"
                         : "a specific permission node for bot commands")
                         + " with a matching name."
-                        + (resolvesArgument ? "\nThe `--node` flag is optional if this option is provided first." : ""))
-                .keyword("--feed")
-                .aliases(new String[]{"//feed", "-f", "/f"})
+                        + (argument ? "\nThe `--node` flag is optional if this option is provided first." : ""))
+                .keyword("--node")
+                .aliases(new String[]{"//node", "-n", "/n"})
                 .build();
     }
 

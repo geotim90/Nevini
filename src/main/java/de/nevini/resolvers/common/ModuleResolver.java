@@ -16,12 +16,12 @@ public class ModuleResolver extends AbstractResolver<Module> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--module] <module>" : "--module <module>")
-                .description("Refers to " + (resolvesList ? "all bot modules" : "a specific bot module")
+                .syntax(argument ? "[--module] <module>" : "--module <module>")
+                .description("Refers to " + (list ? "all bot modules" : "a specific bot module")
                         + " with a matching name."
-                        + (resolvesArgument
+                        + (argument
                         ? "\nThe `--module` flag is optional if this option is provided first."
                         : "")
                 )

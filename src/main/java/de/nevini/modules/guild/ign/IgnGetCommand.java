@@ -23,7 +23,7 @@ public class IgnGetCommand extends Command {
                 .node(Node.GUILD_IGN_GET)
                 .description("displays in-game names for a user and/or game")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER.describe(true, false),
+                        Resolvers.MEMBER.describe(false, true),
                         Resolvers.GAME.describe()
                 })
                 .build());

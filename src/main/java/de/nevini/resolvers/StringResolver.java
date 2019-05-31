@@ -25,7 +25,7 @@ public class StringResolver extends AbstractResolver<String> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return descriptor;
     }
 

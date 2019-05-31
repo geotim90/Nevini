@@ -19,12 +19,12 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--beatmap] <beatmap>" : "--beatmap <beatmap>")
-                .description("Refers to " + (resolvesList ? "all osu! beatmaps" : "an osu! beatmap")
+                .syntax(argument ? "[--beatmap] <beatmap>" : "--beatmap <beatmap>")
+                .description("Refers to " + (list ? "all osu! beatmaps" : "an osu! beatmap")
                         + " with a matching id or name."
-                        + (resolvesArgument
+                        + (argument
                         ? "\nThe `--beatmap` flag is optional if this option is provided first."
                         : ""))
                 .keyword("--beatmap")

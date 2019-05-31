@@ -22,13 +22,13 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax("[--channel] [<channel>]")
-                .description("Refers to " + (resolvesList ? "all text channels" : "a specific text channel")
+                .description("Refers to " + (list ? "all text channels" : "a specific text channel")
                         + " with a matching mention, id or name.\n"
                         + "The `--channel` flag is optional if a channel mention is used"
-                        + (resolvesArgument ? " or this option is provided first" : "") + ".\n"
+                        + (argument ? " or this option is provided first" : "") + ".\n"
                         + "Refers to the current channel if only the `--channel` flag is provided.")
                 .keyword("--channel")
                 .aliases(new String[]{"//channel", "-c", "/c"})

@@ -30,7 +30,7 @@ public class OsuScoresCommand extends Command {
                 .node(Node.OSU_SCORES)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
-                        OsuResolvers.BEATMAP.describe(true, false),
+                        OsuResolvers.BEATMAP.describe(false, true),
                         Resolvers.MEMBER.describe(),
                         OsuResolvers.MODE.describe(),
                         OsuResolvers.MODS.describe()

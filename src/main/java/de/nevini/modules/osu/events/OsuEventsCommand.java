@@ -28,7 +28,7 @@ public class OsuEventsCommand extends Command {
                 .node(Node.OSU_EVENTS)
                 .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER.describe(true, false),
+                        Resolvers.MEMBER.describe(false, true),
                         OsuResolvers.MODE.describe()
                 })
                 .build());

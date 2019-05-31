@@ -22,13 +22,13 @@ public class RoleResolver extends AbstractResolver<Role> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax("[--role] <role>")
-                .description("Refers to " + (resolvesList ? "all roles" : "a specific role")
+                .description("Refers to " + (list ? "all roles" : "a specific role")
                         + " with a matching mention, id or name.\n"
                         + "The `--role` flag is optional if a channel mention is used"
-                        + (resolvesArgument ? " or this option is provided first" : "") + ".")
+                        + (argument ? " or this option is provided first" : "") + ".")
                 .keyword("--role")
                 .aliases(new String[]{"//role", "-r", "/r"})
                 .build();

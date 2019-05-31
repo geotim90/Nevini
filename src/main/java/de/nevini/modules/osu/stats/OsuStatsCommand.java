@@ -27,7 +27,7 @@ public class OsuStatsCommand extends Command {
                 .node(Node.OSU_STATS)
                 .description("displays general information of an osu! user")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER.describe(true, false),
+                        Resolvers.MEMBER.describe(false, true),
                         OsuResolvers.MODE.describe()
                 })
                 .build());

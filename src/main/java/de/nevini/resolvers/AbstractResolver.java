@@ -27,7 +27,7 @@ public abstract class AbstractResolver<T> {
         return describe(false, false);
     }
 
-    public abstract CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList);
+    public abstract CommandOptionDescriptor describe(boolean list, boolean argument);
 
     public abstract List<T> findSorted(@NonNull CommandEvent event, String query);
 

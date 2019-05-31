@@ -16,16 +16,16 @@ public class PermissionResolver extends AbstractResolver<Permission> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--permission] <permission>" : "--permission <permission>")
-                .description("Refers to " + (resolvesList ? "all permissions" : "a specific permission")
+                .syntax(argument ? "[--permission] <permission>" : "--permission <permission>")
+                .description("Refers to " + (list ? "all permissions" : "a specific permission")
                         + " with a matching name (e.g. \"Manage Server\")."
-                        + (resolvesArgument
+                        + (argument
                         ? "\nThe `--permission` flag is optional if this option is provided first."
                         : ""))
-                .keyword("--feed")
-                .aliases(new String[]{"//feed", "-f", "/f"})
+                .keyword("--permission")
+                .aliases(new String[]{"//permission", "--perm", "//perm", "-p", "/p"})
                 .build();
     }
 

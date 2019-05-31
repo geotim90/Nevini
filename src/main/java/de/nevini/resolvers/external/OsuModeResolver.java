@@ -16,12 +16,12 @@ public class OsuModeResolver extends AbstractResolver<GameMode> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(resolvesArgument ? "[--mode] <mode>" : "--mode <mode>")
-                .description("Refers to " + (resolvesList ? "all osu! game modes" : "an osu! game mode")
+                .syntax(argument ? "[--mode] <mode>" : "--mode <mode>")
+                .description("Refers to " + (list ? "all osu! game modes" : "an osu! game mode")
                         + " with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`)."
-                        + (resolvesArgument ? "\nThe `--mode` flag is optional if this option is provided first." : ""))
+                        + (argument ? "\nThe `--mode` flag is optional if this option is provided first." : ""))
                 .keyword("--mode")
                 .aliases(new String[]{"//mode"})
                 .build();

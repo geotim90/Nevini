@@ -23,13 +23,13 @@ public class MemberResolver extends AbstractResolver<Member> {
     }
 
     @Override
-    public CommandOptionDescriptor describe(boolean resolvesArgument, boolean resolvesList) {
+    public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax("[--user] [<user>]")
-                .description("Refers to " + (resolvesList ? "all users" : "a specific user")
+                .description("Refers to " + (list ? "all users" : "a specific user")
                         + " with a matching mention, id, name, nickname or in-game name.\n"
                         + "The `--user` flag is optional if a user mention is used"
-                        + (resolvesArgument ? " or this option is provided first" : "") + ".\n"
+                        + (argument ? " or this option is provided first" : "") + ".\n"
                         + "Refers to the current user if only the `--user` flag is provided.")
                 .keyword("--user")
                 .aliases(new String[]{"//user", "--member", "//member", "-u", "/u", "-m", "/m"})

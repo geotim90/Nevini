@@ -26,7 +26,7 @@ public class FeedGetCommand extends Command {
                 .node(Node.GUILD_FEED_GET)
                 .description("displays a list of feeds")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.FEED.describe(true, false),
+                        Resolvers.FEED.describe(false, true),
                         Resolvers.CHANNEL.describe(),
                         CommandOptionDescriptor.builder()
                                 .syntax("--all")

@@ -28,7 +28,7 @@ public class OsuBestCommand extends Command {
                 .node(Node.OSU_BEST)
                 .description("displays the top 100 scores of an osu! user")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER.describe(true, false),
+                        Resolvers.MEMBER.describe(false, true),
                         OsuResolvers.MODE.describe()
                 })
                 .build());
