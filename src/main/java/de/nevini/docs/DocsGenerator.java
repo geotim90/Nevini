@@ -70,8 +70,10 @@ public class DocsGenerator {
         out.println("Command | Description");
         out.println("--------|------------");
         for (Command command : commands) {
-            out.println("[" + command.getKeyword() + "](#command-" + href(command.getKeyword()) + ") | "
-                    + command.getDescription());
+            if (!command.isOwnerOnly()) {
+                out.println("[" + command.getKeyword() + "](#command-" + href(command.getKeyword()) + ") | "
+                        + command.getDescription());
+            }
         }
 
         // commands
