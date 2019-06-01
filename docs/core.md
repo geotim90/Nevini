@@ -9,7 +9,6 @@ Command | Description
 [permission](#command-permission) | displays and configures permission node overrides for bot commands
 [ping](#command-ping) | measures the bot's communication latency
 [prefix](#command-prefix) | displays and configures the command prefix
-[shutdown](#command-shutdown) | safely shuts down the bot
 
 ## Command: `help`
 
