@@ -4,7 +4,7 @@ import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.resolvers.AbstractResolver;
 import de.nevini.bot.scope.Feed;
-import de.nevini.bot.util.Finder;
+import de.nevini.commons.util.Finder;
 
 import java.util.List;
 import java.util.regex.Pattern;

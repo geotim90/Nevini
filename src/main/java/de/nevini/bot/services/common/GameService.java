@@ -3,7 +3,7 @@ package de.nevini.bot.services.common;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.db.game.GameRepository;
-import de.nevini.bot.util.Finder;
+import de.nevini.commons.util.Finder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.RichPresence;
 import org.apache.commons.lang3.StringUtils;

@@ -6,7 +6,7 @@ import com.oopsjpeg.osu4j.exception.OsuAPIException;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.scope.Locatable;
 import de.nevini.bot.services.common.GameService;
-import de.nevini.bot.util.Finder;
+import de.nevini.commons.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
