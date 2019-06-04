@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static de.nevini.bot.util.Formatter.summarize;
-import static de.nevini.bot.util.Functions.ignore;
+import static de.nevini.commons.util.Functions.ignore;
 
 @Slf4j
 @Value
