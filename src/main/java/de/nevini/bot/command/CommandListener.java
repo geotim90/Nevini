@@ -2,7 +2,6 @@ package de.nevini.bot.command;
 
 import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.Optional;
-
-import static de.nevini.bot.util.Formatter.summarize;
 
 @Slf4j
 @Component
@@ -30,27 +26,43 @@ public class CommandListener {
     }
 
     private void onEvent(MessageReceivedEvent event) {
-        if (!event.getAuthor().isBot() && checkLockdown(event)) {
-            String content = event.getMessage().getContentRaw();
-            Optional<String> prefix = commandContext.getPrefixService().extractPrefix(event);
-            if (prefix.isPresent()) {
-                String[] args = content.substring(prefix.get().length()).trim().split("\\s+", 2);
-                if (args.length == 0 || StringUtils.isEmpty(args[0])) {
-                    callCommand(event, "help", args.length > 1 ? args[1] : null);
-                } else {
-                    callCommand(event, args[0].toLowerCase(), args.length > 1 ? args[1] : null);
-                }
-            } else if (!event.isFromType(ChannelType.TEXT)) {
-                log.info("{} - Unknown command via direct message {}", event.getMessageId(),
-                        summarize(event.getMessage().getContentRaw()));
-            }
+        // ignore bot messages
+        if (event.getAuthor().isBot()) {
+            return;
+        }
+
+        // check for lockdown
+        if (!checkLockdown(event)) {
+            return;
+        }
+
+        // check bot prefix (e.g. mention or guild prefix)
+        String prefix = commandContext.getPrefixService().extractPrefix(event);
+        if (prefix == null) {
+            return;
+        }
+
+        // remove the bot prefix from the content to check (default to "help")
+        String content = StringUtils.defaultIfEmpty(event.getMessage().getContentRaw()
+                .substring(StringUtils.defaultString(prefix).length()).trim(), "help");
+
+        // split the command keyword from the rest
+        String[] args = content.split("\\s+", 2);
+
+        // locate command
+        Command command = commandContext.getCommands().get(args[0].toLowerCase());
+        if (command != null) {
+            // execute command
+            command.onEvent(new CommandEvent(commandContext, event, CommandOptions.parseArgument(
+                    args.length > 1 ? args[1] : StringUtils.EMPTY
+            )));
         }
     }
 
     private boolean checkLockdown(MessageReceivedEvent event) {
         if (commandContext.isLockdown()) {
             Guild guild = event.getGuild();
-            // check for "home" server
+            // only allow "home" server or direct message in lockdown mode
             if (guild != null && !Objects.equals(guild.getId(), commandContext.getServerId())) {
                 return false;
             }
@@ -59,17 +71,6 @@ public class CommandListener {
         } else {
             // not in lockdown
             return true;
-        }
-    }
-
-    private void callCommand(MessageReceivedEvent event, String keyword, String argument) {
-        Command command = commandContext.getCommands().get(keyword.toLowerCase());
-        if (command != null) {
-            log.info("{} - Calling {}", event.getMessageId(), command.getClass().getSimpleName());
-            command.onEvent(new CommandEvent(commandContext, event, CommandOptions.parseArgument(argument)));
-        } else {
-            log.info("{} - No command found for keyword {} and argument {}", event.getMessageId(), keyword,
-                    summarize(argument));
         }
     }
 
