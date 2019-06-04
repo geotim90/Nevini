@@ -9,11 +9,13 @@ import de.nevini.bot.services.common.FeedService;
 import de.nevini.bot.services.common.IgnService;
 import de.nevini.bot.services.external.OsuService;
 import de.nevini.bot.util.Formatter;
+import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.RichPresence;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +43,7 @@ public class OsuListener {
             @Autowired IgnService ignService,
             @Autowired FeedService feedService,
             @Autowired OsuService osuService,
-            @Autowired EventDispatcher eventDispatcher
+            @Autowired EventDispatcher<Event> eventDispatcher
     ) {
         this.ignService = ignService;
         this.feedService = feedService;

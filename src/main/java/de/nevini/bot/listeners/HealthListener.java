@@ -1,5 +1,6 @@
 package de.nevini.bot.listeners;
 
+import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HealthListener {
 
-    public HealthListener(@Autowired EventDispatcher eventDispatcher) {
+    public HealthListener(@Autowired EventDispatcher<Event> eventDispatcher) {
         eventDispatcher.subscribe(DisconnectEvent.class, this::logDisconnect);
         eventDispatcher.subscribe(ExceptionEvent.class, this::logException);
         eventDispatcher.subscribe(ReadyEvent.class, this::logReady);

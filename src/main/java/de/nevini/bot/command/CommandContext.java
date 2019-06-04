@@ -1,11 +1,12 @@
 package de.nevini.bot.command;
 
-import de.nevini.bot.listeners.EventDispatcher;
 import de.nevini.bot.scope.Locatable;
 import de.nevini.bot.services.common.*;
+import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.events.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +27,7 @@ public class CommandContext {
     private final String serverInvite;
 
     private final Map<String, Command> commands;
-    private final EventDispatcher eventDispatcher;
+    private final EventDispatcher<Event> eventDispatcher;
 
     private final ActivityService activityService;
     private final FeedService feedService;
@@ -45,7 +46,7 @@ public class CommandContext {
             @Value("${bot.server.id:#{null}}") String serverId,
             @Value("${bot.server.invite:#{null}}") String serverInvite,
             @Autowired ApplicationContext applicationContext,
-            @Autowired EventDispatcher eventDispatcher,
+            @Autowired EventDispatcher<Event> eventDispatcher,
             @Autowired ActivityService activityService,
             @Autowired FeedService feedService,
             @Autowired GameService gameService,
