@@ -15,6 +15,7 @@ public class PingCommand extends Command {
     public PingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("ping")
+                .aliases(new String[]{"pong", "latency"})
                 .guildOnly(false)
                 .node(Node.CORE_PING)
                 .minimumBotPermissions(Permissions.NONE)

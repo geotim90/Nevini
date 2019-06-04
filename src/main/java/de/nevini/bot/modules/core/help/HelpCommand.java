@@ -21,6 +21,7 @@ public class HelpCommand extends Command {
     public HelpCommand() {
         super(CommandDescriptor.builder()
                 .keyword("help")
+                .aliases(new String[]{"about", "info"})
                 .guildOnly(false)
                 .node(Node.CORE_HELP)
                 .minimumBotPermissions(Permissions.NONE)
