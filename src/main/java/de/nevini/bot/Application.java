@@ -23,6 +23,7 @@ public class Application {
             @Autowired EventDispatcher<Event> eventDispatcher,
             @Value("${bot.active:false}") boolean active,
             @Value("${bot.token:#{null}}") String token,
+            @Value("${bot.shard:0}") int shard,
             @Value("${bot.shards:1}") int shards
     ) throws LoginException {
         if (active && token != null && shards > 0) {
@@ -36,10 +37,8 @@ public class Application {
             log.info("Registering event dispatcher");
             shardBuilder.addEventListener(eventDispatcher);
 
-            for (int shard = 0; shard < shards; ++shard) {
-                log.info("Building shard {} ({} of {})", shard, shard + 1, shards);
-                shardBuilder.useSharding(shard, shards).build();
-            }
+            log.info("Building shard {} ({} of {})", shard, shard + 1, shards);
+            shardBuilder.useSharding(shard, shards).build();
         } else if (!active) {
             log.warn("Not building any shards because jda.active:false");
         } else if (token == null) {
