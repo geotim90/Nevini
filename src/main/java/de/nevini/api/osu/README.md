@@ -1,2 +1,2 @@
-# nevini-api-osu
-This package contains a wrapper for the osu!api.
+# nevini-api/osu
+This package contains a wrapper for [osu!api](https://github.com/ppy/osu-api/wiki).

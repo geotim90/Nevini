@@ -28,8 +28,23 @@ public class TokenBucket {
      * @throws NullPointerException     if {@code timeUnit} is {@code null}
      */
     public TokenBucket(int averageRate, int burstSize, TimeUnit timeUnit) {
+        this(0, averageRate, burstSize, timeUnit);
+    }
+
+    /**
+     * Creates a new token bucket with the provided parameters.
+     *
+     * @param initialTokens the number of tokens to start with (cannot be higher than {@code burstSize})
+     * @param averageRate   the average rate (at which tokens are generated)
+     * @param burstSize     the burst size (the limit to the number of tokens the bucket can hold)
+     * @param timeUnit      the time unit for the first two arguments
+     * @throws IllegalArgumentException if {@code initialTokens}, {@code averageRate} or {@code burstSize}
+     *                                  is zero or less
+     * @throws NullPointerException     if {@code timeUnit} is {@code null}
+     */
+    public TokenBucket(int initialTokens, int averageRate, int burstSize, TimeUnit timeUnit) {
         // check arguments
-        if (averageRate <= 0 || burstSize <= 0) {
+        if (initialTokens <= 0 || averageRate <= 0 || burstSize <= 0) {
             throw new IllegalArgumentException("averageRate and burstSize must be greater than zero!");
         } else if (timeUnit == null) {
             throw new NullPointerException("timeUnit must not be null!");
@@ -38,7 +53,7 @@ public class TokenBucket {
             this.averageRate = averageRate;
             this.burstSize = burstSize;
             this.timeUnit = timeUnit;
-            this.tokens = 0;
+            this.tokens = Math.min(burstSize, initialTokens);
             this.uts = System.currentTimeMillis();
         }
     }
