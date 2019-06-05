@@ -53,6 +53,7 @@ public class CommandListener {
         Command command = commandContext.getCommands().get(args[0].toLowerCase());
         if (command != null) {
             // execute command
+            log.info("Executing command {} for input: {}", command.getClass().getSimpleName(), content);
             command.onEvent(new CommandEvent(commandContext, event, CommandOptions.parseArgument(
                     args.length > 1 ? args[1] : StringUtils.EMPTY
             )));

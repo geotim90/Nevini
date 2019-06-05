@@ -40,11 +40,11 @@ public class Application {
             log.info("Building shard {} ({} of {})", shard, shard + 1, shards);
             shardBuilder.useSharding(shard, shards).build();
         } else if (!active) {
-            log.warn("Not building any shards because jda.active:false");
+            log.warn("Not building any shards because bot.active:false");
         } else if (token == null) {
-            log.warn("Not building any shards because jda.token:null");
+            log.warn("Not building any shards because bot.token:null");
         } else {
-            log.warn("Not building any shards because jda.shards:{}", shards);
+            log.warn("Not building any shards because bot.shards:{}", shards);
         }
     }
 
