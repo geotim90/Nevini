@@ -94,6 +94,7 @@ public abstract class Command {
         if (event.getModuleService().isModuleActive(event.getGuild(), getModule())) {
             return true;
         } else {
+            // only respond to privileged users
             if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
                         + "** module is disabled on **" + event.getGuild().getName() + "**!");
@@ -123,12 +124,14 @@ public abstract class Command {
             if (missingPermissions.length == 0) {
                 return true;
             } else if (missingPermissions.length == 1) {
+                // only respond to privileged users
                 if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
                     event.reply(CommandReaction.ERROR, "I need the **" + missingPermissions[0]
                             + "** permission to execute that command!");
                 }
                 return false;
             } else {
+                // only respond to privileged users
                 if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
                     event.reply(CommandReaction.ERROR, "I need the **"
                             + Formatter.join(missingPermissions, "**, **", "** and **")
@@ -142,35 +145,20 @@ public abstract class Command {
     private boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
             if (getNode() == null || event.getPermissionService().hasChannelUserPermission(
-                    event.getTextChannel(), event.getMember(), getNode())
-            ) {
-                String[] missingPermissions = Arrays.stream(getMinimumUserPermissions())
-                        .filter(p -> !event.getMember().hasPermission(event.getTextChannel(), p))
-                        .map(Permission::getName).toArray(String[]::new);
-                if (missingPermissions.length == 0) {
-                    return true;
-                } else if (missingPermissions.length == 1) {
-                    if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
-                        event.reply(CommandReaction.ERROR, "You need the **" + missingPermissions[0]
-                                + "** permission to execute that command!");
-                    }
-                    return false;
-                } else {
-                    if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
-                        event.reply(CommandReaction.ERROR, "You need the **"
-                                + Formatter.join(missingPermissions, "**, **", "** and **")
-                                + "** permissions to execute that command!");
-                    }
-                    return false;
-                }
+                    event.getTextChannel(), event.getMember(), getNode()
+            )) {
+                // user has been grated access to node or has default permissions
+                return true;
             } else {
+                // only respond to privileged users
                 if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
                     event.reply(CommandReaction.PROHIBITED, "You do not have permission to execute that command.");
                 }
                 return false;
             }
         } else {
-            return true; // no guild to apply restrictions with
+            // no guild to apply restrictions with
+            return true;
         }
     }
 

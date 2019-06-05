@@ -25,7 +25,6 @@ public class HelpCommand extends Command {
                 .guildOnly(false)
                 .node(Node.CORE_HELP)
                 .minimumBotPermissions(Permissions.NONE)
-                .minimumUserPermissions(Permissions.NONE)
                 .description("provides a list of commands or details on a specific command")
                 .options(new CommandOptionDescriptor[]{
                         CommandOptionDescriptor.builder()
@@ -70,8 +69,8 @@ public class HelpCommand extends Command {
                                 .append(command.getKeyword()).append("** - ").append(command.getDescription()));
             }
         }
-        builder.append("\n\nTo add me to your server, visit " +
-                "<https://discordapp.com/oauth2/authorize?client_id=570972920692736002&scope=bot&permissions=519232>");
+        builder.append("\n\nTo add me to your server, visit <")
+                .append(event.getJDA().asBot().getInviteUrl(Permissions.BOT_EMBED)).append(">");
         builder.append("\n\nFurther documentation can be viewed under <https://nevini.de/docs>")
                 .append("\n\nFor additional help and support, join ").append(event.getServerInvite());
         event.replyDm(builder.toString(), ignore -> event.complete(true));

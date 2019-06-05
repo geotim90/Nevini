@@ -21,7 +21,6 @@ public class StatusCommand extends Command {
                 .guildOnly(false)
                 .node(Node.CORE_HELP) // dummy node
                 .minimumBotPermissions(Permissions.NONE)
-                .minimumUserPermissions(Permissions.NONE)
                 .description("gives a short report on the status of the bot")
                 .details("This command can only be executed by the owner of the bot.")
                 .build());

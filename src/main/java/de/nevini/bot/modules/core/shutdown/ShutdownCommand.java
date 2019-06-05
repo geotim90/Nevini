@@ -18,7 +18,6 @@ public class ShutdownCommand extends Command {
                 .guildOnly(false)
                 .node(Node.CORE_HELP) // dummy node
                 .minimumBotPermissions(Permissions.NONE)
-                .minimumUserPermissions(Permissions.NONE)
                 .description("safely shuts down the bot")
                 .details("This command can only be executed by the owner of the bot.")
                 .build());

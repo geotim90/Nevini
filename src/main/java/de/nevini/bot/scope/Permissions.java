@@ -66,7 +66,7 @@ public class Permissions {
     public static final Permission[] TALK = {
             Permission.MESSAGE_READ,
             Permission.MESSAGE_WRITE,
-            Permission.MESSAGE_HISTORY // not strictly mandatory but required for most interactions
+            Permission.MESSAGE_HISTORY
     };
 
     /**

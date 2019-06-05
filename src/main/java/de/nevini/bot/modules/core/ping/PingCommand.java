@@ -19,7 +19,6 @@ public class PingCommand extends Command {
                 .guildOnly(false)
                 .node(Node.CORE_PING)
                 .minimumBotPermissions(Permissions.NONE)
-                .minimumUserPermissions(Permissions.NONE)
                 .description("measures the bot's communication latency")
                 .build());
     }

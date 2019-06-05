@@ -68,19 +68,6 @@ public class CommandDescriptor {
     private final Permission[] minimumBotPermissions = Permissions.BOT_EMBED;
 
     /**
-     * The minimum user permissions required for this command to function.
-     * By default these are the following permissions:
-     * <ul>
-     * <li>{@link Permission#MESSAGE_READ}</li>
-     * <li>{@link Permission#MESSAGE_WRITE}</li>
-     * <li>{@link Permission#MESSAGE_HISTORY}</li>
-     * </ul>
-     */
-    @NonNull
-    @Builder.Default
-    private final Permission[] minimumUserPermissions = Permissions.TALK;
-
-    /**
      * A short description of this command (required).
      */
     @NonNull
