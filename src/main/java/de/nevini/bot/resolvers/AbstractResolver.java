@@ -275,11 +275,11 @@ public abstract class AbstractResolver<T> {
     }
 
     private void replyCancelled(CommandEvent event) {
-        event.reply(event.getAuthor().getAsMention() + ", your previous command was cancelled.", event::complete);
+        event.reply(CommandReaction.DEFAULT_NOK, event::complete);
     }
 
     private void replyExpired(CommandEvent event) {
-        event.reply(event.getAuthor().getAsMention() + ", your previous command expired.", event::complete);
+        event.reply(CommandReaction.DEFAULT_NOK, event::complete);
     }
 
     private void replyMissing(CommandEvent event) {

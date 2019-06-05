@@ -231,7 +231,7 @@ public abstract class PermissionSetCommand extends Command {
                     if (Boolean.TRUE.equals(response)) {
                         callback.run();
                     } else {
-                        event.reply(CommandReaction.DEFAULT_NOK);
+                        event.reply(CommandReaction.DEFAULT_NOK, event::complete);
                     }
                 }
         ).decorate());
