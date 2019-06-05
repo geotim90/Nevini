@@ -3,9 +3,9 @@ package de.nevini.bot.modules.core.permission;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.Confirmation;
 import de.nevini.bot.scope.Node;
 import de.nevini.framework.command.CommandReaction;
+import de.nevini.framework.message.ConfirmationDecorator;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.apache.commons.lang3.ObjectUtils;
@@ -225,7 +225,16 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void confirmPermissions(CommandEvent event, String content, Runnable callback) {
-        event.reply(content, message -> new Confirmation(event, message, callback).decorate());
+        event.reply(content, message -> new ConfirmationDecorator(
+                message, event.getAuthor(), event.getEventDispatcher(),
+                response -> {
+                    if (Boolean.TRUE.equals(response)) {
+                        callback.run();
+                    } else {
+                        event.reply(CommandReaction.DEFAULT_NOK);
+                    }
+                }
+        ).decorate());
     }
 
 }

@@ -1,4 +1,4 @@
-package de.nevini.bot.resolvers.external;
+package de.nevini.bot.resolvers.osu;
 
 import com.oopsjpeg.osu4j.GameMode;
 import org.junit.Test;

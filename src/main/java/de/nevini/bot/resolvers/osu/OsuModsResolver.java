@@ -1,4 +1,4 @@
-package de.nevini.bot.resolvers.external;
+package de.nevini.bot.resolvers.osu;
 
 import com.oopsjpeg.osu4j.GameMod;
 import de.nevini.bot.command.CommandEvent;

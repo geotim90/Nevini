@@ -1,9 +1,9 @@
-package de.nevini.bot.resolvers.external;
+package de.nevini.bot.resolvers.osu;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.resolvers.AbstractResolver;
-import de.nevini.bot.services.external.OsuService;
+import de.nevini.bot.services.osu.OsuService;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.NonNull;
 

@@ -6,7 +6,7 @@ import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.scope.Node;
-import de.nevini.bot.services.external.OsuService;
+import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

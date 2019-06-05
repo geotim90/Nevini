@@ -1,4 +1,4 @@
-package de.nevini.bot.services.external;
+package de.nevini.bot.services.osu;
 
 import com.oopsjpeg.osu4j.*;
 import com.oopsjpeg.osu4j.backend.*;

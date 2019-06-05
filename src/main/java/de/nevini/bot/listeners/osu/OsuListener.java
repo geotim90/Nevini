@@ -1,4 +1,4 @@
-package de.nevini.bot.listeners;
+package de.nevini.bot.listeners.osu;
 
 import com.oopsjpeg.osu4j.GameMode;
 import com.oopsjpeg.osu4j.OsuScore;
@@ -7,7 +7,7 @@ import de.nevini.bot.db.feed.FeedData;
 import de.nevini.bot.scope.Feed;
 import de.nevini.bot.services.common.FeedService;
 import de.nevini.bot.services.common.IgnService;
-import de.nevini.bot.services.external.OsuService;
+import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;

@@ -4,6 +4,7 @@ import de.nevini.bot.scope.Permissions;
 import de.nevini.framework.command.CommandOptions;
 import de.nevini.framework.command.CommandReaction;
 import de.nevini.framework.message.MessageCleaner;
+import de.nevini.framework.message.PageableEmbed;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.Delegate;
@@ -152,7 +153,9 @@ public class CommandEvent {
 
     private void sendMessage(MessageChannel channel, EmbedBuilder embed, Consumer<? super Message> callback) {
         log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(embed.toString()));
-        new Paginator(this, channel, embed, callback).display();
+        new PageableEmbed(
+                channel, getAuthor(), getJDA().getSelfUser().getAvatarUrl(), embed, getEventDispatcher(), callback
+        ).display();
     }
 
     private void sendMessage(MessageChannel channel, String content, Consumer<? super Message> callback) {

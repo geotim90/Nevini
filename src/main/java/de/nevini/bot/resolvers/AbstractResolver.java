@@ -1,10 +1,10 @@
 package de.nevini.bot.resolvers;
 
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.Picker;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 import de.nevini.framework.message.MessageCleaner;
+import de.nevini.framework.message.PickerEmbed;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -162,11 +162,14 @@ public abstract class AbstractResolver<T> {
             List<T> results = findSorted(event, input);
             if (results.isEmpty()) {
                 replyUnknown(event);
-            } else if (results.size() > Picker.MAX) {
+            } else if (results.size() > PickerEmbed.MAX) {
                 replyAmbiguous(event);
             } else if (results.size() > 1) {
-                new Picker<>(event, results, this::getFieldNameForPicker, this::getFieldValueForPicker, callback,
-                        () -> replyExpired(event)).display();
+                new PickerEmbed<>(
+                        event.getChannel(), event.getAuthor(), event.createEmbedBuilder(),
+                        results, this::getFieldNameForPicker, this::getFieldValueForPicker,
+                        event.getEventDispatcher(), callback, () -> replyExpired(event)
+                ).display();
             } else {
                 callback.accept(results.get(0));
             }

@@ -1,4 +1,4 @@
-package de.nevini.bot.resolvers.external;
+package de.nevini.bot.resolvers.osu;
 
 public class OsuResolvers {
 

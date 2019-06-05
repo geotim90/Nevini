@@ -1,4 +1,4 @@
-package de.nevini.bot.listeners;
+package de.nevini.bot.listeners.activity;
 
 import de.nevini.bot.services.common.ActivityService;
 import de.nevini.bot.services.common.GameService;
