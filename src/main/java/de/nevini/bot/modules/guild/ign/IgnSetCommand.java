@@ -1,10 +1,14 @@
 package de.nevini.bot.modules.guild.ign;
 
-import de.nevini.bot.command.*;
+import de.nevini.bot.command.Command;
+import de.nevini.bot.command.CommandDescriptor;
+import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.StringResolver;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.framework.command.CommandOptionDescriptor;
+import de.nevini.framework.command.CommandReaction;
 import net.dv8tion.jda.core.entities.Member;
 
 public class IgnSetCommand extends Command {

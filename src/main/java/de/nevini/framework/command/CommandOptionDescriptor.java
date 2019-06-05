@@ -1,9 +1,12 @@
-package de.nevini.bot.command;
+package de.nevini.framework.command;
 
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
+/**
+ * Describes a command option or flag, e.g. {@code [--user] [<user>]}.
+ */
 @Value
 @Builder
 public class CommandOptionDescriptor {

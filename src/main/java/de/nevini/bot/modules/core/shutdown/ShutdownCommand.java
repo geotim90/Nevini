@@ -3,9 +3,9 @@ package de.nevini.bot.modules.core.shutdown;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandReaction;
 import de.nevini.bot.scope.Node;
 import de.nevini.bot.scope.Permissions;
+import de.nevini.framework.command.CommandReaction;
 import org.springframework.stereotype.Component;
 
 @Component

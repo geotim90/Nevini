@@ -2,9 +2,9 @@ package de.nevini.bot.resolvers.external;
 
 import com.oopsjpeg.osu4j.GameMode;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.resolvers.AbstractResolver;
 import de.nevini.commons.util.Finder;
+import de.nevini.framework.command.CommandOptionDescriptor;
 
 import java.util.List;
 import java.util.regex.Pattern;

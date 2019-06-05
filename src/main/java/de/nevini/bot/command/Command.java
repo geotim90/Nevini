@@ -2,6 +2,8 @@ package de.nevini.bot.command;
 
 import de.nevini.bot.scope.Module;
 import de.nevini.bot.util.Formatter;
+import de.nevini.framework.command.CommandPatterns;
+import de.nevini.framework.command.CommandReaction;
 import lombok.NonNull;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;

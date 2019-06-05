@@ -1,7 +1,11 @@
 package de.nevini.bot.modules.core.permission;
 
-import de.nevini.bot.command.*;
+import de.nevini.bot.command.Command;
+import de.nevini.bot.command.CommandDescriptor;
+import de.nevini.bot.command.CommandEvent;
+import de.nevini.bot.command.Confirmation;
 import de.nevini.bot.scope.Node;
+import de.nevini.framework.command.CommandReaction;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.apache.commons.lang3.ObjectUtils;

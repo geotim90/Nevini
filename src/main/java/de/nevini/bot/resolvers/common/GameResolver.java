@@ -1,9 +1,9 @@
 package de.nevini.bot.resolvers.common;
 
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.AbstractResolver;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
 import java.util.Comparator;

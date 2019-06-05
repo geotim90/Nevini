@@ -2,8 +2,8 @@ package de.nevini.bot.resolvers.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.resolvers.AbstractResolver;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.TextChannel;
 

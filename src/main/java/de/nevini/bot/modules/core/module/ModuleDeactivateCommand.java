@@ -1,9 +1,13 @@
 package de.nevini.bot.modules.core.module;
 
-import de.nevini.bot.command.*;
+import de.nevini.bot.command.Command;
+import de.nevini.bot.command.CommandDescriptor;
+import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Module;
 import de.nevini.bot.scope.Node;
+import de.nevini.framework.command.CommandOptionDescriptor;
+import de.nevini.framework.command.CommandReaction;
 
 public class ModuleDeactivateCommand extends Command {
 

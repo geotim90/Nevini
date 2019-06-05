@@ -1,6 +1,7 @@
 package de.nevini.bot.command;
 
 import de.nevini.commons.concurrent.EventDispatcher;
+import de.nevini.framework.command.CommandOptions;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.Event;

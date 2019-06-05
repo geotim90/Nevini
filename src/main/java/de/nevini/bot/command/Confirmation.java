@@ -1,5 +1,6 @@
 package de.nevini.bot.command;
 
+import de.nevini.framework.command.CommandReaction;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.entities.Message;

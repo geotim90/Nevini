@@ -2,9 +2,9 @@ package de.nevini.bot.resolvers.external;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.resolvers.AbstractResolver;
 import de.nevini.bot.services.external.OsuService;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
 import java.util.Comparator;

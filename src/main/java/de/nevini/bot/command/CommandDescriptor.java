@@ -2,6 +2,7 @@ package de.nevini.bot.command;
 
 import de.nevini.bot.scope.Node;
 import de.nevini.bot.scope.Permissions;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;

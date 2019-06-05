@@ -3,9 +3,9 @@ package de.nevini.bot.modules.guild.find;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 

@@ -1,6 +1,10 @@
 package de.nevini.bot.resolvers;
 
-import de.nevini.bot.command.*;
+import de.nevini.bot.command.CommandEvent;
+import de.nevini.bot.command.Picker;
+import de.nevini.framework.command.CommandOptionDescriptor;
+import de.nevini.framework.command.CommandReaction;
+import de.nevini.framework.message.MessageCleaner;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -137,15 +141,15 @@ public abstract class AbstractResolver<T> {
                     } else {
                         resolveInput(event, e.getMessage().getContentRaw(), callback);
                     }
-                    Cleaner.tryDelete(message);
-                    Cleaner.tryDelete(e.getMessage());
+                    MessageCleaner.tryDelete(message);
+                    MessageCleaner.tryDelete(e.getMessage());
                 },
                 true,
                 1,
                 TimeUnit.MINUTES,
                 () -> {
                     replyExpired(event);
-                    Cleaner.tryDelete(message);
+                    MessageCleaner.tryDelete(message);
                 },
                 false
         );
@@ -235,15 +239,15 @@ public abstract class AbstractResolver<T> {
                     } else {
                         resolveListInput(event, e.getMessage().getContentRaw(), callback);
                     }
-                    Cleaner.tryDelete(message);
-                    Cleaner.tryDelete(e.getMessage());
+                    MessageCleaner.tryDelete(message);
+                    MessageCleaner.tryDelete(e.getMessage());
                 },
                 true,
                 1,
                 TimeUnit.MINUTES,
                 () -> {
                     replyExpired(event);
-                    Cleaner.tryDelete(message);
+                    MessageCleaner.tryDelete(message);
                 },
                 false
         );

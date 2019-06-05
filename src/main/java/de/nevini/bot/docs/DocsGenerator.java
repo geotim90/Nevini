@@ -2,9 +2,9 @@ package de.nevini.bot.docs;
 
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandContext;
-import de.nevini.bot.command.CommandOptionDescriptor;
 import de.nevini.bot.scope.Module;
 import de.nevini.bot.util.Formatter;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.StringUtils;

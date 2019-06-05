@@ -1,7 +1,7 @@
 package de.nevini.bot.resolvers;
 
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.command.CommandOptionDescriptor;
+import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 

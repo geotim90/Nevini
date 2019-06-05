@@ -1,6 +1,9 @@
 package de.nevini.bot.command;
 
 import de.nevini.bot.scope.Permissions;
+import de.nevini.framework.command.CommandOptions;
+import de.nevini.framework.command.CommandReaction;
+import de.nevini.framework.message.MessageCleaner;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.Delegate;
@@ -201,13 +204,13 @@ public class CommandEvent {
         if (forceRm || isRm()) {
             if (getMessage().getIdLong() == lastResponse.getIdLong()) {
                 if (lastResponse.getReactions().isEmpty()) {
-                    Cleaner.tryDelete(lastResponse);
+                    MessageCleaner.tryDelete(lastResponse);
                 } else {
-                    Cleaner.tryScheduleDelete(getEventDispatcher(), lastResponse);
+                    MessageCleaner.tryScheduleDelete(getEventDispatcher(), lastResponse);
                 }
             } else {
-                Cleaner.tryDelete(getMessage());
-                Cleaner.tryScheduleDelete(getEventDispatcher(), lastResponse);
+                MessageCleaner.tryDelete(getMessage());
+                MessageCleaner.tryScheduleDelete(getEventDispatcher(), lastResponse);
             }
         }
     }
