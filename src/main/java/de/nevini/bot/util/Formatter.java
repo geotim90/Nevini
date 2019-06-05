@@ -98,7 +98,8 @@ public class Formatter {
                 // resolve HTML entities
                 .replaceAll("&amp;", "&")
                 .replaceAll("&gt;", ">")
-                .replaceAll("&lt;", "<");
+                .replaceAll("&lt;", "<")
+                .replaceAll("&quot;", "\"");
         Matcher rankMatcher = Pattern.compile("\\*\\*([ABCDF]|(?:SS?|X)[H+]?)\\*\\*").matcher(markdown);
         if (rankMatcher.find()) {
             return Formatter.formatOsuRank(rankMatcher.group(1)) + markdown.substring(rankMatcher.end());
