@@ -1,7 +1,6 @@
 package de.nevini.api.osu.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.oopsjpeg.osu4j.GameMod;
 import lombok.Builder;
 import lombok.Value;
 
@@ -45,7 +44,7 @@ public class OsuScore {
     private final Boolean perfect;
 
     @SerializedName("enabled_mods")
-    private final GameMod[] mods;
+    private final OsuMod[] mods;
 
     @SerializedName("user_id")
     private final Integer userId;

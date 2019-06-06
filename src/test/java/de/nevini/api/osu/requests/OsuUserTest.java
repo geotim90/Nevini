@@ -1,17 +1,73 @@
-package de.nevini.api.osu;
+package de.nevini.api.osu.requests;
 
 import de.nevini.api.ApiResponse;
 import de.nevini.api.osu.model.OsuUser;
-import de.nevini.api.osu.requests.OsuUserRequest;
+import de.nevini.api.osu.model.OsuUserEvent;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Date;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 public class OsuUserTest extends OsuApiProvider {
+
+    @Test
+    public void testParser() throws IOException {
+        OsuUserRequest request = OsuUserRequest.builder()
+                .user("252002")
+                .build();
+        ApiResponse<List<OsuUser>> response = getOsuApi().getUser(request);
+        Assert.assertTrue(response.toString(), response.isOk());
+
+        List<OsuUser> result;
+        try (InputStreamReader reader = new InputStreamReader(
+                getClass().getResourceAsStream("get_user_u_1883865.json")
+        )) {
+            result = request.parseStream(reader);
+        }
+
+        // make sure the requested user is there
+        Assert.assertEquals(1, result.size());
+
+        // make sure all data was parsed correctly
+        OsuUser user = result.get(0);
+        Assert.assertEquals(Integer.valueOf(1883865), user.getUserId());
+        Assert.assertEquals("Yaong", user.getUserName());
+        Assert.assertEquals(Date.from(ZonedDateTime.of(2012, 8, 30, 12, 14, 56, 0, ZoneOffset.UTC).toInstant()), user.getJoinDate());
+        Assert.assertEquals(Integer.valueOf(31556263), user.getCount300());
+        Assert.assertEquals(Integer.valueOf(1285294), user.getCount100());
+        Assert.assertEquals(Integer.valueOf(186314), user.getCount50());
+        Assert.assertEquals(Integer.valueOf(112559), user.getPlayCount());
+        Assert.assertEquals(Long.valueOf(105476892039L), user.getRankedScore());
+        Assert.assertEquals(Long.valueOf(523275047004L), user.getTotalScore());
+        Assert.assertEquals(Integer.valueOf(69), user.getPpRank());
+        Assert.assertEquals(Float.valueOf(104.963f), user.getLevel());
+        Assert.assertEquals(Float.valueOf(12464.3f), user.getPpRaw());
+        Assert.assertEquals(Float.valueOf(99.44173431396484f), user.getAccuracy());
+        Assert.assertEquals(Integer.valueOf(724), user.getCountRankSs());
+        Assert.assertEquals(Integer.valueOf(436), user.getCountRankSsh());
+        Assert.assertEquals(Integer.valueOf(1690), user.getCountRankS());
+        Assert.assertEquals(Integer.valueOf(1387), user.getCountRankSh());
+        Assert.assertEquals(Integer.valueOf(454), user.getCountRankA());
+        Assert.assertEquals("KR", user.getCountry());
+        Assert.assertEquals(Integer.valueOf(6070490), user.getTotalSecondsPlayed());
+        Assert.assertEquals(Integer.valueOf(7), user.getPpCountryRank());
+
+        // make sure the requested user events are there
+        Assert.assertEquals(17, user.getEvents().size());
+
+        // make sure all data was parsed correctly
+        OsuUserEvent event = user.getEvents().get(0);
+        Assert.assertEquals("<b><a href='/u/1883865'>Yaong</a></b> has lost first place on <a href='/b/201700?m=0'>Leftymonster - START [Finish]</a> (osu!)", event.getDisplayHtml());
+        Assert.assertEquals(Integer.valueOf(201700), event.getBeatmapId());
+        Assert.assertEquals(Integer.valueOf(70102), event.getBeatmapsetId());
+        Assert.assertEquals(Date.from(ZonedDateTime.of(2019, 6, 6, 2, 17, 33, 0, ZoneOffset.UTC).toInstant()), event.getDate());
+        Assert.assertEquals(Integer.valueOf(2), event.getEpicFactor());
+    }
 
     @Test
     public void testUserIdRequest() {

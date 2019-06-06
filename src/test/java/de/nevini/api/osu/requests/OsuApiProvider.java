@@ -1,5 +1,6 @@
-package de.nevini.api.osu;
+package de.nevini.api.osu.requests;
 
+import de.nevini.api.osu.OsuApi;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 

@@ -14,6 +14,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -45,13 +46,17 @@ public class OsuUserBestRequest implements ApiRequest<List<OsuUserBest>> {
     public ApiResponse<List<OsuUserBest>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
-                Type type = new TypeToken<List<OsuUserBest>>() {
-                }.getType();
-                return ApiResponse.ok(OsuJson.getGson().fromJson(body.charStream(), type));
+                return ApiResponse.ok(parseStream(body.charStream()));
             }
         }
         // no parsable result
         return ApiResponse.empty();
+    }
+
+    List<OsuUserBest> parseStream(Reader reader) {
+        Type type = new TypeToken<List<OsuUserBest>>() {
+        }.getType();
+        return OsuJson.getGson().fromJson(reader, type);
     }
 
 }

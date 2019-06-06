@@ -16,6 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
@@ -59,13 +60,17 @@ public class OsuBeatmapsRequest implements ApiRequest<List<OsuBeatmap>> {
     public ApiResponse<List<OsuBeatmap>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
-                Type type = new TypeToken<List<OsuBeatmap>>() {
-                }.getType();
-                return ApiResponse.ok(OsuJson.getGson().fromJson(body.charStream(), type));
+                return ApiResponse.ok(parseStream(body.charStream()));
             }
         }
         // no parsable result
         return ApiResponse.empty();
+    }
+
+    List<OsuBeatmap> parseStream(Reader reader) {
+        Type type = new TypeToken<List<OsuBeatmap>>() {
+        }.getType();
+        return OsuJson.getGson().fromJson(reader, type);
     }
 
 }

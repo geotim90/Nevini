@@ -12,7 +12,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -45,9 +44,9 @@ public class OsuApi implements Api {
             try {
                 // make the call and parse the result
                 return apiRequest.parseResponse(httpClient.newCall(request).execute());
-            } catch (IOException e) {
+            } catch (Throwable throwable) {
                 // an error occurred
-                return ApiResponse.error(e);
+                return ApiResponse.error(throwable);
             }
         } else {
             // call exceeds rate limit

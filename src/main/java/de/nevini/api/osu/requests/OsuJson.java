@@ -12,6 +12,7 @@ class OsuJson {
 
     @Getter
     private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Boolean.class, new BooleanAdapter())
             .registerTypeAdapter(Date.class, new DateAdapter())
             .registerTypeAdapter(OsuBeatmapApproved.class, new OsuBeatmapApprovedAdapter())
             .registerTypeAdapter(OsuBeatmapGenre.class, new OsuBeatmapGenreAdapter())

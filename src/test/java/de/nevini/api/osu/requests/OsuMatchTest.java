@@ -1,12 +1,13 @@
-package de.nevini.api.osu;
+package de.nevini.api.osu.requests;
 
 import de.nevini.api.ApiResponse;
 import de.nevini.api.osu.model.OsuMatch;
-import de.nevini.api.osu.requests.OsuMatchRequest;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class OsuMatchTest extends OsuApiProvider {
+
+    // TODO implement testParser()
 
     @Test
     public void testMatchIdRequest() {
