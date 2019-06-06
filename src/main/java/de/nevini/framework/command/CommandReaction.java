@@ -64,7 +64,13 @@ public enum CommandReaction {
      * For when a response was sent via direct message.
      * Rendered as a white envelope in Discord.
      */
-    DM("\u2709");
+    DM("\u2709"),
+
+    /**
+     * For when a command may take several seconds or even longer to finish executing.
+     * Rendered as an hourglass in Discord.
+     */
+    WAIT("\u23f3");
 
     /**
      * The unicode for this emoji.

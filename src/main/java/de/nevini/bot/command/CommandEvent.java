@@ -214,4 +214,12 @@ public class CommandEvent {
         return getOptions().getOptions().stream().map(RM_FLAG::matcher).anyMatch(Matcher::matches);
     }
 
+    public void notifyLongTaskStart() {
+        getMessage().addReaction(CommandReaction.WAIT.getUnicode()).queue();
+    }
+
+    public void notifyLongTaskEnd() {
+        getMessage().clearReactions().queue();
+    }
+
 }

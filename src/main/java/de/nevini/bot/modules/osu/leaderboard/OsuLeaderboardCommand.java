@@ -36,6 +36,7 @@ public class OsuLeaderboardCommand extends Command {
     protected void execute(CommandEvent event) {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
+        event.notifyLongTaskStart();
         List<OsuUser> rankedUsers = event.getGuild().getMembers().stream().filter(member -> !member.getUser().isBot())
                 .map(member -> {
                     String ign = event.getIgnService().getIgn(member, game);
@@ -43,6 +44,7 @@ public class OsuLeaderboardCommand extends Command {
                 })
                 .filter(user -> user != null && user.getPpRank() > 0).sorted(Comparator.comparing(OsuUser::getPpRank))
                 .limit(10).collect(Collectors.toList());
+        event.notifyLongTaskEnd();
         if (rankedUsers.isEmpty()) {
             event.reply("No users found.", event::complete);
         } else {

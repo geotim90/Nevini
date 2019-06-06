@@ -31,10 +31,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.flywaydb:flyway-core'
 	// common
+	implementation 'com.google.code.gson:gson'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.3'
-	// api
-	implementation 'com.google.code.gson:gson'
 	// jda
 	implementation 'net.dv8tion:JDA:3.8.3_463'
 	implementation 'com.jagrosh:jda-utilities:2.1.5'
