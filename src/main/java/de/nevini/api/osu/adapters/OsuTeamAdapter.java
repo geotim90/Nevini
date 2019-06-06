@@ -27,7 +27,7 @@ public class OsuTeamAdapter extends TypeAdapter<OsuTeam> {
                     return e;
                 }
             }
-            throw new IllegalStateException(value + " is not a valid id");
+            throw new IllegalStateException(value + " is not a valid team id");
         }
     }
 

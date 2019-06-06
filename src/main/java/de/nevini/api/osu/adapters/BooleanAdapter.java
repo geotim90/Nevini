@@ -31,7 +31,7 @@ public class BooleanAdapter extends TypeAdapter<Boolean> {
                 case 0:
                     return Boolean.FALSE;
                 default:
-                    throw new IllegalStateException(value + " is not a valid value!");
+                    throw new IllegalStateException(value + " is not a valid boolean value!");
             }
         }
     }

@@ -11,6 +11,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.Reader;
+
 @Builder
 @Value
 public class OsuMatchRequest implements ApiRequest<OsuMatch> {
@@ -33,11 +35,15 @@ public class OsuMatchRequest implements ApiRequest<OsuMatch> {
     public ApiResponse<OsuMatch> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
-                return ApiResponse.ok(OsuJson.getGson().fromJson(body.charStream(), OsuMatch.class));
+                return ApiResponse.ok(parseStream(body.charStream()));
             }
         }
         // no parsable result
         return ApiResponse.empty();
+    }
+
+    OsuMatch parseStream(Reader reader) {
+        return OsuJson.getGson().fromJson(reader, OsuMatch.class);
     }
 
 }

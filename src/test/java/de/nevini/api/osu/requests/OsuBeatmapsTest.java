@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Date;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class OsuBeatmapsTest extends OsuApiProvider {

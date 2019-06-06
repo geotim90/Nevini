@@ -27,7 +27,7 @@ public class OsuBeatmapApprovedAdapter extends TypeAdapter<OsuBeatmapApproved> {
                     return e;
                 }
             }
-            throw new IllegalStateException(value + " is not a valid id");
+            throw new IllegalStateException(value + " is not a valid approved id");
         }
     }
 

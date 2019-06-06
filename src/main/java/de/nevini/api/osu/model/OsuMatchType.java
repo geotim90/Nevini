@@ -9,8 +9,7 @@ import lombok.ToString;
 @ToString
 public enum OsuMatchType {
 
-    // TODO
-    ;
+    UNKNOWN(0);
 
     private final int id;
 

@@ -15,6 +15,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.Reader;
+
 @Builder
 @Value
 public class OsuReplayRequest implements ApiRequest<OsuReplay> {
@@ -30,13 +32,13 @@ public class OsuReplayRequest implements ApiRequest<OsuReplay> {
 
     @Override
     public @NonNull String getEndpoint() {
-        return "https://osu.ppy.sh/api/get_replay";
+        return "https://osu.ppy.sh/api/get_replay?b=" + beatmapId;
     }
 
     @Override
     public @NonNull RequestBody getRequestBody(@NonNull MultipartBody.Builder builder) {
         builder.addFormDataPart("m", Integer.toString(mode.getId()));
-        builder.addFormDataPart("b", Integer.toString(beatmapId));
+        // use URL parameter instead of: builder.addFormDataPart("b", Integer.toString(beatmapId));
         builder.addFormDataPart("u", user);
         if (userType != null) builder.addFormDataPart("type", userType.getUserType());
         if (mods != null) builder.addFormDataPart("mods", OsuConverter.convertModsToString(mods));
@@ -47,11 +49,15 @@ public class OsuReplayRequest implements ApiRequest<OsuReplay> {
     public ApiResponse<OsuReplay> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
-                return ApiResponse.ok(OsuJson.getGson().fromJson(body.charStream(), OsuReplay.class));
+                return ApiResponse.ok(parseStream(body.charStream()));
             }
         }
         // no parsable result
         return ApiResponse.empty();
+    }
+
+    OsuReplay parseStream(Reader reader) {
+        return OsuJson.getGson().fromJson(reader, OsuReplay.class);
     }
 
 }

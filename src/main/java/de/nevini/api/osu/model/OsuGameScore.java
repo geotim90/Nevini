@@ -50,4 +50,7 @@ public class OsuGameScore {
     @SerializedName("pass")
     private final Boolean pass;
 
+    @SerializedName("enabled_mods")
+    private final OsuMod[] mods;
+
 }

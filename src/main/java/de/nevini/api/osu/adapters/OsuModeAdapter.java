@@ -27,7 +27,7 @@ public class OsuModeAdapter extends TypeAdapter<OsuMode> {
                     return e;
                 }
             }
-            throw new IllegalStateException(value + " is not a valid id");
+            throw new IllegalStateException(value + " is not a valid mode id");
         }
     }
 

@@ -27,7 +27,7 @@ public class OsuBeatmapGenreAdapter extends TypeAdapter<OsuBeatmapGenre> {
                     return e;
                 }
             }
-            throw new IllegalStateException(value + " is not a valid id");
+            throw new IllegalStateException(value + " is not a valid genre id");
         }
     }
 

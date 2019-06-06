@@ -26,12 +26,15 @@ public class OsuRankAdapter extends TypeAdapter<OsuRank> {
             return null;
         } else {
             String value = in.nextString();
+            if ("0".equals(value)) {
+                return null;
+            }
             for (OsuRank e : OsuRank.values()) {
                 if (e.getId().equals(value)) {
                     return e;
                 }
             }
-            throw new IllegalStateException(value + " is not a valid id");
+            throw new IllegalStateException(value + " is not a valid rank id");
         }
     }
 
