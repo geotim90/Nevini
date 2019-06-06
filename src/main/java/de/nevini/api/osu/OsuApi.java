@@ -59,7 +59,7 @@ public class OsuApi implements Api {
         return call(request);
     }
 
-    public ApiResponse<OsuUser> getUser(OsuUserRequest request) {
+    public ApiResponse<List<OsuUser>> getUser(OsuUserRequest request) {
         return call(request);
     }
 

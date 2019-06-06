@@ -1,8 +1,6 @@
 package de.nevini.api.osu.model;
 
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import de.nevini.api.osu.adapters.OsuTagsAdapter;
 import lombok.Builder;
 import lombok.Value;
 
@@ -91,7 +89,6 @@ public class OsuBeatmap {
     private final OsuMode mode;
 
     @SerializedName("tags")
-    @JsonAdapter(OsuTagsAdapter.class)
     private final String[] tags;
 
     @SerializedName("favourite_count")

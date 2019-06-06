@@ -41,7 +41,7 @@ public enum OsuMod {
     SCORE_V2(536870912, "Score v2"),
     LAST_MOD(1073741824, "Last Mod");
 
-    private final int mod;
+    private final int id;
     private final String name;
 
 }

@@ -38,13 +38,13 @@ public class TokenBucket {
      * @param averageRate   the average rate (at which tokens are generated)
      * @param burstSize     the burst size (the limit to the number of tokens the bucket can hold)
      * @param timeUnit      the time unit for the first two arguments
-     * @throws IllegalArgumentException if {@code initialTokens}, {@code averageRate} or {@code burstSize}
-     *                                  is zero or less
+     * @throws IllegalArgumentException if {@code initialTokens} is less than zero or
+     *                                  if {@code averageRate} or {@code burstSize} is zero or less
      * @throws NullPointerException     if {@code timeUnit} is {@code null}
      */
     public TokenBucket(int initialTokens, int averageRate, int burstSize, TimeUnit timeUnit) {
         // check arguments
-        if (initialTokens <= 0 || averageRate <= 0 || burstSize <= 0) {
+        if (initialTokens < 0 || averageRate <= 0 || burstSize <= 0) {
             throw new IllegalArgumentException("averageRate and burstSize must be greater than zero!");
         } else if (timeUnit == null) {
             throw new NullPointerException("timeUnit must not be null!");

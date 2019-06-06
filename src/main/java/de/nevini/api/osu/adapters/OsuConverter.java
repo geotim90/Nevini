@@ -27,7 +27,7 @@ public class OsuConverter {
         } else {
             int value = 0;
             for (OsuMod mod : mods) {
-                value |= mod.getMod();
+                value |= mod.getId();
             }
             return Integer.toString(value);
         }

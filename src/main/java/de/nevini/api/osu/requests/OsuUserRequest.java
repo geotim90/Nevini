@@ -1,5 +1,6 @@
 package de.nevini.api.osu.requests;
 
+import com.google.gson.reflect.TypeToken;
 import de.nevini.api.ApiRequest;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.osu.model.OsuMode;
@@ -13,9 +14,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
 @Builder
 @Value
-public class OsuUserRequest implements ApiRequest<OsuUser> {
+public class OsuUserRequest implements ApiRequest<List<OsuUser>> {
 
     @NonNull
     private final String user;
@@ -38,10 +42,12 @@ public class OsuUserRequest implements ApiRequest<OsuUser> {
     }
 
     @Override
-    public ApiResponse<OsuUser> parseResponse(@NonNull Response response) {
+    public ApiResponse<List<OsuUser>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
-                return ApiResponse.ok(OsuJson.getGson().fromJson(body.charStream(), OsuUser.class));
+                Type type = new TypeToken<List<OsuUser>>() {
+                }.getType();
+                return ApiResponse.ok(OsuJson.getGson().fromJson(body.charStream(), type));
             }
         }
         // no parsable result

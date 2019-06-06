@@ -14,7 +14,7 @@ public enum OsuTeamType {
     TEAM_VS(2, "Team vs"),
     TAG_TEAM_VS(3, "Tag Team vs");
 
-    private final int teamType;
+    private final int id;
     private final String name;
 
 }

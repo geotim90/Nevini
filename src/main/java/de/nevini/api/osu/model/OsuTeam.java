@@ -13,7 +13,7 @@ public enum OsuTeam {
     BLUE(1, "Blue"),
     RED(2, "Red");
 
-    private final int team;
+    private final int id;
     private final String name;
 
 }

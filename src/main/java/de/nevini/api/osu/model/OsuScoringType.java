@@ -14,7 +14,7 @@ public enum OsuScoringType {
     COMBO(2, "Combo"),
     SCORE_V2(3, "Score v2");
 
-    private final int scoringType;
+    private final int id;
     private final String name;
 
 }

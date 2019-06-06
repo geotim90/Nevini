@@ -9,6 +9,14 @@ import lombok.ToString;
 @ToString
 public enum OsuRank {
 
-    // TODO
+    SSH("XH"),
+    SS("X"),
+    SH("SH"),
+    S("S"),
+    A("A"),
+    B("B"),
+    C("C");
+
+    private final String id;
 
 }

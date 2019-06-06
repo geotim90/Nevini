@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
-public class OsuTagsAdapter extends TypeAdapter<String[]> {
+public class StringsAdapter extends TypeAdapter<String[]> {
 
     @Override
     public void write(JsonWriter out, String[] value) throws IOException {

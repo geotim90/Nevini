@@ -14,11 +14,21 @@ import java.util.List;
 public class OsuBeatmapsTest extends OsuApiProvider {
 
     @Test
-    public void testBeatmapId() {
+    public void testBlankRequest() {
+        ApiResponse<List<OsuBeatmap>> response = getOsuApi().getBeatmaps(OsuBeatmapsRequest.builder().build());
+        Assert.assertTrue(response.toString(), response.isOk());
+
+        // make sure the default 500 beatmaps are there
+        List<OsuBeatmap> result = response.getResult();
+        Assert.assertEquals(500, result.size());
+    }
+
+    @Test
+    public void testBeatmapIdRequest() {
         ApiResponse<List<OsuBeatmap>> response = getOsuApi().getBeatmaps(OsuBeatmapsRequest.builder()
                 .beatmapId(252002)
                 .build());
-        Assert.assertTrue(response.isOk());
+        Assert.assertTrue(response.toString(), response.isOk());
 
         // make sure the requested beatmap is there
         List<OsuBeatmap> result = response.getResult();
@@ -54,16 +64,15 @@ public class OsuBeatmapsTest extends OsuApiProvider {
         Assert.assertEquals(OsuBeatmapGenre.VIDEO_GAME, beatmap.getGenre());
         Assert.assertEquals(OsuBeatmapLanguage.INSTRUMENTAL, beatmap.getLanguage());
         Assert.assertEquals(Integer.valueOf(142), beatmap.getFavouriteCount());
-        Assert.assertEquals(Float.valueOf(9.45016f), beatmap.getRating());
+        Assert.assertNotNull(beatmap.getRating()); // non-static value; can increase or decrease
         Assert.assertEquals(Boolean.FALSE, beatmap.getDownloadUnavailable());
         Assert.assertEquals(Boolean.FALSE, beatmap.getAudioUnavailable());
-        Assert.assertEquals(Integer.valueOf(95168), beatmap.getPlayCount());
-        Assert.assertEquals(Integer.valueOf(10644), beatmap.getPassCount());
+        Assert.assertTrue(beatmap.getPlayCount() >= 95168); // non-static value; can only increase
+        Assert.assertTrue(beatmap.getPassCount() >= 10644); // non-static value; can only increase
         Assert.assertEquals(Integer.valueOf(899), beatmap.getMaxCombo());
         Assert.assertEquals(Float.valueOf(2.7706098556518555f), beatmap.getDifficultyAim());
         Assert.assertEquals(Float.valueOf(2.9062750339508057f), beatmap.getDifficultySpeed());
         Assert.assertEquals(Float.valueOf(5.744717597961426f), beatmap.getDifficultyRating());
-        // TODO some information here may not be static over time (e.g. play count)
     }
 
 }
