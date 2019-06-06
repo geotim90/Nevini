@@ -4,6 +4,7 @@ import de.nevini.bot.scope.Permissions;
 import de.nevini.framework.command.CommandOptions;
 import de.nevini.framework.command.CommandReaction;
 import de.nevini.framework.message.MessageCleaner;
+import de.nevini.framework.message.MessageLineSplitter;
 import de.nevini.framework.message.PageableEmbed;
 import lombok.NonNull;
 import lombok.Value;
@@ -160,20 +161,7 @@ public class CommandEvent {
 
     private void sendMessage(MessageChannel channel, String content, Consumer<? super Message> callback) {
         log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(content));
-        if (content.length() <= Message.MAX_CONTENT_LENGTH) {
-            channel.sendMessage(content).queue(callback);
-        } else {
-            String remainder = content;
-            while (remainder.length() > Message.MAX_CONTENT_LENGTH) {
-                String part = remainder.substring(0, remainder.lastIndexOf('\n', Message.MAX_CONTENT_LENGTH));
-                remainder = remainder.substring(part.length());
-                if (remainder.isEmpty()) {
-                    channel.sendMessage(part).queue(callback);
-                } else {
-                    channel.sendMessage(part).queue();
-                }
-            }
-        }
+        MessageLineSplitter.sendMessage(channel, content, callback);
     }
 
     public EmbedBuilder createEmbedBuilder() {

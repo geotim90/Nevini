@@ -8,6 +8,7 @@ import de.nevini.bot.services.common.IgnService;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
+import de.nevini.framework.message.MessageLineSplitter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Member;
@@ -28,6 +29,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static de.nevini.commons.util.Functions.ignore;
 
 @Slf4j
 @Component
@@ -108,6 +111,7 @@ public class OsuListener {
         );
         OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, days);
         if (user != null) {
+            StringBuilder builder = new StringBuilder();
             user.getEvents().stream()
                     .filter(e -> e.getDate().getTime() > uts)
                     .sorted(Comparator.comparing(OsuUserEvent::getDate))
@@ -116,8 +120,9 @@ public class OsuListener {
                                 + " at " + Formatter.formatTimestamp(e.getDate().getTime());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
                                 channel.getId(), markdown);
-                        channel.sendMessage(markdown).queue();
+                        builder.append(markdown).append('\n');
                     });
+            MessageLineSplitter.sendMessage(channel, builder.toString(), ignore());
             user.getEvents().stream()
                     .filter(e -> e.getDate().getTime() > uts)
                     .map(OsuUserEvent::getDate)
@@ -137,6 +142,7 @@ public class OsuListener {
         if (recent != null && !recent.isEmpty()) {
             int userId = recent.get(0).getUserId();
             String userName = osuService.getUserName(userId);
+            StringBuilder builder = new StringBuilder();
             recent.stream()
                     // only consider recent beatmap scores that were not a fail or retry
                     .filter(e -> e.getBeatmapId() != 0 && !OsuRank.F.equals(e.getRank()) && e.getDate().getTime() > uts)
@@ -148,8 +154,9 @@ public class OsuListener {
                                 + Formatter.formatTimestamp(e.getDate().getTime());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(),
                                 markdown);
-                        channel.sendMessage(markdown).queue();
+                        builder.append(markdown).append('\n');
                     });
+            MessageLineSplitter.sendMessage(channel, builder.toString(), ignore());
             recent.stream()
                     .filter(e -> e.getDate().getTime() > uts)
                     .map(OsuUserRecent::getDate)
