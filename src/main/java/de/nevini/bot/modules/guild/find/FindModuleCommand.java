@@ -17,7 +17,7 @@ public class FindModuleCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("module")
                 .node(Node.GUILD_FIND_MODULE)
-                .description("finds moduels by any of their identifiers")
+                .description("finds modules by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MODULE.describe(true, true)
                 })

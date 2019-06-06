@@ -161,7 +161,7 @@ public class EventDispatcherTest {
 
     @Test
     public void testShutdownMultiple() {
-        // no exceptions should be thrown when callling shutdown multiple times
+        // no exceptions should be thrown when calling shutdown multiple times
         eventDispatcher.shutdown();
         eventDispatcher.shutdown();
         eventDispatcher.shutdown();

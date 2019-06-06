@@ -70,7 +70,7 @@ public class HelpCommand extends Command {
             }
         }
         builder.append("\n\nTo add me to your server, visit <")
-                .append(event.getJDA().asBot().getInviteUrl(Permissions.BOT_EMBED)).append(">");
+                .append(event.getJDA().asBot().getInviteUrl(Permissions.BOT_FULL)).append(">");
         builder.append("\n\nFurther documentation can be viewed under <https://nevini.de/docs>")
                 .append("\n\nFor additional help and support, join ").append(event.getServerInvite());
         event.replyDm(builder.toString(), ignore -> event.complete(true));

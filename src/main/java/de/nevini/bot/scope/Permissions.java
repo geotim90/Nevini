@@ -21,6 +21,15 @@ public class Permissions {
     };
 
     /**
+     * A collection of recommended permissions for Nevini.
+     * This includes managing messages, using reactions, external emoji and embeds.
+     */
+    public static final Permission[] BOT_FULL = sum(
+            new Permission[]{Permission.MESSAGE_MANAGE},
+            BOT_EMBED
+    );
+
+    /**
      * An empty collection.
      */
     public static final Permission[] EVERYONE = {};
@@ -39,11 +48,6 @@ public class Permissions {
      * Just {@link Permission#NICKNAME_MANAGE}.
      */
     public static final Permission[] MANAGE_NICKNAMES = {Permission.NICKNAME_MANAGE};
-
-    /**
-     * Just {@link Permission#MANAGE_PERMISSIONS}.
-     */
-    public static final Permission[] MANAGE_PERMISSIONS = {Permission.MANAGE_PERMISSIONS};
 
     /**
      * Just {@link Permission#MANAGE_ROLES}.
