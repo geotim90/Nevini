@@ -92,7 +92,7 @@ public class OsuService implements Locatable {
         return beatmap == null
                 ? "https://osu.ppy.sh/b/" + beatmapId
                 : beatmap.getArtist() + " - " + beatmap.getTitle()
-                + " [" + beatmap.getVersion() + "] (" + beatmap.getMode() + ")";
+                + " [" + beatmap.getVersion() + "] (" + beatmap.getMode().getName() + ")";
     }
 
     public GameData getGame() {
