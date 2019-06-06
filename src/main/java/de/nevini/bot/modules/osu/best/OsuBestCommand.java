@@ -1,7 +1,7 @@
 package de.nevini.bot.modules.osu.best;
 
-import com.oopsjpeg.osu4j.GameMode;
-import com.oopsjpeg.osu4j.OsuScore;
+import de.nevini.api.osu.model.OsuMode;
+import de.nevini.api.osu.model.OsuUserBest;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
@@ -45,25 +45,25 @@ public class OsuBestCommand extends Command {
         OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, member, mode));
     }
 
-    private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
+    private void acceptUserAndMode(CommandEvent event, Member member, OsuMode mode) {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
         String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
-        List<OsuScore> scores = osuService.getUserBest(ign, mode);
-        if (scores == null || scores.isEmpty()) {
+        List<OsuUserBest> best = osuService.getUserBest(ign, mode);
+        if (best == null || best.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
             EmbedBuilder embed = event.createEmbedBuilder();
             embed.setAuthor(game.getName(), null, game.getIcon());
-            int userId = scores.get(0).getUserID();
+            int userId = best.get(0).getUserId();
             String userName = osuService.getUserName(userId);
             embed.setTitle(userName, "https://osu.ppy.sh/u/" + userId);
-            for (OsuScore score : scores) {
+            for (OsuUserBest score : best) {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger((int) Math.floor(score.getPp())) + "pp - "
-                                + Formatter.formatLargestUnitAgo(score.getDate()),
-                        "[" + osuService.getBeatmapString(score.getBeatmapID())
-                                + "](https://osu.ppy.sh/b/" + score.getBeatmapID() + ")",
+                                + Formatter.formatLargestUnitAgo(score.getDate().getTime()),
+                        "[" + osuService.getBeatmapString(score.getBeatmapId())
+                                + "](https://osu.ppy.sh/b/" + score.getBeatmapId() + ")",
                         false);
             }
             event.reply(embed, event::complete);

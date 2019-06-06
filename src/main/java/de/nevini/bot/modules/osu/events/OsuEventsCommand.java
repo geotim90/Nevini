@@ -1,7 +1,8 @@
 package de.nevini.bot.modules.osu.events;
 
-import com.oopsjpeg.osu4j.GameMode;
-import com.oopsjpeg.osu4j.OsuUser;
+import de.nevini.api.osu.model.OsuMode;
+import de.nevini.api.osu.model.OsuUser;
+import de.nevini.api.osu.model.OsuUserEvent;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
@@ -45,7 +46,7 @@ public class OsuEventsCommand extends Command {
         OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, member, mode));
     }
 
-    private void acceptUserAndMode(CommandEvent event, Member member, GameMode mode) {
+    private void acceptUserAndMode(CommandEvent event, Member member, OsuMode mode) {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
         String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
@@ -56,9 +57,9 @@ public class OsuEventsCommand extends Command {
             event.reply("No events found.", event::complete);
         } else {
             StringBuilder builder = new StringBuilder();
-            for (OsuUser.Event e : user.getEvents()) {
-                builder.append(Formatter.formatOsuDisplayHtml(e.getDisplayHTML())).append(" ")
-                        .append(Formatter.formatLargestUnitAgo(e.getDate())).append('\n');
+            for (OsuUserEvent e : user.getEvents()) {
+                builder.append(Formatter.formatOsuDisplayHtml(e.getDisplayHtml())).append(" ")
+                        .append(Formatter.formatLargestUnitAgo(e.getDate().getTime())).append('\n');
             }
             event.reply(builder.toString(), event::complete);
         }

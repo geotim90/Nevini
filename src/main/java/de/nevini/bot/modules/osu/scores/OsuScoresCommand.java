@@ -1,9 +1,9 @@
 package de.nevini.bot.modules.osu.scores;
 
-import com.oopsjpeg.osu4j.GameMod;
-import com.oopsjpeg.osu4j.GameMode;
-import com.oopsjpeg.osu4j.OsuBeatmap;
-import com.oopsjpeg.osu4j.OsuScore;
+import de.nevini.api.osu.model.OsuBeatmap;
+import de.nevini.api.osu.model.OsuMod;
+import de.nevini.api.osu.model.OsuMode;
+import de.nevini.api.osu.model.OsuScore;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
@@ -53,32 +53,32 @@ public class OsuScoresCommand extends Command {
                 acceptBeatmapAndMemberAndMode(event, beatmap, member, mode));
     }
 
-    private void acceptBeatmapAndMemberAndMode(CommandEvent event, OsuBeatmap beatmap, Member member, GameMode mode) {
+    private void acceptBeatmapAndMemberAndMode(CommandEvent event, OsuBeatmap beatmap, Member member, OsuMode mode) {
         OsuResolvers.MODS.resolveOptionOrInputIfExists(event, mods ->
                 acceptBeatmapAndMemberAndModeAndMods(event, beatmap, member, mode, mods));
     }
 
     private void acceptBeatmapAndMemberAndModeAndMods(
-            CommandEvent event, OsuBeatmap beatmap, Member member, GameMode mode, GameMod[] mods
+            CommandEvent event, OsuBeatmap beatmap, Member member, OsuMode mode, OsuMod[] mods
     ) {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
         String ign = member != null
                 ? StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName())
                 : null;
-        List<OsuScore> scores = osuService.getScores(beatmap.getID(), ign, mode, mods);
+        List<OsuScore> scores = osuService.getScores(beatmap.getBeatmapId(), ign, mode, mods);
         if (scores == null || scores.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
             EmbedBuilder embed = event.createEmbedBuilder();
             embed.setAuthor(game.getName(), null, game.getIcon());
-            embed.setTitle(beatmap.getTitle(), "https://osu.ppy.sh/b/" + beatmap.getID());
+            embed.setTitle(beatmap.getTitle(), "https://osu.ppy.sh/b/" + beatmap.getBeatmapId());
             for (OsuScore score : scores) {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger(score.getScore()) + " - "
-                                + Formatter.formatLargestUnitAgo(score.getDate()),
-                        "[" + osuService.getUserName(score.getUserID()) + "](https://osu.ppy.sh/u/"
-                                + score.getUserID() + ")",
+                                + Formatter.formatLargestUnitAgo(score.getDate().getTime()),
+                        "[" + osuService.getUserName(score.getUserId()) + "](https://osu.ppy.sh/u/"
+                                + score.getUserId() + ")",
                         false);
             }
             event.reply(embed, event::complete);

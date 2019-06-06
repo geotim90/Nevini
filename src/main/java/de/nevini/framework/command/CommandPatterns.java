@@ -7,11 +7,11 @@ public class CommandPatterns {
 
     /**
      * A regular expression pattern that matches valid keywords.
-     * Keywords may contains lower case letters, numbers, hyphens and exclamation points.
+     * Keywords may contains lower case letters and select special characters.
      * To validate command keywords, please also check that the keyword does not match {@link #OPTION}.
      * This regular expression pattern does not contain any groups apart from the full match.
      */
-    public static final String KEYWORD = "[a-z0-9\\-!]{1,32}";
+    public static final String KEYWORD = "[a-z0-9+\\-!]{1,32}";
 
     /**
      * A regular expression pattern that matches valid options or flags.

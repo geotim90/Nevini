@@ -1,6 +1,6 @@
 package de.nevini.bot.modules.osu.leaderboard;
 
-import com.oopsjpeg.osu4j.OsuUser;
+import de.nevini.api.osu.model.OsuUser;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
@@ -41,7 +41,7 @@ public class OsuLeaderboardCommand extends Command {
                     String ign = event.getIgnService().getIgn(member, game);
                     return StringUtils.isEmpty(ign) ? null : osuService.getUser(ign);
                 })
-                .filter(user -> user != null && user.getRank() > 0).sorted(Comparator.comparing(OsuUser::getRank))
+                .filter(user -> user != null && user.getPpRank() > 0).sorted(Comparator.comparing(OsuUser::getPpRank))
                 .limit(10).collect(Collectors.toList());
         if (rankedUsers.isEmpty()) {
             event.reply("No users found.", event::complete);
@@ -50,10 +50,10 @@ public class OsuLeaderboardCommand extends Command {
             int length = rankedUsers.size();
             for (int i = 0; i < length; i++) {
                 OsuUser user = rankedUsers.get(i);
-                builder.append(EMOTE_NUMBER[i]).append(" - **").append(user.getUsername()).append("** - #")
-                        .append(Formatter.formatInteger(user.getRank())).append(" - ")
+                builder.append(EMOTE_NUMBER[i]).append(" - **").append(user.getUserName()).append("** - #")
+                        .append(Formatter.formatInteger(user.getPpRank())).append(" - ")
                         .append(Formatter.formatFloat(user.getAccuracy())).append("% - ")
-                        .append(Formatter.formatInteger(user.getPP())).append("pp\n");
+                        .append(Formatter.formatInteger((int) Math.floor(user.getPpRaw()))).append("pp\n");
             }
             event.reply(builder.toString(), event::complete);
         }

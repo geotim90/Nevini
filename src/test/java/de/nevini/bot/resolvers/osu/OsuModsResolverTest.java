@@ -1,6 +1,6 @@
 package de.nevini.bot.resolvers.osu;
 
-import com.oopsjpeg.osu4j.GameMod;
+import de.nevini.api.osu.model.OsuMod;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -11,7 +11,7 @@ public class OsuModsResolverTest {
 
     @Test
     public void findHardRock() {
-        GameMod[] expected = {GameMod.HARD_ROCK};
+        OsuMod[] expected = {OsuMod.HARD_ROCK};
         // needs to match the name (case-insensitive)
         assertArrayEquals(expected, resolver.findSorted(null, "hard rock").get(0));
         // needs to match the name (case-insensitive substring)

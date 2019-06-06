@@ -1,6 +1,6 @@
 package de.nevini.bot.resolvers.osu;
 
-import com.oopsjpeg.osu4j.GameMode;
+import de.nevini.api.osu.model.OsuMode;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ public class OsuModeResolverTest {
 
     @Test
     public void findCatchTheBeat() {
-        ArrayList<GameMode> expected = new ArrayList<>(1);
-        expected.add(GameMode.CATCH_THE_BEAT);
+        ArrayList<OsuMode> expected = new ArrayList<>(1);
+        expected.add(OsuMode.CATCH_THE_BEAT);
         // needs to match the name (case-insensitive)
         assertEquals(expected, resolver.findSorted(null, "osu!catch"));
         // needs to match the name (case-insensitive substring)

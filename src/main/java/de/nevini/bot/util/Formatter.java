@@ -1,5 +1,6 @@
 package de.nevini.bot.util;
 
+import de.nevini.api.osu.model.OsuRank;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
@@ -108,6 +109,10 @@ public class Formatter {
         }
     }
 
+    public static String formatOsuRank(OsuRank rank) {
+        return rank == null ? "" : formatOsuRank(rank.getId());
+    }
+
     public static String formatOsuRank(@NonNull String value) {
         switch (value) {
             case "A":
@@ -147,16 +152,16 @@ public class Formatter {
         }
 
         if (seconds < 60) {
-            return Integer.toString(seconds);
+            return String.format("0:00:%02d", seconds);
         }
 
         int minutes = seconds / 60;
         if (minutes < 60) {
-            return minutes + ":" + seconds % 60;
+            return String.format("0:%02d:%02d", minutes, seconds % 60);
         }
 
         int hours = minutes / 60;
-        return hours + ":" + minutes % 60 + ":" + seconds % 60;
+        return String.format("%d:%02d:%02d", hours, minutes % 60, seconds % 60);
     }
 
     public static String formatTimestamp(long epochMilli) {

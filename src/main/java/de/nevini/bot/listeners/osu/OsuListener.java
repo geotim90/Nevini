@@ -1,8 +1,6 @@
 package de.nevini.bot.listeners.osu;
 
-import com.oopsjpeg.osu4j.GameMode;
-import com.oopsjpeg.osu4j.OsuScore;
-import com.oopsjpeg.osu4j.OsuUser;
+import de.nevini.api.osu.model.*;
 import de.nevini.bot.db.feed.FeedData;
 import de.nevini.bot.scope.Feed;
 import de.nevini.bot.services.common.FeedService;
@@ -95,69 +93,68 @@ public class OsuListener {
     }
 
     private void updateEvents(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
-        ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
         Member member = event.getMember();
         String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()),
                 member.getEffectiveName());
+        long uts = feed.getUts();
+        ZonedDateTime then = ZonedDateTime.ofInstant(Instant.ofEpochMilli(uts), ZoneOffset.UTC);
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-        int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(uts, now), 31));
+        int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(then, now), 31));
         log.info(
                 "Querying user events for {} days ({} to {})",
                 days,
                 Formatter.formatTimestamp(uts),
                 Formatter.formatTimestamp(now)
         );
-        OsuUser user = osuService.getUser(ign, GameMode.STANDARD, days);
+        OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, days);
         if (user != null) {
             user.getEvents().stream()
-                    .filter(e -> e.getDate().isAfter(uts))
-                    .sorted(Comparator.comparing(OsuUser.Event::getDate))
+                    .filter(e -> e.getDate().getTime() > uts)
+                    .sorted(Comparator.comparing(OsuUserEvent::getDate))
                     .forEach(e -> {
-                        String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHTML())
-                                + " at " + Formatter.formatTimestamp(e.getDate());
+                        String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHtml())
+                                + " at " + Formatter.formatTimestamp(e.getDate().getTime());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
                                 channel.getId(), markdown);
                         channel.sendMessage(markdown).queue();
                     });
             user.getEvents().stream()
-                    .filter(e -> e.getDate().isAfter(uts))
-                    .map(OsuUser.Event::getDate)
+                    .filter(e -> e.getDate().getTime() > uts)
+                    .map(OsuUserEvent::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max ->
-                            feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.toInstant().toEpochMilli()));
+                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.getTime()));
         }
     }
 
     private void updateRecent(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
-        ZonedDateTime uts = ZonedDateTime.ofInstant(Instant.ofEpochMilli(feed.getUts()), ZoneOffset.UTC);
         Member member = event.getMember();
         String ign = StringUtils.defaultIfEmpty(
                 ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
+        long uts = feed.getUts();
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
         log.info("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
-        List<OsuScore> scores = osuService.getUserRecent(ign, GameMode.STANDARD);
-        if (scores != null && !scores.isEmpty()) {
-            int userId = scores.get(0).getUserID();
+        List<OsuUserRecent> recent = osuService.getUserRecent(ign, OsuMode.STANDARD);
+        if (recent != null && !recent.isEmpty()) {
+            int userId = recent.get(0).getUserId();
             String userName = osuService.getUserName(userId);
-            scores.stream()
+            recent.stream()
                     // only consider recent beatmap scores that were not a fail or retry
-                    .filter(e -> e.getBeatmapID() != 0 && !"F".equals(e.getRank()) && e.getDate().isAfter(uts))
-                    .sorted(Comparator.comparing(OsuScore::getDate))
+                    .filter(e -> e.getBeatmapId() != 0 && !OsuRank.F.equals(e.getRank()) && e.getDate().getTime() > uts)
+                    .sorted(Comparator.comparing(OsuUserRecent::getDate))
                     .forEach(e -> {
                         String markdown = Formatter.formatOsuRank(e.getRank()) + " " + userName + " achieved " +
                                 Formatter.formatInteger(e.getScore()) + " points on "
-                                + osuService.getBeatmapString(e.getBeatmapID()) + " at "
-                                + Formatter.formatTimestamp(e.getDate());
+                                + osuService.getBeatmapString(e.getBeatmapId()) + " at "
+                                + Formatter.formatTimestamp(e.getDate().getTime());
                         log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(),
                                 markdown);
                         channel.sendMessage(markdown).queue();
                     });
-            scores.stream()
-                    .filter(e -> e.getDate().isAfter(uts))
-                    .map(OsuScore::getDate)
+            recent.stream()
+                    .filter(e -> e.getDate().getTime() > uts)
+                    .map(OsuUserRecent::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max ->
-                            feedService.updateSubscription(channel, Feed.OSU_RECENT, max.toInstant().toEpochMilli()));
+                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_RECENT, max.getTime()));
         }
     }
 

@@ -16,7 +16,8 @@ public enum OsuRank {
     A("A"),
     B("B"),
     C("C"),
-    D("F");
+    D("D"),
+    F("F");
 
     private final String id;
 

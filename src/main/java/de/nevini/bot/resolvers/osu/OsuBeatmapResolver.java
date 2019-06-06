@@ -1,6 +1,6 @@
 package de.nevini.bot.resolvers.osu;
 
-import com.oopsjpeg.osu4j.OsuBeatmap;
+import de.nevini.api.osu.model.OsuBeatmap;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.resolvers.AbstractResolver;
 import de.nevini.bot.services.osu.OsuService;
@@ -41,13 +41,13 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
     @Override
     protected String getFieldNameForPicker(OsuBeatmap item) {
-        return Integer.toString(item.getID());
+        return Integer.toString(item.getBeatmapId());
     }
 
     @Override
     protected String getFieldValueForPicker(OsuBeatmap item) {
-        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/" + item.getID()
-                + ")";
+        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/"
+                + item.getBeatmapId() + ")";
     }
 
 }

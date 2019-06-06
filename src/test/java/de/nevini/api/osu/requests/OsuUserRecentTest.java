@@ -46,7 +46,7 @@ public class OsuUserRecentTest extends OsuApiProvider {
         Assert.assertArrayEquals(new OsuMod[]{OsuMod.HIDDEN}, best.getMods());
         Assert.assertEquals(Integer.valueOf(1883865), best.getUserId());
         Assert.assertEquals(Date.from(ZonedDateTime.of(2019, 6, 5, 20, 26, 17, 0, ZoneOffset.UTC).toInstant()), best.getDate());
-        Assert.assertEquals(OsuRank.D, best.getRank());
+        Assert.assertEquals(OsuRank.F, best.getRank());
     }
 
     @Test

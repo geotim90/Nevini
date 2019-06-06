@@ -1,6 +1,6 @@
 package de.nevini.bot.resolvers.osu;
 
-import com.oopsjpeg.osu4j.GameMod;
+import de.nevini.api.osu.model.OsuMod;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.resolvers.AbstractResolver;
 import de.nevini.commons.util.Finder;
@@ -13,24 +13,24 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class OsuModsResolver extends AbstractResolver<GameMod[]> {
+public class OsuModsResolver extends AbstractResolver<OsuMod[]> {
 
-    private static final Map<String, GameMod> MODS;
+    private static final Map<String, OsuMod> MODS;
 
     static {
-        Map<String, GameMod> mods = new LinkedHashMap<>();
-        mods.put("EZ", GameMod.EASY);
-        mods.put("NF", GameMod.NO_FAIL);
-        mods.put("HT", GameMod.HALF_TIME);
-        mods.put("HR", GameMod.HARD_ROCK);
-        mods.put("SD", GameMod.SUDDEN_DEATH);
-        mods.put("PF", GameMod.PERFECT);
-        mods.put("DT", GameMod.DOUBLE_TIME);
-        mods.put("NC", GameMod.NIGHTCORE);
-        mods.put("HD", GameMod.HIDDEN);
-        mods.put("FL", GameMod.FLASHLIGHT);
-        mods.put("SO", GameMod.SPUNOUT);
-        mods.put("TD", GameMod.TOUCH_DEVICE);
+        Map<String, OsuMod> mods = new LinkedHashMap<>();
+        mods.put("EZ", OsuMod.EASY);
+        mods.put("NF", OsuMod.NO_FAIL);
+        mods.put("HT", OsuMod.HALF_TIME);
+        mods.put("HR", OsuMod.HARD_ROCK);
+        mods.put("SD", OsuMod.SUDDEN_DEATH);
+        mods.put("PF", OsuMod.PERFECT);
+        mods.put("DT", OsuMod.DOUBLE_TIME);
+        mods.put("NC", OsuMod.NIGHTCORE);
+        mods.put("HD", OsuMod.HIDDEN);
+        mods.put("FL", OsuMod.FLASHLIGHT);
+        mods.put("SO", OsuMod.SPUNOUT);
+        mods.put("TD", OsuMod.TOUCH_DEVICE);
         MODS = Collections.unmodifiableMap(mods);
     }
 
@@ -51,10 +51,10 @@ public class OsuModsResolver extends AbstractResolver<GameMod[]> {
     }
 
     @Override
-    public List<GameMod[]> findSorted(CommandEvent ignore, String query) {
+    public List<OsuMod[]> findSorted(CommandEvent ignore, String query) {
         if (query.matches("(?i)(EZ|NF|HT|HR|SD|PF|DT|NC|HD|FL|SO|TD)+")) {
             int count = query.length() / 2;
-            GameMod[] mods = new GameMod[count];
+            OsuMod[] mods = new OsuMod[count];
             for (int i = 0; i < count; ++i) {
                 mods[i] = MODS.get(query.substring(i * 2, (i + 1) * 2));
             }
@@ -64,18 +64,18 @@ public class OsuModsResolver extends AbstractResolver<GameMod[]> {
                     mod.getName(),
                     mod.name(),
                     mod.name().replace('_', ' ')
-            }, query).stream().map(mod -> new GameMod[]{mod}).collect(Collectors.toList());
+            }, query).stream().map(mod -> new OsuMod[]{mod}).collect(Collectors.toList());
         }
     }
 
     @Override
-    protected String getFieldNameForPicker(GameMod[] item) {
+    protected String getFieldNameForPicker(OsuMod[] item) {
         // should only be called for ambiguous single mod inputs
         return item[0].getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(GameMod[] item) {
+    protected String getFieldValueForPicker(OsuMod[] item) {
         return "";
     }
 

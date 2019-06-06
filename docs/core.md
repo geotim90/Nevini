@@ -23,6 +23,10 @@ Option | Description
 -------|------------
 \[\<command\>\] | the specific command to look up
 
+Keyword | Aliases
+--------|--------
+help | about<br>info
+
 ## Command: `module`
 
 Displays and configures modules.
@@ -337,6 +341,10 @@ reset | clear<br>default
 Measures the bot's communication latency.
 
 Permission overrides may be applied on node **core.ping**.
+
+Keyword | Aliases
+--------|--------
+ping | pong<br>latency
 
 ## Command: `prefix`
 

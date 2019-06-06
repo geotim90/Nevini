@@ -1,6 +1,6 @@
 package de.nevini.bot.resolvers.osu;
 
-import com.oopsjpeg.osu4j.GameMode;
+import de.nevini.api.osu.model.OsuMode;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.resolvers.AbstractResolver;
 import de.nevini.commons.util.Finder;
@@ -9,7 +9,7 @@ import de.nevini.framework.command.CommandOptionDescriptor;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class OsuModeResolver extends AbstractResolver<GameMode> {
+public class OsuModeResolver extends AbstractResolver<OsuMode> {
 
     protected OsuModeResolver() {
         super("mode", new Pattern[]{Pattern.compile("(?i)(?:--|//)mode(?:\\s+(.+))?")});
@@ -28,18 +28,18 @@ public class OsuModeResolver extends AbstractResolver<GameMode> {
     }
 
     @Override
-    public List<GameMode> findSorted(CommandEvent ignore, String query) {
-        return Finder.findAny(GameMode.values(), mode -> new String[]{mode.getName(), mode.name(),
+    public List<OsuMode> findSorted(CommandEvent ignore, String query) {
+        return Finder.findAny(OsuMode.values(), mode -> new String[]{mode.getName(), mode.name(),
                 mode.name().replace('_', ' ')}, query);
     }
 
     @Override
-    protected String getFieldNameForPicker(GameMode item) {
+    protected String getFieldNameForPicker(OsuMode item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(GameMode item) {
+    protected String getFieldValueForPicker(OsuMode item) {
         return "";
     }
 
