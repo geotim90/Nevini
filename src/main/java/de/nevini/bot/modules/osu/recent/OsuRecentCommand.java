@@ -6,16 +6,15 @@ import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.db.game.GameData;
-import de.nevini.bot.resolvers.common.Resolvers;
+import de.nevini.bot.modules.osu.OsuCommandUtils;
 import de.nevini.bot.resolvers.osu.OsuResolvers;
+import de.nevini.bot.resolvers.osu.OsuUserResolver;
 import de.nevini.bot.scope.Node;
 import de.nevini.bot.scope.Permissions;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Member;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,11 +29,12 @@ public class OsuRecentCommand extends Command {
                 .children(new Command[]{
                         new OsuRecentFeedCommand()
                 })
+                .guildOnly(false)
                 .node(Node.OSU_RECENT)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays up to 50 most recent plays over the last 24 hours of an osu! user")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER.describe(false, true),
+                        OsuResolvers.USER.describe(false, true),
                         OsuResolvers.MODE.describe()
                 })
                 .build());
@@ -42,19 +42,19 @@ public class OsuRecentCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefault(event,
-                event.getMember(),
-                member -> acceptMember(event, member));
+        OsuResolvers.USER.resolveArgumentOrOptionOrDefault(event,
+                OsuCommandUtils.getCurrentUserOrMember(event),
+                userOrMember -> acceptUserOrMember(event, userOrMember));
     }
 
-    private void acceptMember(CommandEvent event, Member member) {
-        OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode -> acceptMemberAndMode(event, member, mode));
+    private void acceptUserOrMember(CommandEvent event, OsuUserResolver.OsuUserOrMember userOrMember) {
+        OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode -> acceptUserAndMode(event, userOrMember, mode));
     }
 
-    private void acceptMemberAndMode(CommandEvent event, Member member, OsuMode mode) {
+    private void acceptUserAndMode(CommandEvent event, OsuUserResolver.OsuUserOrMember userOrMember, OsuMode mode) {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
-        String ign = StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName());
+        String ign = OsuCommandUtils.resolveUserName(userOrMember, event.getIgnService(), game);
         List<OsuUserRecent> recent = osuService.getUserRecent(ign, mode);
         if (recent == null || recent.isEmpty()) {
             event.reply("No scores found.", event::complete);

@@ -8,16 +8,15 @@ import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.db.game.GameData;
-import de.nevini.bot.resolvers.common.Resolvers;
+import de.nevini.bot.modules.osu.OsuCommandUtils;
 import de.nevini.bot.resolvers.osu.OsuResolvers;
+import de.nevini.bot.resolvers.osu.OsuUserResolver;
 import de.nevini.bot.scope.Node;
 import de.nevini.bot.scope.Permissions;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Member;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,12 +27,13 @@ public class OsuScoresCommand extends Command {
     public OsuScoresCommand() {
         super(CommandDescriptor.builder()
                 .keyword("osu!scores")
+                .guildOnly(false)
                 .node(Node.OSU_SCORES)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
                         OsuResolvers.BEATMAP.describe(false, true),
-                        Resolvers.MEMBER.describe(),
+                        OsuResolvers.USER.describe(),
                         OsuResolvers.MODE.describe(),
                         OsuResolvers.MODS.describe()
                 })
@@ -46,27 +46,33 @@ public class OsuScoresCommand extends Command {
     }
 
     private void acceptBeatmap(CommandEvent event, OsuBeatmap beatmap) {
-        Resolvers.MEMBER.resolveOptionOrDefaultIfExists(event, event.getMember(), member ->
-                acceptBeatmapAndMember(event, beatmap, member));
+        OsuResolvers.USER.resolveOptionOrDefaultIfExists(event,
+                OsuCommandUtils.getCurrentUserOrMember(event),
+                userOrMember -> acceptBeatmapAndMember(event, beatmap, userOrMember));
     }
 
-    private void acceptBeatmapAndMember(CommandEvent event, OsuBeatmap beatmap, Member member) {
+    private void acceptBeatmapAndMember(
+            CommandEvent event, OsuBeatmap beatmap, OsuUserResolver.OsuUserOrMember userOrMember
+    ) {
         OsuResolvers.MODE.resolveOptionOrInputIfExists(event, mode ->
-                acceptBeatmapAndMemberAndMode(event, beatmap, member, mode));
+                acceptBeatmapAndMemberAndMode(event, beatmap, userOrMember, mode));
     }
 
-    private void acceptBeatmapAndMemberAndMode(CommandEvent event, OsuBeatmap beatmap, Member member, OsuMode mode) {
+    private void acceptBeatmapAndMemberAndMode(
+            CommandEvent event, OsuBeatmap beatmap, OsuUserResolver.OsuUserOrMember userOrMember, OsuMode mode
+    ) {
         OsuResolvers.MODS.resolveOptionOrInputIfExists(event, mods ->
-                acceptBeatmapAndMemberAndModeAndMods(event, beatmap, member, mode, mods));
+                acceptBeatmapAndMemberAndModeAndMods(event, beatmap, userOrMember, mode, mods));
     }
 
     private void acceptBeatmapAndMemberAndModeAndMods(
-            CommandEvent event, OsuBeatmap beatmap, Member member, OsuMode mode, OsuMod[] mods
+            CommandEvent event, OsuBeatmap beatmap, OsuUserResolver.OsuUserOrMember userOrMember,
+            OsuMode mode, OsuMod[] mods
     ) {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
-        String ign = member != null
-                ? StringUtils.defaultIfEmpty(event.getIgnService().getIgn(member, game), member.getEffectiveName())
+        String ign = userOrMember != null
+                ? OsuCommandUtils.resolveUserName(userOrMember, event.getIgnService(), game)
                 : null;
         List<OsuScore> scores = osuService.getScores(beatmap.getBeatmapId(), ign, mode, mods);
         if (scores == null || scores.isEmpty()) {
