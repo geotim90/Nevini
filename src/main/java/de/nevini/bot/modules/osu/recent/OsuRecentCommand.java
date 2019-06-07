@@ -9,6 +9,7 @@ import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.resolvers.osu.OsuResolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.bot.scope.Permissions;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
@@ -30,6 +31,7 @@ public class OsuRecentCommand extends Command {
                         new OsuRecentFeedCommand()
                 })
                 .node(Node.OSU_RECENT)
+                .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays up to 50 most recent plays over the last 24 hours of an osu! user")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),

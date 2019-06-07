@@ -18,7 +18,7 @@ public class PingCommand extends Command {
                 .aliases(new String[]{"pong", "latency"})
                 .guildOnly(false)
                 .node(Node.CORE_PING)
-                .minimumBotPermissions(Permissions.NONE)
+                .minimumBotPermissions(Permissions.TALK)
                 .description("measures the bot's communication latency")
                 .build());
     }

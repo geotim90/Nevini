@@ -11,6 +11,7 @@ import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.resolvers.osu.OsuResolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.bot.scope.Permissions;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
@@ -28,6 +29,7 @@ public class OsuScoresCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!scores")
                 .node(Node.OSU_SCORES)
+                .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
                         OsuResolvers.BEATMAP.describe(false, true),

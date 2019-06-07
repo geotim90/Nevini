@@ -8,31 +8,18 @@ import net.dv8tion.jda.core.Permission;
 public class Permissions {
 
     /**
-     * A collection of typically required permissions for Nevini.
-     * This includes "talking", using reactions, external emoji and embeds.
-     */
-    public static final Permission[] BOT_EMBED = {
-            Permission.MESSAGE_READ,
-            Permission.MESSAGE_WRITE,
-            Permission.MESSAGE_HISTORY,
-            Permission.MESSAGE_ADD_REACTION,
-            Permission.MESSAGE_EXT_EMOJI,
-            Permission.MESSAGE_EMBED_LINKS
-    };
-
-    /**
-     * A collection of recommended permissions for Nevini.
-     * This includes managing messages, using reactions, external emoji and embeds.
-     */
-    public static final Permission[] BOT_FULL = sum(
-            new Permission[]{Permission.MESSAGE_MANAGE},
-            BOT_EMBED
-    );
-
-    /**
      * An empty collection.
      */
-    public static final Permission[] EVERYONE = {};
+    public static final Permission[] NONE = {};
+
+    /**
+     * A collection of required permission for "talking" in text channels.
+     */
+    public static final Permission[] TALK = {
+            Permission.MESSAGE_READ,
+            Permission.MESSAGE_WRITE,
+            Permission.MESSAGE_HISTORY
+    };
 
     /**
      * A collection of required permission for "reacting" in text channels.
@@ -43,6 +30,39 @@ public class Permissions {
             Permission.MESSAGE_HISTORY,
             Permission.MESSAGE_ADD_REACTION
     };
+
+    /**
+     * A collection of permissions typically required by Nevini.
+     * This includes "talking", "reacting" and using embeds.
+     */
+    public static final Permission[] BOT_EMBED = sum(
+            TALK,
+            REACT,
+            new Permission[]{Permission.MESSAGE_EMBED_LINKS}
+    );
+
+    /**
+     * A collection of permissions typically required by Nevini.
+     * This includes "talking", "reacting" with external emoji and using embeds.
+     */
+    public static final Permission[] BOT_EMBED_EXT = sum(
+            BOT_EMBED,
+            new Permission[]{Permission.MESSAGE_EXT_EMOJI}
+    );
+
+    /**
+     * A collection of recommended permissions for Nevini.
+     * This includes managing messages, "talking", "reacting" with external emoji and using embeds.
+     */
+    public static final Permission[] BOT_FULL = sum(
+            BOT_EMBED_EXT,
+            new Permission[]{Permission.MESSAGE_MANAGE}
+    );
+
+    /**
+     * An empty collection.
+     */
+    public static final Permission[] EVERYONE = {};
 
     /**
      * Just {@link Permission#NICKNAME_MANAGE}.
@@ -58,20 +78,6 @@ public class Permissions {
      * Just {@link Permission#MANAGE_SERVER}.
      */
     public static final Permission[] MANAGE_SERVER = {Permission.MANAGE_SERVER};
-
-    /**
-     * An empty collection.
-     */
-    public static final Permission[] NONE = {};
-
-    /**
-     * A collection of required permission for "talking" in text channels.
-     */
-    public static final Permission[] TALK = {
-            Permission.MESSAGE_READ,
-            Permission.MESSAGE_WRITE,
-            Permission.MESSAGE_HISTORY
-    };
 
     /**
      * Returns a combination of all provided permission arrays.

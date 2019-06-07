@@ -23,7 +23,7 @@ public class PrefixSetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.CORE_PREFIX_SET)
-                .minimumBotPermissions(Permissions.TALK)
+                .minimumBotPermissions(Permissions.sum(Permissions.TALK, Permissions.REACT))
                 .description("configures the command prefix")
                 .options(new CommandOptionDescriptor[]{
                         prefixResolver.describe()

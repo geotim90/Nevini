@@ -10,6 +10,7 @@ import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.resolvers.osu.OsuResolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.bot.scope.Permissions;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
@@ -27,6 +28,7 @@ public class OsuEventsCommand extends Command {
                         new OsuEventsFeedCommand()
                 })
                 .node(Node.OSU_EVENTS)
+                .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),

@@ -73,7 +73,8 @@ public class CommandEvent {
     }
 
     public boolean canTalk() {
-        return !isFromType(ChannelType.TEXT) || getTextChannel().canTalk();
+        return !isFromType(ChannelType.TEXT)
+                || getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.TALK);
     }
 
     public void reply(@NonNull CommandReaction reaction) {

@@ -7,6 +7,7 @@ import de.nevini.bot.modules.guild.feed.FeedSetCommand;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Feed;
 import de.nevini.bot.scope.Node;
+import de.nevini.bot.scope.Permissions;
 import de.nevini.framework.command.CommandOptionDescriptor;
 
 public class OsuEventsFeedCommand extends Command {
@@ -18,6 +19,7 @@ public class OsuEventsFeedCommand extends Command {
                 .keyword("feed")
                 .aliases(new String[]{"subscribe"})
                 .node(Node.OSU_EVENTS_FEED)
+                .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("subscribes to osu! events")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.CHANNEL.describe()

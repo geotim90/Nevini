@@ -53,15 +53,7 @@ public class CommandDescriptor {
 
     /**
      * The minimum bot permissions required for this command to function.
-     * By default these are the following permissions:
-     * <ul>
-     * <li>{@link Permission#MESSAGE_READ}</li>
-     * <li>{@link Permission#MESSAGE_WRITE}</li>
-     * <li>{@link Permission#MESSAGE_HISTORY}</li>
-     * <li>{@link Permission#MESSAGE_ADD_REACTION}</li>
-     * <li>{@link Permission#MESSAGE_EXT_EMOJI}</li>
-     * <li>{@link Permission#MESSAGE_EMBED_LINKS}</li>
-     * </ul>
+     * By default these are {@link Permissions#BOT_EMBED}.
      */
     @NonNull
     @Builder.Default
