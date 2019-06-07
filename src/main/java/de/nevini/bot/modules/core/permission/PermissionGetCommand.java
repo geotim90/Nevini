@@ -77,7 +77,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayPermissionPermissions(CommandEvent event, PermissionOptions options) {
@@ -95,7 +95,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayRolePermissions(CommandEvent event, PermissionOptions options) {
@@ -112,7 +112,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayUserPermissions(CommandEvent event, PermissionOptions options) {
@@ -129,7 +129,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayChannelPermissions(CommandEvent event, PermissionOptions options) {
@@ -146,7 +146,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayChannelPermissionPermissions(CommandEvent event, PermissionOptions options) {
@@ -166,7 +166,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayChannelRolePermissions(CommandEvent event, PermissionOptions options) {
@@ -186,7 +186,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
     private void displayChannelUserPermissions(CommandEvent event, PermissionOptions options) {
@@ -206,7 +206,7 @@ public class PermissionGetCommand extends Command {
                         true);
             }
         }
-        event.reply(embedBuilder);
+        event.reply(embedBuilder, event::complete);
     }
 
 }

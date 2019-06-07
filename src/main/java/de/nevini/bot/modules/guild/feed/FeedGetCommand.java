@@ -101,11 +101,12 @@ public class FeedGetCommand extends Command {
     private void displayFeed(CommandEvent event, Feed feed) {
         FeedData subscription = event.getFeedService().getSubscription(event.getGuild(), feed);
         if (subscription == null) {
-            event.reply("There is currently no active subscription for " + feed.getName() + " on this server.");
+            event.reply("There is currently no active subscription for " + feed.getName() + " on this server.",
+                    event::complete);
         } else {
             event.reply("There is currently an active subscription for " + feed.getName() + " in <#"
                     + Long.toUnsignedString(subscription.getChannel()) + "> (last updated: "
-                    + Formatter.formatTimestamp(subscription.getUts()) + ").");
+                    + Formatter.formatTimestamp(subscription.getUts()) + ").", event::complete);
         }
     }
 
@@ -113,11 +114,11 @@ public class FeedGetCommand extends Command {
         FeedData subscription = event.getFeedService().getSubscription(event.getGuild(), feed);
         if (subscription == null) {
             event.reply("There is currently no active subscription for " + feed.getName() + " in "
-                    + channel.getAsMention() + ".");
+                    + channel.getAsMention() + ".", event::complete);
         } else {
             event.reply("There is currently an active subscription for " + feed.getName() + " in "
                     + channel.getAsMention() + " (last updated: " + Formatter.formatTimestamp(subscription.getUts())
-                    + ").");
+                    + ").", event::complete);
         }
     }
 

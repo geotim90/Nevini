@@ -225,7 +225,7 @@ public abstract class PermissionSetCommand extends Command {
     }
 
     private void confirmPermissions(CommandEvent event, String content, Runnable callback) {
-        event.reply(content, message -> new ConfirmationDecorator(
+        event.replyNoDm(content, message -> new ConfirmationDecorator(
                 message, event.getAuthor(), event.getEventDispatcher(),
                 response -> {
                     if (Boolean.TRUE.equals(response)) {

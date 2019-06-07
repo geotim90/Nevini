@@ -76,7 +76,7 @@ public class ActivityCommand extends Command {
     private void reportGameActivity(CommandEvent event, GameData game) {
         Map<Member, Long> lastPlayed = getLastPlayed(event, game);
         if (lastPlayed.isEmpty()) {
-            event.reply("Nobody here has played this game recently.");
+            event.reply("Nobody here has played this game recently.", event::complete);
         } else {
             EmbedBuilder builder = event.createEmbedBuilder();
             builder.setAuthor(game.getName(), null, game.getIcon());

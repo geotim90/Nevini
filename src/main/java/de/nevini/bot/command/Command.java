@@ -83,7 +83,7 @@ public abstract class Command {
 
     private boolean checkChannel(CommandEvent event) {
         if (!event.isFromType(ChannelType.TEXT) && isGuildOnly()) {
-            event.reply(CommandReaction.ERROR, "That command cannot be executed via direct message!");
+            event.reply(CommandReaction.ERROR, "You cannot use this command via direct message!", event::complete);
             return false;
         } else {
             return true;
@@ -97,7 +97,7 @@ public abstract class Command {
             // only respond to privileged users
             if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
-                        + "** module is disabled on **" + event.getGuild().getName() + "**!");
+                        + "** module is disabled on **" + event.getGuild().getName() + "**!", event::complete);
             }
             return false;
         }
@@ -125,17 +125,17 @@ public abstract class Command {
                 return true;
             } else if (missingPermissions.length == 1) {
                 // only respond to privileged users
-                if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                if (isSuperiorUser(event)) {
                     event.reply(CommandReaction.ERROR, "I need the **" + missingPermissions[0]
-                            + "** permission to execute that command!");
+                            + "** permission to execute that command!", event::complete);
                 }
                 return false;
             } else {
                 // only respond to privileged users
-                if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
+                if (isSuperiorUser(event)) {
                     event.reply(CommandReaction.ERROR, "I need the **"
                             + Formatter.join(missingPermissions, "**, **", "** and **")
-                            + "** permissions to execute that command!");
+                            + "** permissions to execute that command!", event::complete);
                 }
                 return false;
             }
@@ -151,8 +151,9 @@ public abstract class Command {
                 return true;
             } else {
                 // only respond to privileged users
-                if (event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)) {
-                    event.reply(CommandReaction.PROHIBITED, "You do not have permission to execute that command.");
+                if (isSuperiorUser(event)) {
+                    event.reply(CommandReaction.PROHIBITED,
+                            "You do not have permission to execute that command.", event::complete);
                 }
                 return false;
             }
@@ -160,6 +161,17 @@ public abstract class Command {
             // no guild to apply restrictions with
             return true;
         }
+    }
+
+    /**
+     * Returns {@code true} if {@link CommandEvent#getMember()} can change the permissions of the bot in this channel.
+     *
+     * @param event if {@link CommandEvent}
+     * @throws NullPointerException if {@code event} or {@link CommandEvent#getMember()} is {@code null}
+     */
+    private boolean isSuperiorUser(@NonNull CommandEvent event) {
+        return event.getMember().hasPermission(event.getTextChannel(), Permission.MANAGE_PERMISSIONS)
+                && event.getMember().canInteract(event.getGuild().getSelfMember());
     }
 
     protected abstract void execute(CommandEvent event);

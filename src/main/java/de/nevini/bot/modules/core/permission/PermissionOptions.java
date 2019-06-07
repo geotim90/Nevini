@@ -96,7 +96,8 @@ public class PermissionOptions {
     private void acceptRole(Role role) {
         this.role = role;
         if (permission != null && role != null) {
-            event.reply(CommandReaction.WARNING, "You cannot select a permission and a role at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select a permission and a role at the same time!",
+                    event::complete);
         } else {
             Resolvers.MEMBER.resolveOptionOrDefaultIfExists(event, event.getMember(), this::acceptMember);
         }
@@ -105,9 +106,11 @@ public class PermissionOptions {
     private void acceptMember(Member member) {
         this.member = member;
         if (permission != null && member != null) {
-            event.reply(CommandReaction.WARNING, "You cannot select a permission and a user at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select a permission and a user at the same time!",
+                    event::complete);
         } else if (role != null && member != null) {
-            event.reply(CommandReaction.WARNING, "You cannot select a role and a user at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select a role and a user at the same time!",
+                    event::complete);
         } else {
             Resolvers.CHANNEL.resolveOptionOrDefaultIfExists(event, event.getTextChannel(), this::acceptChannel);
         }
@@ -116,7 +119,8 @@ public class PermissionOptions {
     private void acceptChannel(TextChannel channel) {
         this.channel = channel;
         if (server && channel != null) {
-            event.reply(CommandReaction.WARNING, "You cannot select the server and a channel at the same time!");
+            event.reply(CommandReaction.WARNING, "You cannot select the server and a channel at the same time!",
+                    event::complete);
         } else if (multipleNodes) {
             if (nodeRequired) {
                 Resolvers.NODE.resolveListArgumentOrOptionOrInput(event, this::acceptNodes);
@@ -138,10 +142,9 @@ public class PermissionOptions {
                 this.nodes = Arrays.asList(Node.values());
                 callback.accept(this);
             } else {
-                event.reply(
-                        CommandReaction.WARNING,
-                        "You cannot select all nodes and specific nodes at the same time!"
-                );
+                event.reply(CommandReaction.WARNING,
+                        "You cannot select all nodes and specific nodes at the same time!",
+                        event::complete);
             }
         } else {
             this.nodes = ObjectUtils.defaultIfNull(nodes, Collections.emptyList());
