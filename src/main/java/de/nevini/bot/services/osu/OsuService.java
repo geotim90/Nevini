@@ -77,7 +77,11 @@ public class OsuService implements Locatable {
                 OsuBeatmapsRequest.builder().beatmapId(beatmapId).build()
         );
         if (response.isOk()) {
-            return response.getResult().get(0);
+            if (response.getResult() == null || response.getResult().isEmpty()) {
+                return null;
+            } else {
+                return response.getResult().get(0);
+            }
         } else if (response.isRateLimited()) {
             log.info("Failed to get beatmap {} (rate limited)", beatmapId);
             return null;
@@ -160,12 +164,12 @@ public class OsuService implements Locatable {
                 .build());
         if (response.isOk()) {
             List<OsuUser> users = response.getResult();
-            if (!users.isEmpty()) {
+            if (users == null || users.isEmpty()) {
+                return null;
+            } else {
                 OsuUser user = users.get(0);
                 userNameCache.put(user.getUserId(), user.getUserName());
                 return user;
-            } else {
-                return null;
             }
         } else if (response.isRateLimited()) {
             log.info("Failed to get user {} (rate limited)", requestBuilder);

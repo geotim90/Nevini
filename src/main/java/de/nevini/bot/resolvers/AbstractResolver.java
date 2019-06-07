@@ -136,7 +136,7 @@ public abstract class AbstractResolver<T> {
                 e -> e.getChannel().getId().equals(event.getChannel().getId())
                         && e.getAuthor().getId().equals(event.getAuthor().getId()),
                 e -> {
-                    if (event.getPrefixService().extractPrefix(e) != null) {
+                    if (StringUtils.isNotEmpty(event.getPrefixService().extractPrefix(e))) {
                         replyCancelled(event);
                     } else {
                         resolveInput(event, e.getMessage().getContentRaw(), callback);
