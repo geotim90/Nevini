@@ -16,7 +16,7 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
 
     protected ChannelResolver() {
         super("channel", new Pattern[]{
-                Pattern.compile("<#(\\d+)>"),
+                FinderUtil.CHANNEL_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)channel|[-/]c)(?:\\s+(.+))?")
         });
     }

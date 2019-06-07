@@ -111,28 +111,28 @@ public class CommandOptionsTest {
 
     @Test
     public void testMentionWithoutOptionFlag() {
-        CommandOptions commandOptions = CommandOptions.parseArgument("<@123456789>");
+        CommandOptions commandOptions = CommandOptions.parseArgument("<@123456789123456789>");
         // make sure the mention is the only thing present in arguments
         Assert.assertEquals(1, commandOptions.getArguments().size());
-        Assert.assertEquals("<@123456789>", commandOptions.getArguments().get(0));
+        Assert.assertEquals("<@123456789123456789>", commandOptions.getArguments().get(0));
         // make sure no argument is present
         Assert.assertFalse(commandOptions.getArgument().isPresent());
         // make sure the mention is present in the options
         Assert.assertEquals(1, commandOptions.getOptions().size());
-        Assert.assertEquals("<@123456789>", commandOptions.getOptions().get(0));
+        Assert.assertEquals("<@123456789123456789>", commandOptions.getOptions().get(0));
     }
 
     @Test
     public void testMentionWithOptionFlag() {
-        CommandOptions commandOptions = CommandOptions.parseArgument("--user <@123456789>");
+        CommandOptions commandOptions = CommandOptions.parseArgument("--user <@123456789123456789>");
         // make sure the option is the only thing present in arguments
         Assert.assertEquals(1, commandOptions.getArguments().size());
-        Assert.assertEquals("--user <@123456789>", commandOptions.getArguments().get(0));
+        Assert.assertEquals("--user <@123456789123456789>", commandOptions.getArguments().get(0));
         // make sure no argument is present
         Assert.assertFalse(commandOptions.getArgument().isPresent());
         // make sure the option is present in the options
         Assert.assertEquals(1, commandOptions.getOptions().size());
-        Assert.assertEquals("--user <@123456789>", commandOptions.getOptions().get(0));
+        Assert.assertEquals("--user <@123456789123456789>", commandOptions.getOptions().get(0));
     }
 
 }

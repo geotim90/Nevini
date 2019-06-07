@@ -16,7 +16,7 @@ public class RoleResolver extends AbstractResolver<Role> {
 
     protected RoleResolver() {
         super("role", new Pattern[]{
-                Pattern.compile("<@&(\\d+)>"),
+                FinderUtil.ROLE_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)role|[-/]r)(?:\\s+(.+))?")
         });
     }

@@ -17,7 +17,7 @@ public class MemberResolver extends AbstractResolver<Member> {
 
     protected MemberResolver() {
         super("user", new Pattern[]{
-                Pattern.compile("<@!?(\\d+)>"),
+                FinderUtil.USER_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")
         });
     }
