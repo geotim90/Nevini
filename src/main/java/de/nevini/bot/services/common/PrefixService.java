@@ -91,7 +91,7 @@ public class PrefixService {
                 return selfMember.getAsMention();
             } else if (content.matches("\\Q@" + selfMember.getEffectiveName() + "\\E\\b.*")) {
                 return '@' + selfMember.getEffectiveName();
-            } else if (content.matches("\\Q@" + selfMember.getEffectiveName() + "\\E\\b.*")) {
+            } else if (content.matches("\\Q@!" + selfMember.getEffectiveName() + "\\E\\b.*")) {
                 return "@!" + selfMember.getEffectiveName();
             }
         }
