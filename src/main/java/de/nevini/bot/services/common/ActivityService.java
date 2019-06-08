@@ -42,7 +42,7 @@ public class ActivityService {
         ActivityData data = new ActivityData(
                 user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong(), System.currentTimeMillis()
         );
-        log.info("Save data: {}", data);
+        log.debug("Save data: {}", data);
         activityRepository.save(data);
     }
 
@@ -61,7 +61,7 @@ public class ActivityService {
                     message.getGuild().getIdLong(),
                     message.getCreationTime().toInstant().toEpochMilli()
             );
-            log.info("Save data: {}", data);
+            log.debug("Save data: {}", data);
             activityRepository.save(data);
         }
     }
@@ -89,7 +89,7 @@ public class ActivityService {
         ActivityData data = new ActivityData(
                 user.getIdLong(), ACTIVITY_TYPE_PLAYING, presence.getApplicationIdLong(), System.currentTimeMillis()
         );
-        log.info("Save data: {}", data);
+        log.debug("Save data: {}", data);
         activityRepository.save(data);
     }
 }
