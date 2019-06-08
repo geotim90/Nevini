@@ -17,6 +17,9 @@ public class GuildsCommand extends Command {
     protected GuildsCommand() {
         super(CommandDescriptor.builder()
                 .keyword("guilds")
+                .children(new Command[]{
+                        new GuildsFeedCommand()
+                })
                 .ownerOnly(true)
                 .guildOnly(false)
                 .node(Node.CORE_HELP) // dummy node

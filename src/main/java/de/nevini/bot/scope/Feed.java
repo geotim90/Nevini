@@ -9,10 +9,12 @@ import lombok.ToString;
 @ToString
 public enum Feed {
 
-    OSU_EVENTS("osu.events", "osu! events"),
-    OSU_RECENT("osu.recent", "osu! plays");
+    GUILDS("guilds", "guilds", true),
+    OSU_EVENTS("osu.events", "osu! events", false),
+    OSU_RECENT("osu.recent", "osu! plays", false);
 
     private final String type;
     private final String name;
+    private final boolean ownerOnly;
 
 }

@@ -6,8 +6,10 @@ import de.nevini.bot.scope.Feed;
 import de.nevini.commons.util.Finder;
 import de.nevini.framework.command.CommandOptionDescriptor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FeedResolver extends AbstractResolver<Feed> {
 
@@ -28,9 +30,14 @@ public class FeedResolver extends AbstractResolver<Feed> {
     }
 
     @Override
-    public List<Feed> findSorted(CommandEvent ignored, String query) {
-        return Finder.findAny(Feed.values(), feed -> new String[]{feed.getType(), feed.getName(), feed.name(),
-                feed.name().replace('_', ' ')}, query);
+    public List<Feed> findSorted(CommandEvent event, String query) {
+        return Finder.findAny(Arrays.stream(Feed.values())
+                        .filter(feed -> !feed.isOwnerOnly() || event.isBotOwner()).collect(Collectors.toList()),
+                feed -> new String[]{
+                        feed.getType(), feed.getName(), feed.name(),
+                        feed.name().replace('_', ' ')
+                }, query
+        );
     }
 
     @Override

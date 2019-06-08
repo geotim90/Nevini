@@ -72,7 +72,9 @@ public class FeedGetCommand extends Command {
     private void displayAll(CommandEvent event) {
         StringBuilder builder = new StringBuilder("Here is a list of all available feed types.\n");
         for (Feed feed : Feed.values()) {
-            builder.append("\n**").append(feed.getType()).append("** - ").append(feed.getName());
+            if (!feed.isOwnerOnly() || event.isBotOwner()) {
+                builder.append("\n**").append(feed.getType()).append("** - ").append(feed.getName());
+            }
         }
         event.reply(builder.toString(), event::complete);
     }
