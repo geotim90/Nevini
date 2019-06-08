@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public enum Feed {
 
-    GUILDS("guilds", "guilds", true),
+    GUILDS("guilds", "guild events", true),
     OSU_EVENTS("osu.events", "osu! events", false),
     OSU_RECENT("osu.recent", "osu! plays", false);
 
