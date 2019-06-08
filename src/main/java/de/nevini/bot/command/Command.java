@@ -55,7 +55,11 @@ public abstract class Command {
         ) {
             log.info("{} - Executing {} called via {}", event.getMessageId(), getClass().getSimpleName(),
                     summarize(event.getMessage().getContentRaw()));
-            execute(event);
+            try {
+                execute(event);
+            } catch (RuntimeException e) {
+                log.warn("Command aborted with runtime exception: ", e);
+            }
         }
     }
 
