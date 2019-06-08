@@ -63,7 +63,7 @@ public class HelpCommand extends Command {
                 builder.append("\n\n__Module: **").append(module.getName()).append("**__");
                 event.getCommands().values().stream()
                         .filter(command -> module.equals(command.getModule())
-                                && (!command.isOwnerOnly() || event.isOwner()))
+                                && (!command.isOwnerOnly() || event.isBotOwner()))
                         .sorted(Comparator.comparing(Command::getKeyword)).distinct()
                         .forEach(command -> builder.append("\n**")
                                 .append(command.getKeyword()).append("** - ").append(command.getDescription()));
@@ -91,7 +91,7 @@ public class HelpCommand extends Command {
             }
         }
 
-        if (!command.isOwnerOnly() || event.isOwner()) {
+        if (!command.isOwnerOnly() || event.isBotOwner()) {
             // command header
             StringBuilder builder = new StringBuilder("__Command__\n**" + chain + "** - " + command.getDescription());
 

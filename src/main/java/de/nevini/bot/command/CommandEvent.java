@@ -11,6 +11,7 @@ import lombok.Value;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
@@ -59,7 +60,7 @@ public class CommandEvent {
         return new CommandEvent(context, event, options.withArgument(argument));
     }
 
-    public boolean isOwner() {
+    public boolean isBotOwner() {
         return getAuthor().getId().equals(context.getOwnerId());
     }
 
