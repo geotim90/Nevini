@@ -82,7 +82,7 @@ public abstract class Command {
     }
 
     private boolean checkOwner(CommandEvent event) {
-        return !isOwnerOnly() || event.isOwner();
+        return !isOwnerOnly() || event.isBotOwner();
     }
 
     private boolean checkChannel(CommandEvent event) {
@@ -99,7 +99,7 @@ public abstract class Command {
             return true;
         } else {
             // only respond to privileged users
-            if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+            if (event.isBotOwner() || event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
                 event.reply(CommandReaction.DISABLED, "The **" + getModule().getName()
                         + "** module is disabled on **" + event.getGuild().getName() + "**!", event::complete);
             }
@@ -129,14 +129,14 @@ public abstract class Command {
                 return true;
             } else if (missingPermissions.length == 1) {
                 // only respond to privileged users
-                if (isSuperiorUser(event)) {
+                if (event.isBotOwner() || isSuperiorUser(event)) {
                     event.reply(CommandReaction.ERROR, "I need the **" + missingPermissions[0]
                             + "** permission to execute that command!", event::complete);
                 }
                 return false;
             } else {
                 // only respond to privileged users
-                if (isSuperiorUser(event)) {
+                if (event.isBotOwner() || isSuperiorUser(event)) {
                     event.reply(CommandReaction.ERROR, "I need the **"
                             + Formatter.join(missingPermissions, "**, **", "** and **")
                             + "** permissions to execute that command!", event::complete);
@@ -148,14 +148,14 @@ public abstract class Command {
 
     private boolean checkUserPermission(CommandEvent event) {
         if (event.isFromType(ChannelType.TEXT)) {
-            if (getNode() == null || event.getPermissionService().hasChannelUserPermission(
+            if (event.isBotOwner() || getNode() == null || event.getPermissionService().hasChannelUserPermission(
                     event.getTextChannel(), event.getMember(), getNode()
             )) {
                 // user has been grated access to node or has default permissions
                 return true;
             } else {
                 // only respond to privileged users
-                if (isSuperiorUser(event)) {
+                if (event.isBotOwner() || isSuperiorUser(event)) {
                     event.reply(CommandReaction.PROHIBITED,
                             "You do not have permission to execute that command.", event::complete);
                 }

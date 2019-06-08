@@ -11,6 +11,7 @@ import lombok.Value;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
@@ -59,12 +60,13 @@ public class CommandEvent {
         return new CommandEvent(context, event, options.withArgument(argument));
     }
 
-    public boolean isOwner() {
+    public boolean isBotOwner() {
         return getAuthor().getId().equals(context.getOwnerId());
     }
 
     /**
      * Adds a reaction to {@link #getMessage()} indicating that a long task is being executed.
+     * Requires {@link Permissions#REACT}.
      */
     public void notifyLongTaskStart() {
         getMessage().addReaction(CommandReaction.WAIT.getUnicode()).queue();
@@ -72,9 +74,14 @@ public class CommandEvent {
 
     /**
      * Removes all reactions from {@link #getMessage()}.
+     * Only works with {@link net.dv8tion.jda.core.Permission#MESSAGE_MANAGE}.
      */
     public void notifyLongTaskEnd() {
-        getMessage().clearReactions().queue();
+        if (isFromType(ChannelType.TEXT)
+                && getGuild().getSelfMember().hasPermission(getTextChannel(), Permission.MESSAGE_MANAGE)
+        ) {
+            getMessage().clearReactions().queue();
+        }
     }
 
     /**

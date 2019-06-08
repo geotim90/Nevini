@@ -153,7 +153,7 @@ public class OsuService implements Locatable {
     }
 
     public OsuUser getUser(@NonNull String user, OsuMode mode, int eventDays) {
-        log.info("Requesting users (user={}, mode={}, eventDays={})", user, mode, eventDays);
+        log.info("Requesting user (user={}, mode={}, eventDays={})", user, mode, eventDays);
         return getUser(OsuUserRequest.builder().user(user).userType(OsuUserType.STRING), mode, eventDays);
     }
 
