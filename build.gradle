@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '3.2.4'
+version = '4.0.0'
 sourceCompatibility = '8'
 
 configurations {
@@ -19,7 +19,6 @@ configurations {
 }
 
 repositories {
-	mavenLocal() // necessary for com.oopsjpeg:osu4j
 	mavenCentral()
 	jcenter()
 }
@@ -28,14 +27,13 @@ dependencies {
 	// annotations
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
-	// spring bot
+	// spring boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.flywaydb:flyway-core'
 	// common
+	implementation 'com.google.code.gson:gson'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.3'
-	// other
-	implementation 'com.oopsjpeg:osu4j:2.0.1'
 	// jda
 	implementation 'net.dv8tion:JDA:3.8.3_463'
 	implementation 'com.jagrosh:jda-utilities:2.1.5'

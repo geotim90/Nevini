@@ -23,6 +23,10 @@ Option | Description
 -------|------------
 \[\<command\>\] | the specific command to look up
 
+Keyword | Aliases
+--------|--------
+help | about<br>info
+
 ## Command: `module`
 
 Displays and configures modules.
@@ -129,7 +133,7 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
-By default, you need the **Manage Permissions** permission to execute this command.<br>
+By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.get**.
 
 Option | Description
@@ -174,7 +178,7 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
-By default, you need the **Manage Permissions** permission to execute this command.<br>
+By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.debug**.
 
 Option | Description
@@ -218,7 +222,7 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
-By default, you need the **Manage Permissions** permission to execute this command.<br>
+By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.allow**.
 
 Option | Description
@@ -263,7 +267,7 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
-By default, you need the **Manage Permissions** permission to execute this command.<br>
+By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.deny**.
 
 Option | Description
@@ -308,7 +312,7 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
-By default, you need the **Manage Permissions** permission to execute this command.<br>
+By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.reset**.
 
 Option | Description
@@ -337,6 +341,10 @@ reset | clear<br>default
 Measures the bot's communication latency.
 
 Permission overrides may be applied on node **core.ping**.
+
+Keyword | Aliases
+--------|--------
+ping | pong<br>latency
 
 ## Command: `prefix`
 

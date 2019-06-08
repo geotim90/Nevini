@@ -35,7 +35,7 @@ Permission overrides may be applied on node **osu.best**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
 
 Keyword | Aliases
@@ -51,7 +51,7 @@ Permission overrides may be applied on node **osu.events**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
 
 Keyword | Aliases
@@ -100,7 +100,7 @@ Permission overrides may be applied on node **osu.recent**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
 
 Keyword | Aliases
@@ -141,7 +141,7 @@ Permission overrides may be applied on node **osu.scores**.
 Option | Description
 -------|------------
 \[--beatmap\] \<beatmap\> | Refers to an osu! beatmap with a matching id or name.<br>The `--beatmap` flag is optional if this option is provided first.
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
 --mods \<mods\> | Refers to osu! mods with a matching name (e.g. "No Fail") or short code (e.g. `NF`, `HDHR`, `HDHRNCFL`).
 
@@ -160,7 +160,7 @@ Permission overrides may be applied on node **osu.stats**.
 
 Option | Description
 -------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
 
 Keyword | Aliases

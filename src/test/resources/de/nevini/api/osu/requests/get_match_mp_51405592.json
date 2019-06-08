@@ -1,0 +1,57 @@
+{
+  "match": {
+    "match_id": "51405592",
+    "name": "HeartPower's game",
+    "start_time": "2019-04-30 07:27:08",
+    "end_time": "2019-04-30 07:31:10"
+  },
+  "games": [
+    {
+      "game_id": "268249987",
+      "start_time": "2019-04-30 07:27:22",
+      "end_time": "2019-04-30 07:31:00",
+      "beatmap_id": "484611",
+      "play_mode": "0",
+      "match_type": "0",
+      "scoring_type": "0",
+      "team_type": "0",
+      "mods": "0",
+      "scores": [
+        {
+          "slot": "0",
+          "team": "0",
+          "user_id": "11469987",
+          "score": "122494",
+          "maxcombo": "49",
+          "rank": "0",
+          "count50": "7",
+          "count100": "36",
+          "count300": "145",
+          "countmiss": "8",
+          "countgeki": "32",
+          "countkatu": "21",
+          "perfect": "0",
+          "pass": "1",
+          "enabled_mods": null
+        },
+        {
+          "slot": "1",
+          "team": "0",
+          "user_id": "14347080",
+          "score": "104644",
+          "maxcombo": "59",
+          "rank": "0",
+          "count50": "7",
+          "count100": "51",
+          "count300": "124",
+          "countmiss": "14",
+          "countgeki": "25",
+          "countkatu": "24",
+          "perfect": "0",
+          "pass": "1",
+          "enabled_mods": null
+        }
+      ]
+    }
+  ]
+}

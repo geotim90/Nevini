@@ -102,7 +102,7 @@ Command | Description
 [find role](#command-find-role) | finds roles by any of their identifiers
 [find permission](#command-find-permission) | finds permission by any of their identifiers
 [find node](#command-find-node) | finds nodes by any of their identifiers
-[find module](#command-find-module) | finds moduels by any of their identifiers
+[find module](#command-find-module) | finds modules by any of their identifiers
 [find game](#command-find-game) | finds games by any of their identifiers
 [find channel](#command-find-channel) | finds text channels by any of their identifiers
 
@@ -168,7 +168,7 @@ Keyword | Aliases
 
 ### Command: `find module`
 
-Finds moduels by any of their identifiers.
+Finds modules by any of their identifiers.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.find.module**.
