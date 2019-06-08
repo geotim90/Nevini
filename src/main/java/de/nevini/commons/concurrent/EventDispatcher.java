@@ -33,6 +33,15 @@ public class EventDispatcher<E> {
     }
 
     /**
+     * Creates a new event dispatcher with a {@link ScheduledExecutorService} of the given size.
+     *
+     * @param threads the number of threads for the thread pool
+     */
+    public EventDispatcher(int threads) {
+        scheduledExecutorService = Executors.newScheduledThreadPool(threads);
+    }
+
+    /**
      * Subscribes events of a specific type (or any sub-class of said type).<br>
      * An optional condition can be provided, as well as a flag to only trigger the callback at most once.<br>
      * Timeout information can also be provided that will trigger a separate callback.<br>

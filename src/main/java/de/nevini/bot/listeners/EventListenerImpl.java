@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class EventListenerImpl extends EventDispatcher<Event> implements EventListener {
 
     public EventListenerImpl() {
+        super(Runtime.getRuntime().availableProcessors());
         subscribe(ShutdownEvent.class, event -> shutdown());
     }
 
