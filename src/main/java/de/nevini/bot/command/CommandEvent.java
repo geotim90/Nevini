@@ -179,7 +179,7 @@ public class CommandEvent {
         ) {
             addReaction(CommandReaction.DM.getUnicode(), ignore());
         }
-        sendMessage(getAuthor().openPrivateChannel().complete(), content, callback);
+        getAuthor().openPrivateChannel().queue(channel -> sendMessage(channel, content, callback));
     }
 
     /**
