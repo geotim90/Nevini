@@ -20,6 +20,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class GameService {
 
+    private static final Map<Long, String> multiGameApplications;
+
+    static {
+        multiGameApplications = new ConcurrentHashMap<>();
+        multiGameApplications.put(Long.parseUnsignedLong("438122941302046720"), "Xbox Live");
+    }
+
     private final GameRepository gameRepository;
     private final Map<Long, String> cache = new ConcurrentHashMap<>();
 
@@ -27,20 +34,43 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public String getGameName(long id) {
-        return StringUtils.defaultIfEmpty(cache.computeIfAbsent(id, this::findGameName), Long.toUnsignedString(id));
-    }
+    public GameData getGame(RichPresence presence) {
+        long mappedId = presence.getApplicationIdLong();
+        String mappedName = presence.getName();
 
-    private String findGameName(long id) {
-        return gameRepository.findById(id).map(GameData::getName).orElse(null);
-    }
-
-    public synchronized void cacheGame(RichPresence game) {
-        if (!StringUtils.equals(cache.put(game.getApplicationIdLong(), game.getName()), game.getName())) {
-            GameData data = new GameData(game.getApplicationIdLong(), game.getName(), getIcon(game));
-            log.info("Save data: {}", data);
-            gameRepository.save(data);
+        // attempt to resolve multi-game applications
+        if (multiGameApplications.containsKey(presence.getApplicationIdLong())) {
+            String multiGameApplicationName = multiGameApplications.get(presence.getApplicationIdLong());
+            Collection<GameData> candidates = findGames(presence.getName());
+            if (candidates.size() == 1) {
+                mappedId = candidates.stream().findFirst().map(GameData::getId).orElse(presence.getApplicationIdLong());
+                mappedName = candidates.stream().findFirst().map(GameData::getName).orElse(multiGameApplicationName);
+            } else {
+                mappedName = multiGameApplicationName;
+            }
         }
+
+        // log if game was remapped
+        if (presence.getApplicationIdLong() != mappedId || !StringUtils.equals(presence.getName(), mappedName)) {
+            if (presence.getApplicationIdLong() != mappedId) {
+                // successful mapping
+                log.debug("Remapping game '{}' ({}) to '{}' ({})", presence.getName(), presence.getApplicationId(),
+                        mappedName, Long.toUnsignedString(mappedId));
+            } else {
+                // unsuccessful mapping (defaulted to multi-game application name)
+                log.info("Remapping game '{}' ({}) to '{}' ({})", presence.getName(), presence.getApplicationId(),
+                        mappedName, Long.toUnsignedString(mappedId));
+            }
+        }
+
+        // update cache and database
+        GameData game = new GameData(mappedId, mappedName, getIcon(presence));
+        if (!StringUtils.equals(cache.put(mappedId, mappedName), mappedName)) {
+            log.info("Save data: {}", game);
+            gameRepository.save(game);
+        }
+
+        return game;
     }
 
     private String getIcon(RichPresence game) {
@@ -62,6 +92,14 @@ public class GameService {
         } else {
             return Finder.find(gameRepository.findAllByNameContainsIgnoreCase(query), GameData::getName, query);
         }
+    }
+
+    public String getGameName(long id) {
+        return StringUtils.defaultIfEmpty(cache.computeIfAbsent(id, this::findGameName), Long.toUnsignedString(id));
+    }
+
+    private String findGameName(long id) {
+        return gameRepository.findById(id).map(GameData::getName).orElse(null);
     }
 
 }

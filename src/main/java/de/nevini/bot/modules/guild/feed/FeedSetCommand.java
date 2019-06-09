@@ -49,11 +49,11 @@ public class FeedSetCommand extends Command {
 
     private void acceptFeedAndChannel(CommandEvent event, Feed feed, TextChannel channel) {
         if (channel == null) {
-            event.getFeedService().unsubscribe(event.getGuild(), feed);
+            event.getFeedService().unsubscribe(feed, event.getGuild());
             event.reply(CommandReaction.OK, "I will stop posting " + feed.getName() + " on this server.",
                     event::complete);
         } else if (channel.canTalk()) {
-            event.getFeedService().subscribe(channel, feed);
+            event.getFeedService().subscribe(feed, channel);
             event.reply(CommandReaction.OK, "I will start posting " + feed.getName() + " in "
                     + channel.getAsMention() + ".", event::complete);
         } else {

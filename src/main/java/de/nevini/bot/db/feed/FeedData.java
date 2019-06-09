@@ -23,6 +23,9 @@ public class FeedData {
     @Id
     private String type;
 
+    @Id
+    private Long id;
+
     private Long channel;
 
     private Long uts;

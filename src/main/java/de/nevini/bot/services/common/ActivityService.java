@@ -7,7 +7,6 @@ import de.nevini.bot.db.game.GameData;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.RichPresence;
 import net.dv8tion.jda.core.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,9 +84,9 @@ public class ActivityService {
         return data.map(ActivityData::getUts).orElse(null);
     }
 
-    public synchronized void updateActivityPlaying(User user, RichPresence presence) {
+    public synchronized void updateActivityPlaying(User user, GameData game) {
         ActivityData data = new ActivityData(
-                user.getIdLong(), ACTIVITY_TYPE_PLAYING, presence.getApplicationIdLong(), System.currentTimeMillis()
+                user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(), System.currentTimeMillis()
         );
         log.debug("Save data: {}", data);
         activityRepository.save(data);

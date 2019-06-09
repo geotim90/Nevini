@@ -11,7 +11,7 @@ import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.entities.TextChannel;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,7 +80,7 @@ class FeedGetCommand extends Command {
     }
 
     private void displayServer(CommandEvent event) {
-        List<FeedData> subscriptions = event.getFeedService().getSubscriptions(event.getGuild());
+        Collection<FeedData> subscriptions = event.getFeedService().getSubscriptions(event.getGuild());
         if (subscriptions.isEmpty()) {
             event.reply("There are currently no active subscriptions on this server.", event::complete);
         } else {
@@ -101,7 +101,7 @@ class FeedGetCommand extends Command {
     }
 
     private void displayFeed(CommandEvent event, Feed feed) {
-        FeedData subscription = event.getFeedService().getSubscription(event.getGuild(), feed);
+        FeedData subscription = event.getFeedService().getSubscription(feed, event.getGuild());
         if (subscription == null) {
             event.reply("There is currently no active subscription for " + feed.getName() + " on this server.",
                     event::complete);
@@ -113,7 +113,7 @@ class FeedGetCommand extends Command {
     }
 
     private void displayFeedInChannel(CommandEvent event, Feed feed, TextChannel channel) {
-        FeedData subscription = event.getFeedService().getSubscription(event.getGuild(), feed);
+        FeedData subscription = event.getFeedService().getSubscription(feed, event.getGuild());
         if (subscription == null) {
             event.reply("There is currently no active subscription for " + feed.getName() + " in "
                     + channel.getAsMention() + ".", event::complete);
@@ -125,7 +125,7 @@ class FeedGetCommand extends Command {
     }
 
     private void displayChannel(CommandEvent event, TextChannel channel) {
-        List<FeedData> subscriptions = event.getFeedService().getSubscriptions(channel);
+        Collection<FeedData> subscriptions = event.getFeedService().getSubscriptions(channel);
         if (subscriptions.isEmpty()) {
             event.reply("There are currently no active subscriptions in " + channel.getAsMention() + ".",
                     event::complete);

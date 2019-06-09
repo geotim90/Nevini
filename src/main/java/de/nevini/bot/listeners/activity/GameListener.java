@@ -37,8 +37,7 @@ public class GameListener {
     private void processUserGame(User user, Game game) {
         RichPresence presence = game != null ? game.asRichPresence() : null;
         if (presence != null && presence.getType() == Game.GameType.DEFAULT) {
-            activityService.updateActivityPlaying(user, presence);
-            gameService.cacheGame(presence);
+            activityService.updateActivityPlaying(user, gameService.getGame(presence));
         }
     }
 

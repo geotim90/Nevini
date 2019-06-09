@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 
 @Slf4j
 @Service
@@ -23,10 +23,17 @@ public class FeedService {
         this.feedRepository = feedRepository;
     }
 
-    public synchronized void subscribe(@NonNull TextChannel channel, @NonNull Feed feed) {
+    /**
+     * Creates the main entry for the specified feed in the database.
+     *
+     * @param feed    the {@link Feed} to subscribe to
+     * @param channel the {@link TextChannel} to point the feed to
+     */
+    public synchronized void subscribe(@NonNull Feed feed, @NonNull TextChannel channel) {
         FeedData data = new FeedData(
                 channel.getGuild().getIdLong(),
                 feed.getType(),
+                -1L,
                 channel.getIdLong(),
                 System.currentTimeMillis()
         );
@@ -34,32 +41,101 @@ public class FeedService {
         feedRepository.save(data);
     }
 
-    public synchronized void unsubscribe(@NonNull Guild guild, @NonNull Feed feed) {
-        FeedId id = new FeedId(guild.getIdLong(), feed.getType());
+    /**
+     * Removed all entries for the specified feed in the database.
+     *
+     * @param feed  the {@link Feed} to unsubscribe from
+     * @param guild the relevant {@link Guild}
+     */
+    public synchronized void unsubscribe(@NonNull Feed feed, @NonNull Guild guild) {
+        FeedId id = new FeedId(guild.getIdLong(), feed.getType(), -1L);
         log.info("Delete data: {}", id);
         feedRepository.deleteById(id);
+        feedRepository.deleteAllByGuildAndType(guild.getIdLong(), feed.getType());
     }
 
-    public FeedData getSubscription(@NonNull Guild guild, @NonNull Feed feed) {
-        return feedRepository.findById(new FeedId(guild.getIdLong(), feed.getType())).orElse(null);
+    /**
+     * Returns the main entry for the specified feed.
+     * Returns {@code null} if none exists.
+     *
+     * @param feed  the {@link Feed} to lookup
+     * @param guild the relevant {@link Guild}
+     */
+    public FeedData getSubscription(@NonNull Feed feed, @NonNull Guild guild) {
+        return getSubscription(feed, guild, -1L);
     }
 
-    public List<FeedData> getSubscriptions(@NonNull Guild guild) {
-        return feedRepository.findAllByGuild(guild.getIdLong());
+    /**
+     * Returns a specific entry for the specified feed.
+     * Returns {@code null} if none exists and no main entry exists.
+     *
+     * @param feed  the {@link Feed} to lookup
+     * @param guild the relevant {@link Guild}
+     * @param id    the relevant id ({@code -1L} = main entry)
+     */
+    public FeedData getSubscription(@NonNull Feed feed, @NonNull Guild guild, long id) {
+        // try to find specific entry
+        return feedRepository.findById(new FeedId(guild.getIdLong(), feed.getType(), id)).orElse(
+                // try to find main entry
+                feedRepository.findById(new FeedId(guild.getIdLong(), feed.getType(), -1L)).map(
+                        // create a "new" specific entry from the main entry
+                        data -> new FeedData(data.getGuild(), data.getType(), id, data.getChannel(), 0L)
+                ).orElse(null)
+        );
     }
 
-    public List<FeedData> getSubscriptions(@NonNull TextChannel channel) {
-        return feedRepository.findAllByGuildAndChannel(channel.getGuild().getIdLong(), channel.getIdLong());
+    /**
+     * Returns the main entry for all feeds of the specified guild.
+     *
+     * @param guild the relevant {@link Guild}
+     */
+    public Collection<FeedData> getSubscriptions(@NonNull Guild guild) {
+        return feedRepository.findAllByGuildAndId(guild.getIdLong(), -1L);
     }
 
-    public synchronized void updateSubscription(@NonNull TextChannel channel, @NonNull Feed feed, long uts) {
+    /**
+     * Returns the main entries for all feeds pointing to the specified channel.
+     *
+     * @param channel the relevant {@link TextChannel}
+     */
+    public Collection<FeedData> getSubscriptions(@NonNull TextChannel channel) {
+        return feedRepository.findAllByGuildAndIdAndChannel(channel.getGuild().getIdLong(), -1L, channel.getIdLong());
+    }
+
+    /**
+     * Updates the main entry and the entry of the specified feed and id.
+     *
+     * @param feed    the relevant {@link Feed}
+     * @param id      the relevant id ({@code -1L} = main entry)
+     * @param channel the relevant {@link TextChannel}
+     * @param uts     the new update timestamp
+     */
+    public synchronized void updateSubscription(
+            @NonNull Feed feed, @NonNull Long id, @NonNull TextChannel channel, long uts
+    ) {
+        // update main feed entry
+        if (id != -1) {
+            FeedData data = new FeedData(
+                    channel.getGuild().getIdLong(),
+                    feed.getType(),
+                    -1L,
+                    channel.getIdLong(),
+                    uts
+            );
+            log.info("Save data: {}", data);
+            feedRepository.save(data);
+        }
+
+        // update feed entry for id
         FeedData data = new FeedData(
                 channel.getGuild().getIdLong(),
                 feed.getType(),
+                id,
                 channel.getIdLong(),
                 uts
         );
         log.info("Save data: {}", data);
         feedRepository.save(data);
     }
+
 }
