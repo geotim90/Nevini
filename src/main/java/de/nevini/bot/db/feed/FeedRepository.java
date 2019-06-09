@@ -3,13 +3,15 @@ package de.nevini.bot.db.feed;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Collection;
 
 @Repository
 public interface FeedRepository extends CrudRepository<FeedData, FeedId> {
 
-    List<FeedData> findAllByGuild(long guild);
+    Collection<FeedData> findAllByGuildAndId(long guild, long id);
 
-    List<FeedData> findAllByGuildAndChannel(long guild, long channel);
+    Collection<FeedData> findAllByGuildAndIdAndChannel(long guild, long id, long channel);
+
+    void deleteAllByGuildAndType(long idLong, String type);
 
 }

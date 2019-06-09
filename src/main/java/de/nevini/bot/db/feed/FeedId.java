@@ -15,4 +15,6 @@ public class FeedId implements Serializable {
 
     private String type;
 
+    private Long id;
+
 }

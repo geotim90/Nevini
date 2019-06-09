@@ -2,6 +2,7 @@ package de.nevini.bot.listeners.osu;
 
 import de.nevini.api.osu.model.*;
 import de.nevini.bot.db.feed.FeedData;
+import de.nevini.bot.db.ign.IgnData;
 import de.nevini.bot.scope.Feed;
 import de.nevini.bot.services.common.FeedService;
 import de.nevini.bot.services.common.IgnService;
@@ -10,10 +11,8 @@ import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
 import de.nevini.framework.message.MessageLineSplitter;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.RichPresence;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.apache.commons.lang3.ObjectUtils;
@@ -25,8 +24,8 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +39,10 @@ public class OsuListener {
     private final FeedService feedService;
     private final OsuService osuService;
 
+    private final EventDispatcher<Event> eventDispatcher;
+    private final Set<IgnData> updateQueue = new LinkedHashSet<>();
+    private long uts = 0;
+
     public OsuListener(
             @Autowired IgnService ignService,
             @Autowired FeedService feedService,
@@ -49,6 +52,8 @@ public class OsuListener {
         this.ignService = ignService;
         this.feedService = feedService;
         this.osuService = osuService;
+
+        this.eventDispatcher = eventDispatcher;
         eventDispatcher.subscribe(UserUpdateGameEvent.class, this::onUserUpdateGame);
     }
 
@@ -56,13 +61,14 @@ public class OsuListener {
         if (!e.getUser().isBot()) {
             processUserGame(e, e.getOldGame());
             processUserGame(e, e.getNewGame());
+            updateQueue(e.getJDA());
         }
     }
 
     private void processUserGame(UserUpdateGameEvent event, Game game) {
         if (game != null && game.isRich() && "osu!".equals(game.getName())) {
-            RichPresence presence = game.asRichPresence();
             // osu! presence contains the in-game name
+            RichPresence presence = game.asRichPresence();
             if (presence.getLargeImage() != null) {
                 String text = ObjectUtils.defaultIfNull(presence.getLargeImage().getText(), "");
                 Matcher matcher = Pattern.compile("(.+) \\(rank #[\\d,]+\\)").matcher(text);
@@ -70,33 +76,74 @@ public class OsuListener {
                     ignService.setIgn(event.getUser(), presence.getApplicationIdLong(), matcher.group(1));
                 }
             }
-            if (event.getGuild() != null) {
-                // update osu! events for subscribed channels
-                synchronized (this) {
-                    FeedData eventsFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_EVENTS);
-                    if (eventsFeed != null) {
-                        TextChannel channel = event.getGuild().getTextChannelById(eventsFeed.getChannel());
-                        if (channel != null) {
-                            updateEvents(event, eventsFeed, channel);
-                        }
-                    }
-                }
-                // update osu! plays for subscribed channels
-                synchronized (this) {
-                    FeedData recentFeed = feedService.getSubscription(event.getGuild(), Feed.OSU_RECENT);
-                    if (recentFeed != null) {
-                        TextChannel channel = event.getGuild().getTextChannelById(recentFeed.getChannel());
-                        if (channel != null) {
-                            updateRecent(event, recentFeed, channel);
-                        }
-                    }
-                }
+
+            // update osu! feeds
+            if (event.getMember() != null) {
+                updateEvents(event.getMember());
+                updateRecent(event.getMember());
             }
         }
     }
 
-    private void updateEvents(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
-        Member member = event.getMember();
+    private void updateQueue(JDA jda) {
+        synchronized (updateQueue) {
+            // only execute once every minute at maximum
+            if (System.currentTimeMillis() - uts < TimeUnit.MINUTES.toMillis(1)) return;
+
+            // populate queue if empty
+            if (updateQueue.isEmpty()) {
+                for (Guild guild : jda.getGuilds()) {
+                    // only include guilds with feed subscriptions
+                    FeedData feedEvents = feedService.getSubscription(Feed.OSU_EVENTS, guild);
+                    FeedData feedRecent = feedService.getSubscription(Feed.OSU_RECENT, guild);
+                    if (feedEvents != null || feedRecent != null) {
+                        // only include members with known in-game names
+                        for (IgnData ign : ignService.getIgns(guild, osuService.getGame())) {
+                            IgnData guildIgn = new IgnData(
+                                    guild.getIdLong(), ign.getUser(), ign.getGame(), ign.getName()
+                            );
+                            updateQueue.add(guildIgn);
+                        }
+                    }
+                }
+            }
+
+            // schedule up to 6 executions (per minute) [10% of avg. rate limit]
+            Iterator<IgnData> iterator = updateQueue.iterator();
+            for (int i = 0; i < 6 && iterator.hasNext(); i++) {
+                IgnData ign = iterator.next();
+                eventDispatcher.execute(() -> updateMember(jda, ign));
+                iterator.remove();
+            }
+
+            // update timestamp
+            uts = System.currentTimeMillis();
+        }
+    }
+
+    private void updateMember(JDA jda, IgnData ign) {
+        try {
+            Guild guild = jda.getGuildById(ign.getGuild());
+            if (guild != null) {
+                Member member = guild.getMemberById(ign.getUser());
+                if (member != null) {
+                    updateEvents(member);
+                    updateRecent(member);
+                }
+            }
+        } catch (RuntimeException e) {
+            log.warn("Exception: ", e);
+        }
+    }
+
+    private synchronized void updateEvents(Member member) {
+        // get feed
+        FeedData feed = feedService.getSubscription(Feed.OSU_EVENTS, member.getGuild(), member.getUser().getIdLong());
+        if (feed == null) return;
+        // get channel
+        TextChannel channel = member.getGuild().getTextChannelById(feed.getChannel());
+        if (channel == null) return;
+        // get ign
         String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()),
                 member.getEffectiveName());
         long uts = feed.getUts();
@@ -110,7 +157,8 @@ public class OsuListener {
                 Formatter.formatTimestamp(now)
         );
         OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, days);
-        if (user != null) {
+        if (user != null && !user.getEvents().isEmpty()) {
+            // collect events
             StringBuilder builder = new StringBuilder();
             user.getEvents().stream()
                     .filter(e -> e.getDate().getTime() > uts)
@@ -122,17 +170,32 @@ public class OsuListener {
                                 channel.getId(), markdown);
                         builder.append(markdown).append('\n');
                     });
-            MessageLineSplitter.sendMessage(channel, builder.toString(), ignore());
+
+            // build and send message(s)
+            String content = builder.toString();
+            if (!StringUtils.isEmpty(content)) {
+                MessageLineSplitter.sendMessage(channel, content, ignore());
+            }
+
+            // update timestamp
             user.getEvents().stream()
                     .filter(e -> e.getDate().getTime() > uts)
                     .map(OsuUserEvent::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_EVENTS, max.getTime()));
+                    .ifPresent(max -> feedService.updateSubscription(
+                            Feed.OSU_EVENTS, member.getUser().getIdLong(), channel, max.getTime()
+                    ));
         }
     }
 
-    private void updateRecent(UserUpdateGameEvent event, FeedData feed, TextChannel channel) {
-        Member member = event.getMember();
+    private synchronized void updateRecent(Member member) {
+        // get feed
+        FeedData feed = feedService.getSubscription(Feed.OSU_RECENT, member.getGuild(), member.getUser().getIdLong());
+        if (feed == null) return;
+        // get channel
+        TextChannel channel = member.getGuild().getTextChannelById(feed.getChannel());
+        if (channel == null) return;
+        // get ign
         String ign = StringUtils.defaultIfEmpty(
                 ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
         long uts = feed.getUts();
@@ -140,6 +203,7 @@ public class OsuListener {
         log.info("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
         List<OsuUserRecent> recent = osuService.getUserRecent(ign, OsuMode.STANDARD);
         if (recent != null && !recent.isEmpty()) {
+            // collect recents
             int userId = recent.get(0).getUserId();
             String userName = osuService.getUserName(userId);
             StringBuilder builder = new StringBuilder();
@@ -156,12 +220,21 @@ public class OsuListener {
                                 markdown);
                         builder.append(markdown).append('\n');
                     });
-            MessageLineSplitter.sendMessage(channel, builder.toString(), ignore());
+
+            // build and send message(s)
+            String content = builder.toString();
+            if (StringUtils.isNotEmpty(content)) {
+                MessageLineSplitter.sendMessage(channel, content, ignore());
+            }
+
+            // update timestamp
             recent.stream()
                     .filter(e -> e.getDate().getTime() > uts)
                     .map(OsuUserRecent::getDate)
                     .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(channel, Feed.OSU_RECENT, max.getTime()));
+                    .ifPresent(max -> feedService.updateSubscription(
+                            Feed.OSU_RECENT, member.getUser().getIdLong(), channel, max.getTime()
+                    ));
         }
     }
 
