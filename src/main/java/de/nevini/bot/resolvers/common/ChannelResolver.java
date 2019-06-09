@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class ChannelResolver extends AbstractResolver<TextChannel> {
 
-    protected ChannelResolver() {
+    ChannelResolver() {
         super("channel", new Pattern[]{
                 FinderUtil.CHANNEL_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)channel|[-/]c)(?:\\s+(.+))?")

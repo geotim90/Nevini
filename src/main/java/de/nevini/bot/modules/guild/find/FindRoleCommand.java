@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.util.List;
 
-public class FindRoleCommand extends Command {
+class FindRoleCommand extends Command {
 
-    public FindRoleCommand() {
+    FindRoleCommand() {
         super(CommandDescriptor.builder()
                 .keyword("role")
                 .aliases(new String[]{"r"})

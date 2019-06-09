@@ -9,11 +9,11 @@ import de.nevini.bot.scope.Feed;
 import de.nevini.bot.scope.Node;
 import de.nevini.framework.command.CommandOptionDescriptor;
 
-public class GuildsFeedCommand extends Command {
+class GuildsFeedCommand extends Command {
 
     private final FeedSetCommand delegate = new FeedSetCommand();
 
-    public GuildsFeedCommand() {
+    GuildsFeedCommand() {
         super(CommandDescriptor.builder()
                 .keyword("feed")
                 .aliases(new String[]{"subscribe"})

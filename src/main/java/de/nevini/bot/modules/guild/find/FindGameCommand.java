@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.util.List;
 
-public class FindGameCommand extends Command {
+class FindGameCommand extends Command {
 
-    public FindGameCommand() {
+    FindGameCommand() {
         super(CommandDescriptor.builder()
                 .keyword("game")
                 .node(Node.GUILD_FIND_GAME)

@@ -10,9 +10,9 @@ import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.util.List;
 
-public class FindNodeCommand extends Command {
+class FindNodeCommand extends Command {
 
-    public FindNodeCommand() {
+    FindNodeCommand() {
         super(CommandDescriptor.builder()
                 .keyword("node")
                 .node(Node.GUILD_FIND_MODULE)

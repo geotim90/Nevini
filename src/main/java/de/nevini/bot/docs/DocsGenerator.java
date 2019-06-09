@@ -103,6 +103,18 @@ public class DocsGenerator {
                     .replace("<br>" + System.lineSeparator() + "<br>" + System.lineSeparator(), "\n\n"));
         }
 
+        // owner only
+        out.println();
+        if (command.isOwnerOnly()) {
+            out.println("This command can only be executed by the owner of the bot.");
+        }
+        // guild only
+        if (command.isGuildOnly()) {
+            out.println("This command can only be executed in a text channel and not via direct message.");
+        } else {
+            out.println("This command can be executed in a text or via direct message.");
+        }
+
         // permission node
         if (command.getNode() != null) {
             out.println();

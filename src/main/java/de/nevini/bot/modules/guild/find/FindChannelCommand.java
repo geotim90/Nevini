@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.List;
 
-public class FindChannelCommand extends Command {
+class FindChannelCommand extends Command {
 
-    public FindChannelCommand() {
+    FindChannelCommand() {
         super(CommandDescriptor.builder()
                 .keyword("channel")
                 .aliases(new String[]{"c"})

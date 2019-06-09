@@ -16,6 +16,8 @@ Command | Description
 
 Displays general information of an osu! beatmap.
 
+This command can be executed in a text or via direct message.
+
 Permission overrides may be applied on node **osu.beatmap**.
 
 Option | Description
@@ -30,6 +32,8 @@ osu!beatmap | osu!b<br>osu!bm<br>osu!map
 ## Command: `osu!best`
 
 Displays the top 100 scores of an osu! user.
+
+This command can be executed in a text or via direct message.
 
 Permission overrides may be applied on node **osu.best**.
 
@@ -46,6 +50,8 @@ Keyword | Aliases
 ## Command: `osu!events`
 
 Displays osu! user events.
+
+This command can be executed in a text or via direct message.
 
 Permission overrides may be applied on node **osu.events**.
 
@@ -70,6 +76,8 @@ Subscribes to osu! events.
 Providing a channel will cause the bot to post osu! events for all guild members in said channel.<br>
 If no channel is provided, the bot will stop the feed.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.feed.set**.
 
@@ -86,6 +94,8 @@ feed | subscribe
 
 Displays the top 10 osu! users on this server.
 
+This command can only be executed in a text channel and not via direct message.
+
 Permission overrides may be applied on node **osu.leaderboard**.
 
 Keyword | Aliases
@@ -95,6 +105,8 @@ osu!leaderboard | osu!rank<br>osu!ranks
 ## Command: `osu!recent`
 
 Displays up to 50 most recent plays over the last 24 hours of an osu! user.
+
+This command can be executed in a text or via direct message.
 
 Permission overrides may be applied on node **osu.recent**.
 
@@ -120,6 +132,8 @@ Subscribes to osu! plays.
 Providing a channel will cause the bot to post osu! plays for all guild members in said channel.<br>
 If no channel is provided, the bot will stop the feed.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.feed.set**.
 
@@ -135,6 +149,8 @@ feed | subscribe
 ## Command: `osu!scores`
 
 Displays the top 100 scores of an osu! beatmap.
+
+This command can be executed in a text or via direct message.
 
 Permission overrides may be applied on node **osu.scores**.
 
@@ -155,6 +171,8 @@ Keyword | Aliases
 ## Command: `osu!stats`
 
 Displays general information of an osu! user.
+
+This command can be executed in a text or via direct message.
 
 Permission overrides may be applied on node **osu.stats**.
 

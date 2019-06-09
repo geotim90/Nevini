@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class MemberResolver extends AbstractResolver<Member> {
 
-    protected MemberResolver() {
+    MemberResolver() {
         super("user", new Pattern[]{
                 FinderUtil.USER_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")

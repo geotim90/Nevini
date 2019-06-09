@@ -43,7 +43,7 @@ public class OsuUserResolver extends AbstractResolver<OsuUserResolver.OsuUserOrM
         }
     }
 
-    protected OsuUserResolver() {
+    OsuUserResolver() {
         super("user", new Pattern[]{
                 FinderUtil.USER_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")

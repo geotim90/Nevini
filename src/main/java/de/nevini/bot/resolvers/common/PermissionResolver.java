@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class PermissionResolver extends AbstractResolver<Permission> {
 
-    protected PermissionResolver() {
+    PermissionResolver() {
         super("permission", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)(?:permission|perm)|[-/]p)(?:\\s+(.+))?")});
     }
 

@@ -9,7 +9,7 @@ import de.nevini.bot.scope.Permissions;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 
-public class PrefixSetCommand extends Command {
+class PrefixSetCommand extends Command {
 
     private static final StringResolver prefixResolver = new StringResolver("command prefix", "prefix",
             CommandOptionDescriptor.builder()
@@ -19,7 +19,7 @@ public class PrefixSetCommand extends Command {
                     .aliases(new String[]{"//prefix"})
                     .build());
 
-    public PrefixSetCommand() {
+    PrefixSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.CORE_PREFIX_SET)

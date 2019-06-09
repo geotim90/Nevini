@@ -9,9 +9,9 @@ import de.nevini.bot.scope.Node;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 
-public class ModuleActivateCommand extends Command {
+class ModuleActivateCommand extends Command {
 
-    public ModuleActivateCommand() {
+    ModuleActivateCommand() {
         super(CommandDescriptor.builder()
                 .keyword("activate")
                 .aliases(new String[]{"add", "enable", "+"})

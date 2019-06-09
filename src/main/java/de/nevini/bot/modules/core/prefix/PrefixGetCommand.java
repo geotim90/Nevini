@@ -6,9 +6,9 @@ import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.scope.Node;
 import de.nevini.bot.scope.Permissions;
 
-public class PrefixGetCommand extends Command {
+class PrefixGetCommand extends Command {
 
-    public PrefixGetCommand() {
+    PrefixGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})

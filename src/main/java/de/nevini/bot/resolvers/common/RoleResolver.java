@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class RoleResolver extends AbstractResolver<Role> {
 
-    protected RoleResolver() {
+    RoleResolver() {
         super("role", new Pattern[]{
                 FinderUtil.ROLE_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)role|[-/]r)(?:\\s+(.+))?")

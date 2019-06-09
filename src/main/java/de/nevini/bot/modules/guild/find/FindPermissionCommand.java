@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.Permission;
 
 import java.util.List;
 
-public class FindPermissionCommand extends Command {
+class FindPermissionCommand extends Command {
 
-    public FindPermissionCommand() {
+    FindPermissionCommand() {
         super(CommandDescriptor.builder()
                 .keyword("permission")
                 .node(Node.GUILD_FIND_MODULE)

@@ -13,9 +13,9 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import java.util.Arrays;
 import java.util.List;
 
-public class ModuleGetCommand extends Command {
+class ModuleGetCommand extends Command {
 
-    public ModuleGetCommand() {
+    ModuleGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})

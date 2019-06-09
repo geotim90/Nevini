@@ -10,11 +10,11 @@ import de.nevini.bot.scope.Node;
 import de.nevini.bot.scope.Permissions;
 import de.nevini.framework.command.CommandOptionDescriptor;
 
-public class OsuEventsFeedCommand extends Command {
+class OsuEventsFeedCommand extends Command {
 
     private final FeedSetCommand delegate = new FeedSetCommand();
 
-    public OsuEventsFeedCommand() {
+    OsuEventsFeedCommand() {
         super(CommandDescriptor.builder()
                 .keyword("feed")
                 .aliases(new String[]{"subscribe"})

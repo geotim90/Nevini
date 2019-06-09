@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.entities.Member;
 
 import java.util.List;
 
-public class FindUserCommand extends Command {
+class FindUserCommand extends Command {
 
-    public FindUserCommand() {
+    FindUserCommand() {
         super(CommandDescriptor.builder()
                 .keyword("user")
                 .aliases(new String[]{"member", "u", "m"})

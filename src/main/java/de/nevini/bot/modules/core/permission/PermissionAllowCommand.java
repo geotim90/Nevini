@@ -3,9 +3,9 @@ package de.nevini.bot.modules.core.permission;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.scope.Node;
 
-public class PermissionAllowCommand extends PermissionSetCommand {
+class PermissionAllowCommand extends PermissionSetCommand {
 
-    public PermissionAllowCommand() {
+    PermissionAllowCommand() {
         super(CommandDescriptor.builder()
                 .keyword("allow")
                 .aliases(new String[]{"add", "grant"})
