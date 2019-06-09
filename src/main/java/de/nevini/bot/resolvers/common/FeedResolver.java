@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class FeedResolver extends AbstractResolver<Feed> {
 
-    protected FeedResolver() {
+    FeedResolver() {
         super("feed", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)feed|[-/]f)(?:\\s+(.+))?")});
     }
 

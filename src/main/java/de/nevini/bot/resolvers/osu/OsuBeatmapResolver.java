@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
-    protected OsuBeatmapResolver() {
+    OsuBeatmapResolver() {
         super("beatmap", new Pattern[]{Pattern.compile("(?i)(?:--|//)(?:beatmap|bm)(?:\\s+(.+))?")});
     }
 

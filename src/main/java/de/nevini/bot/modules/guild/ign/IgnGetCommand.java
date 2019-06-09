@@ -14,9 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class IgnGetCommand extends Command {
+class IgnGetCommand extends Command {
 
-    public IgnGetCommand() {
+    IgnGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})

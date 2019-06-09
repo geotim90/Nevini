@@ -11,7 +11,7 @@ import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 import net.dv8tion.jda.core.entities.Member;
 
-public class IgnSetCommand extends Command {
+class IgnSetCommand extends Command {
 
     private static final StringResolver nameResolver = new StringResolver("in-game name", "name",
             CommandOptionDescriptor.builder()
@@ -21,7 +21,7 @@ public class IgnSetCommand extends Command {
                     .aliases(new String[]{"//name"})
                     .build());
 
-    public IgnSetCommand() {
+    IgnSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.GUILD_IGN_SET)

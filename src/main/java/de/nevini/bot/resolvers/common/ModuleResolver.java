@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class ModuleResolver extends AbstractResolver<Module> {
 
-    protected ModuleResolver() {
+    ModuleResolver() {
         super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))?")});
     }
 

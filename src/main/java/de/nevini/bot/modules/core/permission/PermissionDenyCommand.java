@@ -3,9 +3,9 @@ package de.nevini.bot.modules.core.permission;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.scope.Node;
 
-public class PermissionDenyCommand extends PermissionSetCommand {
+class PermissionDenyCommand extends PermissionSetCommand {
 
-    public PermissionDenyCommand() {
+    PermissionDenyCommand() {
         super(CommandDescriptor.builder()
                 .keyword("deny")
                 .aliases(new String[]{"block", "refuse"})

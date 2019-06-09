@@ -9,9 +9,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.apache.commons.lang3.ObjectUtils;
 
-public class PermissionDebugCommand extends Command {
+class PermissionDebugCommand extends Command {
 
-    public PermissionDebugCommand() {
+    PermissionDebugCommand() {
         super(CommandDescriptor.builder()
                 .keyword("debug")
                 .node(Node.CORE_PERMISSION_DEBUG)

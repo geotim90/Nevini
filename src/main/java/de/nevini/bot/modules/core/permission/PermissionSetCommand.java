@@ -12,12 +12,12 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
 
-public abstract class PermissionSetCommand extends Command {
+abstract class PermissionSetCommand extends Command {
 
     private final String verb;
     private final Boolean override;
 
-    protected PermissionSetCommand(
+    PermissionSetCommand(
             @NonNull CommandDescriptor commandDescriptor, @NonNull String verb, Boolean override
     ) {
         super(commandDescriptor);

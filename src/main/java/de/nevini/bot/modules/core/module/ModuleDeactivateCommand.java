@@ -9,9 +9,9 @@ import de.nevini.bot.scope.Node;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 
-public class ModuleDeactivateCommand extends Command {
+class ModuleDeactivateCommand extends Command {
 
-    public ModuleDeactivateCommand() {
+    ModuleDeactivateCommand() {
         super(CommandDescriptor.builder()
                 .keyword("deactivate")
                 .aliases(new String[]{"disable", "remove", "-"})
