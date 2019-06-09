@@ -17,6 +17,8 @@ Provides a list of commands or details on a specific command.
 If a valid command is provided, this will display details on that specific command.<br>
 If no valid command is provided, this will display a list of commands.
 
+This command can be executed in a text or via direct message.
+
 Permission overrides may be applied on node **core.help**.
 
 Option | Description
@@ -32,6 +34,8 @@ help | about<br>info
 Displays and configures modules.
 
 By default, this command will behave the same as **module get**.
+
+This command can only be executed in a text channel and not via direct message.
 
 Keyword | Aliases
 --------|--------
@@ -50,6 +54,8 @@ Displays a list of modules.
 If a module is provided, this will display a list of all matching modules.<br>
 If no module is provided, this will display a list of all modules.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **core.module.get**.
 
@@ -66,6 +72,8 @@ get | display<br>echo<br>list<br>print<br>show
 
 Activates a module.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **core.module.activate**.
 
@@ -81,6 +89,8 @@ activate | add<br>enable<br>+
 ### Command: `module deactivate`
 
 Deactivates a module.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **core.module.deactivate**.
@@ -99,6 +109,8 @@ deactivate | disable<br>remove<br>-
 Displays and configures permission node overrides for bot commands.
 
 By default, this command will behave the same as **permission get**.
+
+This command can only be executed in a text channel and not via direct message.
 
 Keyword | Aliases
 --------|--------
@@ -132,6 +144,8 @@ Server owners and administrators are not restricted by permission node overrides
 Users can only configure permissions for permission nodes they have themselves.<br>
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.get**.
@@ -178,6 +192,8 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.debug**.
 
@@ -221,6 +237,8 @@ Server owners and administrators are not restricted by permission node overrides
 Users can only configure permissions for permission nodes they have themselves.<br>
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.allow**.
@@ -267,6 +285,8 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.deny**.
 
@@ -312,6 +332,8 @@ Users can only configure permissions for permission nodes they have themselves.<
 Users can only configure permissions for roles of a lower position than their highest role.<br>
 Users can only configure permissions for users whose highest role is lower than their highest role.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Roles** permission to execute this command.<br>
 Permission overrides may be applied on node **core.permission.reset**.
 
@@ -340,6 +362,8 @@ reset | clear<br>default
 
 Measures the bot's communication latency.
 
+This command can be executed in a text or via direct message.
+
 Permission overrides may be applied on node **core.ping**.
 
 Keyword | Aliases
@@ -352,6 +376,8 @@ Displays and configures the command prefix.
 
 By default, this command will behave the same as **prefix get**.
 
+This command can only be executed in a text channel and not via direct message.
+
 Command | Description
 --------|------------
 [prefix get](#command-prefix-get) | displays the currently configured command prefix
@@ -360,6 +386,8 @@ Command | Description
 ### Command: `prefix get`
 
 Displays the currently configured command prefix.
+
+This command can only be executed in a text channel and not via direct message.
 
 Permission overrides may be applied on node **core.prefix.get**.
 
@@ -372,6 +400,8 @@ get | display<br>echo<br>list<br>print<br>show
 Configures the command prefix.
 
 The command prefix cannot be longer than 32 characters and must not contain spaces.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **core.prefix.set**.

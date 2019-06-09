@@ -13,6 +13,8 @@ Command | Description
 
 Displays user and/or game activity information.
 
+This command can only be executed in a text channel and not via direct message.
+
 Permission overrides may be applied on node **guild.activity**.
 
 Option | Description
@@ -31,6 +33,8 @@ Displays and configures feeds.
 
 By default, this command will behave the same as **feed get**.
 
+This command can only be executed in a text channel and not via direct message.
+
 Keyword | Aliases
 --------|--------
 feed | feeds<br>subscription<br>subscriptions
@@ -48,6 +52,8 @@ Providing the `--all` flag will display a list of all possible feeds.<br>
 Providing a feed will display whether a subscription is active and in which channel.<br>
 Providing a channel will display active subscriptions in that channel.<br>
 Providing no options will display a list of active subscriptions on this server.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.feed.get**.
@@ -72,6 +78,8 @@ Displays a list of feeds.
 Providing a channel will cause the bot to post feed updates in said channel.<br>
 If no channel is provided, the bot will stop the feed.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.feed.set**.
 
@@ -92,6 +100,8 @@ Finds users, roles etc. by any of their identifiers.
 
 By default, this command will behave the same as **find user**.
 
+This command can only be executed in a text channel and not via direct message.
+
 Keyword | Aliases
 --------|--------
 find | search
@@ -110,6 +120,8 @@ Command | Description
 
 Finds users by any of their identifiers.
 
+This command can only be executed in a text channel and not via direct message.
+
 Permission overrides may be applied on node **guild.find.user**.
 
 Option | Description
@@ -124,6 +136,8 @@ user | member<br>u<br>m
 ### Command: `find role`
 
 Finds roles by any of their identifiers.
+
+This command can only be executed in a text channel and not via direct message.
 
 Permission overrides may be applied on node **guild.find.role**.
 
@@ -140,6 +154,8 @@ role | r
 
 Finds permission by any of their identifiers.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.find.module**.
 
@@ -154,6 +170,8 @@ Keyword | Aliases
 ### Command: `find node`
 
 Finds nodes by any of their identifiers.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.find.module**.
@@ -170,6 +188,8 @@ Keyword | Aliases
 
 Finds modules by any of their identifiers.
 
+This command can only be executed in a text channel and not via direct message.
+
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.find.module**.
 
@@ -185,6 +205,8 @@ Keyword | Aliases
 
 Finds games by any of their identifiers.
 
+This command can only be executed in a text channel and not via direct message.
+
 Permission overrides may be applied on node **guild.find.game**.
 
 Option | Description
@@ -198,6 +220,8 @@ Keyword | Aliases
 ### Command: `find channel`
 
 Finds text channels by any of their identifiers.
+
+This command can only be executed in a text channel and not via direct message.
 
 Permission overrides may be applied on node **guild.find.channel**.
 
@@ -216,6 +240,8 @@ Displays and configures in-game names.
 
 By default, this command will behave the same as **ign get**.
 
+This command can only be executed in a text channel and not via direct message.
+
 Command | Description
 --------|------------
 [ign get](#command-ign-get) | displays in-game names for a user and/or game
@@ -224,6 +250,8 @@ Command | Description
 ### Command: `ign get`
 
 Displays in-game names for a user and/or game.
+
+This command can only be executed in a text channel and not via direct message.
 
 Permission overrides may be applied on node **guild.ign.get**.
 
@@ -243,6 +271,8 @@ get | display<br>echo<br>list<br>print<br>show
 Configures the in-game name for a specific user in a specific game.
 
 Users can only configure in-game names for users whose highest role is lower than their highest role.
+
+This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Nicknames** permission to execute this command.<br>
 Permission overrides may be applied on node **guild.ign.set**.

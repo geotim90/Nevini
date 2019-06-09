@@ -100,6 +100,18 @@ public class HelpCommand extends Command {
                 builder.append("\n\n").append(command.getDetails());
             }
 
+            // owner only
+            builder.append('\n');
+            if (command.isOwnerOnly()) {
+                builder.append("\nThis command can only be executed by the owner of the bot.");
+            }
+            // guild only
+            if (command.isGuildOnly()) {
+                builder.append("\nThis command can only be executed in a text channel and not via direct message.");
+            } else {
+                builder.append("\nThis command can be executed in a text channel or via direct message.");
+            }
+
             // permission node
             if (command.getNode() != null) {
                 String[] permissions = Arrays.stream(command.getNode().getDefaultPermissions())
@@ -152,7 +164,7 @@ public class HelpCommand extends Command {
             if (command.getChildren().length > 0) {
                 builder.append("\n\n__Commands__");
                 for (Command child : command.getChildren()) {
-                    builder.append("\n**").append(chain).append(child.getKeyword()).append("** - ")
+                    builder.append("\n**").append(chain).append(' ').append(child.getKeyword()).append("** - ")
                             .append(child.getDescription());
                 }
             }

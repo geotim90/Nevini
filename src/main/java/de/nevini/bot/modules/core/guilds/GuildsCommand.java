@@ -25,7 +25,6 @@ public class GuildsCommand extends Command {
                 .node(Node.CORE_HELP) // dummy node
                 .minimumBotPermissions(Permissions.TALK)
                 .description("display a list of all guilds this bot is in")
-                .details("This command can only be executed by the owner of the bot.")
                 .build());
     }
 
