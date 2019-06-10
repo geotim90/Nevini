@@ -58,7 +58,7 @@ public class FeedService {
      * Returns the main entry for the specified feed.
      * Returns {@code null} if none exists.
      *
-     * @param feed  the {@link Feed} to lookup
+     * @param feed  the {@link Feed} to look up
      * @param guild the relevant {@link Guild}
      */
     public FeedData getSubscription(@NonNull Feed feed, @NonNull Guild guild) {
@@ -69,7 +69,7 @@ public class FeedService {
      * Returns a specific entry for the specified feed.
      * Returns {@code null} if none exists and no main entry exists.
      *
-     * @param feed  the {@link Feed} to lookup
+     * @param feed  the {@link Feed} to look up
      * @param guild the relevant {@link Guild}
      * @param id    the relevant id ({@code -1L} = main entry)
      */
@@ -82,6 +82,15 @@ public class FeedService {
                         data -> new FeedData(data.getGuild(), data.getType(), id, data.getChannel(), 0L)
                 ).orElse(null)
         );
+    }
+
+    /**
+     * Returns the main entry for all feeds of the specified type.
+     *
+     * @param feed the {@link Feed} to look up
+     */
+    public Collection<FeedData> getSubscription(@NonNull Feed feed) {
+        return feedRepository.findAllByTypeAndId(feed.getType());
     }
 
     /**

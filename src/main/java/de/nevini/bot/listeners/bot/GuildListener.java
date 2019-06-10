@@ -14,6 +14,8 @@ import net.dv8tion.jda.core.events.guild.GuildUnavailableEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 @Component
 public class GuildListener {
 
@@ -31,57 +33,66 @@ public class GuildListener {
     }
 
     private void onGuildJoin(GuildJoinEvent event) {
-        Guild guild = event.getGuild();
-        FeedData subscription = feedService.getSubscription(Feed.GUILDS, guild);
-        if (subscription != null) {
-            TextChannel channel = guild.getTextChannelById(subscription.getChannel());
-            if (channel != null) {
-                channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just joined **"
-                        + guild.getName() + "** (" + guild.getId() + ") owned by **"
-                        + guild.getOwner().getUser().getAsTag() + "** (" + guild.getOwnerId() + ") with "
-                        + guild.getMembers().size() + " members").queue();
+        Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
+        for (FeedData subscription : subscriptions) {
+            Guild guild = event.getJDA().getGuildById(subscription.getGuild());
+            if (guild != null) {
+                TextChannel channel = guild.getTextChannelById(subscription.getChannel());
+                if (channel != null) {
+                    channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just joined **"
+                            + guild.getName() + "** (" + guild.getId() + ") owned by **"
+                            + guild.getOwner().getUser().getAsTag() + "** (" + guild.getOwnerId() + ") with "
+                            + guild.getMembers().size() + " members").queue();
+                }
+                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
-            feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
         }
+
     }
 
 
     private void onGuildLeave(GuildLeaveEvent event) {
-        Guild guild = event.getGuild();
-        FeedData subscription = feedService.getSubscription(Feed.GUILDS, guild);
-        if (subscription != null) {
-            TextChannel channel = guild.getTextChannelById(subscription.getChannel());
-            if (channel != null) {
-                channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just left **"
-                        + guild.getName() + "** (" + guild.getId() + ")").queue();
+        Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
+        for (FeedData subscription : subscriptions) {
+            Guild guild = event.getJDA().getGuildById(subscription.getGuild());
+            if (guild != null) {
+                TextChannel channel = guild.getTextChannelById(subscription.getChannel());
+                if (channel != null) {
+                    channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just left **"
+                            + guild.getName() + "** (" + guild.getId() + ")").queue();
+                }
+                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
-            feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
         }
     }
 
     private void onGuildAvailable(GuildAvailableEvent event) {
-        Guild guild = event.getGuild();
-        FeedData subscription = feedService.getSubscription(Feed.GUILDS, guild);
-        if (subscription != null) {
-            TextChannel channel = guild.getTextChannelById(subscription.getChannel());
-            if (channel != null) {
-                channel.sendMessage("**" + guild.getName() + "** (" + guild.getId() + ") became available again")
-                        .queue();
+        Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
+        for (FeedData subscription : subscriptions) {
+            Guild guild = event.getJDA().getGuildById(subscription.getGuild());
+            if (guild != null) {
+                TextChannel channel = guild.getTextChannelById(subscription.getChannel());
+                if (channel != null) {
+                    channel.sendMessage("**" + guild.getName() + "** (" + guild.getId() + ") became available again")
+                            .queue();
+                }
+                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
-            feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
         }
     }
 
     private void onGuildUnavailable(GuildUnavailableEvent event) {
-        Guild guild = event.getGuild();
-        FeedData subscription = feedService.getSubscription(Feed.GUILDS, guild);
-        if (subscription != null) {
-            TextChannel channel = guild.getTextChannelById(subscription.getChannel());
-            if (channel != null) {
-                channel.sendMessage("**" + guild.getName() + "** (" + guild.getId() + ") became unavailable")
-                        .queue();
+        Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
+        for (FeedData subscription : subscriptions) {
+            Guild guild = event.getJDA().getGuildById(subscription.getGuild());
+            if (guild != null) {
+                TextChannel channel = guild.getTextChannelById(subscription.getChannel());
+                if (channel != null) {
+                    channel.sendMessage("**" + guild.getName() + "** (" + guild.getId() + ") became unavailable")
+                            .queue();
+                }
+                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
-            feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
         }
     }
 

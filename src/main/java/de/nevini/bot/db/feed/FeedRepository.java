@@ -12,6 +12,8 @@ public interface FeedRepository extends CrudRepository<FeedData, FeedId> {
 
     Collection<FeedData> findAllByGuildAndIdAndChannel(long guild, long id, long channel);
 
+    Collection<FeedData> findAllByTypeAndId(String type, long id);
+
     void deleteAllByGuildAndType(long idLong, String type);
 
 }
