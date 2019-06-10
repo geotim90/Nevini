@@ -43,9 +43,18 @@ public class CommandListener {
             return;
         }
 
-        // remove the bot prefix from the content to check (default to "help")
-        String content = StringUtils.defaultIfEmpty(event.getMessage().getContentRaw()
-                .substring(StringUtils.defaultString(prefix).length()).trim(), "help");
+        // remove the bot prefix from the content to check
+        String trim = event.getMessage().getContentRaw().substring(StringUtils.defaultString(prefix).length()).trim();
+
+        // ignore empty commands for default prefix and guild prefix
+        if (StringUtils.isEmpty(trim) && (commandContext.getPrefixService().getDefaultPrefix().equals(prefix)
+                || commandContext.getPrefixService().getGuildPrefix(event.getGuild()).equals(prefix)
+        )) {
+            return;
+        }
+
+        // default to help (only when mentioned)
+        String content = StringUtils.defaultIfEmpty(trim, "help");
 
         // split the command keyword from the rest
         String[] args = content.split("\\s+", 2);
