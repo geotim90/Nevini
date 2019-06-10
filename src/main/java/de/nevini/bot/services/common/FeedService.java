@@ -79,7 +79,7 @@ public class FeedService {
                 // try to find main entry
                 feedRepository.findById(new FeedId(guild.getIdLong(), feed.getType(), -1L)).map(
                         // create a "new" specific entry from the main entry
-                        data -> new FeedData(data.getGuild(), data.getType(), id, data.getChannel(), 0L)
+                        data -> new FeedData(data.getGuild(), data.getType(), id, data.getChannel(), data.getUts())
                 ).orElse(null)
         );
     }
@@ -90,7 +90,7 @@ public class FeedService {
      * @param feed the {@link Feed} to look up
      */
     public Collection<FeedData> getSubscription(@NonNull Feed feed) {
-        return feedRepository.findAllByTypeAndId(feed.getType());
+        return feedRepository.findAllByTypeAndId(feed.getType(), -1L);
     }
 
     /**
