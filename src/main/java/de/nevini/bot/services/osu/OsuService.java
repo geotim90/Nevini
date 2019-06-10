@@ -72,7 +72,7 @@ public class OsuService implements Locatable {
     }
 
     private OsuBeatmap getBeatmapFromApi(int beatmapId) {
-        log.info("Requesting beatmap (id={})", beatmapId);
+        log.debug("Requesting beatmap (id={})", beatmapId);
         ApiResponse<List<OsuBeatmap>> response = osuApi.getBeatmaps(
                 OsuBeatmapsRequest.builder().beatmapId(beatmapId).build()
         );
@@ -118,7 +118,7 @@ public class OsuService implements Locatable {
         if (mods != null) {
             requestBuilder.mods(mods);
         }
-        log.info("Requesting scores (beatmap={}, ign={}, mode={}, mods={})", beatmap, ign, mode, mods);
+        log.debug("Requesting scores (beatmap={}, ign={}, mode={}, mods={})", beatmap, ign, mode, mods);
         ApiResponse<List<OsuScore>> response = osuApi.getScores(requestBuilder.build());
         if (response.isOk()) {
             return response.getResult();
@@ -140,7 +140,7 @@ public class OsuService implements Locatable {
     }
 
     public OsuUser getUser(int user, OsuMode mode, int eventDays) {
-        log.info("Requesting user (user={}, mode={}, eventDays={})", user, mode, eventDays);
+        log.debug("Requesting user (user={}, mode={}, eventDays={})", user, mode, eventDays);
         return getUser(OsuUserRequest.builder().user(Integer.toString(user)).userType(OsuUserType.ID), mode, eventDays);
     }
 
@@ -153,7 +153,7 @@ public class OsuService implements Locatable {
     }
 
     public OsuUser getUser(@NonNull String user, OsuMode mode, int eventDays) {
-        log.info("Requesting user (user={}, mode={}, eventDays={})", user, mode, eventDays);
+        log.debug("Requesting user (user={}, mode={}, eventDays={})", user, mode, eventDays);
         return getUser(OsuUserRequest.builder().user(user).userType(OsuUserType.STRING), mode, eventDays);
     }
 
@@ -181,7 +181,7 @@ public class OsuService implements Locatable {
     }
 
     public List<OsuUserBest> getUserBest(@NonNull String user, OsuMode mode) {
-        log.info("Requesting userBest (user={}, mode={})", user, mode);
+        log.debug("Requesting userBest (user={}, mode={})", user, mode);
         ApiResponse<List<OsuUserBest>> response = osuApi.getUserBest(OsuUserBestRequest.builder()
                 .user(user)
                 .userType(OsuUserType.STRING)
@@ -210,7 +210,7 @@ public class OsuService implements Locatable {
     }
 
     public List<OsuUserRecent> getUserRecent(@NonNull String user, OsuMode mode) {
-        log.info("Requesting userRecent (user={}, mode={})", user, mode);
+        log.debug("Requesting userRecent (user={}, mode={})", user, mode);
         ApiResponse<List<OsuUserRecent>> response = osuApi.getUserRecent(OsuUserRecentRequest.builder()
                 .user(user)
                 .userType(OsuUserType.STRING)

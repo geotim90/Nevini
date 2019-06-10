@@ -108,9 +108,9 @@ public class OsuListener {
                 }
             }
 
-            // schedule up to 6 executions (per minute) [10% of avg. rate limit]
+            // only pop one ign off the queue per minute to process in the background
             Iterator<IgnData> iterator = updateQueue.iterator();
-            for (int i = 0; i < 6 && iterator.hasNext(); i++) {
+            if (iterator.hasNext()) {
                 IgnData ign = iterator.next();
                 eventDispatcher.execute(() -> updateMember(jda, ign));
                 iterator.remove();
@@ -150,7 +150,7 @@ public class OsuListener {
         ZonedDateTime then = ZonedDateTime.ofInstant(Instant.ofEpochMilli(uts), ZoneOffset.UTC);
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
         int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(then, now), 31));
-        log.info(
+        log.debug(
                 "Querying user events for {} days ({} to {})",
                 days,
                 Formatter.formatTimestamp(uts),
@@ -200,7 +200,7 @@ public class OsuListener {
                 ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
         long uts = feed.getUts();
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-        log.info("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
+        log.debug("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
         List<OsuUserRecent> recent = osuService.getUserRecent(ign, OsuMode.STANDARD);
         if (recent != null && !recent.isEmpty()) {
             // collect recents
