@@ -83,7 +83,7 @@ class IgnGetCommand extends Command {
     }
 
     private void displayMemberGameIgn(CommandEvent event, Member member, GameData game) {
-        String ign = event.getIgnService().getIgn(member, game);
+        String ign = event.getIgnService().getInGameName(member, game);
         if (StringUtils.isEmpty(ign)) {
             event.reply("I do not have an in-game name for " + member.getEffectiveName() + " in "
                     + game.getName() + ".", event::complete);

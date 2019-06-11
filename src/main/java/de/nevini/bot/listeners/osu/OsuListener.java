@@ -25,6 +25,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +42,8 @@ public class OsuListener {
 
     private final EventDispatcher<Event> eventDispatcher;
     private final Set<IgnData> updateQueue = new LinkedHashSet<>();
-    private long uts = 0;
+    private final Map<IgnData, Long> its = new ConcurrentHashMap<>();
+    private long uts = 0L;
 
     public OsuListener(
             @Autowired IgnService ignService,
@@ -66,7 +68,7 @@ public class OsuListener {
     }
 
     private void processUserGame(UserUpdateGameEvent event, Game game) {
-        if (game != null && game.isRich() && "osu!".equals(game.getName())) {
+        if (game != null && game.isRich() && osuService.getGame().getName().equals(game.getName())) {
             // osu! presence contains the in-game name
             RichPresence presence = game.asRichPresence();
             if (presence.getLargeImage() != null) {
@@ -77,10 +79,12 @@ public class OsuListener {
                 }
             }
 
-            // update osu! feeds
-            if (event.getMember() != null) {
-                updateEvents(event.getMember());
-                updateRecent(event.getMember());
+            // queue update for osu! feeds
+            IgnData ign = ignService.getIgn(event.getMember(), osuService.getGame());
+            if (ign != null) {
+                synchronized (updateQueue) {
+                    updateQueue.add(ign);
+                }
             }
         }
     }
@@ -88,21 +92,25 @@ public class OsuListener {
     private void updateQueue(JDA jda) {
         synchronized (updateQueue) {
             // only execute once every minute at maximum
-            if (System.currentTimeMillis() - uts < TimeUnit.MINUTES.toMillis(1)) return;
+            long now = System.currentTimeMillis();
+            if (now - uts < TimeUnit.MINUTES.toMillis(1)) return;
 
-            // populate queue if empty
-            if (updateQueue.isEmpty()) {
-                for (Guild guild : jda.getGuilds()) {
-                    // only include guilds with feed subscriptions
-                    FeedData feedEvents = feedService.getSubscription(Feed.OSU_EVENTS, guild);
-                    FeedData feedRecent = feedService.getSubscription(Feed.OSU_RECENT, guild);
-                    if (feedEvents != null || feedRecent != null) {
-                        // only include members with known in-game names
-                        for (IgnData ign : ignService.getIgns(guild, osuService.getGame())) {
+            for (Guild guild : jda.getGuilds()) {
+                // only include guilds with feed subscriptions
+                FeedData feedEvents = feedService.getSubscription(Feed.OSU_EVENTS, guild);
+                FeedData feedRecent = feedService.getSubscription(Feed.OSU_RECENT, guild);
+                if (feedEvents != null || feedRecent != null) {
+                    // only include members with known in-game names
+                    for (IgnData ign : ignService.getIgns(guild, osuService.getGame())) {
+                        if (guild.getMemberById(ign.getUser()) != null) {
                             IgnData guildIgn = new IgnData(
                                     guild.getIdLong(), ign.getUser(), ign.getGame(), ign.getName()
                             );
-                            updateQueue.add(guildIgn);
+                            // only auto-queue updates once every hour per guild and ign
+                            if (now - its.getOrDefault(guildIgn, 0L) >= TimeUnit.HOURS.toMillis(1)) {
+                                updateQueue.add(guildIgn);
+                                its.put(guildIgn, now);
+                            }
                         }
                     }
                 }
@@ -117,7 +125,7 @@ public class OsuListener {
             }
 
             // update timestamp
-            uts = System.currentTimeMillis();
+            uts = now;
         }
     }
 
@@ -144,7 +152,7 @@ public class OsuListener {
         TextChannel channel = member.getGuild().getTextChannelById(feed.getChannel());
         if (channel == null) return;
         // get ign
-        String ign = StringUtils.defaultIfEmpty(ignService.getIgn(member, osuService.getGame()),
+        String ign = StringUtils.defaultIfEmpty(ignService.getInGameName(member, osuService.getGame()),
                 member.getEffectiveName());
         long uts = feed.getUts();
         ZonedDateTime then = ZonedDateTime.ofInstant(Instant.ofEpochMilli(uts), ZoneOffset.UTC);
@@ -197,7 +205,7 @@ public class OsuListener {
         if (channel == null) return;
         // get ign
         String ign = StringUtils.defaultIfEmpty(
-                ignService.getIgn(member, osuService.getGame()), member.getEffectiveName());
+                ignService.getInGameName(member, osuService.getGame()), member.getEffectiveName());
         long uts = feed.getUts();
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
         log.debug("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));

@@ -23,7 +23,7 @@ public class OsuCommandUtils {
     ) {
         if (user.getMember() != null) {
             return StringUtils.defaultIfEmpty(
-                    ignService.getIgn(user.getMember(), game),
+                    ignService.getInGameName(user.getMember(), game),
                     user.getMember().getEffectiveName()
             );
         } else if (user.getUser() != null) {

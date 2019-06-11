@@ -39,7 +39,7 @@ public class OsuLeaderboardCommand extends Command {
         event.notifyLongTaskStart();
         List<OsuUser> rankedUsers = event.getGuild().getMembers().stream().filter(member -> !member.getUser().isBot())
                 .map(member -> {
-                    String ign = event.getIgnService().getIgn(member, game);
+                    String ign = event.getIgnService().getInGameName(member, game);
                     return StringUtils.isEmpty(ign) ? null : osuService.getUser(ign);
                 })
                 .filter(user -> user != null && user.getPpRank() > 0).sorted(Comparator.comparing(OsuUser::getPpRank))
