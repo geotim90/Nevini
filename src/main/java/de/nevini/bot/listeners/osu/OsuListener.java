@@ -9,6 +9,7 @@ import de.nevini.bot.services.common.IgnService;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
+import de.nevini.commons.concurrent.TokenBucket;
 import de.nevini.framework.message.MessageLineSplitter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -41,6 +42,7 @@ public class OsuListener {
     private final OsuService osuService;
 
     private final EventDispatcher<Event> eventDispatcher;
+    private final TokenBucket rateLimiter = new TokenBucket(3, 6, TimeUnit.MINUTES);
     private final Set<IgnData> updateQueue = new LinkedHashSet<>();
     private final Map<IgnData, Long> its = new ConcurrentHashMap<>();
     private long uts = 0L;
@@ -82,6 +84,7 @@ public class OsuListener {
             // queue update for osu! feeds
             IgnData ign = ignService.getIgn(event.getMember(), osuService.getGame());
             if (ign != null) {
+                log.debug("Queueing {}", ign);
                 synchronized (updateQueue) {
                     updateQueue.add(ign);
                 }
@@ -108,6 +111,7 @@ public class OsuListener {
                             );
                             // only auto-queue updates once every hour per guild and ign
                             if (now - its.getOrDefault(guildIgn, 0L) >= TimeUnit.HOURS.toMillis(1)) {
+                                log.debug("Auto-queueing {}", guildIgn);
                                 updateQueue.add(guildIgn);
                                 its.put(guildIgn, now);
                             }
@@ -116,10 +120,11 @@ public class OsuListener {
                 }
             }
 
-            // only pop one ign off the queue per minute to process in the background
+            // process as many igns as the rate limiter allows
             Iterator<IgnData> iterator = updateQueue.iterator();
-            if (iterator.hasNext()) {
+            while (iterator.hasNext() && rateLimiter.requestToken()) {
                 IgnData ign = iterator.next();
+                log.debug("Processing {}", ign);
                 eventDispatcher.execute(() -> updateMember(jda, ign));
                 iterator.remove();
             }
