@@ -66,7 +66,7 @@ public class GameService {
         // update cache and database
         GameData game = new GameData(mappedId, mappedName, getIcon(presence));
         if (!StringUtils.equals(cache.put(mappedId, mappedName), mappedName)) {
-            log.info("Save data: {}", game);
+            log.debug("Save data: {}", game);
             gameRepository.save(game);
         }
 
