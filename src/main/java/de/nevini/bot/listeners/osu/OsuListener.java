@@ -174,7 +174,7 @@ public class OsuListener {
                     .forEach(e -> {
                         String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHtml())
                                 + " at " + Formatter.formatTimestamp(e.getDate().getTime());
-                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
+                        log.debug("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
                                 channel.getId(), markdown);
                         builder.append(markdown).append('\n');
                     });
@@ -224,7 +224,7 @@ public class OsuListener {
                                 Formatter.formatInteger(e.getScore()) + " points on "
                                 + osuService.getBeatmapString(e.getBeatmapId()) + " at "
                                 + Formatter.formatTimestamp(e.getDate().getTime());
-                        log.info("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(),
+                        log.debug("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(),
                                 markdown);
                         builder.append(markdown).append('\n');
                     });

@@ -37,7 +37,7 @@ public class FeedService {
                 channel.getIdLong(),
                 System.currentTimeMillis()
         );
-        log.info("Save data: {}", data);
+        log.debug("Save data: {}", data);
         feedRepository.save(data);
     }
 
@@ -49,7 +49,7 @@ public class FeedService {
      */
     public synchronized void unsubscribe(@NonNull Feed feed, @NonNull Guild guild) {
         FeedId id = new FeedId(guild.getIdLong(), feed.getType(), -1L);
-        log.info("Delete data: {}", id);
+        log.debug("Delete data: {}", id);
         feedRepository.deleteById(id);
         feedRepository.deleteAllByGuildAndType(guild.getIdLong(), feed.getType());
     }
@@ -131,7 +131,7 @@ public class FeedService {
                     channel.getIdLong(),
                     uts
             );
-            log.info("Save data: {}", data);
+            log.debug("Save data: {}", data);
             feedRepository.save(data);
         }
 
@@ -143,7 +143,7 @@ public class FeedService {
                 channel.getIdLong(),
                 uts
         );
-        log.info("Save data: {}", data);
+        log.debug("Save data: {}", data);
         feedRepository.save(data);
     }
 
