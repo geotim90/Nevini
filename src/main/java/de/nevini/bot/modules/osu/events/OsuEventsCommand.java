@@ -52,7 +52,7 @@ public class OsuEventsCommand extends Command {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
         String ign = OsuCommandUtils.resolveUserName(userOrMember, event.getIgnService(), game);
-        OsuUser user = mode == null ? osuService.getUser(ign) : osuService.getUser(ign, mode, 31);
+        OsuUser user = osuService.getUser(ign, mode, 31);
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else if (user.getEvents().isEmpty()) {

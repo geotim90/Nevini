@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.0.8'
+version = '4.1.0'
 sourceCompatibility = '8'
 
 configurations {
@@ -32,6 +32,7 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	// common
 	implementation 'com.google.code.gson:gson'
+	implementation 'com.google.guava:guava:28.0-jre'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.3'
 	// jda

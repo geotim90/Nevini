@@ -81,12 +81,17 @@ public class OsuListener {
                 }
             }
 
-            // queue update for osu! feeds
+            // update osu! feeds
             IgnData ign = ignService.getIgn(event.getMember(), osuService.getGame());
             if (ign != null) {
-                log.debug("Queueing {}", ign);
-                synchronized (updateQueue) {
-                    updateQueue.add(ign);
+                if (rateLimiter.requestToken()) {
+                    log.debug("Processing now {}", ign);
+                    eventDispatcher.execute(() -> updateMember(event.getJDA(), ign));
+                } else {
+                    log.debug("Queueing {}", ign);
+                    synchronized (updateQueue) {
+                        updateQueue.add(ign);
+                    }
                 }
             }
         }
