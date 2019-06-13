@@ -36,6 +36,7 @@ class PermissionGetCommand extends Command {
     private void acceptOptions(CommandEvent event, PermissionOptions options) {
         if (options.getNodes().isEmpty()) {
             options.setNodes(Arrays.stream(Node.values())
+                    .filter(node -> node.getNode().startsWith(node.getModule().getName()))
                     .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
                     .collect(Collectors.toList()));
         }
