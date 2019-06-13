@@ -92,8 +92,8 @@ public class Formatter {
 
     public static String formatOsuDisplayHtml(String value) {
         String markdown = value.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
-                .replaceAll("<b><a href='(/u/\\d+)'>([^<]+)</a></b>", "$2") // resolve user references
-                .replaceAll("<a href='(/b/\\d+\\?m=\\d)'>([^<]+)</a>", "$2") // resolve beatmap references
+                .replaceAll("<b><a href='(/u(?:sers)?/\\d+)'>([^<]+)</a></b>", "$2") // resolve user references
+                .replaceAll("<a href='(/[bs]/\\d+(?:\\?m=\\d)?)'>([^<]+)</a>", "$2") // resolve beatmap references
                 // resolve HTML formatting
                 .replaceAll("<b>([^<]+)</b>", "**$1**") // bold text emphasis
                 // resolve HTML entities
