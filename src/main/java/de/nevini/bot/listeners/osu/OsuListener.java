@@ -18,6 +18,7 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static de.nevini.commons.util.Functions.ignore;
 
@@ -42,9 +44,9 @@ public class OsuListener {
     private final OsuService osuService;
 
     private final EventDispatcher<Event> eventDispatcher;
-    private final TokenBucket rateLimiter = new TokenBucket(3, 6, TimeUnit.MINUTES);
-    private final Set<IgnData> updateQueue = new LinkedHashSet<>();
-    private final Map<IgnData, Long> its = new ConcurrentHashMap<>();
+    private final TokenBucket queueRateLimiter = new TokenBucket(3, 6, TimeUnit.MINUTES);
+    private final Set<Long> updateQueue = new LinkedHashSet<>();
+    private final Map<Long, Long> its = new ConcurrentHashMap<>();
     private long uts = 0L;
 
     public OsuListener(
@@ -82,178 +84,221 @@ public class OsuListener {
             }
 
             // update osu! feeds
-            IgnData ign = ignService.getIgn(event.getMember(), osuService.getGame());
-            if (ign != null) {
-                if (rateLimiter.requestToken()) {
-                    log.debug("Processing now {}", ign);
-                    eventDispatcher.execute(() -> updateMember(event.getJDA(), ign));
-                } else {
-                    log.debug("Queueing {}", ign);
-                    synchronized (updateQueue) {
-                        updateQueue.add(ign);
-                    }
-                }
-            }
+            long user = event.getUser().getIdLong();
+            eventDispatcher.execute(() -> updateUser(event.getJDA(), user));
         }
     }
 
-    private void updateQueue(JDA jda) {
-        synchronized (updateQueue) {
-            // only execute once every minute at maximum
-            long now = System.currentTimeMillis();
-            if (now - uts < TimeUnit.MINUTES.toMillis(1)) return;
+    private synchronized void updateQueue(JDA jda) {
+        // only execute once every minute at maximum
+        long now = System.currentTimeMillis();
+        if (now - uts < TimeUnit.MINUTES.toMillis(1)) return;
 
-            for (Guild guild : jda.getGuilds()) {
-                // only include guilds with feed subscriptions
-                FeedData feedEvents = feedService.getSubscription(Feed.OSU_EVENTS, guild);
-                FeedData feedRecent = feedService.getSubscription(Feed.OSU_RECENT, guild);
-                if (feedEvents != null || feedRecent != null) {
-                    // only include members with known in-game names
-                    for (IgnData ign : ignService.getIgns(guild, osuService.getGame())) {
-                        if (guild.getMemberById(ign.getUser()) != null) {
-                            IgnData guildIgn = new IgnData(
-                                    guild.getIdLong(), ign.getUser(), ign.getGame(), ign.getName()
-                            );
-                            // only auto-queue updates once every hour per guild and ign
-                            if (now - its.getOrDefault(guildIgn, 0L) >= TimeUnit.HOURS.toMillis(1)) {
-                                log.debug("Auto-queueing {}", guildIgn);
-                                updateQueue.add(guildIgn);
-                                its.put(guildIgn, now);
-                            }
+        // iterate over guilds
+        for (Guild guild : jda.getGuilds()) {
+            // only include guilds with feed subscriptions
+            FeedData feedEvents = feedService.getSubscription(Feed.OSU_EVENTS, guild);
+            FeedData feedRecent = feedService.getSubscription(Feed.OSU_RECENT, guild);
+            if (feedEvents != null || feedRecent != null) {
+                // only include members with known in-game names
+                for (IgnData ign : ignService.getIgns(guild, osuService.getGame())) {
+                    if (guild.getMemberById(ign.getUser()) != null) {
+                        // only auto-queue updates once every hour per user
+                        if (now - its.getOrDefault(ign.getUser(), 0L) >= TimeUnit.HOURS.toMillis(1)) {
+                            log.debug("Auto-queueing {}", ign.getUser());
+                            updateQueue.add(ign.getUser());
+                            its.put(ign.getUser(), now);
                         }
                     }
                 }
             }
-
-            // process as many igns as the rate limiter allows
-            Iterator<IgnData> iterator = updateQueue.iterator();
-            while (iterator.hasNext() && rateLimiter.requestToken()) {
-                IgnData ign = iterator.next();
-                log.debug("Processing {}", ign);
-                eventDispatcher.execute(() -> updateMember(jda, ign));
-                iterator.remove();
-            }
-
-            // update timestamp
-            uts = now;
         }
+
+        // process as many users as the rate limiter allows
+        Iterator<Long> iterator = updateQueue.iterator();
+        while (iterator.hasNext() && queueRateLimiter.requestToken()) {
+            long user = iterator.next();
+            log.debug("Processing {}", user);
+            eventDispatcher.execute(() -> updateUser(jda, user));
+            iterator.remove();
+        }
+
+        // update timestamp
+        uts = now;
     }
 
-    private void updateMember(JDA jda, IgnData ign) {
+    private void updateUser(JDA jda, Long user) {
         try {
-            Guild guild = jda.getGuildById(ign.getGuild());
-            if (guild != null) {
-                Member member = guild.getMemberById(ign.getUser());
-                if (member != null) {
-                    updateEvents(member);
-                    updateRecent(member);
-                }
-            }
+            updateEvents(jda, user);
+            updateRecent(jda, user);
         } catch (RuntimeException e) {
             log.warn("Exception: ", e);
         }
     }
 
-    private synchronized void updateEvents(Member member) {
-        // get feed
-        FeedData feed = feedService.getSubscription(Feed.OSU_EVENTS, member.getGuild(), member.getUser().getIdLong());
-        if (feed == null) return;
-        // get channel
-        TextChannel channel = member.getGuild().getTextChannelById(feed.getChannel());
-        if (channel == null) return;
-        // get ign
-        String ign = StringUtils.defaultIfEmpty(ignService.getInGameName(member, osuService.getGame()),
-                member.getEffectiveName());
-        long uts = feed.getUts();
-        ZonedDateTime then = ZonedDateTime.ofInstant(Instant.ofEpochMilli(uts), ZoneOffset.UTC);
-        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-        int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(then, now), 31));
-        log.debug(
-                "Querying user events for {} days ({} to {})",
-                days,
-                Formatter.formatTimestamp(uts),
-                Formatter.formatTimestamp(now)
-        );
-        OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, days);
-        if (user != null && !user.getEvents().isEmpty()) {
-            // collect events
-            StringBuilder builder = new StringBuilder();
-            user.getEvents().stream()
-                    .filter(e -> e.getDate().getTime() > uts)
-                    .sorted(Comparator.comparing(OsuUserEvent::getDate))
-                    .forEach(e -> {
-                        String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHtml())
-                                + " at " + Formatter.formatTimestamp(e.getDate().getTime());
-                        log.debug("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
-                                channel.getId(), markdown);
-                        builder.append(markdown).append('\n');
-                    });
+    private synchronized void updateEvents(JDA jda, Long userId) {
+        // get in-game names
+        List<String> igns = getInGameNames(userId);
+        if (igns.isEmpty()) return;
 
-            // build and send message(s)
-            String content = builder.toString();
-            if (!StringUtils.isEmpty(content)) {
-                MessageLineSplitter.sendMessage(channel, content, ignore());
+        // get feed subscriptions
+        List<FeedData> feeds = getFeeds(Feed.OSU_EVENTS, jda, userId);
+        if (feeds.isEmpty()) return;
+
+        // get min uts from feeds
+        long minUts = feeds.stream().map(FeedData::getUts).min(Comparator.naturalOrder()).orElse(0L);
+
+        for (String ign : igns) {
+            // calculate required number of days for query
+            ZonedDateTime then = ZonedDateTime.ofInstant(Instant.ofEpochMilli(minUts), ZoneOffset.UTC);
+            ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+            int days = (int) Math.max(1, Math.min(ChronoUnit.DAYS.between(then, now), 31));
+            log.debug(
+                    "Querying user events for {} days ({} to {})",
+                    days,
+                    Formatter.formatTimestamp(minUts),
+                    Formatter.formatTimestamp(now)
+            );
+
+            // query data
+            OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, 31);
+            if (user != null && !user.getEvents().isEmpty()) {
+                for (FeedData feed : feeds) {
+                    // get guild
+                    Guild guild = jda.getGuildById(feed.getGuild());
+                    if (guild == null) continue;
+
+                    // get member
+                    Member member = guild.getMemberById(userId);
+                    if (member == null) continue;
+
+                    // get channel
+                    TextChannel channel = guild.getTextChannelById(feed.getChannel());
+                    if (channel == null) continue;
+
+                    // collect events
+                    StringBuilder builder = new StringBuilder();
+                    user.getEvents().stream()
+                            .filter(e -> e.getDate().getTime() > feed.getUts())
+                            .sorted(Comparator.comparing(OsuUserEvent::getDate))
+                            .forEach(e -> {
+                                String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHtml())
+                                        + " at " + Formatter.formatTimestamp(e.getDate().getTime());
+                                log.debug("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
+                                        channel.getId(), markdown);
+                                builder.append(markdown).append('\n');
+                            });
+
+                    // build and send message(s)
+                    String content = builder.toString();
+                    if (!StringUtils.isEmpty(content)) {
+                        MessageLineSplitter.sendMessage(channel, content, ignore());
+                    }
+
+                    // update timestamp
+                    user.getEvents().stream()
+                            .filter(e -> e.getDate().getTime() > feed.getUts())
+                            .map(OsuUserEvent::getDate)
+                            .max(Comparator.naturalOrder())
+                            .ifPresent(max -> feedService.updateSubscription(
+                                    Feed.OSU_EVENTS, member.getUser().getIdLong(), channel, max.getTime()
+                            ));
+                }
             }
-
-            // update timestamp
-            user.getEvents().stream()
-                    .filter(e -> e.getDate().getTime() > uts)
-                    .map(OsuUserEvent::getDate)
-                    .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(
-                            Feed.OSU_EVENTS, member.getUser().getIdLong(), channel, max.getTime()
-                    ));
         }
     }
 
-    private synchronized void updateRecent(Member member) {
-        // get feed
-        FeedData feed = feedService.getSubscription(Feed.OSU_RECENT, member.getGuild(), member.getUser().getIdLong());
-        if (feed == null) return;
-        // get channel
-        TextChannel channel = member.getGuild().getTextChannelById(feed.getChannel());
-        if (channel == null) return;
-        // get ign
-        String ign = StringUtils.defaultIfEmpty(
-                ignService.getInGameName(member, osuService.getGame()), member.getEffectiveName());
-        long uts = feed.getUts();
-        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-        log.debug("Querying user recent ({} to {})", Formatter.formatTimestamp(uts), Formatter.formatTimestamp(now));
-        List<OsuUserRecent> recent = osuService.getUserRecent(ign, OsuMode.STANDARD);
-        if (recent != null && !recent.isEmpty()) {
-            // collect recents
-            int userId = recent.get(0).getUserId();
-            String userName = osuService.getUserName(userId);
-            StringBuilder builder = new StringBuilder();
-            recent.stream()
-                    // only consider recent beatmap scores that were not a fail or retry
-                    .filter(e -> e.getBeatmapId() != 0 && !OsuRank.F.equals(e.getRank()) && e.getDate().getTime() > uts)
-                    .sorted(Comparator.comparing(OsuUserRecent::getDate))
-                    .forEach(e -> {
-                        String markdown = Formatter.formatOsuRank(e.getRank()) + " " + userName + " achieved " +
-                                Formatter.formatInteger(e.getScore()) + " points on "
-                                + osuService.getBeatmapString(e.getBeatmapId()) + " at "
-                                + Formatter.formatTimestamp(e.getDate().getTime());
-                        log.debug("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(), channel.getId(),
-                                markdown);
-                        builder.append(markdown).append('\n');
-                    });
+    private synchronized void updateRecent(JDA jda, Long userId) {
+        // get in-game names
+        List<String> igns = getInGameNames(userId);
+        if (igns.isEmpty()) return;
 
-            // build and send message(s)
-            String content = builder.toString();
-            if (StringUtils.isNotEmpty(content)) {
-                MessageLineSplitter.sendMessage(channel, content, ignore());
+        // get feed subscriptions
+        List<FeedData> feeds = getFeeds(Feed.OSU_RECENT, jda, userId);
+        if (feeds.isEmpty()) return;
+
+        // get min uts from feeds
+        long minUts = feeds.stream().map(FeedData::getUts).min(Comparator.naturalOrder()).orElse(0L);
+
+        for (String ign : igns) {
+            ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+            log.debug(
+                    "Querying user recent ({} to {})",
+                    Formatter.formatTimestamp(minUts),
+                    Formatter.formatTimestamp(now)
+            );
+
+            // query data
+            List<OsuUserRecent> recent = osuService.getUserRecent(ign, OsuMode.STANDARD);
+            if (recent != null && !recent.isEmpty()) {
+                for (FeedData feed : feeds) {
+                    // get guild
+                    Guild guild = jda.getGuildById(feed.getGuild());
+                    if (guild == null) continue;
+
+                    // get member
+                    Member member = guild.getMemberById(userId);
+                    if (member == null) continue;
+
+                    // get channel
+                    TextChannel channel = guild.getTextChannelById(feed.getChannel());
+                    if (channel == null) continue;
+
+                    // collect recents
+                    String userName = osuService.getUserName(recent.get(0).getUserId());
+                    StringBuilder builder = new StringBuilder();
+                    recent.stream()
+                            // only consider recent beatmap scores that were not a fail or retry
+                            .filter(e -> e.getBeatmapId() != 0 && !OsuRank.F.equals(e.getRank())
+                                    && e.getDate().getTime() > feed.getUts())
+                            .sorted(Comparator.comparing(OsuUserRecent::getDate))
+                            .forEach(e -> {
+                                String markdown = Formatter.formatOsuRank(e.getRank()) + " " + userName + " achieved "
+                                        + Formatter.formatInteger(e.getScore()) + " points on "
+                                        + osuService.getBeatmapString(e.getBeatmapId()) + " at "
+                                        + Formatter.formatTimestamp(e.getDate().getTime());
+                                log.debug("Feed {} on {} in {}: {}",
+                                        feed.getType(),
+                                        channel.getGuild().getId(),
+                                        channel.getId(),
+                                        markdown);
+                                builder.append(markdown).append('\n');
+                            });
+
+                    // build and send message(s)
+                    String content = builder.toString();
+                    if (StringUtils.isNotEmpty(content)) {
+                        MessageLineSplitter.sendMessage(channel, content, ignore());
+                    }
+
+                    // update timestamp
+                    recent.stream()
+                            .filter(e -> e.getDate().getTime() > feed.getUts())
+                            .map(OsuUserRecent::getDate)
+                            .max(Comparator.naturalOrder())
+                            .ifPresent(max -> feedService.updateSubscription(
+                                    Feed.OSU_RECENT, member.getUser().getIdLong(), channel, max.getTime()
+                            ));
+                }
             }
-
-            // update timestamp
-            recent.stream()
-                    .filter(e -> e.getDate().getTime() > uts)
-                    .map(OsuUserRecent::getDate)
-                    .max(Comparator.naturalOrder())
-                    .ifPresent(max -> feedService.updateSubscription(
-                            Feed.OSU_RECENT, member.getUser().getIdLong(), channel, max.getTime()
-                    ));
         }
+    }
+
+    private @NotNull List<String> getInGameNames(long user) {
+        return ignService.getIgns(user, osuService.getGame()).stream()
+                .map(IgnData::getName)
+                .collect(Collectors.toList());
+    }
+
+    private @NotNull List<FeedData> getFeeds(@NotNull Feed type, @NotNull JDA jda, long user) {
+        ArrayList<FeedData> feeds = new ArrayList<>();
+        for (Guild guild : jda.getGuilds()) {
+            FeedData feed = feedService.getSubscription(type, guild, user);
+            if (feed != null) {
+                feeds.add(feed);
+            }
+        }
+        return feeds;
     }
 
 }
