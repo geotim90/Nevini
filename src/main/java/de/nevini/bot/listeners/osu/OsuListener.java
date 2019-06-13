@@ -9,7 +9,6 @@ import de.nevini.bot.services.common.IgnService;
 import de.nevini.bot.services.osu.OsuService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
-import de.nevini.commons.concurrent.TokenBucket;
 import de.nevini.framework.message.MessageLineSplitter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -44,7 +43,6 @@ public class OsuListener {
     private final OsuService osuService;
 
     private final EventDispatcher<Event> eventDispatcher;
-    private final TokenBucket queueRateLimiter = new TokenBucket(3, 6, TimeUnit.MINUTES);
     private final Set<Long> updateQueue = new LinkedHashSet<>();
     private final Map<Long, Long> its = new ConcurrentHashMap<>();
     private long uts = 0L;
@@ -84,8 +82,7 @@ public class OsuListener {
             }
 
             // update osu! feeds
-            long user = event.getUser().getIdLong();
-            eventDispatcher.execute(() -> updateUser(event.getJDA(), user));
+            updateQueue.add(event.getUser().getIdLong());
         }
     }
 
@@ -114,9 +111,10 @@ public class OsuListener {
             }
         }
 
-        // process as many users as the rate limiter allows
+        // process up to 6 users per minute
+        int tokens = 6;
         Iterator<Long> iterator = updateQueue.iterator();
-        while (iterator.hasNext() && queueRateLimiter.requestToken()) {
+        while (iterator.hasNext() && tokens-- > 0) {
             long user = iterator.next();
             log.debug("Processing {}", user);
             eventDispatcher.execute(() -> updateUser(jda, user));
@@ -161,7 +159,7 @@ public class OsuListener {
             );
 
             // query data
-            OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, 31);
+            OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, days);
             if (user != null && !user.getEvents().isEmpty()) {
                 for (FeedData feed : feeds) {
                     // get guild
@@ -287,6 +285,7 @@ public class OsuListener {
     private @NotNull List<String> getInGameNames(long user) {
         return ignService.getIgns(user, osuService.getGame()).stream()
                 .map(IgnData::getName)
+                .distinct()
                 .collect(Collectors.toList());
     }
 

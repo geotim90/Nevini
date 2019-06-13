@@ -6,8 +6,10 @@ import de.nevini.bot.scope.Node;
 import de.nevini.commons.util.Finder;
 import de.nevini.framework.command.CommandOptionDescriptor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class NodeResolver extends AbstractResolver<Node> {
 
@@ -30,9 +32,13 @@ public class NodeResolver extends AbstractResolver<Node> {
     }
 
     @Override
-    public List<Node> findSorted(CommandEvent ignore, String query) {
-        return Finder.findAny(Node.values(), node -> new String[]{node.getNode(), node.name(),
-                node.name().replace('_', ' ')}, query);
+    public List<Node> findSorted(CommandEvent event, String query) {
+        return Finder.findAny(Arrays.stream(Node.values())
+                        .filter(node -> node.getNode().startsWith(node.getModule().getName()))
+                        .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
+                        .collect(Collectors.toList()),
+                node -> new String[]{node.getNode(), node.name(), node.name().replace('_', ' ')},
+                query);
     }
 
     @Override
