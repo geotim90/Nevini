@@ -120,6 +120,9 @@ public class OsuListener {
             eventDispatcher.execute(() -> updateUser(jda, user));
             iterator.remove();
         }
+        if (!updateQueue.isEmpty()) {
+            log.debug("{} queued users remaining", updateQueue.size());
+        }
 
         // update timestamp
         uts = now;
