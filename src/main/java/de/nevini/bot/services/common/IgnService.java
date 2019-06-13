@@ -50,6 +50,10 @@ public class IgnService {
         )).orElse(null);
     }
 
+    public List<IgnData> getIgns(long user, @NonNull GameData game) {
+        return ignRepository.findAllByUserAndGame(user, game.getId());
+    }
+
     public List<IgnData> getIgns(@NonNull Member member) {
         return ListUtils.sum(
                 ignRepository.findAllByGuildAndUser(

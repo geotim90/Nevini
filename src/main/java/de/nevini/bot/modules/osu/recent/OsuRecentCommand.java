@@ -59,6 +59,7 @@ public class OsuRecentCommand extends Command {
         if (recent == null || recent.isEmpty()) {
             event.reply("No scores found.", event::complete);
         } else {
+            event.notifyLongTaskStart();
             EmbedBuilder embed = event.createEmbedBuilder();
             embed.setAuthor(game.getName(), null, game.getIcon());
             int userId = recent.get(0).getUserId();
@@ -72,6 +73,7 @@ public class OsuRecentCommand extends Command {
                                 + "](https://osu.ppy.sh/b/" + score.getBeatmapId() + ")",
                         false);
             }
+            event.notifyLongTaskEnd();
             event.reply(embed, event::complete);
         }
     }

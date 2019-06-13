@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Data
 public class PermissionOptions {
@@ -139,7 +140,10 @@ public class PermissionOptions {
     private void acceptNodes(List<Node> nodes) {
         if (event.getOptions().getOptions().stream().map(ALL_FLAG::matcher).anyMatch(Matcher::matches)) {
             if (nodes == null) {
-                this.nodes = Arrays.asList(Node.values());
+                this.nodes = Arrays.stream(Node.values())
+                        .filter(node -> node.getNode().startsWith(node.getModule().getName()))
+                        .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
+                        .collect(Collectors.toList());
                 callback.accept(this);
             } else {
                 event.reply(CommandReaction.WARNING,
