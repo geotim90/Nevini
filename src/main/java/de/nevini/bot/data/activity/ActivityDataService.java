@@ -2,6 +2,7 @@ package de.nevini.bot.data.activity;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalCause;
 import com.google.common.cache.RemovalNotification;
 import de.nevini.bot.db.activity.ActivityData;
 import de.nevini.bot.db.activity.ActivityId;
@@ -43,8 +44,8 @@ public class ActivityDataService {
 
     public ActivityData get(@NonNull ActivityId id) {
         log.trace("get({})", id);
-        return getFromWriteCache(id).orElse(
-                getFromReadCache(id).orElse(
+        return getFromWriteCache(id).orElseGet(() ->
+                getFromReadCache(id).orElseGet(() ->
                         getFromDatabase(id).orElse(null)
                 )
         );
@@ -79,7 +80,7 @@ public class ActivityDataService {
     private void save(@NonNull RemovalNotification<ActivityId, ActivityData> e) {
         log.trace("save({})", e);
         ActivityData data = e.getValue();
-        if (data != null) {
+        if (data != null && e.getCause() != RemovalCause.REPLACED) {
             log.debug("Save data: {}", data);
             repository.save(data);
         }

@@ -41,8 +41,8 @@ public class OsuBeatmapDataService {
 
     public OsuBeatmap get(int beatmapId) {
         log.trace("get({})", beatmapId);
-        return getFromReadCache(beatmapId).orElse(
-                getFromApi(beatmapId).orElse(
+        return getFromReadCache(beatmapId).orElseGet(() ->
+                getFromApi(beatmapId).orElseGet(() ->
                         getFromDatabase(beatmapId).orElse(null)
                 )
         );
@@ -50,8 +50,8 @@ public class OsuBeatmapDataService {
 
     public OsuBeatmap getCached(int beatmapId) {
         log.trace("getCached({})", beatmapId);
-        return getFromReadCache(beatmapId).orElse(
-                getFromDatabase(beatmapId).orElse(
+        return getFromReadCache(beatmapId).orElseGet(() ->
+                getFromDatabase(beatmapId).orElseGet(() ->
                         getFromApi(beatmapId).orElse(null)
                 )
         );

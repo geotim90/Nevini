@@ -18,16 +18,16 @@ public class OsuBeatmapDataMapper {
                 .artist(data.getArtist())
                 .beatmapId(data.getBeatmapId())
                 .beatmapsetId(data.getBeatmapsetId())
-                .bpm(data.getBpm())
+                .bpm(convertFloat(data.getBpm()))
                 .creatorName(data.getCreatorName())
                 .creatorId(data.getCreatorId())
-                .difficultyRating(data.getDifficultyRating())
-                .difficultyAim(data.getDifficultyAim())
-                .difficultySpeed(data.getDifficultySpeed())
-                .difficultySize(data.getDifficultySize())
-                .difficultyOverall(data.getDifficultyOverall())
-                .difficultyApproach(data.getDifficultyApproach())
-                .difficultyDrain(data.getDifficultyDrain())
+                .difficultyRating(convertFloat(data.getDifficultyRating()))
+                .difficultyAim(convertFloat(data.getDifficultyAim()))
+                .difficultySpeed(convertFloat(data.getDifficultySpeed()))
+                .difficultySize(convertFloat(data.getDifficultySize()))
+                .difficultyOverall(convertFloat(data.getDifficultyOverall()))
+                .difficultyApproach(convertFloat(data.getDifficultyApproach()))
+                .difficultyDrain(convertFloat(data.getDifficultyDrain()))
                 .hitLength(data.getHitLength())
                 .source(data.getSource())
                 .genre(convertGenre(data.getGenre()))
@@ -39,7 +39,7 @@ public class OsuBeatmapDataMapper {
                 .mode(convertMode(data.getMode()))
                 .tags(convertTags(data.getTags()))
                 .favouriteCount(data.getFavouriteCount())
-                .rating(data.getRating())
+                .rating(convertFloat(data.getRating()))
                 .playCount(data.getPlayCount())
                 .passCount(data.getPassCount())
                 .countNormal(data.getCountNormal())
@@ -63,6 +63,10 @@ public class OsuBeatmapDataMapper {
 
     private static Date convertDate(Long value) {
         return value == null ? null : new Date(value);
+    }
+
+    private static Float convertFloat(Double value) {
+        return value == null ? null : value.floatValue();
     }
 
     private static OsuBeatmapGenre convertGenre(Integer value) {
@@ -109,16 +113,16 @@ public class OsuBeatmapDataMapper {
         data.setArtist(beatmap.getArtist());
         data.setBeatmapId(beatmap.getBeatmapId());
         data.setBeatmapsetId(beatmap.getBeatmapsetId());
-        data.setBpm(beatmap.getBpm());
+        data.setBpm(convertFloat(beatmap.getBpm()));
         data.setCreatorName(beatmap.getCreatorName());
         data.setCreatorId(beatmap.getCreatorId());
-        data.setDifficultyRating(beatmap.getDifficultyRating());
-        data.setDifficultyAim(beatmap.getDifficultyAim());
-        data.setDifficultySpeed(beatmap.getDifficultySpeed());
-        data.setDifficultySize(beatmap.getDifficultySize());
-        data.setDifficultyOverall(beatmap.getDifficultyOverall());
-        data.setDifficultyApproach(beatmap.getDifficultyApproach());
-        data.setDifficultyDrain(beatmap.getDifficultyDrain());
+        data.setDifficultyRating(convertFloat(beatmap.getDifficultyRating()));
+        data.setDifficultyAim(convertFloat(beatmap.getDifficultyAim()));
+        data.setDifficultySpeed(convertFloat(beatmap.getDifficultySpeed()));
+        data.setDifficultySize(convertFloat(beatmap.getDifficultySize()));
+        data.setDifficultyOverall(convertFloat(beatmap.getDifficultyOverall()));
+        data.setDifficultyApproach(convertFloat(beatmap.getDifficultyApproach()));
+        data.setDifficultyDrain(convertFloat(beatmap.getDifficultyDrain()));
         data.setHitLength(beatmap.getHitLength());
         data.setSource(beatmap.getSource());
         data.setGenre(convertGenre(beatmap.getGenre()));
@@ -130,7 +134,7 @@ public class OsuBeatmapDataMapper {
         data.setMode(convertMode(beatmap.getMode()));
         data.setTags(convertTags(beatmap.getTags()));
         data.setFavouriteCount(beatmap.getFavouriteCount());
-        data.setRating(beatmap.getRating());
+        data.setRating(convertFloat(beatmap.getRating()));
         data.setPlayCount(beatmap.getPlayCount());
         data.setPassCount(beatmap.getPassCount());
         data.setCountNormal(beatmap.getCountNormal());
@@ -148,6 +152,10 @@ public class OsuBeatmapDataMapper {
 
     private static Long convertDate(Date value) {
         return value == null ? null : value.getTime();
+    }
+
+    private static Double convertFloat(Float value) {
+        return value == null ? null : value.doubleValue();
     }
 
     private static Integer convertGenre(OsuBeatmapGenre value) {

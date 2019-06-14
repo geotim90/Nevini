@@ -30,25 +30,25 @@ public class OsuBeatmapData {
 
     private Integer beatmapsetId;
 
-    private Float bpm;
+    private Double bpm;
 
     private String creatorName;
 
     private Integer creatorId;
 
-    private Float difficultyRating;
+    private Double difficultyRating;
 
-    private Float difficultyAim;
+    private Double difficultyAim;
 
-    private Float difficultySpeed;
+    private Double difficultySpeed;
 
-    private Float difficultySize;
+    private Double difficultySize;
 
-    private Float difficultyOverall;
+    private Double difficultyOverall;
 
-    private Float difficultyApproach;
+    private Double difficultyApproach;
 
-    private Float difficultyDrain;
+    private Double difficultyDrain;
 
     private Integer hitLength;
 
@@ -72,7 +72,7 @@ public class OsuBeatmapData {
 
     private Integer favouriteCount;
 
-    private Float rating;
+    private Double rating;
 
     private Integer playCount;
 
