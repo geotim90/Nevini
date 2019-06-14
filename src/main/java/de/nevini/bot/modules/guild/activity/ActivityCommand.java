@@ -10,6 +10,7 @@ import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -58,9 +59,11 @@ public class ActivityCommand extends Command {
         EmbedBuilder builder = event.createEmbedBuilder();
         builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
         builder.addField("Discord", Formatter.formatLargestUnitAgo(
-                event.getActivityService().getActivityOnline(member.getUser())), true);
+                ObjectUtils.defaultIfNull(event.getActivityService().getActivityOnline(member.getUser()), 0L)
+        ), true);
         builder.addField(event.getGuild().getName(), Formatter.formatLargestUnitAgo(
-                event.getActivityService().getActivityMessage(member)), true);
+                ObjectUtils.defaultIfNull(event.getActivityService().getActivityMessage(member), 0L)
+        ), true);
         getLastPlayed(event, member).forEach((id, timestamp) -> builder.addField(event.getGameService().getGameName(id),
                 Formatter.formatLargestUnitAgo(timestamp), true));
         event.reply(builder, event::complete);
