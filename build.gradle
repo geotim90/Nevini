@@ -43,4 +43,6 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	// test
 	testCompile 'junit:junit'
+	testCompile 'org.mockito:mockito-core'
+	testCompile 'org.mockito:mockito-inline'
 }
