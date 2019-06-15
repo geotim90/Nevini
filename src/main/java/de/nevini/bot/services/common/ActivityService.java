@@ -1,10 +1,10 @@
 package de.nevini.bot.services.common;
 
+import de.nevini.bot.data.activity.ActivityDataService;
 import de.nevini.bot.db.activity.ActivityData;
 import de.nevini.bot.db.activity.ActivityId;
-import de.nevini.bot.db.activity.ActivityRepository;
 import de.nevini.bot.db.game.GameData;
-import lombok.extern.slf4j.Slf4j;
+import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
@@ -13,10 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class ActivityService {
 
@@ -24,71 +22,64 @@ public class ActivityService {
     private static final byte ACTIVITY_TYPE_MESSAGE = 2;
     private static final byte ACTIVITY_TYPE_PLAYING = 3;
 
-    private final ActivityRepository activityRepository;
+    private final ActivityDataService dataService;
 
-    public ActivityService(@Autowired ActivityRepository activityRepository) {
-        this.activityRepository = activityRepository;
+    public ActivityService(@Autowired ActivityDataService dataService) {
+        this.dataService = dataService;
     }
 
-    public long getActivityOnline(User user) {
-        Optional<ActivityData> data = activityRepository.findById(
+    public Long getActivityOnline(@NonNull User user) {
+        ActivityData data = dataService.get(
                 new ActivityId(user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong())
         );
-        return data.isPresent() ? data.get().getUts() : 0;
+        return data == null ? null : data.getUts();
     }
 
-    public synchronized void updateActivityOnline(User user) {
-        ActivityData data = new ActivityData(
+    public void updateActivityOnline(@NonNull User user) {
+        dataService.put(new ActivityData(
                 user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong(), System.currentTimeMillis()
-        );
-        log.debug("Save data: {}", data);
-        activityRepository.save(data);
+        ));
     }
 
-    public long getActivityMessage(Member member) {
-        Optional<ActivityData> data = activityRepository.findById(
+    public Long getActivityMessage(@NonNull Member member) {
+        ActivityData data = dataService.get(
                 new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE, member.getGuild().getIdLong())
         );
-        return data.isPresent() ? data.get().getUts() : 0;
+        return data == null ? null : data.getUts();
     }
 
-    public synchronized void updateActivityMessage(Message message) {
-        if (message.getGuild() != null) {
-            ActivityData data = new ActivityData(
-                    message.getAuthor().getIdLong(),
-                    ACTIVITY_TYPE_MESSAGE,
-                    message.getGuild().getIdLong(),
-                    message.getCreationTime().toInstant().toEpochMilli()
-            );
-            log.debug("Save data: {}", data);
-            activityRepository.save(data);
-        }
+    public void updateActivityMessage(@NonNull Message message) {
+        dataService.put(new ActivityData(
+                message.getAuthor().getIdLong(),
+                ACTIVITY_TYPE_MESSAGE,
+                message.getGuild().getIdLong(),
+                message.getCreationTime().toInstant().toEpochMilli()
+        ));
     }
 
-    public Map<Long, Long> getActivityPlaying(User user) {
-        Collection<ActivityData> data = activityRepository.findAllByUserAndType(
+    public @NonNull Map<Long, Long> getActivityPlaying(@NonNull User user) {
+        Collection<ActivityData> data = dataService.findAllByUserAndType(
                 user.getIdLong(), ACTIVITY_TYPE_PLAYING
         );
         return data.stream().collect(Collectors.toMap(ActivityData::getId, ActivityData::getUts));
     }
 
-    public Map<Long, Long> getActivityPlaying(GameData game) {
-        Collection<ActivityData> data = activityRepository.findAllByTypeAndId(ACTIVITY_TYPE_PLAYING, game.getId());
+    public @NonNull Map<Long, Long> getActivityPlaying(@NonNull GameData game) {
+        Collection<ActivityData> data = dataService.findAllByTypeAndId(ACTIVITY_TYPE_PLAYING, game.getId());
         return data.stream().collect(Collectors.toMap(ActivityData::getUser, ActivityData::getUts));
     }
 
-    public Long getActivityPlaying(User user, GameData game) {
-        Optional<ActivityData> data = activityRepository.findById(
+    public Long getActivityPlaying(@NonNull User user, @NonNull GameData game) {
+        ActivityData data = dataService.get(
                 new ActivityId(user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId())
         );
-        return data.map(ActivityData::getUts).orElse(null);
+        return data == null ? null : data.getUts();
     }
 
-    public synchronized void updateActivityPlaying(User user, GameData game) {
-        ActivityData data = new ActivityData(
+    public void updateActivityPlaying(@NonNull User user, @NonNull GameData game) {
+        dataService.put(new ActivityData(
                 user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(), System.currentTimeMillis()
-        );
-        log.debug("Save data: {}", data);
-        activityRepository.save(data);
+        ));
     }
+
 }

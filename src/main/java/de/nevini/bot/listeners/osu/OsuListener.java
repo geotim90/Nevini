@@ -162,7 +162,7 @@ public class OsuListener {
             );
 
             // query data
-            OsuUser user = osuService.getUser(ign, OsuMode.STANDARD, days);
+            OsuUser user = osuService.getUserEvents(ign, OsuMode.STANDARD, days);
             if (user != null && !user.getEvents().isEmpty()) {
                 for (FeedData feed : feeds) {
                     // get guild

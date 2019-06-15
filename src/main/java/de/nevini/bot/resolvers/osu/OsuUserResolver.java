@@ -67,11 +67,16 @@ public class OsuUserResolver extends AbstractResolver<OsuUserResolver.OsuUserOrM
 
     @Override
     public List<OsuUserOrMember> findSorted(@NonNull CommandEvent event, String query) {
+        // check for matching members first
         if (event.isFromType(ChannelType.TEXT)) {
-            return Resolvers.MEMBER.findSorted(event, query).stream().map(OsuUserOrMember::new).collect(Collectors.toList());
-        } else {
-            return Collections.singletonList(new OsuUserOrMember(query));
+            List<OsuUserOrMember> members = Resolvers.MEMBER.findSorted(event, query).stream()
+                    .map(OsuUserOrMember::new).collect(Collectors.toList());
+            if (!members.isEmpty()) {
+                return members;
+            }
         }
+        // otherwise accept query as a potential osu! user
+        return Collections.singletonList(new OsuUserOrMember(query));
     }
 
     @Override

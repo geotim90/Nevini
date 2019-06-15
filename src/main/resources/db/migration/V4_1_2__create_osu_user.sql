@@ -1,0 +1,26 @@
+CREATE TABLE osu_user
+(
+    user_id              INT          NOT NULL,
+    mode                 INT          NOT NULL,
+    user_name            VARCHAR(256) NOT NULL,
+    join_date            BIGINT       NOT NULL,
+    count300             INT          NOT NULL,
+    count100             INT          NOT NULL,
+    count50              INT          NOT NULL,
+    play_count           INT          NOT NULL,
+    ranked_score         BIGINT       NOT NULL,
+    total_score          BIGINT       NOT NULL,
+    pp_rank              INT          NOT NULL,
+    level                FLOAT        NOT NULL,
+    pp_raw               FLOAT        NOT NULL,
+    accuracy             FLOAT        NOT NULL,
+    count_rank_ss        INT          NOT NULL,
+    count_rank_ssh       INT          NOT NULL,
+    count_rank_s         INT          NOT NULL,
+    count_rank_sh        INT          NOT NULL,
+    count_rank_a         INT          NOT NULL,
+    country              VARCHAR(2)   NOT NULL,
+    total_seconds_played INT          NOT NULL,
+    pp_country_rank      INT          NOT NULL,
+    PRIMARY KEY (user_id, mode)
+);

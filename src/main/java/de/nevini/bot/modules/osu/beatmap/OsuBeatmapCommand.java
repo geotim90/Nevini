@@ -4,6 +4,7 @@ import de.nevini.api.osu.model.OsuBeatmap;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
+import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.osu.OsuResolvers;
 import de.nevini.bot.scope.Node;
 import de.nevini.bot.services.osu.OsuService;
@@ -38,13 +39,14 @@ public class OsuBeatmapCommand extends Command {
         if (beatmap == null) {
             event.reply("Beatmap not found.", event::complete);
         } else {
+            OsuService osuService = event.locate(OsuService.class);
+            GameData game = osuService.getGame();
+
             // update information - beatmap may have been cached
-            beatmap = event.locate(OsuService.class).getBeatmap(beatmap.getBeatmapId());
+            beatmap = osuService.getBeatmap(beatmap.getBeatmapId());
 
             EmbedBuilder embed = event.createEmbedBuilder();
-            event.getGameService().findGames("osu!").stream().findFirst().ifPresent(
-                    game -> embed.setAuthor(game.getName(), null, game.getIcon())
-            );
+            embed.setAuthor(game.getName(), null, game.getIcon());
             embed.setTitle(beatmap.getTitle(), "https://osu.ppy.sh/b/" + beatmap.getBeatmapId());
             embed.setDescription(beatmap.getArtist());
             embed.addField("Game Mode", beatmap.getMode().getName(), true);
