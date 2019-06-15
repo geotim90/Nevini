@@ -4,7 +4,8 @@ import de.nevini.api.osu.model.*;
 import de.nevini.bot.db.osu.beatmap.OsuBeatmapData;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Date;
+import static de.nevini.bot.data.osu.OsuMapperUtils.convertDate;
+import static de.nevini.bot.data.osu.OsuMapperUtils.convertFloat;
 
 public class OsuBeatmapDataMapper {
 
@@ -59,14 +60,6 @@ public class OsuBeatmapDataMapper {
             }
         }
         throw new IllegalArgumentException(value + " is not a valid approved id");
-    }
-
-    private static Date convertDate(Long value) {
-        return value == null ? null : new Date(value);
-    }
-
-    private static Float convertFloat(Double value) {
-        return value == null ? null : value.floatValue();
     }
 
     private static OsuBeatmapGenre convertGenre(Integer value) {
@@ -148,14 +141,6 @@ public class OsuBeatmapDataMapper {
 
     private static Integer convertApproved(OsuBeatmapApproved value) {
         return value == null ? null : value.getId();
-    }
-
-    private static Long convertDate(Date value) {
-        return value == null ? null : value.getTime();
-    }
-
-    private static Double convertFloat(Float value) {
-        return value == null ? null : value.doubleValue();
     }
 
     private static Integer convertGenre(OsuBeatmapGenre value) {

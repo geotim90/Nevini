@@ -58,7 +58,7 @@ public class OsuBeatmapDataService {
     }
 
     private @NonNull Optional<OsuBeatmap> getFromReadCache(int beatmapId) {
-        log.trace("getFromCache({})", beatmapId);
+        log.trace("getFromReadCache({})", beatmapId);
         return Optional.ofNullable(readCache.getIfPresent(beatmapId));
     }
 

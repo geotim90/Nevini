@@ -10,6 +10,7 @@ import de.nevini.api.osu.requests.OsuUserRecentRequest;
 import de.nevini.api.osu.requests.OsuUserRequest;
 import de.nevini.bot.data.osu.OsuApiProvider;
 import de.nevini.bot.data.osu.beatmap.OsuBeatmapDataService;
+import de.nevini.bot.data.osu.user.OsuUserDataService;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.scope.Locatable;
 import de.nevini.bot.services.common.GameService;
@@ -34,6 +35,7 @@ public class OsuService implements Locatable {
     private final Lazy<GameData> game;
 
     private final OsuBeatmapDataService beatmapDataService;
+    private final OsuUserDataService userDataService;
     private final ApiBackedCache<List<OsuScore>> scoresShortCache;
     private final ApiBackedCache<List<OsuUser>> userLargeCache;
     private final ApiBackedCache<List<OsuUserBest>> userBestShortCache;
@@ -42,12 +44,14 @@ public class OsuService implements Locatable {
     public OsuService(
             @Autowired OsuApiProvider apiProvider,
             @Autowired GameService gameService,
-            @Autowired OsuBeatmapDataService beatmapDataService
+            @Autowired OsuBeatmapDataService beatmapDataService,
+            @Autowired OsuUserDataService userDataService
     ) {
         OsuApi api = apiProvider.getApi();
         game = Lazy.of(() -> gameService.findGames("osu!").stream().findFirst().orElse(null));
 
         this.beatmapDataService = beatmapDataService;
+        this.userDataService = userDataService;
         scoresShortCache = new ApiBackedCache<>(api, Duration.ofMinutes(5), 100);
         userLargeCache = new ApiBackedCache<>(api, Duration.ofDays(1), 10000);
         userBestShortCache = new ApiBackedCache<>(api, Duration.ofMinutes(5), 100);
@@ -109,14 +113,33 @@ public class OsuService implements Locatable {
     }
 
     public OsuUser getUser(@NonNull String user) {
-        return getUser(user, OsuMode.STANDARD, 1);
+        return getUser(user, null);
     }
 
     public OsuUser getUser(@NonNull String user, OsuMode mode) {
-        return getUser(user, mode, 1);
+        return userDataService.get(user, mode);
     }
 
-    public OsuUser getUser(@NonNull String user, OsuMode mode, int eventDays) {
+    public List<OsuUserBest> getUserBest(@NonNull String user, OsuMode mode) {
+        log.debug("Requesting userBest (user={}, mode={})", user, mode);
+        ApiResponse<List<OsuUserBest>> response = userBestShortCache.getOrCall(OsuUserBestRequest.builder()
+                .user(user)
+                .userType(OsuUserType.STRING)
+                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD))
+                .limit(100)
+                .build());
+        if (response.isOk()) {
+            return response.getResult();
+        } else if (response.isRateLimited()) {
+            log.info("Failed to get user best for {} (rate limited)", user);
+            return null;
+        } else {
+            log.info("Failed to get user best for {}", user, response.getThrowable());
+            return null;
+        }
+    }
+
+    public OsuUser getUserEvents(@NonNull String user, OsuMode mode, int eventDays) {
         log.debug("Requesting user (user={}, mode={}, eventDays={})", user, mode, eventDays);
         ApiResponse<List<OsuUser>> response = userLargeCache.callOrGet(OsuUserRequest.builder()
                 .user(user)
@@ -140,48 +163,8 @@ public class OsuService implements Locatable {
         }
     }
 
-    public OsuUser getUserCached(int user) {
-        ApiResponse<List<OsuUser>> response = userLargeCache.getOrCall(OsuUserRequest.builder()
-                .user(Integer.toString(user))
-                .userType(OsuUserType.ID)
-                .build());
-        if (response.isOk()) {
-            List<OsuUser> users = response.getResult();
-            if (users == null || users.isEmpty()) {
-                return null;
-            } else {
-                return users.get(0);
-            }
-        } else if (response.isRateLimited()) {
-            log.info("Failed to get user {} (rate limited)", user);
-            return null;
-        } else {
-            log.info("Failed to get user {}", user, response.getThrowable());
-            return null;
-        }
-    }
-
-    public List<OsuUserBest> getUserBest(@NonNull String user, OsuMode mode) {
-        log.debug("Requesting userBest (user={}, mode={})", user, mode);
-        ApiResponse<List<OsuUserBest>> response = userBestShortCache.getOrCall(OsuUserBestRequest.builder()
-                .user(user)
-                .userType(OsuUserType.STRING)
-                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD))
-                .limit(100)
-                .build());
-        if (response.isOk()) {
-            return response.getResult();
-        } else if (response.isRateLimited()) {
-            log.info("Failed to get user best for {} (rate limited)", user);
-            return null;
-        } else {
-            log.info("Failed to get user best for {}", user, response.getThrowable());
-            return null;
-        }
-    }
-
     public String getUserName(int userId) {
-        OsuUser user = getUserCached(userId);
+        OsuUser user = userDataService.getCached(userId);
         return user == null ? Integer.toString(userId) : user.getUserName();
     }
 
