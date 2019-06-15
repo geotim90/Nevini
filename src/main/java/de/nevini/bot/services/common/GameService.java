@@ -1,8 +1,8 @@
 package de.nevini.bot.services.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
+import de.nevini.bot.data.game.GameDataService;
 import de.nevini.bot.db.game.GameData;
-import de.nevini.bot.db.game.GameRepository;
 import de.nevini.commons.util.Finder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.RichPresence;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -27,11 +26,10 @@ public class GameService {
         multiGameApplications.put(Long.parseUnsignedLong("438122941302046720"), "Xbox Live");
     }
 
-    private final GameRepository gameRepository;
-    private final Map<Long, String> cache = new ConcurrentHashMap<>();
+    private final GameDataService gameDataService;
 
-    public GameService(@Autowired GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public GameService(@Autowired GameDataService gameDataService) {
+        this.gameDataService = gameDataService;
     }
 
     public GameData getGame(RichPresence presence) {
@@ -65,10 +63,7 @@ public class GameService {
 
         // update cache and database
         GameData game = new GameData(mappedId, mappedName, getIcon(presence));
-        if (!StringUtils.equals(cache.put(mappedId, mappedName), mappedName)) {
-            log.debug("Save data: {}", game);
-            gameRepository.save(game);
-        }
+        gameDataService.put(game);
 
         return game;
     }
@@ -87,19 +82,16 @@ public class GameService {
 
     public Collection<GameData> findGames(String query) {
         if (FinderUtil.DISCORD_ID.matcher(query).matches()) {
-            Optional<GameData> data = gameRepository.findById(Long.parseUnsignedLong(query));
-            return data.map(Collections::singleton).orElse(Collections.emptySet());
+            GameData data = gameDataService.get(Long.parseUnsignedLong(query));
+            return data == null ? Collections.emptySet() : Collections.singleton(data);
         } else {
-            return Finder.find(gameRepository.findAllByNameContainsIgnoreCase(query), GameData::getName, query);
+            return Finder.find(gameDataService.findAllByNameContainsIgnoreCase(query), GameData::getName, query);
         }
     }
 
     public String getGameName(long id) {
-        return StringUtils.defaultIfEmpty(cache.computeIfAbsent(id, this::findGameName), Long.toUnsignedString(id));
-    }
-
-    private String findGameName(long id) {
-        return gameRepository.findById(id).map(GameData::getName).orElse(null);
+        GameData game = gameDataService.get(id);
+        return game == null ? Long.toUnsignedString(id) : game.getName();
     }
 
 }

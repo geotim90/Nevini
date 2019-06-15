@@ -1,12 +1,11 @@
-package de.nevini.bot.data.activity;
+package de.nevini.bot.data.game;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalCause;
 import com.google.common.cache.RemovalNotification;
-import de.nevini.bot.db.activity.ActivityData;
-import de.nevini.bot.db.activity.ActivityId;
-import de.nevini.bot.db.activity.ActivityRepository;
+import de.nevini.bot.db.game.GameData;
+import de.nevini.bot.db.game.GameRepository;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +18,27 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class ActivityDataService {
+public class GameDataService {
 
-    private final Cache<ActivityId, ActivityData> writeCache;
-    private final Cache<ActivityId, ActivityData> readCache;
-    private final ActivityRepository repository;
+    private final Cache<Long, GameData> writeCache;
+    private final Cache<Long, GameData> readCache;
+    private final GameRepository repository;
 
-    public ActivityDataService(@Autowired ActivityRepository repository) {
+    public GameDataService(@Autowired GameRepository repository) {
+        // non-volatile data; only discard if no longer in use -> expireAfterAccess
         this.writeCache = CacheBuilder.newBuilder()
-                .expireAfterWrite(Duration.ofMinutes(1))
+                .expireAfterAccess(Duration.ofMinutes(1))
                 .maximumSize(1000)
                 .removalListener(this::save)
                 .build();
         this.readCache = CacheBuilder.newBuilder()
-                .expireAfterWrite(Duration.ofMinutes(1))
+                .expireAfterAccess(Duration.ofMinutes(1))
                 .maximumSize(1000)
                 .build();
         this.repository = repository;
     }
 
-    private @NonNull ActivityId getKey(@NonNull ActivityData data) {
-        return new ActivityId(data.getUser(), data.getType(), data.getId());
-    }
-
-    public ActivityData get(@NonNull ActivityId id) {
+    public GameData get(long id) {
         log.trace("get({})", id);
         return getFromWriteCache(id).orElseGet(() ->
                 getFromReadCache(id).orElseGet(() ->
@@ -51,35 +47,35 @@ public class ActivityDataService {
         );
     }
 
-    private @NonNull Optional<ActivityData> getFromWriteCache(@NonNull ActivityId id) {
+    private @NonNull Optional<GameData> getFromWriteCache(long id) {
         log.trace("getFromWriteCache({})", id);
         return Optional.ofNullable(writeCache.getIfPresent(id));
     }
 
-    private @NonNull Optional<ActivityData> getFromReadCache(@NonNull ActivityId id) {
+    private @NonNull Optional<GameData> getFromReadCache(long id) {
         log.trace("getFromReadCache({})", id);
         return Optional.ofNullable(readCache.getIfPresent(id));
     }
 
-    private @NonNull Optional<ActivityData> getFromDatabase(@NonNull ActivityId id) {
+    private @NonNull Optional<GameData> getFromDatabase(long id) {
         log.trace("getFromDatabase({})", id);
         return repository.findById(id).map(this::cache);
     }
 
-    private @NonNull ActivityData cache(@NonNull ActivityData data) {
+    private @NonNull GameData cache(@NonNull GameData data) {
         log.debug("Cache data: {}", data);
-        readCache.put(getKey(data), data);
+        readCache.put(data.getId(), data);
         return data;
     }
 
-    public void put(@NonNull ActivityData data) {
+    public void put(@NonNull GameData data) {
         log.debug("Put data: {}", data);
-        writeCache.put(getKey(data), data);
+        writeCache.put(data.getId(), data);
     }
 
-    private void save(@NonNull RemovalNotification<ActivityId, ActivityData> e) {
+    private void save(@NonNull RemovalNotification<Long, GameData> e) {
         log.trace("save({})", e);
-        ActivityData data = e.getValue();
+        GameData data = e.getValue();
         if (data != null && e.getCause() != RemovalCause.REPLACED) {
             log.debug("Save data: {}", data);
             repository.save(data);
@@ -93,14 +89,9 @@ public class ActivityDataService {
         writeCache.invalidateAll();
     }
 
-    public Collection<ActivityData> findAllByUserAndType(long user, byte type) {
+    public @NonNull Collection<GameData> findAllByNameContainsIgnoreCase(@NonNull String query) {
         flushWriteCache();
-        return repository.findAllByUserAndType(user, type);
-    }
-
-    public Collection<ActivityData> findAllByTypeAndId(byte type, long id) {
-        flushWriteCache();
-        return repository.findAllByTypeAndId(type, id);
+        return repository.findAllByNameContainsIgnoreCase(query);
     }
 
 }
