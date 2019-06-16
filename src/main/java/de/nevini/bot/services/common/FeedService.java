@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Slf4j
@@ -47,6 +48,7 @@ public class FeedService {
      * @param feed  the {@link Feed} to unsubscribe from
      * @param guild the relevant {@link Guild}
      */
+    @Transactional
     public synchronized void unsubscribe(@NonNull Feed feed, @NonNull Guild guild) {
         FeedId id = new FeedId(guild.getIdLong(), feed.getType(), -1L);
         log.debug("Delete data: {}", id);
