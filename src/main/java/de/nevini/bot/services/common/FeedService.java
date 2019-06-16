@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -52,8 +53,12 @@ public class FeedService {
     public synchronized void unsubscribe(@NonNull Feed feed, @NonNull Guild guild) {
         FeedId id = new FeedId(guild.getIdLong(), feed.getType(), -1L);
         log.debug("Delete data: {}", id);
-        feedRepository.deleteById(id);
-        feedRepository.deleteAllByGuildAndType(guild.getIdLong(), feed.getType());
+        try {
+            feedRepository.deleteById(id);
+            feedRepository.deleteAllByGuildAndType(guild.getIdLong(), feed.getType());
+        } catch (EmptyResultDataAccessException e) {
+            log.debug("No data to delete.", e);
+        }
     }
 
     /**
