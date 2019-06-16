@@ -37,10 +37,9 @@ public class OsuApi implements Api {
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("k", token);
             // prepare the POST request
-            Request request = new Request.Builder()
+            Request request = apiRequest.getRequest(new Request.Builder()
                     .url(apiRequest.getEndpoint())
-                    .post(apiRequest.getRequestBody(builder))
-                    .build();
+                    .post(apiRequest.getRequestBody(builder)));
             try {
                 // make the call and parse the result
                 return apiRequest.parseResponse(httpClient.newCall(request).execute());
@@ -54,31 +53,31 @@ public class OsuApi implements Api {
         }
     }
 
-    public ApiResponse<List<OsuBeatmap>> getBeatmaps(OsuBeatmapsRequest request) {
+    public @NonNull ApiResponse<List<OsuBeatmap>> getBeatmaps(@NonNull OsuBeatmapsRequest request) {
         return call(request);
     }
 
-    public ApiResponse<List<OsuUser>> getUser(OsuUserRequest request) {
+    public @NonNull ApiResponse<List<OsuUser>> getUser(@NonNull OsuUserRequest request) {
         return call(request);
     }
 
-    public ApiResponse<List<OsuScore>> getScores(OsuScoresRequest request) {
+    public @NonNull ApiResponse<List<OsuScore>> getScores(@NonNull OsuScoresRequest request) {
         return call(request);
     }
 
-    public ApiResponse<List<OsuUserBest>> getUserBest(OsuUserBestRequest request) {
+    public @NonNull ApiResponse<List<OsuUserBest>> getUserBest(@NonNull OsuUserBestRequest request) {
         return call(request);
     }
 
-    public ApiResponse<List<OsuUserRecent>> getUserRecent(OsuUserRecentRequest request) {
+    public @NonNull ApiResponse<List<OsuUserRecent>> getUserRecent(@NonNull OsuUserRecentRequest request) {
         return call(request);
     }
 
-    public ApiResponse<OsuMatch> getMatch(OsuMatchRequest request) {
+    public @NonNull ApiResponse<OsuMatch> getMatch(@NonNull OsuMatchRequest request) {
         return call(request);
     }
 
-    public ApiResponse<OsuReplay> getReplay(OsuReplayRequest request) {
+    public @NonNull ApiResponse<OsuReplay> getReplay(@NonNull OsuReplayRequest request) {
         return call(request);
     }
 

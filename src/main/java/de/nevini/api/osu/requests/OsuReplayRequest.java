@@ -46,7 +46,7 @@ public class OsuReplayRequest implements ApiRequest<OsuReplay> {
     }
 
     @Override
-    public ApiResponse<OsuReplay> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<OsuReplay> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));

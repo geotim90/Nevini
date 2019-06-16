@@ -43,7 +43,7 @@ public class OsuUserBestRequest implements ApiRequest<List<OsuUserBest>> {
     }
 
     @Override
-    public ApiResponse<List<OsuUserBest>> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<List<OsuUserBest>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));
