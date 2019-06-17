@@ -7,7 +7,6 @@ import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.resolvers.warframe.WarframeResolvers;
 import de.nevini.bot.scope.Node;
-import de.nevini.bot.scope.Permissions;
 import de.nevini.bot.services.warframe.WarframeMarketService;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
@@ -26,7 +25,6 @@ public class PriceCheckCommand extends Command {
                 .aliases(new String[]{"pc"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_PRICE_CHECK)
-                .minimumBotPermissions(Permissions.TALK)
                 .description("performs a price check on a tradable Warframe item using data from warframe.market")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.ITEM.describe(false, true)
