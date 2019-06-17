@@ -1,8 +1,8 @@
 package de.nevini.api.wfm.requests;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfm.model.WfmItemInSet;
-import de.nevini.api.wfm.model.WfmItemResponse;
+import de.nevini.api.wfm.model.item.WfmItem;
+import de.nevini.api.wfm.model.item.WfmItemResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class WfmItemTest extends WfmApiProvider {
         Assert.assertEquals(3, result.getPayload().getItem().getItemsInSet().size());
 
         // make sure all data was parsed correctly
-        WfmItemInSet item = result.getPayload().getItem().getItemsInSet().get(0);
+        WfmItem item = result.getPayload().getItem().getItemsInSet().get(0);
         Assert.assertEquals("54a73e65e779893a797fff22", item.getId());
         Assert.assertEquals(Boolean.FALSE, item.getSetRoot());
         Assert.assertEquals(Integer.valueOf(0), item.getMasteryLevel());
@@ -46,7 +46,6 @@ public class WfmItemTest extends WfmApiProvider {
         Assert.assertEquals("blueprint", item.getTags().get(0));
         Assert.assertEquals("prime", item.getTags().get(1));
     }
-
 
     @Test
     public void testItemRequest() {

@@ -3,7 +3,7 @@ package de.nevini.api.wfm.requests;
 import com.google.gson.reflect.TypeToken;
 import de.nevini.api.ApiRequest;
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfm.model.WfmItemsResponse;
+import de.nevini.api.wfm.model.items.WfmItemsResponse;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;

@@ -1,8 +1,8 @@
 package de.nevini.api.wfm.requests;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfm.model.WfmItemsEn;
-import de.nevini.api.wfm.model.WfmItemsResponse;
+import de.nevini.api.wfm.model.items.WfmItemName;
+import de.nevini.api.wfm.model.items.WfmItemsResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class WfmItemsTest extends WfmApiProvider {
         Assert.assertEquals(2564, result.getPayload().getItems().getEn().size());
 
         // make sure all data was parsed correctly
-        WfmItemsEn item = result.getPayload().getItems().getEn().get(0);
+        WfmItemName item = result.getPayload().getItems().getEn().get(0);
         Assert.assertEquals("scindo_prime_handle", item.getUrlName());
         Assert.assertEquals("Scindo Prime Handle", item.getItemName());
         Assert.assertEquals("sub_icons/handle_128x128.png", item.getThumb());

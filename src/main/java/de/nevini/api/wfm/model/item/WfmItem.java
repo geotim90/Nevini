@@ -1,4 +1,4 @@
-package de.nevini.api.wfm.model;
+package de.nevini.api.wfm.model.item;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Builder
 @Value
-public class WfmItemInSet {
+public class WfmItem {
 
     @SerializedName("id")
     private String id;
@@ -23,7 +23,7 @@ public class WfmItemInSet {
     private String subIcon;
 
     @SerializedName("en")
-    private WfmItemEn en;
+    private WfmItemInformation en;
 
     @SerializedName("icon_format")
     private String iconFormat;

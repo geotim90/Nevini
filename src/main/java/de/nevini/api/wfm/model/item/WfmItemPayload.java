@@ -1,4 +1,4 @@
-package de.nevini.api.wfm.model;
+package de.nevini.api.wfm.model.item;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.Value;
 public class WfmItemPayload {
 
     @SerializedName("item")
-    private WfmItemItem item;
+    private WfmItemSet item;
 
 }

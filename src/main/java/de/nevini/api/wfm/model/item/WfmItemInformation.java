@@ -1,4 +1,4 @@
-package de.nevini.api.wfm.model;
+package de.nevini.api.wfm.model.item;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Builder
 @Value
-public class WfmItemEn {
+public class WfmItemInformation {
 
     @SerializedName("item_name")
     private String itemName;
@@ -20,6 +20,6 @@ public class WfmItemEn {
     private String wikiLink;
 
     @SerializedName("drop")
-    private List<WfmItemDrop> drop;
+    private List<WfmDrop> drop;
 
 }

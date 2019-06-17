@@ -1,4 +1,4 @@
-package de.nevini.api.wfm.model;
+package de.nevini.api.wfm.model.item;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Builder
 @Value
-public class WfmItemDrop {
+public class WfmDrop {
 
     @SerializedName("name")
     private String name;

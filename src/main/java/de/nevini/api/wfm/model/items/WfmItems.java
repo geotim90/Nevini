@@ -1,4 +1,4 @@
-package de.nevini.api.wfm.model;
+package de.nevini.api.wfm.model.items;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
@@ -11,6 +11,6 @@ import java.util.List;
 public class WfmItems {
 
     @SerializedName("en")
-    private List<WfmItemsEn> en;
+    private List<WfmItemName> en;
 
 }
