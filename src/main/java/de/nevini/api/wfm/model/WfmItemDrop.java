@@ -4,13 +4,14 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.List;
-
 @Builder
 @Value
-public class WfmItems {
+public class WfmItemDrop {
 
-    @SerializedName("en")
-    private List<WfmItemsEn> en;
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("link")
+    private String link;
 
 }

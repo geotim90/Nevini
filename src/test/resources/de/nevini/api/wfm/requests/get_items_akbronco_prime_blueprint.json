@@ -1,0 +1,136 @@
+{
+  "payload": {
+    "item": {
+      "id": "54a73e65e779893a797fff22",
+      "items_in_set": [
+        {
+          "id": "54a73e65e779893a797fff22",
+          "set_root": false,
+          "mastery_level": 0,
+          "sub_icon": "sub_icons/blueprint_128x128.png",
+          "en": {
+            "item_name": "Akbronco Prime Blueprint",
+            "description": "<p>The Akbronco Prime lowers  Impact damage to increase  Slash damage, while gaining increased firing rate, critical damage, status chance and magazine size. The Akbronco Prime was added into the game in Update 12.4.</p>",
+            "wiki_link": "http://warframe.wikia.com/wiki/Akbronco_Prime",
+            "drop": [
+              {
+                "name": "Lith S2 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith S3 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith T1 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith V5 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith Z1 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith Z2 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Meso O1 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Meso S3 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Neo M2 Uncommon",
+                "link": null
+              }
+            ]
+          },
+          "icon_format": "land",
+          "url_name": "akbronco_prime_blueprint",
+          "thumb": "icons/en/thumbs/Akbronco_Prime_Set.34b5a7f99e5f8c15cc2039a76c725069.128x128.png",
+          "ducats": 15,
+          "icon": "icons/en/Akbronco_Prime_Set.34b5a7f99e5f8c15cc2039a76c725069.png",
+          "trading_tax": 2000,
+          "tags": [
+            "blueprint",
+            "prime"
+          ]
+        },
+        {
+          "id": "54a73e65e779893a797fff23",
+          "set_root": false,
+          "mastery_level": 0,
+          "sub_icon": "sub_icons/link_128x128.png",
+          "en": {
+            "item_name": "Akbronco Prime Link",
+            "description": "<p>The Akbronco Prime lowers  Impact damage to increase  Slash damage, while gaining increased firing rate, critical damage, status chance and magazine size. The Akbronco Prime was added into the game in Update 12.4.</p>",
+            "wiki_link": "http://warframe.wikia.com/wiki/Akbronco_Prime",
+            "drop": [
+              {
+                "name": "Axi S1 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith A2 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith N1 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Lith S5 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Meso O2 Uncommon",
+                "link": null
+              },
+              {
+                "name": "Meso R1 Uncommon",
+                "link": null
+              }
+            ]
+          },
+          "icon_format": "land",
+          "url_name": "akbronco_prime_link",
+          "thumb": "icons/en/thumbs/Akbronco_Prime_Set.34b5a7f99e5f8c15cc2039a76c725069.128x128.png",
+          "ducats": 45,
+          "icon": "icons/en/Akbronco_Prime_Set.34b5a7f99e5f8c15cc2039a76c725069.png",
+          "trading_tax": 2000,
+          "tags": [
+            "parts",
+            "prime",
+            "link"
+          ]
+        },
+        {
+          "id": "56783f24cbfa8f0432dd898d",
+          "set_root": true,
+          "mastery_level": 0,
+          "en": {
+            "item_name": "Akbronco Prime Set",
+            "description": "<p>The Akbronco Prime lowers  Impact damage to increase  Slash damage, while gaining increased firing rate, critical damage, status chance and magazine size. The Akbronco Prime was added into the game in Update 12.4.</p>",
+            "wiki_link": "http://warframe.wikia.com/wiki/Akbronco_Prime",
+            "drop": []
+          },
+          "icon_format": "land",
+          "url_name": "akbronco_prime_set",
+          "thumb": "icons/en/thumbs/Akbronco_Prime_Set.34b5a7f99e5f8c15cc2039a76c725069.128x128.png",
+          "icon": "icons/en/Akbronco_Prime_Set.34b5a7f99e5f8c15cc2039a76c725069.png",
+          "trading_tax": 2000,
+          "tags": [
+            "set",
+            "prime"
+          ]
+        }
+      ]
+    }
+  }
+}

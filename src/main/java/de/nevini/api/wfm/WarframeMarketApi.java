@@ -3,7 +3,9 @@ package de.nevini.api.wfm;
 import de.nevini.api.Api;
 import de.nevini.api.ApiRequest;
 import de.nevini.api.ApiResponse;
+import de.nevini.api.wfm.model.WfmItemResponse;
 import de.nevini.api.wfm.model.WfmItemsResponse;
+import de.nevini.api.wfm.requests.WfmItemRequest;
 import de.nevini.api.wfm.requests.WfmItemsRequest;
 import de.nevini.commons.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
@@ -46,6 +48,10 @@ public class WarframeMarketApi implements Api {
     }
 
     public @NonNull ApiResponse<WfmItemsResponse> getItems(@NonNull WfmItemsRequest request) {
+        return call(request);
+    }
+
+    public @NonNull ApiResponse<WfmItemResponse> getItem(@NonNull WfmItemRequest request) {
         return call(request);
     }
 

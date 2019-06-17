@@ -1,11 +1,36 @@
 package de.nevini.api.wfm.requests;
 
 import de.nevini.api.ApiResponse;
+import de.nevini.api.wfm.model.WfmItemsEn;
 import de.nevini.api.wfm.model.WfmItemsResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class WfmItemsTest extends WfmApiProvider {
+
+    @Test
+    public void testParser() throws IOException {
+        WfmItemsRequest request = WfmItemsRequest.builder().build();
+        WfmItemsResponse result;
+        try (InputStreamReader reader = new InputStreamReader(
+                getClass().getResourceAsStream("get_items.json")
+        )) {
+            result = request.parseStream(reader);
+        }
+
+        // make sure all items are present
+        Assert.assertEquals(2564, result.getPayload().getItems().getEn().size());
+
+        // make sure all data was parsed correctly
+        WfmItemsEn item = result.getPayload().getItems().getEn().get(0);
+        Assert.assertEquals("scindo_prime_handle", item.getUrlName());
+        Assert.assertEquals("Scindo Prime Handle", item.getItemName());
+        Assert.assertEquals("sub_icons/handle_128x128.png", item.getThumb());
+        Assert.assertEquals("54a73e65e779893a797fff5d", item.getId());
+    }
 
     @Test
     public void testBlankRequest() {

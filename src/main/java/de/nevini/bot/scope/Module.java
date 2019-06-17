@@ -20,6 +20,8 @@ public enum Module {
                     + "This modules is active by default but can be deactivated."),
     OSU("osu", false, false,
             "These commands are related to [osu!](https://osu.ppy.sh)."),
+    WARFRAME("warframe", false, false,
+            "These commands are related to [Warframe](https://www.warframe.com/"),
     ;
 
     /**

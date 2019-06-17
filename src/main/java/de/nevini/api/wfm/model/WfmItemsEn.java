@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Builder
 @Value
-public class WfmItem {
+public class WfmItemsEn {
 
     @SerializedName("url_name")
     private String urlName;

@@ -8,9 +8,9 @@ import java.util.List;
 
 @Builder
 @Value
-public class WfmItems {
+public class WfmItemItem {
 
-    @SerializedName("en")
-    private List<WfmItemsEn> en;
+    @SerializedName("items_in_set")
+    private List<WfmItemInSet> itemsInSet;
 
 }
