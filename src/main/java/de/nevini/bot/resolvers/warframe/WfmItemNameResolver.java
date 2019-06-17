@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class WfmItemNameResolver extends AbstractResolver<WfmItemName> {
 
-    protected WfmItemNameResolver() {
+    WfmItemNameResolver() {
         super("item name", new Pattern[]{
                 Pattern.compile("(?i)(?:--|//)item(?:\\s+(.+))?")
         });

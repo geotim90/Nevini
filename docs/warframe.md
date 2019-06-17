@@ -20,5 +20,5 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-price-check | pricecheck<br>pc
+price-check | pc
 --item | //item

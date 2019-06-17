@@ -49,12 +49,12 @@ public class PriceCheckCommand extends Command {
         }
 
         // find best offers
-        WfmOrder bestBuyOffline = getBestBuy(orders, "offline");
-        WfmOrder bestBuyOnline = getBestBuy(orders, "online");
-        WfmOrder bestBuyInGame = getBestBuy(orders, "ingame");
-        WfmOrder bestSellOffline = getBestSell(orders, "offline");
-        WfmOrder bestSellOnline = getBestSell(orders, "online");
-        WfmOrder bestSellInGame = getBestSell(orders, "ingame");
+        WfmOrder bestBuyInGame = getBestBuy(orders, "ingame", null);
+        WfmOrder bestBuyOnSite = getBestBuy(orders, "online", bestBuyInGame);
+        WfmOrder bestBuyAll = getBestBuy(orders, "offline", bestBuyOnSite);
+        WfmOrder bestSellInGame = getBestSell(orders, "ingame", null);
+        WfmOrder bestSellOnSite = getBestSell(orders, "online", bestSellInGame);
+        WfmOrder bestSellAll = getBestSell(orders, "offline", bestSellOnSite);
 
         // find most recent offer
         WfmOrder mostRecent = orders.stream().filter(e -> !Boolean.FALSE.equals(e.getVisible()))
@@ -64,39 +64,50 @@ public class PriceCheckCommand extends Command {
         String content = "Best offers on warframe.market for **" + item.getItemName()
                 + "** as of " + Formatter.formatTimestamp(mostRecent.getLastUpdate())
                 + "\n```c"
-                + "\n           WTB       WTS"
-                + "\ningame:    " + format6(bestBuyInGame) + "p   " + format6(bestSellInGame) + "p"
-                + "\nonline:    " + format6(bestBuyOnline) + "p   " + format6(bestSellOnline) + "p"
-                + "\noffline:   " + format6(bestBuyOffline) + "p   " + format6(bestSellOffline) + "p"
-                + "\n```";
+                + "\n          WTB       WTS"
+                + "\nIn game:  " + format6(bestBuyInGame) + "   " + format6(bestSellInGame)
+                + "\nOn site:  " + format6(bestBuyOnSite) + "   " + format6(bestSellOnSite)
+                + "\nAll:      " + format6(bestBuyAll) + "   " + format6(bestSellAll)
+                + "\n```" + (bestBuyInGame == null || bestSellInGame == null
+                ? "\n(`-` means that no matching offers were found)" : "");
 
         // send message
         event.reply(content, event::complete);
     }
 
-    private WfmOrder getBestBuy(Collection<WfmOrder> orders, String status) {
-        return orders.stream()
+    private WfmOrder getBestBuy(Collection<WfmOrder> orders, String status, WfmOrder floor) {
+        WfmOrder best = orders.stream()
                 .filter(e -> !Boolean.FALSE.equals(e.getVisible())
                         && "buy".equals(e.getOrderType())
                         && status.equals(e.getUser().getStatus()))
                 .max(Comparator.comparing(WfmOrder::getPlatinum))
                 .orElse(null);
+        if (floor != null && (best == null || floor.getPlatinum() > best.getPlatinum())) {
+            return floor;
+        } else {
+            return best;
+        }
     }
 
-    private WfmOrder getBestSell(Collection<WfmOrder> orders, String status) {
-        return orders.stream()
+    private WfmOrder getBestSell(Collection<WfmOrder> orders, String status, WfmOrder ceil) {
+        WfmOrder best = orders.stream()
                 .filter(e -> !Boolean.FALSE.equals(e.getVisible())
                         && "sell".equals(e.getOrderType())
                         && status.equals(e.getUser().getStatus()))
                 .min(Comparator.comparing(WfmOrder::getPlatinum))
                 .orElse(null);
+        if (ceil != null && (best == null || ceil.getPlatinum() < best.getPlatinum())) {
+            return ceil;
+        } else {
+            return best;
+        }
     }
 
     private String format6(WfmOrder order) {
         if (order == null || order.getPlatinum() == null) {
-            return StringUtils.leftPad("-", 6);
+            return StringUtils.leftPad("-", 6) + " ";
         } else {
-            return StringUtils.leftPad(Formatter.formatInteger(order.getPlatinum()), 6);
+            return StringUtils.leftPad(Formatter.formatInteger(order.getPlatinum()), 6) + "p";
         }
     }
 
