@@ -12,6 +12,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -168,8 +169,9 @@ public class Formatter {
         return formatTimestamp(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
     }
 
-    public static String formatTimestamp(ZonedDateTime value) {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value).replace('T', ' ');
+    public static String formatTimestamp(@NonNull TemporalAccessor value) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneOffset.UTC).format(value)
+                .replace('T', ' ');
     }
 
     public static String formatUnits(long millis) {

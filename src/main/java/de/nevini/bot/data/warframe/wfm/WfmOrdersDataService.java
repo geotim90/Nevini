@@ -25,7 +25,7 @@ public class WfmOrdersDataService {
 
     public WfmOrdersDataService(@Autowired WarframeMarketApiProvider apiProvider) {
         this.readCache = CacheBuilder.newBuilder()
-                .expireAfterWrite(Duration.ofMinutes(5))
+                .expireAfterWrite(Duration.ofMinutes(1))
                 .maximumSize(300)
                 .build();
         this.api = apiProvider.getApi();

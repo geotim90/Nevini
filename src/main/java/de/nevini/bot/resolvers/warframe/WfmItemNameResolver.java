@@ -8,7 +8,6 @@ import de.nevini.commons.util.Finder;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -36,7 +35,6 @@ public class WfmItemNameResolver extends AbstractResolver<WfmItemName> {
     @Override
     public List<WfmItemName> findSorted(@NonNull CommandEvent event, String query) {
         WarframeMarketService service = event.locate(WarframeMarketService.class);
-        if (service == null) return Collections.emptyList();
         return Finder.findAny(service.getItemNames(), item -> new String[]{
                 item.getItemName(), item.getUrlName().replace('_', ' '), item.getId()
         }, query).stream().sorted(Comparator.comparing(WfmItemName::getItemName)).collect(Collectors.toList());
