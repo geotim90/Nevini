@@ -6,9 +6,11 @@ import de.nevini.api.ApiResponse;
 import de.nevini.api.wfm.model.item.WfmItemResponse;
 import de.nevini.api.wfm.model.items.WfmItemsResponse;
 import de.nevini.api.wfm.model.orders.WfmOrdersResponse;
+import de.nevini.api.wfm.model.statistics.WfmStatisticsResponse;
 import de.nevini.api.wfm.requests.WfmItemRequest;
 import de.nevini.api.wfm.requests.WfmItemsRequest;
 import de.nevini.api.wfm.requests.WfmOrdersRequest;
+import de.nevini.api.wfm.requests.WfmStatisticsRequest;
 import de.nevini.commons.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -58,6 +60,10 @@ public class WarframeMarketApi implements Api {
     }
 
     public @NonNull ApiResponse<WfmOrdersResponse> getOrders(@NonNull WfmOrdersRequest request) {
+        return call(request);
+    }
+
+    public @NonNull ApiResponse<WfmStatisticsResponse> getStatistics(@NonNull WfmStatisticsRequest request) {
         return call(request);
     }
 
