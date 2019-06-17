@@ -22,8 +22,7 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class WarframeMarketApi implements Api {
 
-    // rate limits according to KycKyc
-    private final TokenBucket rateLimit = new TokenBucket(3, 3, 5, TimeUnit.SECONDS);
+    private final TokenBucket rateLimit = new TokenBucket(3, 3, 3, TimeUnit.SECONDS);
 
     @NonNull
     private final OkHttpClient httpClient;
@@ -35,7 +34,7 @@ public class WarframeMarketApi implements Api {
             // prepare the GET request
             Request request = apiRequest.getRequest(new Request.Builder()
                     .url(apiRequest.getEndpoint())
-                    .addHeader("Platform", "PC")
+                    .addHeader("Platform", "pc")
                     .addHeader("Language", "en")
                     .get());
             try {

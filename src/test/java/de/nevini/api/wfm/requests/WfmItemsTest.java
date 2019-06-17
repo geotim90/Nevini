@@ -22,10 +22,10 @@ public class WfmItemsTest extends WfmApiProvider {
         }
 
         // make sure all items are present
-        Assert.assertEquals(2564, result.getPayload().getItems().getEn().size());
+        Assert.assertEquals(2564, result.getPayload().getItems().getNames().size());
 
         // make sure all data was parsed correctly
-        WfmItemName item = result.getPayload().getItems().getEn().get(0);
+        WfmItemName item = result.getPayload().getItems().getNames().get(0);
         Assert.assertEquals("scindo_prime_handle", item.getUrlName());
         Assert.assertEquals("Scindo Prime Handle", item.getItemName());
         Assert.assertEquals("sub_icons/handle_128x128.png", item.getThumb());

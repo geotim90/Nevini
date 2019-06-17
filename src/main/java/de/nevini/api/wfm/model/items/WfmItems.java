@@ -11,6 +11,6 @@ import java.util.List;
 public class WfmItems {
 
     @SerializedName("en")
-    private List<WfmItemName> en;
+    private List<WfmItemName> names;
 
 }
