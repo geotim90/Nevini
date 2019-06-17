@@ -32,7 +32,7 @@ public class OsuMatchRequest implements ApiRequest<OsuMatch> {
     }
 
     @Override
-    public ApiResponse<OsuMatch> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<OsuMatch> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));

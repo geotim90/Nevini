@@ -43,7 +43,7 @@ public class OsuUserRequest implements ApiRequest<List<OsuUser>> {
     }
 
     @Override
-    public ApiResponse<List<OsuUser>> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<List<OsuUser>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));

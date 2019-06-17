@@ -49,7 +49,7 @@ public class OsuScoresRequest implements ApiRequest<List<OsuScore>> {
     }
 
     @Override
-    public ApiResponse<List<OsuScore>> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<List<OsuScore>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));

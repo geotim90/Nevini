@@ -57,7 +57,7 @@ public class OsuBeatmapsRequest implements ApiRequest<List<OsuBeatmap>> {
     }
 
     @Override
-    public ApiResponse<List<OsuBeatmap>> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<List<OsuBeatmap>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));

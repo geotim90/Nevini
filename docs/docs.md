@@ -7,6 +7,7 @@ Module | Description
 [core](./core) | These commands are a core part of Nevini and are always available.<br>In other words, this module is active by default and cannot be deactivated.
 [guild](./guild) | These commands help manage a server (aka. guild) and monitor user (aka. member) activity. This modules is active by default but can be deactivated.
 [osu](./osu) | These commands are related to [osu!](https://osu.ppy.sh).
+[warframe](./warframe) | These commands are related to [Warframe](https://www.warframe.com/).
 
 ## Commands
 
