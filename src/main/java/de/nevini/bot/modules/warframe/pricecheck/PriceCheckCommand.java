@@ -23,7 +23,7 @@ public class PriceCheckCommand extends Command {
     public PriceCheckCommand() {
         super(CommandDescriptor.builder()
                 .keyword("price-check")
-                .aliases(new String[]{"pricecheck", "pc"})
+                .aliases(new String[]{"pc"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_PRICE_CHECK)
                 .minimumBotPermissions(Permissions.TALK)
@@ -63,8 +63,8 @@ public class PriceCheckCommand extends Command {
                 .max(Comparator.comparing(WfmOrder::getLastUpdate)).orElseThrow(IllegalStateException::new);
 
         // format results
-        String content = "Best offers on warframe.market for " + item.getItemName()
-                + " as of " + Formatter.formatTimestamp(mostRecent.getLastUpdate())
+        String content = "Best offers on warframe.market for **" + item.getItemName()
+                + "** as of " + Formatter.formatTimestamp(mostRecent.getLastUpdate())
                 + "\n```c"
                 + "\n           WTB       WTS"
                 + "\ningame:    " + format6(bestBuyInGame) + "p   " + format6(bestSellInGame) + "p"
@@ -96,7 +96,7 @@ public class PriceCheckCommand extends Command {
 
     private String format6(WfmOrder order) {
         if (order == null || order.getPlatinum() == null) {
-            return StringUtils.leftPad("N/A", 6);
+            return StringUtils.leftPad("-", 6);
         } else {
             return StringUtils.leftPad(Formatter.formatInteger(order.getPlatinum()), 6);
         }
