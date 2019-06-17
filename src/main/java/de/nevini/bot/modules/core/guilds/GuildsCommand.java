@@ -36,9 +36,14 @@ public class GuildsCommand extends Command {
         for (Guild guild : guilds) {
             builder.append("\n**").append(guild.getName()).append("** (").append(guild.getId()).append(") owned by **")
                     .append(guild.getOwner().getUser().getAsTag()).append("** (").append(guild.getOwnerId())
-                    .append(") with ").append(Formatter.formatInteger(guild.getMembers().size())).append(" members");
+                    .append(") with ").append(Formatter.formatLong(count(guild, false))).append(" members and ")
+                    .append(Formatter.formatLong(count(guild, true))).append(" bots");
         }
         event.reply(builder.toString(), event::complete);
+    }
+
+    private long count(Guild guild, boolean bots) {
+        return guild.getMembers().stream().filter(member -> member.getUser().isBot() == bots).count();
     }
 
 }

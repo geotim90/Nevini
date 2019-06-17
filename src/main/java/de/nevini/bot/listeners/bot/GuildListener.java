@@ -3,6 +3,7 @@ package de.nevini.bot.listeners.bot;
 import de.nevini.bot.db.feed.FeedData;
 import de.nevini.bot.scope.Feed;
 import de.nevini.bot.services.common.FeedService;
+import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -43,14 +44,17 @@ public class GuildListener {
                     channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just joined **"
                             + guild.getName() + "** (" + guild.getId() + ") owned by **"
                             + guild.getOwner().getUser().getAsTag() + "** (" + guild.getOwnerId() + ") with "
-                            + guild.getMembers().size() + " members").queue();
+                            + Formatter.formatLong(count(guild, false)) + " members and "
+                            + Formatter.formatLong(count(guild, true)) + " bots").queue();
                 }
                 feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
         }
-
     }
 
+    private long count(Guild guild, boolean bots) {
+        return guild.getMembers().stream().filter(member -> member.getUser().isBot() == bots).count();
+    }
 
     private void onGuildLeave(GuildLeaveEvent event) {
         Guild guild = event.getGuild();
