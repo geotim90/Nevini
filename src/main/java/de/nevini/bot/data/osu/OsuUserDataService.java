@@ -1,4 +1,4 @@
-package de.nevini.bot.data.osu.user;
+package de.nevini.bot.data.osu;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -8,7 +8,6 @@ import de.nevini.api.osu.model.OsuMode;
 import de.nevini.api.osu.model.OsuUser;
 import de.nevini.api.osu.model.OsuUserType;
 import de.nevini.api.osu.requests.OsuUserRequest;
-import de.nevini.bot.data.osu.OsuApiProvider;
 import de.nevini.bot.db.osu.user.OsuUserData;
 import de.nevini.bot.db.osu.user.OsuUserId;
 import de.nevini.bot.db.osu.user.OsuUserRepository;
@@ -27,6 +26,7 @@ import java.util.Optional;
 @Service
 public class OsuUserDataService {
 
+    private final Cache<OsuUserRequest, OsuUser> readCache;
     private final Cache<Integer, OsuUser> readCacheById;
     private final Cache<Pair<String, OsuMode>, OsuUser> readCacheByNameAndMode;
     private final OsuApi api;
@@ -36,6 +36,10 @@ public class OsuUserDataService {
             @Autowired OsuApiProvider apiProvider,
             @Autowired OsuUserRepository repository
     ) {
+        this.readCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(Duration.ofMinutes(1))
+                .maximumSize(1200)
+                .build();
         this.readCacheById = CacheBuilder.newBuilder()
                 .expireAfterWrite(Duration.ofMinutes(1))
                 .maximumSize(1200)
@@ -48,11 +52,27 @@ public class OsuUserDataService {
         this.repository = repository;
     }
 
+    public OsuUser get(@NonNull OsuUserRequest request) {
+        log.trace("get({})", request);
+        return getFromReadCache(request).orElseGet(() ->
+                getFromApi(request).orElse(null)
+        );
+    }
+
     public OsuUser get(int userId) {
         log.trace("get({})", userId);
         return getFromReadCache(userId).orElseGet(() ->
                 getFromApi(userId).orElseGet(() ->
                         getFromDatabase(userId).orElse(null)
+                )
+        );
+    }
+
+    public OsuUser getCached(int userId) {
+        log.trace("getCached({})", userId);
+        return getFromReadCache(userId).orElseGet(() ->
+                getFromDatabase(userId).orElseGet(() ->
+                        getFromApi(userId).orElse(null)
                 )
         );
     }
@@ -67,13 +87,9 @@ public class OsuUserDataService {
         );
     }
 
-    public OsuUser getCached(int userId) {
-        log.trace("getCached({})", userId);
-        return getFromReadCache(userId).orElseGet(() ->
-                getFromDatabase(userId).orElseGet(() ->
-                        getFromApi(userId).orElse(null)
-                )
-        );
+    private @NonNull Optional<OsuUser> getFromReadCache(@NonNull OsuUserRequest request) {
+        log.trace("getFromReadCache({})", request);
+        return Optional.ofNullable(readCache.getIfPresent(request));
     }
 
     private @NonNull Optional<OsuUser> getFromReadCache(int userId) {
@@ -84,6 +100,19 @@ public class OsuUserDataService {
     private @NonNull Optional<OsuUser> getFromReadCache(@NonNull Pair<String, OsuMode> args) {
         log.trace("getFromReachCache({})", args);
         return Optional.ofNullable(readCacheByNameAndMode.getIfPresent(args));
+    }
+
+    private @NonNull Optional<OsuUser> getFromApi(@NonNull OsuUserRequest request) {
+        log.trace("getFromApi({})", request);
+        ApiResponse<List<OsuUser>> response = api.getUser(request);
+        List<OsuUser> results = response.getResult();
+        if (results != null && results.size() == 1) {
+            OsuUser user = results.get(0);
+            log.debug("Save data: {}", user);
+            repository.save(OsuUserDataMapper.convert(user, OsuMode.STANDARD));
+            return Optional.of(cache(user, OsuMode.STANDARD));
+        }
+        return Optional.empty();
     }
 
     private @NonNull Optional<OsuUser> getFromApi(int userId) {
@@ -97,10 +126,10 @@ public class OsuUserDataService {
         );
         List<OsuUser> results = response.getResult();
         if (results != null && results.size() == 1) {
-            OsuUser beatmap = results.get(0);
-            log.debug("Save data: {}", beatmap);
-            repository.save(OsuUserDataMapper.convert(beatmap, OsuMode.STANDARD));
-            return Optional.of(cache(beatmap, OsuMode.STANDARD));
+            OsuUser user = results.get(0);
+            log.debug("Save data: {}", user);
+            repository.save(OsuUserDataMapper.convert(user, OsuMode.STANDARD));
+            return Optional.of(cache(user, OsuMode.STANDARD));
         }
         return Optional.empty();
     }
@@ -115,10 +144,10 @@ public class OsuUserDataService {
         );
         List<OsuUser> results = response.getResult();
         if (results != null && results.size() == 1) {
-            OsuUser beatmap = results.get(0);
-            log.debug("Save data: {}", beatmap);
-            repository.save(OsuUserDataMapper.convert(beatmap, args.getRight()));
-            return Optional.of(cache(beatmap, args.getRight()));
+            OsuUser user = results.get(0);
+            log.debug("Save data: {}", user);
+            repository.save(OsuUserDataMapper.convert(user, args.getRight()));
+            return Optional.of(cache(user, args.getRight()));
         }
         return Optional.empty();
     }

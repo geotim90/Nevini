@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.2.1'
+version = '4.2.2'
 sourceCompatibility = '8'
 
 configurations {
@@ -25,8 +25,10 @@ repositories {
 
 dependencies {
 	// annotations
-	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	// spring boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.flywaydb:flyway-core'

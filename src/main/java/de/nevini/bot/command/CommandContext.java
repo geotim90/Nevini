@@ -30,6 +30,7 @@ public class CommandContext {
     private final EventDispatcher<Event> eventDispatcher;
 
     private final ActivityService activityService;
+    private final AutoRoleService autoRoleService;
     private final FeedService feedService;
     private final GameService gameService;
     private final IgnService ignService;
@@ -48,6 +49,7 @@ public class CommandContext {
             @Autowired ApplicationContext applicationContext,
             @Autowired EventDispatcher<Event> eventDispatcher,
             @Autowired ActivityService activityService,
+            @Autowired AutoRoleService autoRoleService,
             @Autowired FeedService feedService,
             @Autowired GameService gameService,
             @Autowired IgnService ignService,
@@ -72,6 +74,7 @@ public class CommandContext {
         this.eventDispatcher = eventDispatcher;
 
         this.activityService = activityService;
+        this.autoRoleService = autoRoleService;
         this.feedService = feedService;
         this.gameService = gameService;
         this.ignService = ignService;

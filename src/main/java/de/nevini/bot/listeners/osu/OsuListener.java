@@ -81,8 +81,19 @@ public class OsuListener {
                 }
             }
 
-            // update osu! feeds
-            updateQueue.add(event.getUser().getIdLong());
+            // update queue if a subscription exists
+            for (Guild guild : event.getJDA().getGuilds()) {
+                Member member = guild.getMember(event.getUser());
+                if (member != null) {
+                    FeedData feedEvents = feedService.getSubscription(Feed.OSU_EVENTS, guild);
+                    FeedData feedRecent = feedService.getSubscription(Feed.OSU_RECENT, guild);
+                    if (feedEvents != null || feedRecent != null) {
+                        log.debug("Queueing {}", event.getUser().getId());
+                        updateQueue.add(event.getUser().getIdLong());
+                        break;
+                    }
+                }
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package de.nevini.bot.data.osu.beatmap;
+package de.nevini.bot.data.osu;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -6,7 +6,6 @@ import de.nevini.api.ApiResponse;
 import de.nevini.api.osu.OsuApi;
 import de.nevini.api.osu.model.OsuBeatmap;
 import de.nevini.api.osu.requests.OsuBeatmapsRequest;
-import de.nevini.bot.data.osu.OsuApiProvider;
 import de.nevini.bot.db.osu.beatmap.OsuBeatmapData;
 import de.nevini.bot.db.osu.beatmap.OsuBeatmapRepository;
 import lombok.NonNull;

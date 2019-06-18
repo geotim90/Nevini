@@ -8,6 +8,7 @@ import de.nevini.api.osu.requests.*;
 import de.nevini.commons.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,6 +16,7 @@ import okhttp3.Request;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @AllArgsConstructor
 public class OsuApi implements Api {
 
@@ -28,6 +30,7 @@ public class OsuApi implements Api {
     private final String token;
 
     public <T> @NonNull ApiResponse<T> call(@NonNull ApiRequest<T> apiRequest) {
+        log.debug("Request: {}", apiRequest);
         // check rate limits
         if ((!(apiRequest instanceof OsuReplayRequest) || replayRateLimit.requestToken())
                 && rateLimit.requestToken()
@@ -45,10 +48,12 @@ public class OsuApi implements Api {
                 return apiRequest.parseResponse(httpClient.newCall(request).execute());
             } catch (Throwable throwable) {
                 // an error occurred
+                log.info("Request failed: {}", apiRequest, throwable);
                 return ApiResponse.error(throwable);
             }
         } else {
             // call exceeds rate limit
+            log.info("Request rate limited: {}", apiRequest);
             return ApiResponse.rateLimited();
         }
     }

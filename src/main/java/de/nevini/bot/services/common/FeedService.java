@@ -9,11 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -31,7 +31,7 @@ public class FeedService {
      * @param feed    the {@link Feed} to subscribe to
      * @param channel the {@link TextChannel} to point the feed to
      */
-    public synchronized void subscribe(@NonNull Feed feed, @NonNull TextChannel channel) {
+    public void subscribe(@NonNull Feed feed, @NonNull TextChannel channel) {
         FeedData data = new FeedData(
                 channel.getGuild().getIdLong(),
                 feed.getType(),
@@ -50,14 +50,13 @@ public class FeedService {
      * @param guild the relevant {@link Guild}
      */
     @Transactional
-    public synchronized void unsubscribe(@NonNull Feed feed, @NonNull Guild guild) {
+    public void unsubscribe(@NonNull Feed feed, @NonNull Guild guild) {
         FeedId id = new FeedId(guild.getIdLong(), feed.getType(), -1L);
-        log.debug("Delete data: {}", id);
-        try {
+        Optional<FeedData> data = feedRepository.findById(id);
+        if (data.isPresent()) {
+            log.debug("Delete data: {}", id);
             feedRepository.deleteById(id);
             feedRepository.deleteAllByGuildAndType(guild.getIdLong(), feed.getType());
-        } catch (EmptyResultDataAccessException e) {
-            log.debug("No data to delete.", e);
         }
     }
 
@@ -126,9 +125,7 @@ public class FeedService {
      * @param channel the relevant {@link TextChannel}
      * @param uts     the new update timestamp
      */
-    public synchronized void updateSubscription(
-            @NonNull Feed feed, @NonNull Long id, @NonNull TextChannel channel, long uts
-    ) {
+    public void updateSubscription(@NonNull Feed feed, @NonNull Long id, @NonNull TextChannel channel, long uts) {
         // update main feed entry
         if (id != -1) {
             FeedData data = new FeedData(

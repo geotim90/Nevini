@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GameListener {
+public class ActivityPlayingListener {
 
     private final ActivityService activityService;
     private final GameService gameService;
 
-    public GameListener(
+    public ActivityPlayingListener(
             @Autowired ActivityService activityService,
             @Autowired GameService gameService,
             @Autowired EventDispatcher<Event> eventDispatcher

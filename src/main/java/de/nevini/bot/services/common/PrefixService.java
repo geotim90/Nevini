@@ -58,7 +58,7 @@ public class PrefixService {
      * @throws NullPointerException     if {@code guild} or {@code prefix} is {@code null}
      * @throws IllegalArgumentException if {@code prefix} is longer than 32 characters
      */
-    public synchronized void setGuildPrefix(@NonNull Guild guild, @NonNull String prefix) {
+    public void setGuildPrefix(@NonNull Guild guild, @NonNull String prefix) {
         if (prefix.length() > 32) {
             throw new IllegalArgumentException("prefix is longer than 32 characters!");
         }

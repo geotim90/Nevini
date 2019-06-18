@@ -76,13 +76,13 @@ public class IgnService {
         );
     }
 
-    public synchronized void setIgn(@NonNull Member member, @NonNull GameData game, @NonNull String name) {
+    public void setIgn(@NonNull Member member, @NonNull GameData game, @NonNull String name) {
         IgnData data = new IgnData(member.getGuild().getIdLong(), member.getUser().getIdLong(), game.getId(), name);
         log.debug("Save data: {}", data);
         ignRepository.save(data);
     }
 
-    public synchronized void setIgn(@NonNull User user, long gameId, @NonNull String name) {
+    public void setIgn(@NonNull User user, long gameId, @NonNull String name) {
         IgnData data = new IgnData(-1L, user.getIdLong(), gameId, name);
         log.debug("Save data: {}", data);
         ignRepository.save(data);

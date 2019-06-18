@@ -29,7 +29,7 @@ public class ModuleService {
                         .map(data -> data.getFlag() > 0).orElse(module.isEnabledByDefault());
     }
 
-    public synchronized void setModuleActive(@NonNull Guild guild, @NonNull Module module, boolean active) {
+    public void setModuleActive(@NonNull Guild guild, @NonNull Module module, boolean active) {
         ModuleData data = new ModuleData(guild.getIdLong(), module.getName(), active ? FLAG_ACTIVE : FLAG_INACTIVE);
         log.info("Save data: {}", data);
         moduleRepository.save(data);
