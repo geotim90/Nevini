@@ -14,11 +14,13 @@ import de.nevini.api.wfm.requests.WfmStatisticsRequest;
 import de.nevini.commons.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @AllArgsConstructor
 public class WarframeMarketApi implements Api {
 
@@ -29,6 +31,7 @@ public class WarframeMarketApi implements Api {
 
     @Override
     public @NonNull <T> ApiResponse<T> call(@NonNull ApiRequest<T> apiRequest) {
+        log.debug("Request: {}", apiRequest);
         // check rate limits
         if (rateLimit.requestToken()) {
             // prepare the GET request
@@ -42,10 +45,12 @@ public class WarframeMarketApi implements Api {
                 return apiRequest.parseResponse(httpClient.newCall(request).execute());
             } catch (Throwable throwable) {
                 // an error occurred
+                log.info("Request failed: {}", apiRequest, throwable);
                 return ApiResponse.error(throwable);
             }
         } else {
             // call exceeds rate limit
+            log.info("Request rate limited: {}", apiRequest);
             return ApiResponse.rateLimited();
         }
     }
