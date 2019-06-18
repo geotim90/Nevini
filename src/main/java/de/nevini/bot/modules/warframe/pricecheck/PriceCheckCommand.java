@@ -66,13 +66,14 @@ public class PriceCheckCommand extends Command {
 
         // format results
         String content = "Best offers on warframe.market for **" + item.getItemName() + "** as of "
-                + Formatter.formatTimestamp(mostRecent.getLastUpdate()) + "\n```c"
+                + Formatter.formatTimestamp(mostRecent.getLastUpdate())
+                + "\n<https://warframe.market/items/" + item.getUrlName() + ">"
+                + "\n```c"
                 + "\n          WTB       WTS"
                 + "\nIn game:  " + formatPrice(bestBuyInGame) + "   " + formatPrice(bestSellInGame)
                 + "\nOn site:  " + formatPrice(bestBuyOnSite) + "   " + formatPrice(bestSellOnSite)
                 + "\nAll:      " + formatPrice(bestBuyAll) + "   " + formatPrice(bestSellAll)
-                + "\n```\nOffers: <https://warframe.market/items/" + item.getUrlName() + ">"
-                + (bestBuyInGame == null || bestSellInGame == null
+                + "\n```" + (bestBuyInGame == null || bestSellInGame == null
                 ? "\n(`-` means that no matching offers were found)" : "");
 
         // append statistics if available
@@ -84,14 +85,10 @@ public class PriceCheckCommand extends Command {
                     .max(Comparator.comparing(WfmStatisticsLiveEntry::getDateTime)).orElse(null);
             if (lastBuyStats != null && lastSellStats != null) {
                 content += "\n\nStatistics on warframe.market for **" + item.getItemName() + "** as of "
-                        + Formatter.formatTimestamp(lastSellStats.getDateTime()) + "\n```c"
-                        + "\n                   WTB         WTS"
-                        + "\nVolume:            " + formatVolume(lastBuyStats.getVolume())
-                        + "   " + formatVolume(lastSellStats.getVolume())
-                        + "\nMinimum:           " + formatPrice(lastBuyStats.getMinPrice())
-                        + "   " + formatPrice(lastSellStats.getMinPrice())
-                        + "\nMaximum:           " + formatPrice(lastBuyStats.getMaxPrice())
-                        + "   " + formatPrice(lastSellStats.getMaxPrice())
+                        + Formatter.formatTimestamp(lastSellStats.getDateTime())
+                        + "\n<https://warframe.market/items/" + item.getUrlName() + "/statistics>"
+                        + "\n```c"
+                        + "\n                   WTB          WTS"
                         + "\nAverage:           " + formatPrice(lastBuyStats.getAvgPrice())
                         + "   " + formatPrice(lastSellStats.getAvgPrice())
                         + "\nMoving average:    " + formatPrice(lastBuyStats.getMovingAvg())
@@ -100,7 +97,15 @@ public class PriceCheckCommand extends Command {
                         + "   " + formatPrice(lastSellStats.getWaPrice())
                         + "\nMedian:            " + formatPrice(lastBuyStats.getMedian())
                         + "   " + formatPrice(lastSellStats.getMedian())
-                        + "\n```\nChart: <https://warframe.market/items/" + item.getUrlName() + "/statistics>";
+                        + "\nBest:              " + formatPrice(lastBuyStats.getMinPrice())
+                        + "   " + formatPrice(lastSellStats.getMaxPrice())
+                        + "\nWorst:             " + formatPrice(lastBuyStats.getMaxPrice())
+                        + "   " + formatPrice(lastSellStats.getMinPrice())
+                        + "\nVolume:            " + formatVolume(lastBuyStats.getVolume())
+                        + "   " + formatVolume(lastSellStats.getVolume())
+                        + "\n                   " + formatRatio(lastBuyStats.getVolume(), lastSellStats.getVolume())
+                        + "   " + formatRatio(lastSellStats.getVolume(), lastBuyStats.getVolume())
+                        + "\n```";
             }
         }
 
@@ -138,33 +143,63 @@ public class PriceCheckCommand extends Command {
 
     private String formatPrice(WfmOrder order) {
         if (order == null || order.getPlatinum() == null) {
-            return StringUtils.leftPad("-", 6) + " ";
+            return "     - ";
         } else {
             return StringUtils.leftPad(Formatter.formatInteger(order.getPlatinum()), 6) + "p";
         }
     }
 
-    private String formatVolume(Integer value) {
-        if (value == null || value == 0) {
-            return StringUtils.leftPad("-", 6) + "   ";
-        } else {
-            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "   ";
-        }
-    }
-
     private String formatPrice(Integer value) {
         if (value == null || value == 0) {
-            return StringUtils.leftPad("-", 6) + "   ";
+            return "     -    ";
         } else {
-            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "  p";
+            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "   p";
         }
     }
 
     private String formatPrice(Float value) {
         if (value == null || value == 0) {
-            return StringUtils.leftPad("-", 6) + "   ";
+            return "     -    ";
         } else {
-            return StringUtils.leftPad(Formatter.formatFloat(value), 8) + "p";
+            String text = Formatter.formatFloat(value);
+            // right pad
+            if (!text.contains(".")) {
+                text += "   ";
+            } else if (text.lastIndexOf('.') == text.length() - 2) {
+                text += " ";
+            }
+            // left pad
+            return StringUtils.leftPad(text, 9) + "p";
+        }
+    }
+
+    private String formatVolume(Integer value) {
+        if (value == null || value == 0) {
+            return "     -    ";
+        } else {
+            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "    ";
+        }
+    }
+
+    private String formatRatio(Integer a, Integer b) {
+        if (a == null && b == null) {
+            return "     -    ";
+        } else if (a == null) {
+            return "     0   %";
+        } else if (b == null) {
+            return "   100   %";
+        } else {
+            String text = Formatter.formatPercent((double) a / (a + b));
+            // trim % off the end
+            text = text.substring(0, text.length() - 1);
+            // right pad
+            if (!text.contains(".")) {
+                text += "   ";
+            } else if (text.lastIndexOf('.') == text.length() - 2) {
+                text += " ";
+            }
+            // left pad
+            return StringUtils.leftPad(text, 9) + "%";
         }
     }
 
