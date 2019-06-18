@@ -18,7 +18,7 @@ public class FeedSetCommand extends Command {
                 .keyword("set")
                 .aliases(new String[]{"subscribe"})
                 .node(Node.GUILD_FEED_SET)
-                .description("displays a list of feeds")
+                .description("configures feeds")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.FEED.describe(false, true),
                         Resolvers.CHANNEL.describe()

@@ -23,6 +23,8 @@ public enum Node {
     CORE_PREFIX_GET("core.prefix.get", Module.CORE, Permissions.EVERYONE),
     CORE_PREFIX_SET("core.prefix.set", Module.CORE, Permissions.MANAGE_SERVER),
     GUILD_ACTIVITY("guild.activity", Module.GUILD, Permissions.EVERYONE),
+    GUILD_AUTO_ROLE_GET("guild.auto-role.get", Module.GUILD, Permissions.MANAGE_ROLES),
+    GUILD_AUTO_ROLE_SET("guild.auto-role.set", Module.GUILD, Permissions.MANAGE_ROLES),
     GUILD_FEED_GET("guild.feed.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FEED_SET("guild.feed.set", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FIND_CHANNEL("guild.find.channel", Module.GUILD, Permissions.EVERYONE),
