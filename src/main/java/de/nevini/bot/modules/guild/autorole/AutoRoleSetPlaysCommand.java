@@ -6,6 +6,7 @@ import de.nevini.bot.command.CommandEvent;
 import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.bot.scope.Permissions;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ class AutoRoleSetPlaysCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.GUILD_AUTO_ROLE_SET)
+                .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("configures auto-roles for users that ever play a certain game")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.GAME.describe(),
