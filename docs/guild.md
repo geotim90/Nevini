@@ -5,6 +5,7 @@ These commands help manage a server (aka. guild) and monitor user (aka. member) 
 Command | Description
 --------|------------
 [activity](#command-activity) | displays user and/or game activity information
+[auto-role](#command-auto-role) | displays and configures auto-roles
 [feed](#command-feed) | displays and configures feeds
 [find](#command-find) | finds users, roles etc. by any of their identifiers
 [ign](#command-ign) | displays and configures in-game names
@@ -27,6 +28,114 @@ Keyword | Aliases
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
 
+## Command: `auto-role`
+
+Displays and configures auto-roles.
+
+By default, this command will behave the same as **auto-role get**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+auto-role | ar
+
+Command | Description
+--------|------------
+[auto-role get](#command-auto-role-get) | displays the currently configured auto-roles
+[auto-role set](#command-auto-role-set) | configures auto-roles
+
+### Command: `auto-role get`
+
+Displays the currently configured auto-roles.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.get**.
+
+Keyword | Aliases
+--------|--------
+get | display<br>echo<br>list<br>print<br>show
+
+### Command: `auto-role set`
+
+Configures auto-roles.
+
+By default, this command will behave the same as **auto-role set join**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Command | Description
+--------|------------
+[auto-role set join](#command-auto-role-set-join) | configures auto-roles for users that join the server
+[auto-role set playing](#command-auto-role-set-playing) | configures auto-roles for users that are currently playing a certain game
+[auto-role set plays](#command-auto-role-set-plays) | configures auto-roles for users that ever play a certain game
+
+#### Command: `auto-role set join`
+
+Configures auto-roles for users that join the server.
+
+Providing a role will cause the bot to automatically assign said role when a user joins the server.<br>
+If no role is provided, the bot will stop automatically assigning roles under the aforementioned conditions.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.set**.
+
+Option | Description
+-------|------------
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--role | //role<br>-r<br>/r
+
+#### Command: `auto-role set playing`
+
+Configures auto-roles for users that are currently playing a certain game.
+
+Providing a role will cause the bot to automatically assign said role when a user is playing a certain game and will automatically remove said role when a user is no longer playing.<br>
+If no role is provided, the bot will stop automatically assigning and removing roles under the aforementioned conditions.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.set**.
+
+Option | Description
+-------|------------
+--game \<game\> | Refers to a specific game with a matching id or name.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--game | //game
+--role | //role<br>-r<br>/r
+
+#### Command: `auto-role set plays`
+
+Configures auto-roles for users that ever play a certain game.
+
+Providing a role will cause the bot to automatically assign said role when a user plays a certain game.<br>
+If no role is provided, the bot will stop automatically assigning roles under the aforementioned conditions.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.set**.
+
+Option | Description
+-------|------------
+--game \<game\> | Refers to a specific game with a matching id or name.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--game | //game
+--role | //role<br>-r<br>/r
+
 ## Command: `feed`
 
 Displays and configures feeds.
@@ -42,7 +151,7 @@ feed | feeds<br>subscription<br>subscriptions
 Command | Description
 --------|------------
 [feed get](#command-feed-get) | displays a list of feeds
-[feed set](#command-feed-set) | displays a list of feeds
+[feed set](#command-feed-set) | configures feeds
 
 ### Command: `feed get`
 
@@ -73,7 +182,7 @@ get | display<br>echo<br>list<br>print<br>show
 
 ### Command: `feed set`
 
-Displays a list of feeds.
+Configures feeds.
 
 Providing a channel will cause the bot to post feed updates in said channel.<br>
 If no channel is provided, the bot will stop the feed.
