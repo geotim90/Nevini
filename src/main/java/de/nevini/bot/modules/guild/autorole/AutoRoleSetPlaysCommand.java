@@ -17,7 +17,7 @@ class AutoRoleSetPlaysCommand extends Command {
 
     AutoRoleSetPlaysCommand() {
         super(CommandDescriptor.builder()
-                .keyword("set")
+                .keyword("plays")
                 .node(Node.GUILD_AUTO_ROLE_SET)
                 .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("configures auto-roles for users that ever play a certain game")
