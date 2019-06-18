@@ -77,4 +77,17 @@ public class AutoRoleService {
         }
     }
 
+    public Collection<AutoRoleData> getGameAutoRoles(long game) {
+        return repository.findAllByTypeInAndId(new String[]{"playing", "plays"}, game);
+    }
+
+    public Collection<AutoRoleData> getPlayingAutoRoles(long game) {
+        return repository.findAllByTypeInAndId(new String[]{"playing"}, game);
+    }
+
+    public Role getJoinRole(@NonNull Guild guild) {
+        return repository.findById(new AutoRoleId(guild.getIdLong(), "join", -1L))
+                .map(data -> guild.getRoleById(data.getRole())).orElse(null);
+    }
+
 }
