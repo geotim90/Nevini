@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class GuildListener {
+public class AutoRoleJoinListener {
 
     private final AutoRoleService autoRoleService;
 
-    public GuildListener(
+    public AutoRoleJoinListener(
             @Autowired AutoRoleService autoRoleService,
             @Autowired EventDispatcher<Event> eventDispatcher
     ) {

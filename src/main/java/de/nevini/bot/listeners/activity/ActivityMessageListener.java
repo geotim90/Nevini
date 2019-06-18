@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GuildMessageListener {
+public class ActivityMessageListener {
 
     private final ActivityService activityService;
 
-    public GuildMessageListener(
+    public ActivityMessageListener(
             @Autowired ActivityService activityService,
             @Autowired EventDispatcher<Event> eventDispatcher
     ) {

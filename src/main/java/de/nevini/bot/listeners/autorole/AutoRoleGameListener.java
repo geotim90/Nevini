@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class GameListener {
+public class AutoRoleGameListener {
 
     private final AutoRoleService autoRoleService;
 
-    public GameListener(
+    public AutoRoleGameListener(
             @Autowired AutoRoleService autoRoleService,
             @Autowired EventDispatcher<Event> eventDispatcher
     ) {
