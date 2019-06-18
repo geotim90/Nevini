@@ -1,4 +1,4 @@
-package de.nevini.bot.data.osu.beatmap;
+package de.nevini.bot.data.osu;
 
 import de.nevini.api.osu.model.*;
 import de.nevini.bot.db.osu.beatmap.OsuBeatmapData;

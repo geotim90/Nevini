@@ -1,4 +1,4 @@
-package de.nevini.bot.data.osu.user;
+package de.nevini.bot.data.osu;
 
 import de.nevini.api.osu.model.OsuMode;
 import de.nevini.api.osu.model.OsuUser;
