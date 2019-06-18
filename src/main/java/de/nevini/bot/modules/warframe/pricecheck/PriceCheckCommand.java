@@ -2,6 +2,8 @@ package de.nevini.bot.modules.warframe.pricecheck;
 
 import de.nevini.api.wfm.model.items.WfmItemName;
 import de.nevini.api.wfm.model.orders.WfmOrder;
+import de.nevini.api.wfm.model.statistics.WfmStatisticsLiveEntry;
+import de.nevini.api.wfm.model.statistics.WfmStatisticsPayload;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 @Component
 public class PriceCheckCommand extends Command {
@@ -41,10 +44,11 @@ public class PriceCheckCommand extends Command {
         // retrieve item orders from service
         WarframeMarketService service = event.locate(WarframeMarketService.class);
         Collection<WfmOrder> orders = service.getOrders(item);
+        WfmStatisticsPayload statistics = service.getItemStatistics(item);
 
         // abort if no data is available
         if (orders == null || orders.isEmpty()) {
-            event.reply("No orders found.", event::complete);
+            event.reply("No price information found.", event::complete);
             return;
         }
 
@@ -61,15 +65,44 @@ public class PriceCheckCommand extends Command {
                 .max(Comparator.comparing(WfmOrder::getLastUpdate)).orElseThrow(IllegalStateException::new);
 
         // format results
-        String content = "Best offers on warframe.market for **" + item.getItemName()
-                + "** as of " + Formatter.formatTimestamp(mostRecent.getLastUpdate())
-                + "\n```c"
+        String content = "Best offers on warframe.market for **" + item.getItemName() + "** as of "
+                + Formatter.formatTimestamp(mostRecent.getLastUpdate()) + "\n```c"
                 + "\n          WTB       WTS"
-                + "\nIn game:  " + format6(bestBuyInGame) + "   " + format6(bestSellInGame)
-                + "\nOn site:  " + format6(bestBuyOnSite) + "   " + format6(bestSellOnSite)
-                + "\nAll:      " + format6(bestBuyAll) + "   " + format6(bestSellAll)
-                + "\n```" + (bestBuyInGame == null || bestSellInGame == null
+                + "\nIn game:  " + formatPrice(bestBuyInGame) + "   " + formatPrice(bestSellInGame)
+                + "\nOn site:  " + formatPrice(bestBuyOnSite) + "   " + formatPrice(bestSellOnSite)
+                + "\nAll:      " + formatPrice(bestBuyAll) + "   " + formatPrice(bestSellAll)
+                + "\n```\nOffers: <https://warframe.market/items/" + item.getUrlName() + ">"
+                + (bestBuyInGame == null || bestSellInGame == null
                 ? "\n(`-` means that no matching offers were found)" : "");
+
+        // append statistics if available
+        if (statistics != null && statistics.getLive() != null && statistics.getLive().getLast48hours() != null) {
+            List<WfmStatisticsLiveEntry> entries = statistics.getLive().getLast48hours();
+            WfmStatisticsLiveEntry lastBuyStats = entries.stream().filter(e -> "buy".equals(e.getOrderType()))
+                    .max(Comparator.comparing(WfmStatisticsLiveEntry::getDateTime)).orElse(null);
+            WfmStatisticsLiveEntry lastSellStats = entries.stream().filter(e -> "sell".equals(e.getOrderType()))
+                    .max(Comparator.comparing(WfmStatisticsLiveEntry::getDateTime)).orElse(null);
+            if (lastBuyStats != null && lastSellStats != null) {
+                content += "\n\nStatistics on warframe.market for **" + item.getItemName() + "** as of "
+                        + Formatter.formatTimestamp(lastSellStats.getDateTime()) + "\n```c"
+                        + "\n                   WTB         WTS"
+                        + "\nVolume:            " + formatVolume(lastBuyStats.getVolume())
+                        + "   " + formatVolume(lastSellStats.getVolume())
+                        + "\nMinimum:           " + formatPrice(lastBuyStats.getMinPrice())
+                        + "   " + formatPrice(lastSellStats.getMinPrice())
+                        + "\nMaximum:           " + formatPrice(lastBuyStats.getMaxPrice())
+                        + "   " + formatPrice(lastSellStats.getMaxPrice())
+                        + "\nAverage:           " + formatPrice(lastBuyStats.getAvgPrice())
+                        + "   " + formatPrice(lastSellStats.getAvgPrice())
+                        + "\nMoving average:    " + formatPrice(lastBuyStats.getMovingAvg())
+                        + "   " + formatPrice(lastSellStats.getMovingAvg())
+                        + "\nWeighted average:  " + formatPrice(lastBuyStats.getWaPrice())
+                        + "   " + formatPrice(lastSellStats.getWaPrice())
+                        + "\nMedian:            " + formatPrice(lastBuyStats.getMedian())
+                        + "   " + formatPrice(lastSellStats.getMedian())
+                        + "\n```\nChart: <https://warframe.market/items/" + item.getUrlName() + "/statistics>";
+            }
+        }
 
         // send message
         event.reply(content, event::complete);
@@ -103,11 +136,35 @@ public class PriceCheckCommand extends Command {
         }
     }
 
-    private String format6(WfmOrder order) {
+    private String formatPrice(WfmOrder order) {
         if (order == null || order.getPlatinum() == null) {
             return StringUtils.leftPad("-", 6) + " ";
         } else {
             return StringUtils.leftPad(Formatter.formatInteger(order.getPlatinum()), 6) + "p";
+        }
+    }
+
+    private String formatVolume(Integer value) {
+        if (value == null || value == 0) {
+            return StringUtils.leftPad("-", 6) + "   ";
+        } else {
+            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "   ";
+        }
+    }
+
+    private String formatPrice(Integer value) {
+        if (value == null || value == 0) {
+            return StringUtils.leftPad("-", 6) + "   ";
+        } else {
+            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "  p";
+        }
+    }
+
+    private String formatPrice(Float value) {
+        if (value == null || value == 0) {
+            return StringUtils.leftPad("-", 6) + "   ";
+        } else {
+            return StringUtils.leftPad(Formatter.formatFloat(value), 8) + "p";
         }
     }
 
