@@ -73,8 +73,7 @@ Command | Description
 
 Subscribes to osu! events.
 
-Providing a channel will cause the bot to post osu! events for all guild members in said channel.<br>
-If no channel is provided, the bot will stop the feed.
+This command will behave the same as **feed set osu.events**.
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -129,8 +128,7 @@ Command | Description
 
 Subscribes to osu! plays.
 
-Providing a channel will cause the bot to post osu! plays for all guild members in said channel.<br>
-If no channel is provided, the bot will stop the feed.
+This command will behave the same as **feed set osu.recent**.
 
 This command can only be executed in a text channel and not via direct message.
 
