@@ -23,24 +23,16 @@ class AutoRoleSetJoinCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.ROLE.describe(false, true)
                 })
-                .details("Providing a role will cause the bot to automatically assign said role "
-                        + "when a user joins the server.\n"
-                        + "If no role is provided, the bot will stop automatically assigning roles "
-                        + "under the aforementioned conditions.")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.ROLE.resolveOptionOrDefault(event, null, role -> acceptRole(event, role));
+        Resolvers.ROLE.resolveArgumentOrOptionOrInput(event, role -> acceptRole(event, role));
     }
 
     private void acceptRole(CommandEvent event, Role role) {
-        if (role == null) {
-            event.getAutoRoleService().removeJoinAutoRole(event.getGuild());
-        } else {
-            event.getAutoRoleService().setJoinAutoRole(role);
-        }
+        event.getAutoRoleService().setJoinAutoRole(role);
         event.reply(CommandReaction.OK, event::complete);
     }
 

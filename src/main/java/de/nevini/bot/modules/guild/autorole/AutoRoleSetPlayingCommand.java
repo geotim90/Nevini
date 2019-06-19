@@ -25,11 +25,6 @@ class AutoRoleSetPlayingCommand extends Command {
                         Resolvers.GAME.describe(),
                         Resolvers.ROLE.describe(false, true)
                 })
-                .details("Providing a role will cause the bot to automatically assign said role "
-                        + "when a user is playing a certain game and will automatically remove said role "
-                        + "when a user is no longer playing.\n"
-                        + "If no role is provided, the bot will stop automatically assigning and removing roles "
-                        + "under the aforementioned conditions.")
                 .build());
     }
 
@@ -39,15 +34,11 @@ class AutoRoleSetPlayingCommand extends Command {
     }
 
     private void acceptGame(CommandEvent event, GameData game) {
-        Resolvers.ROLE.resolveOptionOrDefault(event, null, role -> acceptGameAndRole(event, game, role));
+        Resolvers.ROLE.resolveArgumentOrOptionOrInput(event, role -> acceptGameAndRole(event, game, role));
     }
 
     private void acceptGameAndRole(CommandEvent event, GameData game, Role role) {
-        if (role == null) {
-            event.getAutoRoleService().removePlayingAutoRole(game, event.getGuild());
-        } else {
-            event.getAutoRoleService().setPlayingAutoRole(game, role);
-        }
+        event.getAutoRoleService().setPlayingAutoRole(game, role);
         event.reply(CommandReaction.OK, event::complete);
     }
 

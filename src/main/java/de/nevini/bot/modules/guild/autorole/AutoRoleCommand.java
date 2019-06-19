@@ -11,7 +11,7 @@ public class AutoRoleCommand extends Command {
     public AutoRoleCommand() {
         super(CommandDescriptor.builder()
                 .keyword("auto-role")
-                .aliases(new String[]{"ar"})
+                .aliases(new String[]{"auto-roles", "ar"})
                 .children(new Command[]{
                         new AutoRoleGetCommand(),
                         new AutoRoleSetCommand()

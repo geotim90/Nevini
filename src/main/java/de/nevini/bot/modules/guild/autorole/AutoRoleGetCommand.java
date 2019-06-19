@@ -26,25 +26,29 @@ class AutoRoleGetCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         Collection<AutoRoleData> autoRoles = event.getAutoRoleService().getAutoRoles(event.getGuild());
-        EmbedBuilder builder = event.createEmbedBuilder();
-        builder.setTitle("Active auto-roles");
-        for (AutoRoleData autoRole : autoRoles) {
-            Role role = event.getGuild().getRoleById(autoRole.getRole());
-            if (role != null) {
-                if ("join".equals(autoRole.getType())) {
-                    builder.addField("Joins " + event.getGuild().getName(), role.getName(), true);
-                } else if ("playing".equals(autoRole.getType())) {
-                    builder.addField("Playing " + event.getGameService().getGameName(autoRole.getId()),
-                            role.getName(), true);
-                } else if ("plays".equals(autoRole.getType())) {
-                    builder.addField("Plays " + event.getGameService().getGameName(autoRole.getId()),
-                            role.getName(), true);
-                } else {
-                    log.warn("Unknown auto-role type: {}", autoRole.getType());
+        if (autoRoles == null || autoRoles.isEmpty()) {
+            event.reply("There are currently no auto-roles configured for this server.", event::complete);
+        } else {
+            EmbedBuilder builder = event.createEmbedBuilder();
+            builder.setTitle("Active auto-roles");
+            for (AutoRoleData autoRole : autoRoles) {
+                Role role = event.getGuild().getRoleById(autoRole.getRole());
+                if (role != null) {
+                    if ("join".equals(autoRole.getType())) {
+                        builder.addField("Joins " + event.getGuild().getName(), role.getName(), true);
+                    } else if ("playing".equals(autoRole.getType())) {
+                        builder.addField("Playing " + event.getGameService().getGameName(autoRole.getId()),
+                                role.getName(), true);
+                    } else if ("plays".equals(autoRole.getType())) {
+                        builder.addField("Plays " + event.getGameService().getGameName(autoRole.getId()),
+                                role.getName(), true);
+                    } else {
+                        log.warn("Unknown auto-role type: {}", autoRole.getType());
+                    }
                 }
             }
+            event.reply(builder, event::complete);
         }
-        event.reply(builder, event::complete);
     }
 
 }

@@ -38,7 +38,7 @@ This command can only be executed in a text channel and not via direct message.
 
 Keyword | Aliases
 --------|--------
-auto-role | ar
+auto-role | auto-roles<br>ar
 
 Command | Description
 --------|------------
@@ -62,9 +62,11 @@ get | display<br>echo<br>list<br>print<br>show
 
 Configures auto-roles.
 
-By default, this command will behave the same as **auto-role set join**.
-
 This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+set | add<br>start<br>+
 
 Command | Description
 --------|------------
@@ -75,9 +77,6 @@ Command | Description
 #### Command: `auto-role set join`
 
 Configures auto-roles for users that join the server.
-
-Providing a role will cause the bot to automatically assign said role when a user joins the server.<br>
-If no role is provided, the bot will stop automatically assigning roles under the aforementioned conditions.
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -95,9 +94,6 @@ Keyword | Aliases
 #### Command: `auto-role set playing`
 
 Configures auto-roles for users that are currently playing a certain game.
-
-Providing a role will cause the bot to automatically assign said role when a user is playing a certain game and will automatically remove said role when a user is no longer playing.<br>
-If no role is provided, the bot will stop automatically assigning and removing roles under the aforementioned conditions.
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -117,9 +113,6 @@ Keyword | Aliases
 #### Command: `auto-role set plays`
 
 Configures auto-roles for users that ever play a certain game.
-
-Providing a role will cause the bot to automatically assign said role when a user plays a certain game.<br>
-If no role is provided, the bot will stop automatically assigning roles under the aforementioned conditions.
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -151,7 +144,8 @@ feed | feeds<br>subscription<br>subscriptions
 Command | Description
 --------|------------
 [feed get](#command-feed-get) | displays a list of feeds
-[feed set](#command-feed-set) | configures feeds
+[feed set](#command-feed-set) | starts automatic feeds
+[feed unset](#command-feed-unset) | stops automatic feeds
 
 ### Command: `feed get`
 
@@ -182,10 +176,9 @@ get | display<br>echo<br>list<br>print<br>show
 
 ### Command: `feed set`
 
-Configures feeds.
+Starts automatic feeds.
 
-Providing a channel will cause the bot to post feed updates in said channel.<br>
-If no channel is provided, the bot will stop the feed.
+This command will cause the bot to post automatic feed updates in the provided channel.
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -199,9 +192,29 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-set | subscribe
+set | add<br>start<br>subscribe<br>sub<br>+
 --feed | //feed<br>-f<br>/f
 --channel | //channel<br>-c<br>/c
+
+### Command: `feed unset`
+
+Stops automatic feeds.
+
+This command will stop automatic feed updates for a specific feed.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.feed.unset**.
+
+Option | Description
+-------|------------
+\[--feed\] \<type\> | Refers to a specific feed type with a matching name.<br>The `--feed` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+unset | remove<br>stop<br>unsubscribe<br>unsub<br>-
+--feed | //feed<br>-f<br>/f
 
 ## Command: `find`
 

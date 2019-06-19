@@ -25,8 +25,10 @@ public enum Node {
     GUILD_ACTIVITY("guild.activity", Module.GUILD, Permissions.EVERYONE),
     GUILD_AUTO_ROLE_GET("guild.auto-role.get", Module.GUILD, Permissions.MANAGE_ROLES),
     GUILD_AUTO_ROLE_SET("guild.auto-role.set", Module.GUILD, Permissions.MANAGE_ROLES),
+    GUILD_AUTO_ROLE_UNSET("guild.auto-role.unset", Module.GUILD, Permissions.MANAGE_ROLES),
     GUILD_FEED_GET("guild.feed.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FEED_SET("guild.feed.set", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_FEED_UNSET("guild.feed.unset", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FIND_CHANNEL("guild.find.channel", Module.GUILD, Permissions.EVERYONE),
     GUILD_FIND_GAME("guild.find.game", Module.GUILD, Permissions.EVERYONE),
     GUILD_FIND_MODULE("guild.find.module", Module.GUILD, Permissions.MANAGE_SERVER),
@@ -45,6 +47,7 @@ public enum Node {
     OSU_RECENT_FEED(GUILD_FEED_SET.node, Module.OSU, GUILD_FEED_SET.defaultPermissions),
     OSU_SCORES("osu.scores", Module.OSU, Permissions.EVERYONE),
     OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE),
+    WARFRAME_ORDER_BOOK("warframe.order-book", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_PRICE_CHECK("warframe.price-check", Module.WARFRAME, Permissions.EVERYONE);
 
     private final String node;

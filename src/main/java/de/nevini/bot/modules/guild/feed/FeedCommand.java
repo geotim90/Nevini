@@ -14,7 +14,8 @@ public class FeedCommand extends Command {
                 .aliases(new String[]{"feeds", "subscription", "subscriptions"})
                 .children(new Command[]{
                         new FeedGetCommand(),
-                        new FeedSetCommand()
+                        new FeedSetCommand(),
+                        new FeedUnsetCommand()
                 })
                 .description("displays and configures feeds")
                 .details("By default, this command will behave the same as **feed get**.")
