@@ -1,3 +1,5 @@
+[![Discord Bots](https://discordbots.org/api/widget/status/570972920692736002.svg)](https://discordbots.org/bot/570972920692736002)
+
 # Nevini
 
 Nevini is an open-source multi-purpose Discord bot.
