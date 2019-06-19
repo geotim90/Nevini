@@ -67,9 +67,9 @@ public class OrderBookCommand extends Command {
         // get top five prices
         final int rows = 5;
         List<Integer> bestBuyPrices = buyCount.keySet().stream()
-                .sorted(Comparator.naturalOrder()).limit(rows).collect(Collectors.toList());
-        List<Integer> bestSellPrices = sellCount.keySet().stream()
                 .sorted(Comparator.reverseOrder()).limit(rows).collect(Collectors.toList());
+        List<Integer> bestSellPrices = sellCount.keySet().stream()
+                .sorted(Comparator.naturalOrder()).limit(rows).collect(Collectors.toList());
 
         // generate output
         StringBuilder builder = new StringBuilder(
