@@ -25,6 +25,7 @@ public enum Node {
     GUILD_ACTIVITY("guild.activity", Module.GUILD, Permissions.EVERYONE),
     GUILD_AUTO_ROLE_GET("guild.auto-role.get", Module.GUILD, Permissions.MANAGE_ROLES),
     GUILD_AUTO_ROLE_SET("guild.auto-role.set", Module.GUILD, Permissions.MANAGE_ROLES),
+    GUILD_AUTO_ROLE_UNSET("guild.auto-role.unset", Module.GUILD, Permissions.MANAGE_ROLES),
     GUILD_FEED_GET("guild.feed.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FEED_SET("guild.feed.set", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_FEED_UNSET("guild.feed.unset", Module.GUILD, Permissions.MANAGE_SERVER),

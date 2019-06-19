@@ -10,18 +10,18 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 
 @Slf4j
-class AutoRoleSetCommand extends Command {
+class AutoRoleUnsetCommand extends Command {
 
-    AutoRoleSetCommand() {
+    AutoRoleUnsetCommand() {
         super(CommandDescriptor.builder()
-                .keyword("set")
-                .aliases(new String[]{"add", "start", "+"})
+                .keyword("unset")
+                .aliases(new String[]{"remove", "stop", "-"})
                 .children(new Command[]{
-                        new AutoRoleSetJoinCommand(),
-                        new AutoRoleSetPlayingCommand(),
-                        new AutoRoleSetPlaysCommand()
+                        new AutoRoleUnsetJoinCommand(),
+                        new AutoRoleUnsetPlayingCommand(),
+                        new AutoRoleUnsetPlaysCommand()
                 })
-                .description("configures auto-roles")
+                .description("removes auto-roles")
                 .build());
     }
 
