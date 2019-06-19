@@ -16,15 +16,14 @@ public class FeedSetCommand extends Command {
     public FeedSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
-                .aliases(new String[]{"subscribe"})
+                .aliases(new String[]{"add", "start", "subscribe", "sub", "+"})
                 .node(Node.GUILD_FEED_SET)
-                .description("configures feeds")
+                .description("starts automatic feeds")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.FEED.describe(false, true),
                         Resolvers.CHANNEL.describe()
                 })
-                .details("Providing a channel will cause the bot to post feed updates in said channel.\n"
-                        + "If no channel is provided, the bot will stop the feed.")
+                .details("This command will cause the bot to post automatic feed updates in the provided channel.")
                 .build());
     }
 
@@ -48,11 +47,7 @@ public class FeedSetCommand extends Command {
     }
 
     private void acceptFeedAndChannel(CommandEvent event, Feed feed, TextChannel channel) {
-        if (channel == null) {
-            event.getFeedService().unsubscribe(feed, event.getGuild());
-            event.reply(CommandReaction.OK, "I will stop posting " + feed.getName() + " on this server.",
-                    event::complete);
-        } else if (channel.canTalk()) {
+        if (channel.canTalk()) {
             event.getFeedService().subscribe(feed, channel);
             event.reply(CommandReaction.OK, "I will start posting " + feed.getName() + " in "
                     + channel.getAsMention() + ".", event::complete);

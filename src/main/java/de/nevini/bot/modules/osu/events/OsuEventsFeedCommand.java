@@ -24,9 +24,7 @@ class OsuEventsFeedCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.CHANNEL.describe()
                 })
-                .details("Providing a channel will cause the bot to post osu! events "
-                        + "for all guild members in said channel.\n"
-                        + "If no channel is provided, the bot will stop the feed.")
+                .details("This command will behave the same as **feed set osu.events**.")
                 .build());
     }
 
