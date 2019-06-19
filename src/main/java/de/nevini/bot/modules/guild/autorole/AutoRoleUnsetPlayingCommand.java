@@ -21,14 +21,14 @@ class AutoRoleUnsetPlayingCommand extends Command {
                 .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("stops auto-roles for users that are currently playing a certain game")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.GAME.describe()
+                        Resolvers.GAME.describe(false, true)
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.GAME.resolveOptionOrInput(event, game -> acceptGame(event, game));
+        Resolvers.GAME.resolveArgumentOrOptionOrInput(event, game -> acceptGame(event, game));
     }
 
     private void acceptGame(CommandEvent event, GameData game) {

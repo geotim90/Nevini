@@ -28,7 +28,7 @@ class AutoRoleSetJoinCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.ROLE.resolveOptionOrDefault(event, null, role -> acceptRole(event, role));
+        Resolvers.ROLE.resolveArgumentOrOptionOrInput(event, role -> acceptRole(event, role));
     }
 
     private void acceptRole(CommandEvent event, Role role) {
