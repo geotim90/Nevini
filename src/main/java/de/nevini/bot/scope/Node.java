@@ -47,6 +47,7 @@ public enum Node {
     OSU_RECENT_FEED(GUILD_FEED_SET.node, Module.OSU, GUILD_FEED_SET.defaultPermissions),
     OSU_SCORES("osu.scores", Module.OSU, Permissions.EVERYONE),
     OSU_STATS("osu.stats", Module.OSU, Permissions.EVERYONE),
+    WARFRAME_ORDER_BOOK("warframe.order-book", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_PRICE_CHECK("warframe.price-check", Module.WARFRAME, Permissions.EVERYONE);
 
     private final String node;
