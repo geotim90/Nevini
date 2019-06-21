@@ -17,4 +17,6 @@ public class ActivityId implements Serializable {
 
     private Long id;
 
+    private Long source;
+
 }

@@ -26,6 +26,9 @@ public class ActivityData {
     @Id
     private Long id;
 
+    @Id
+    private Long source;
+
     private Long uts;
 
 }

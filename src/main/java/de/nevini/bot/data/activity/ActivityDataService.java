@@ -39,7 +39,7 @@ public class ActivityDataService {
     }
 
     private @NonNull ActivityId getKey(@NonNull ActivityData data) {
-        return new ActivityId(data.getUser(), data.getType(), data.getId());
+        return new ActivityId(data.getUser(), data.getType(), data.getId(), data.getSource());
     }
 
     public ActivityData get(@NonNull ActivityId id) {
@@ -98,9 +98,9 @@ public class ActivityDataService {
         return repository.findAllByUserAndType(user, type);
     }
 
-    public Collection<ActivityData> findAllByTypeAndId(byte type, long id) {
+    public Collection<ActivityData> findAllByTypeAndIdAndSourceIn(byte type, long id, long[] source) {
         flushWriteCache();
-        return repository.findAllByTypeAndId(type, id);
+        return repository.findAllByTypeAndIdAndSourceIn(type, id, source);
     }
 
 }

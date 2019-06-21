@@ -10,6 +10,6 @@ public interface ActivityRepository extends CrudRepository<ActivityData, Activit
 
     Collection<ActivityData> findAllByUserAndType(long user, byte type);
 
-    Collection<ActivityData> findAllByTypeAndId(byte type, long id);
+    Collection<ActivityData> findAllByTypeAndIdAndSourceIn(byte type, long id, long[] source);
 
 }

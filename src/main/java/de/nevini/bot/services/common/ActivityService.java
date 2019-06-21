@@ -5,15 +5,16 @@ import de.nevini.bot.db.activity.ActivityData;
 import de.nevini.bot.db.activity.ActivityId;
 import de.nevini.bot.db.game.GameData;
 import lombok.NonNull;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.time.OffsetDateTime;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ActivityService {
@@ -28,24 +29,44 @@ public class ActivityService {
         this.dataService = dataService;
     }
 
-    public Long getActivityOnline(@NonNull User user) {
+    public Long getActivityOnline(@NonNull Member member) {
         ActivityData data = dataService.get(
-                new ActivityId(user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong())
+                new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_ONLINE, -1L, -1L)
         );
-        return data == null ? null : data.getUts();
+        ActivityData manualData = dataService.get(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_ONLINE,
+                -1L, member.getGuild().getIdLong()));
+        if (manualData == null) {
+            return data == null ? null : data.getUts();
+        } else if (data == null) {
+            return manualData.getUts();
+        } else {
+            return Math.max(data.getUts(), manualData.getUts());
+        }
     }
 
     public void updateActivityOnline(@NonNull User user) {
         dataService.put(new ActivityData(
-                user.getIdLong(), ACTIVITY_TYPE_ONLINE, user.getIdLong(), System.currentTimeMillis()
+                user.getIdLong(), ACTIVITY_TYPE_ONLINE, -1L, -1L, System.currentTimeMillis()
         ));
     }
 
+    public void manualActivityOnline(@NonNull Member member, @NonNull OffsetDateTime timestamp) {
+        dataService.put(new ActivityData(member.getUser().getIdLong(), ACTIVITY_TYPE_ONLINE,
+                member.getGuild().getIdLong(), member.getGuild().getIdLong(), timestamp.toInstant().toEpochMilli()));
+    }
+
     public Long getActivityMessage(@NonNull Member member) {
-        ActivityData data = dataService.get(
-                new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE, member.getGuild().getIdLong())
-        );
-        return data == null ? null : data.getUts();
+        ActivityData data = dataService.get(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE,
+                member.getGuild().getIdLong(), -1L));
+        ActivityData manualData = dataService.get(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE,
+                member.getGuild().getIdLong(), member.getGuild().getIdLong()));
+        if (manualData == null) {
+            return data == null ? null : data.getUts();
+        } else if (data == null) {
+            return manualData.getUts();
+        } else {
+            return Math.max(data.getUts(), manualData.getUts());
+        }
     }
 
     public void updateActivityMessage(@NonNull Message message) {
@@ -53,33 +74,60 @@ public class ActivityService {
                 message.getAuthor().getIdLong(),
                 ACTIVITY_TYPE_MESSAGE,
                 message.getGuild().getIdLong(),
+                -1L,
                 message.getCreationTime().toInstant().toEpochMilli()
         ));
     }
 
-    public @NonNull Map<Long, Long> getActivityPlaying(@NonNull User user) {
-        Collection<ActivityData> data = dataService.findAllByUserAndType(
-                user.getIdLong(), ACTIVITY_TYPE_PLAYING
-        );
-        return data.stream().collect(Collectors.toMap(ActivityData::getId, ActivityData::getUts));
+    public void manualActivityMessage(@NonNull Member member, @NonNull OffsetDateTime timestamp) {
+        dataService.put(new ActivityData(member.getUser().getIdLong(), ACTIVITY_TYPE_MESSAGE,
+                member.getGuild().getIdLong(), member.getGuild().getIdLong(), timestamp.toInstant().toEpochMilli()));
     }
 
-    public @NonNull Map<Long, Long> getActivityPlaying(@NonNull GameData game) {
-        Collection<ActivityData> data = dataService.findAllByTypeAndId(ACTIVITY_TYPE_PLAYING, game.getId());
-        return data.stream().collect(Collectors.toMap(ActivityData::getUser, ActivityData::getUts));
+    public @NonNull Map<Long, Long> getActivityPlaying(@NonNull Member member) {
+        Map<Long, Long> map = new HashMap<>();
+        for (ActivityData e : dataService.findAllByUserAndType(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING)) {
+            map.merge(e.getId(), e.getUts(), (k, v) -> Math.max(v, e.getUts()));
+        }
+        return map;
     }
 
-    public Long getActivityPlaying(@NonNull User user, @NonNull GameData game) {
+    public @NonNull Map<Long, Long> getActivityPlaying(@NonNull Guild guild, @NonNull GameData game) {
+        Map<Long, Long> map = new HashMap<>();
+        for (ActivityData e : dataService.findAllByTypeAndIdAndSourceIn(
+                ACTIVITY_TYPE_PLAYING, game.getId(), new long[]{-1L, guild.getIdLong()}
+        )) {
+            map.merge(e.getUser(), e.getUts(), (k, v) -> Math.max(v, e.getUts()));
+        }
+        return map;
+    }
+
+    public Long getActivityPlaying(@NonNull Member member, @NonNull GameData game) {
         ActivityData data = dataService.get(
-                new ActivityId(user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId())
+                new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(), -1L)
         );
-        return data == null ? null : data.getUts();
+        ActivityData manualData = dataService.get(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING,
+                game.getId(), member.getGuild().getIdLong()));
+        if (manualData == null) {
+            return data == null ? null : data.getUts();
+        } else if (data == null) {
+            return manualData.getUts();
+        } else {
+            return Math.max(data.getUts(), manualData.getUts());
+        }
     }
 
     public void updateActivityPlaying(@NonNull User user, @NonNull GameData game) {
         dataService.put(new ActivityData(
-                user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(), System.currentTimeMillis()
+                user.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(), -1L, System.currentTimeMillis()
         ));
+    }
+
+    public void manualActivityPlaying(
+            @NonNull Member member, @NonNull GameData game, @NonNull OffsetDateTime timestamp
+    ) {
+        dataService.put(new ActivityData(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(),
+                member.getGuild().getIdLong(), timestamp.toInstant().toEpochMilli()));
     }
 
 }
