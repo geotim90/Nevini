@@ -18,7 +18,8 @@ public class GuildsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("guilds")
                 .children(new Command[]{
-                        new GuildsFeedCommand()
+                        new GuildsFeedCommand(),
+                        new GuildsLeaveCommand(),
                 })
                 .ownerOnly(true)
                 .guildOnly(false)
