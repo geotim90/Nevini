@@ -4,11 +4,13 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.List;
+
 @Builder
 @Value
 public class WfmItemsPayload {
 
     @SerializedName("items")
-    private WfmItems items;
+    private List<WfmItemName> items;
 
 }

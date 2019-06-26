@@ -8,9 +8,6 @@ import lombok.Value;
 @Value
 public class WfmItemName {
 
-    @SerializedName("url_name")
-    private String urlName;
-
     @SerializedName("item_name")
     private String itemName;
 
@@ -19,5 +16,8 @@ public class WfmItemName {
 
     @SerializedName("id")
     private String id;
+
+    @SerializedName("url_name")
+    private String urlName;
 
 }

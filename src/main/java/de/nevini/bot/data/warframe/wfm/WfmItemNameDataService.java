@@ -48,10 +48,8 @@ public class WfmItemNameDataService {
         log.trace("getFromApi()");
         ApiResponse<WfmItemsResponse> response = api.getItems(WfmItemsRequest.builder().build());
         WfmItemsResponse result = response.getResult();
-        if (result != null && result.getPayload() != null && result.getPayload().getItems() != null
-                && result.getPayload().getItems().getNames() != null
-        ) {
-            return Optional.of(cache(result.getPayload().getItems().getNames()));
+        if (result != null && result.getPayload() != null && result.getPayload().getItems() != null) {
+            return Optional.of(cache(result.getPayload().getItems()));
         }
         return Optional.empty();
     }
