@@ -7,9 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
@@ -233,8 +231,19 @@ public class Formatter {
         }
     }
 
+    public static @NonNull OffsetDateTime parseTimestamp(@NonNull String timestamp) {
+        if ("now".equalsIgnoreCase(timestamp)) {
+            return OffsetDateTime.now(ZoneOffset.UTC);
+        } else {
+            String padding = "0000-01-01T00:00:00";
+            String padded = timestamp + padding.substring(Math.min(padding.length(), timestamp.length()));
+            return LocalDateTime.parse(padded).atOffset(ZoneOffset.UTC);
+        }
+    }
+
     public static String summarize(String content) {
         return StringUtils.abbreviate(StringUtils.defaultString(content, "null"), 32)
                 .replace("\n", "\\");
     }
+
 }

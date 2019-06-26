@@ -11,7 +11,7 @@ class InactivityUnsetOnlineCommand extends Command {
     InactivityUnsetOnlineCommand() {
         super(CommandDescriptor.builder()
                 .keyword("online")
-                .aliases(new String[]{"last-online", "lastOnline"})
+                .aliases(new String[]{"last-online", "lastonline"})
                 .node(Node.GUILD_INACTIVITY_UNSET)
                 .description("removes the user inactivity threshold for when they were last online on Discord")
                 .build());

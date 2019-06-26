@@ -86,8 +86,10 @@ public class ActivityService {
 
     public @NonNull Map<Long, Long> getActivityPlaying(@NonNull Member member) {
         Map<Long, Long> map = new HashMap<>();
-        for (ActivityData e : dataService.findAllByUserAndType(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING)) {
-            map.merge(e.getId(), e.getUts(), (k, v) -> Math.max(v, e.getUts()));
+        for (ActivityData e : dataService.findAllByUserAndTypeAndSourceIn(
+                member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING, new long[]{-1L, member.getGuild().getIdLong()}
+        )) {
+            map.merge(e.getId(), e.getUts(), Math::max);
         }
         return map;
     }
@@ -97,7 +99,7 @@ public class ActivityService {
         for (ActivityData e : dataService.findAllByTypeAndIdAndSourceIn(
                 ACTIVITY_TYPE_PLAYING, game.getId(), new long[]{-1L, guild.getIdLong()}
         )) {
-            map.merge(e.getUser(), e.getUts(), (k, v) -> Math.max(v, e.getUts()));
+            map.merge(e.getUser(), e.getUts(), Math::max);
         }
         return map;
     }

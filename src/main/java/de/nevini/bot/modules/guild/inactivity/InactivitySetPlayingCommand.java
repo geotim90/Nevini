@@ -25,7 +25,7 @@ class InactivitySetPlayingCommand extends Command {
     InactivitySetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
-                .aliases(new String[]{"played", "last-played", "lastPlayed"})
+                .aliases(new String[]{"played", "last-played", "lastplayed"})
                 .node(Node.GUILD_INACTIVITY_SET)
                 .description("configures a user game inactivity threshold")
                 .options(new CommandOptionDescriptor[]{

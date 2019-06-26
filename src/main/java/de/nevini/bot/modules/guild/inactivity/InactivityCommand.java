@@ -4,6 +4,7 @@ import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
 
+// @Component // excluded until fully implemented
 public class InactivityCommand extends Command {
 
     public InactivityCommand() {

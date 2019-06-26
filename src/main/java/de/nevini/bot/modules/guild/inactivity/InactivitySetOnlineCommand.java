@@ -22,7 +22,7 @@ class InactivitySetOnlineCommand extends Command {
     InactivitySetOnlineCommand() {
         super(CommandDescriptor.builder()
                 .keyword("online")
-                .aliases(new String[]{"last-online", "lastOnline"})
+                .aliases(new String[]{"last-online", "lastonline"})
                 .node(Node.GUILD_INACTIVITY_SET)
                 .description("configures the user inactivity threshold for when they were last online on Discord")
                 .options(new CommandOptionDescriptor[]{

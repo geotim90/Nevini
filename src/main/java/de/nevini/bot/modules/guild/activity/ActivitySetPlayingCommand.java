@@ -7,6 +7,7 @@ import de.nevini.bot.db.game.GameData;
 import de.nevini.bot.resolvers.StringResolver;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Node;
+import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 import net.dv8tion.jda.core.entities.Member;
@@ -14,12 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 
 class ActivitySetPlayingCommand extends Command {
 
-    private static final StringResolver timestampResolver = new StringResolver("timestamp", "time",
+    private static final StringResolver timestampResolver = new StringResolver("timestamp", "time", "t",
             CommandOptionDescriptor.builder()
                     .syntax("--time <timestamp>")
                     .description("A valid ISO 8601 UTC timestamp (e.g. `" + LocalDateTime.now().toString() + "`)."
@@ -31,7 +31,7 @@ class ActivitySetPlayingCommand extends Command {
     ActivitySetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
-                .aliases(new String[]{"played", "last-played", "lastPlayed"})
+                .aliases(new String[]{"played", "last-played", "lastplayed"})
                 .node(Node.GUILD_ACTIVITY_GET)
                 .description("configures user game activity information")
                 .options(new CommandOptionDescriptor[]{
@@ -65,13 +65,10 @@ class ActivitySetPlayingCommand extends Command {
             // command was aborted or no input provided
             event.reply(CommandReaction.DEFAULT_NOK, event::complete);
             return;
-        } else if (timestamp.equalsIgnoreCase("now")) {
-            // get "now"
-            dateTime = OffsetDateTime.now(ZoneOffset.UTC);
         } else {
             try {
                 // try to parse input
-                dateTime = LocalDateTime.parse(timestamp).atOffset(ZoneOffset.UTC);
+                dateTime = Formatter.parseTimestamp(timestamp);
             } catch (DateTimeParseException e) {
                 // failed to parse timestamp
                 event.reply(CommandReaction.WARNING, "You did not provide a valid timestamp!", event::complete);

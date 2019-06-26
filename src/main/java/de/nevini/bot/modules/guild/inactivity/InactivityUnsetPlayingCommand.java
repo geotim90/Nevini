@@ -14,7 +14,7 @@ class InactivityUnsetPlayingCommand extends Command {
     InactivityUnsetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
-                .aliases(new String[]{"played", "last-played", "lastPlayed"})
+                .aliases(new String[]{"played", "last-played", "lastplayed"})
                 .node(Node.GUILD_INACTIVITY_UNSET)
                 .description("removes a user game inactivity threshold")
                 .options(new CommandOptionDescriptor[]{

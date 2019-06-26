@@ -93,9 +93,9 @@ public class ActivityDataService {
         writeCache.invalidateAll();
     }
 
-    public Collection<ActivityData> findAllByUserAndType(long user, byte type) {
+    public Collection<ActivityData> findAllByUserAndTypeAndSourceIn(long user, byte type, long[] source) {
         flushWriteCache();
-        return repository.findAllByUserAndType(user, type);
+        return repository.findAllByUserAndTypeAndSourceIn(user, type, source);
     }
 
     public Collection<ActivityData> findAllByTypeAndIdAndSourceIn(byte type, long id, long[] source) {
