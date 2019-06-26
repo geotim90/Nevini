@@ -9,6 +9,7 @@ Command | Description
 [feed](#command-feed) | displays and configures feeds
 [find](#command-find) | finds users, roles etc. by any of their identifiers
 [ign](#command-ign) | displays and configures in-game names
+[inactivity](#command-inactivity) | displays and configures user inactivity information
 
 ## Command: `activity`
 
@@ -66,7 +67,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T12:26:38.239`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T21:08:47.353`).<br>`now` can be used as a shortcut for the current date and time.
 
 Keyword | Aliases
 --------|--------
@@ -87,7 +88,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T12:26:38.241`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T21:08:47.355`).<br>`now` can be used as a shortcut for the current date and time.
 
 Keyword | Aliases
 --------|--------
@@ -109,7 +110,7 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game with a matching id or name.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T12:26:38.242`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T21:08:47.356`).<br>`now` can be used as a shortcut for the current date and time.
 
 Keyword | Aliases
 --------|--------
@@ -500,3 +501,171 @@ Keyword | Aliases
 --name | //name
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
+
+## Command: `inactivity`
+
+Displays and configures user inactivity information.
+
+By default, this command will behave the same as **inactivity get**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Command | Description
+--------|------------
+[inactivity get](#command-inactivity-get) | displays user inactivity thresholds
+[inactivity set](#command-inactivity-set) | configures user inactivity thresholds
+[inactivity unset](#command-inactivity-unset) | removes user inactivity thresholds
+[inactivity report](#command-inactivity-report) | displays an inactivity report for the entire server or just a single user
+
+### Command: `inactivity get`
+
+Displays user inactivity thresholds.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.activity.get**.
+
+### Command: `inactivity set`
+
+Configures user inactivity thresholds.
+
+This command can only be executed in a text channel and not via direct message.
+
+Command | Description
+--------|------------
+[inactivity set online](#command-inactivity-set-online) | configures the user inactivity threshold for when they were last online on Discord
+[inactivity set message](#command-inactivity-set-message) | configures the user inactivity threshold for when they last posted a message in this Discord server
+[inactivity set playing](#command-inactivity-set-playing) | configures a user game inactivity threshold
+
+#### Command: `inactivity set online`
+
+Configures the user inactivity threshold for when they were last online on Discord.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.set**.
+
+Option | Description
+-------|------------
+\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional.
+
+Keyword | Aliases
+--------|--------
+online | last-online<br>lastonline
+--duration | //duration<br>--days<br>//days<br>-d<br>/d
+
+#### Command: `inactivity set message`
+
+Configures the user inactivity threshold for when they last posted a message in this Discord server.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.set**.
+
+Option | Description
+-------|------------
+\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional.
+
+Keyword | Aliases
+--------|--------
+message | last-message<br>lastmessage
+--duration | //duration<br>--days<br>//days<br>-d<br>/d
+
+#### Command: `inactivity set playing`
+
+Configures a user game inactivity threshold.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.set**.
+
+Option | Description
+-------|------------
+--game \<game\> | Refers to a specific game with a matching id or name.
+\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+playing | played<br>last-played<br>lastplayed
+--game | //game
+--duration | //duration<br>--days<br>//days<br>-d<br>/d
+
+### Command: `inactivity unset`
+
+Removes user inactivity thresholds.
+
+This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+unset | remove
+
+Command | Description
+--------|------------
+[inactivity unset online](#command-inactivity-unset-online) | removes the user inactivity threshold for when they were last online on Discord
+[inactivity unset message](#command-inactivity-unset-message) | removes the user inactivity threshold for when they last posted a message in this Discord server
+[inactivity unset playing](#command-inactivity-unset-playing) | removes a user game inactivity threshold
+
+#### Command: `inactivity unset online`
+
+Removes the user inactivity threshold for when they were last online on Discord.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.unset**.
+
+Keyword | Aliases
+--------|--------
+online | last-online<br>lastonline
+
+#### Command: `inactivity unset message`
+
+Removes the user inactivity threshold for when they last posted a message in this Discord server.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.unset**.
+
+Keyword | Aliases
+--------|--------
+message | last-message<br>lastmessage
+
+#### Command: `inactivity unset playing`
+
+Removes a user game inactivity threshold.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.unset**.
+
+Option | Description
+-------|------------
+\[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+playing | played<br>last-played<br>lastplayed
+--game | //game
+
+### Command: `inactivity report`
+
+Displays an inactivity report for the entire server or just a single user.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.report**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m

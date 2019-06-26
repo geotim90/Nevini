@@ -3,8 +3,9 @@ package de.nevini.bot.modules.guild.inactivity;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
+import org.springframework.stereotype.Component;
 
-// @Component // excluded until fully implemented
+@Component
 public class InactivityCommand extends Command {
 
     public InactivityCommand() {
@@ -13,8 +14,8 @@ public class InactivityCommand extends Command {
                 .children(new Command[]{
                         new InactivityGetCommand(),
                         new InactivitySetCommand(),
-                        new InactivityUnsetCommand()
-                        // TODO implement report and feed
+                        new InactivityUnsetCommand(),
+                        new InactivityReportCommand()
                 })
                 .description("displays and configures user inactivity information")
                 .details("By default, this command will behave the same as **inactivity get**.")

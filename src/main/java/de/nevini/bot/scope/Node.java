@@ -39,7 +39,6 @@ public enum Node {
     GUILD_FIND_USER("guild.find.user", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_GET("guild.ign.get", Module.GUILD, Permissions.EVERYONE),
     GUILD_IGN_SET("guild.ign.set", Module.GUILD, Permissions.MANAGE_NICKNAMES),
-    GUILD_INACTIVITY_FEED(GUILD_FEED_SET.node, Module.GUILD, GUILD_FEED_SET.defaultPermissions),
     GUILD_INACTIVITY_GET("guild.inactivity.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_INACTIVITY_REPORT("guild.inactivity.report", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_INACTIVITY_SET("guild.inactivity.set", Module.GUILD, Permissions.MANAGE_SERVER),

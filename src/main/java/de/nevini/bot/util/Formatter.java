@@ -169,7 +169,7 @@ public class Formatter {
 
     public static String formatTimestamp(@NonNull TemporalAccessor value) {
         return DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneOffset.UTC).format(value)
-                .replace('T', ' ');
+                .replace('T', ' ') + " UTC";
     }
 
     public static String formatUnits(long millis) {
