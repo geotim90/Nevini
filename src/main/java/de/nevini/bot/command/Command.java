@@ -1,6 +1,7 @@
 package de.nevini.bot.command;
 
 import de.nevini.bot.scope.Module;
+import de.nevini.bot.scope.Node;
 import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandPatterns;
 import de.nevini.framework.command.CommandReaction;
@@ -147,20 +148,26 @@ public abstract class Command {
     }
 
     private boolean checkUserPermission(CommandEvent event) {
-        if (event.isFromType(ChannelType.TEXT)) {
-            if (event.isBotOwner() || getNode() == null || event.getPermissionService().hasChannelUserPermission(
-                    event.getTextChannel(), event.getMember(), getNode()
-            )) {
-                // user has been grated access to node or has default permissions
-                return true;
-            } else {
-                // only respond to privileged users
-                if (event.isBotOwner() || isSuperiorUser(event)) {
-                    event.reply(CommandReaction.PROHIBITED,
-                            "You do not have permission to execute that command.", event::complete);
-                }
-                return false;
+        boolean result = getNode() == null || checkUserNodePermission(event, getNode());
+        if (!result) {
+            // only respond to privileged users
+            if (event.isBotOwner() || isSuperiorUser(event)) {
+                event.reply(CommandReaction.PROHIBITED,
+                        "You do not have permission to execute that command.", event::complete);
             }
+        }
+        return result;
+    }
+
+    /**
+     * Checks whether the current user has access to the provided {@link Node}.
+     */
+    protected boolean checkUserNodePermission(@NonNull CommandEvent event, @NonNull Node node) {
+        if (event.isFromType(ChannelType.TEXT)) {
+            // check if user has been grated access to node or has default permissions
+            return event.isBotOwner() || event.getPermissionService().hasChannelUserPermission(
+                    event.getTextChannel(), event.getMember(), node
+            );
         } else {
             // no guild to apply restrictions with
             return true;

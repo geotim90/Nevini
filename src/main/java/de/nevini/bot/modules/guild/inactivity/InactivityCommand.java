@@ -15,7 +15,7 @@ public class InactivityCommand extends Command {
                         new InactivityGetCommand(),
                         new InactivitySetCommand(),
                         new InactivityUnsetCommand(),
-                        new InactivityReportCommand()
+                        new ReportCommand()
                 })
                 .description("displays and configures user inactivity information")
                 .details("By default, this command will behave the same as **inactivity get**.")
