@@ -10,6 +10,7 @@ Command | Description
 [find](#command-find) | finds users, roles etc. by any of their identifiers
 [ign](#command-ign) | displays and configures in-game names
 [inactivity](#command-inactivity) | displays and configures user inactivity information
+[report](#command-report) | displays an activity report for the entire server or just a single user
 
 ## Command: `activity`
 
@@ -67,7 +68,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T21:08:47.353`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-04T15:56:55.227`).<br>`now` can be used as a shortcut for the current date and time.
 
 Keyword | Aliases
 --------|--------
@@ -88,7 +89,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T21:08:47.355`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-04T15:56:55.229`).<br>`now` can be used as a shortcut for the current date and time.
 
 Keyword | Aliases
 --------|--------
@@ -110,7 +111,7 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game with a matching id or name.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-06-26T21:08:47.356`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-04T15:56:55.229`).<br>`now` can be used as a shortcut for the current date and time.
 
 Keyword | Aliases
 --------|--------
@@ -135,6 +136,7 @@ Command | Description
 --------|------------
 [auto-role get](#command-auto-role-get) | displays the currently configured auto-roles
 [auto-role set](#command-auto-role-set) | configures auto-roles
+[auto-role unset](#command-auto-role-unset) | removes auto-roles
 
 ### Command: `auto-role get`
 
@@ -219,6 +221,65 @@ Keyword | Aliases
 --------|--------
 --game | //game
 --role | //role<br>-r<br>/r
+
+### Command: `auto-role unset`
+
+Removes auto-roles.
+
+This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+unset | remove<br>stop<br>-
+
+Command | Description
+--------|------------
+[auto-role unset join](#command-auto-role-unset-join) | stops auto-roles for users that join the server
+[auto-role unset playing](#command-auto-role-unset-playing) | stops auto-roles for users that are currently playing a certain game
+[auto-role unset plays](#command-auto-role-unset-plays) | stops auto-roles for users that ever play a certain game
+
+#### Command: `auto-role unset join`
+
+Stops auto-roles for users that join the server.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.unset**.
+
+#### Command: `auto-role unset playing`
+
+Stops auto-roles for users that are currently playing a certain game.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.unset**.
+
+Option | Description
+-------|------------
+\[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--game | //game
+
+#### Command: `auto-role unset plays`
+
+Stops auto-roles for users that ever play a certain game.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.unset**.
+
+Option | Description
+-------|------------
+\[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--game | //game
 
 ## Command: `feed`
 
@@ -515,7 +576,6 @@ Command | Description
 [inactivity get](#command-inactivity-get) | displays user inactivity thresholds
 [inactivity set](#command-inactivity-set) | configures user inactivity thresholds
 [inactivity unset](#command-inactivity-unset) | removes user inactivity thresholds
-[inactivity report](#command-inactivity-report) | displays an inactivity report for the entire server or just a single user
 
 ### Command: `inactivity get`
 
@@ -653,19 +713,26 @@ Keyword | Aliases
 playing | played<br>last-played<br>lastplayed
 --game | //game
 
-### Command: `inactivity report`
+## Command: `report`
 
-Displays an inactivity report for the entire server or just a single user.
+Displays an activity report for the entire server or just a single user.
+
+By default, you need the **Manage Server** permission to execute this command with `--user`.<br>
+Permission overrides for `--user` may be applied on node **guild.report.user**.
+
+By default, you need the **Manage Server** permission to execute this command with `--server`.<br>
+Permission overrides for `--server` may be applied on node **guild.report.server**.
 
 This command can only be executed in a text channel and not via direct message.
 
-By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.inactivity.report**.
+Permission overrides may be applied on node **guild.report.self**.
 
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--server | Displays an activity report for the entire server.
 
 Keyword | Aliases
 --------|--------
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
