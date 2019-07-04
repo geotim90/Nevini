@@ -74,6 +74,14 @@ public class FinderTest {
         Assert.assertEquals(expected, Finder.findAny(objectCollection, Object__toStringArray, "lu"));
     }
 
+    @Test
+    public void testContainsLenient() {
+        // make sure the "containsLenient" values are returned
+        List<String> expected = new ArrayList<>(Collections.singleton("devalue"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "**D-V**"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "**D-V**"));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testEmptyQueryFindingStringInArray() {
         Finder.find(new String[]{"any"}, "");
