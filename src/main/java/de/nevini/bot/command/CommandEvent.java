@@ -256,7 +256,7 @@ public class CommandEvent {
      * Cleans up after a command has finished executing.
      * This method is typically used as a {@code Consumer<? super Message>} callback ({@code event::complete}).
      * There is no need to call this method if no messages can/should be removed.
-     * This method will wait one minute before deleting {@code lastMessage} to give the user a chance to see it.
+     * This method will wait one minute before deleting {@code lastResponse} to give the user a chance to see it.
      *
      * @param lastResponse the last {@link Message} related to this command (can be equal to {@link #getMessage()})
      */

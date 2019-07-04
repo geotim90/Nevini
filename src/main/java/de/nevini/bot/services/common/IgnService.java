@@ -27,6 +27,10 @@ public class IgnService {
     }
 
     public String getInGameName(@NonNull Member member, @NonNull GameData game) {
+        return Optional.ofNullable(getIgn(member, game)).map(IgnData::getName).orElse(null);
+    }
+
+    public IgnData getIgn(@NonNull Member member, @NonNull GameData game) {
         Optional<IgnData> ign = ignRepository.findById(new IgnId(
                 member.getGuild().getIdLong(),
                 member.getUser().getIdLong(),
@@ -39,15 +43,7 @@ public class IgnService {
                     game.getId()
             ));
         }
-        return ign.map(IgnData::getName).orElse(null);
-    }
-
-    public IgnData getIgn(@NonNull Member member, @NonNull GameData game) {
-        return ignRepository.findById(new IgnId(
-                member.getGuild().getIdLong(),
-                member.getUser().getIdLong(),
-                game.getId()
-        )).orElse(null);
+        return ign.orElse(null);
     }
 
     public List<IgnData> getIgns(long user, @NonNull GameData game) {

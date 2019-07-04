@@ -14,7 +14,8 @@ public class AutoRoleCommand extends Command {
                 .aliases(new String[]{"auto-roles", "ar"})
                 .children(new Command[]{
                         new AutoRoleGetCommand(),
-                        new AutoRoleSetCommand()
+                        new AutoRoleSetCommand(),
+                        new AutoRoleUnsetCommand()
                 })
                 .description("displays and configures auto-roles")
                 .details("By default, this command will behave the same as **auto-role get**.")

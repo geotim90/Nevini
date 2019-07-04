@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -38,8 +37,7 @@ public class AutoRoleService {
     @Transactional
     public void removeJoinAutoRole(@NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "join", -1L);
-        Optional<AutoRoleData> data = repository.findById(id);
-        if (data.isPresent()) {
+        if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
             repository.deleteById(id);
         }
@@ -54,8 +52,7 @@ public class AutoRoleService {
     @Transactional
     public void removePlayingAutoRole(@NonNull GameData game, @NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "playing", game.getId());
-        Optional<AutoRoleData> data = repository.findById(id);
-        if (data.isPresent()) {
+        if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
             repository.deleteById(id);
         }
@@ -70,8 +67,7 @@ public class AutoRoleService {
     @Transactional
     public void removePlaysAutoRole(@NonNull GameData game, @NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "playing", game.getId());
-        Optional<AutoRoleData> data = repository.findById(id);
-        if (data.isPresent()) {
+        if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
             repository.deleteById(id);
         }

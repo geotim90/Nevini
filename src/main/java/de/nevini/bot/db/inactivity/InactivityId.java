@@ -1,4 +1,4 @@
-package de.nevini.bot.db.activity;
+package de.nevini.bot.db.inactivity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +9,12 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivityId implements Serializable {
+public class InactivityId implements Serializable {
 
-    private Long user;
+    private Long guild;
 
     private Byte type;
 
     private Long id;
-
-    private Long source;
 
 }

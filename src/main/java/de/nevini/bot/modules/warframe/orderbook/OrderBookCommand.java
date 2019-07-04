@@ -110,8 +110,8 @@ public class OrderBookCommand extends Command {
                 && orderType.equals(e.getOrderType())
                 && !"offline".equals(e.getUser().getStatus())
         ).forEach(e -> {
-            count.merge(e.getPlatinum(), 1, (k, v) -> v + 1);
-            volume.merge(e.getPlatinum(), e.getQuantity(), (k, v) -> v + e.getQuantity());
+            count.merge(e.getPlatinum(), 1, Integer::sum);
+            volume.merge(e.getPlatinum(), e.getQuantity(), Integer::sum);
         });
     }
 

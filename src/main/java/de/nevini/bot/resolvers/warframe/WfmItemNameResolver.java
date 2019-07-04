@@ -35,7 +35,7 @@ public class WfmItemNameResolver extends AbstractResolver<WfmItemName> {
     @Override
     public List<WfmItemName> findSorted(@NonNull CommandEvent event, String query) {
         WarframeMarketService service = event.locate(WarframeMarketService.class);
-        return Finder.findAny(service.getItemNames(), item -> new String[]{
+        return Finder.findAnyLenient(service.getItemNames(), item -> new String[]{
                 item.getItemName(),
                 item.getItemName().replace(" Prime", ""),
                 item.getUrlName().replace('_', ' '),

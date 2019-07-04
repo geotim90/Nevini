@@ -1,4 +1,4 @@
-package de.nevini.bot.db.activity;
+package de.nevini.bot.db.inactivity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +13,12 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@IdClass(ActivityId.class)
-@Table(name = "activity")
-public class ActivityData {
+@IdClass(InactivityId.class)
+@Table(name = "inactivity")
+public class InactivityData {
 
     @Id
-    private Long user;
+    private Long guild;
 
     @Id
     private Byte type;
@@ -26,9 +26,6 @@ public class ActivityData {
     @Id
     private Long id;
 
-    @Id
-    private Long source;
-
-    private Long uts;
+    private Integer days;
 
 }
