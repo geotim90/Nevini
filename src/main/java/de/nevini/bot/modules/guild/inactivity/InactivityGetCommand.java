@@ -25,9 +25,8 @@ class InactivityGetCommand extends Command {
         Integer messageThreshold = event.getInactivityService().getMessageThreshold(event.getGuild());
         builder.addField(event.getGuild().getName(),
                 messageThreshold == null ? "(not configured)" : messageThreshold + " days", true);
-        event.getInactivityService().getPlayingThresholds(event.getGuild()).forEach((game, days) -> {
-            builder.addField(event.getGameService().getGameName(game), days + " days", true);
-        });
+        event.getInactivityService().getPlayingThresholds(event.getGuild()).forEach((game, days) ->
+                builder.addField(event.getGameService().getGameName(game), days + " days", true));
         event.reply(builder, event::complete);
     }
 
