@@ -112,7 +112,7 @@ public class DocsGenerator {
         if (command.isGuildOnly()) {
             out.println("This command can only be executed in a text channel and not via direct message.");
         } else {
-            out.println("This command can be executed in a text or via direct message.");
+            out.println("This command can be executed in a text channel or via direct message.");
         }
 
         // permission node
