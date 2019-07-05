@@ -10,12 +10,14 @@ import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 import lombok.Value;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Role;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +34,7 @@ public class ReportCommand extends Command {
                 .description("displays an activity report for the entire server or just a single user")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
+                        Resolvers.ROLE.describe(),
                         CommandOptionDescriptor.builder()
                                 .syntax("--server")
                                 .description("Displays an activity report for the entire server.")
@@ -41,6 +44,8 @@ public class ReportCommand extends Command {
                 })
                 .details("By default, you need the **Manage Server** permission to execute this command with `--user`.\n"
                         + "Permission overrides for `--user` may be applied on node **guild.report.user**.\n\n"
+                        + "By default, you need the **Manage Server** permission to execute this command with `--role`.\n"
+                        + "Permission overrides for `--role` may be applied on node **guild.report.role**."
                         + "By default, you need the **Manage Server** permission to execute this command with `--server`.\n"
                         + "Permission overrides for `--server` may be applied on node **guild.report.server**.")
                 .build());
@@ -51,13 +56,25 @@ public class ReportCommand extends Command {
         if (event.getOptions().getOptions().stream().map(SERVER_FLAG::matcher).anyMatch(Matcher::matches)
                 && checkUserNodePermission(event, Node.GUILD_REPORT_SERVER)
         ) {
-            doGuildReport(event);
+            doGuildReport(event, null);
         } else if (!event.getOptions().getArguments().isEmpty()
-                && checkUserNodePermission(event, Node.GUILD_REPORT_USER)
+                && (checkUserNodePermission(event, Node.GUILD_REPORT_USER)
+                || checkUserNodePermission(event, Node.GUILD_REPORT_ROLE))
         ) {
-            Resolvers.MEMBER.resolveArgumentOrOptionOrInputIfExists(
-                    event, member -> doMemberReport(event, member)
-            );
+            if (checkUserNodePermission(event, Node.GUILD_REPORT_USER)) {
+                Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(
+                        event, event.getMember(), member -> {
+                            if (member != null) doMemberReport(event, member);
+                        }
+                );
+            }
+            if (checkUserNodePermission(event, Node.GUILD_REPORT_ROLE)) {
+                Resolvers.ROLE.resolveOptionOrInputIfExists(
+                        event, role -> {
+                            if (role != null) doGuildReport(event, role);
+                        }
+                );
+            }
         } else {
             doMemberReport(event, event.getMember());
         }
@@ -134,7 +151,7 @@ public class ReportCommand extends Command {
         event.reply(builder.toString(), event::complete);
     }
 
-    private void doGuildReport(CommandEvent event) {
+    private void doGuildReport(CommandEvent event, Role role) {
         Integer onlineThreshold = event.getInactivityService().getOnlineThreshold(event.getGuild());
         Integer messageThreshold = event.getInactivityService().getMessageThreshold(event.getGuild());
         Map<Long, Integer> playingThresholds = event.getInactivityService().getPlayingThresholds(event.getGuild());
@@ -146,7 +163,11 @@ public class ReportCommand extends Command {
 
         Map<Member, GuildReportEntry> reportEntries = new HashMap<>();
 
-        for (Member member : event.getGuild().getMembers()) {
+        List<Member> members = role == null
+                ? event.getGuild().getMembers()
+                : event.getGuild().getMembersWithRoles(role);
+
+        for (Member member : members) {
             if (!member.getUser().isBot()) {
                 Long activityOnline = event.getActivityService().getActivityOnline(member);
                 Long activityMessage = event.getActivityService().getActivityMessage(member);
@@ -206,10 +227,11 @@ public class ReportCommand extends Command {
         }
 
         if (reportEntries.isEmpty()) {
-            event.reply("There is no inactivity to report for **" + event.getGuild().getName() + "**",
-                    event::complete);
+            event.reply("No inactivity to report for **" + (role == null ? event.getGuild().getName()
+                    : role.getName()) + "**", event::complete);
         } else {
-            StringBuilder builder = new StringBuilder("Activity report for **" + event.getGuild().getName() + "**\n\n");
+            StringBuilder builder = new StringBuilder("Activity report for **" + (role == null
+                    ? event.getGuild().getName() : role.getName()) + "**\n\n");
             reportEntries.values().stream().sorted(Comparator.comparingLong(GuildReportEntry::getOvertime).reversed()
                     .thenComparing(e -> e.getMember().getEffectiveName())).forEach(e -> builder.append(e.getText()));
             event.reply(builder.toString(), event::complete);
