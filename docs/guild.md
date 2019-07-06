@@ -68,13 +68,13 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-04T15:56:55.227`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-06T15:35:09.932`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
 online | last-online<br>lastonline
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
---time | //time<br>-t<br>/t
+--time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
 
 #### Command: `activity set message`
 
@@ -89,13 +89,13 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-04T15:56:55.229`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-06T15:35:09.933`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
 message | last-message<br>lastmessage
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
---time | //time<br>-t<br>/t
+--time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
 
 #### Command: `activity set playing`
 
@@ -111,14 +111,14 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game with a matching id or name.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-04T15:56:55.229`).<br>`now` can be used as a shortcut for the current date and time.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-06T15:35:09.934`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
 playing | played<br>last-played<br>lastplayed
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
---time | //time<br>-t<br>/t
+--time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
 
 ## Command: `auto-role`
 
@@ -130,7 +130,7 @@ This command can only be executed in a text channel and not via direct message.
 
 Keyword | Aliases
 --------|--------
-auto-role | auto-roles<br>ar
+auto-role | auto-roles<br>autorole<br>autoroles<br>ar
 
 Command | Description
 --------|------------
@@ -720,6 +720,9 @@ Displays an activity report for the entire server or just a single user.
 By default, you need the **Manage Server** permission to execute this command with `--user`.<br>
 Permission overrides for `--user` may be applied on node **guild.report.user**.
 
+By default, you need the **Manage Server** permission to execute this command with `--role`.<br>
+Permission overrides for `--role` may be applied on node **guild.report.role**.
+
 By default, you need the **Manage Server** permission to execute this command with `--server`.<br>
 Permission overrides for `--server` may be applied on node **guild.report.server**.
 
@@ -730,9 +733,11 @@ Permission overrides may be applied on node **guild.report.self**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 --server | Displays an activity report for the entire server.
 
 Keyword | Aliases
 --------|--------
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--role | //role<br>-r<br>/r
 --server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g

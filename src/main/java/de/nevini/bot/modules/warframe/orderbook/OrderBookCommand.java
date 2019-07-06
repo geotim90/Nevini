@@ -25,7 +25,7 @@ public class OrderBookCommand extends Command {
                 .aliases(new String[]{"ob"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_ORDER_BOOK)
-                .description("displays the top five rows of the order book for a tradable Warframe item "
+                .description("displays the top five rows of the order book for a tradeable Warframe item "
                         + "using data from warframe.market")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.ITEM.describe(false, true)

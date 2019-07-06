@@ -45,7 +45,7 @@ public class ReportCommand extends Command {
                 .details("By default, you need the **Manage Server** permission to execute this command with `--user`.\n"
                         + "Permission overrides for `--user` may be applied on node **guild.report.user**.\n\n"
                         + "By default, you need the **Manage Server** permission to execute this command with `--role`.\n"
-                        + "Permission overrides for `--role` may be applied on node **guild.report.role**."
+                        + "Permission overrides for `--role` may be applied on node **guild.report.role**.\n\n"
                         + "By default, you need the **Manage Server** permission to execute this command with `--server`.\n"
                         + "Permission overrides for `--server` may be applied on node **guild.report.server**.")
                 .build());
