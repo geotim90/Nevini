@@ -23,13 +23,13 @@ public class CommandPatterns {
      * </ul>
      * Note that this regular expression pattern will match anything prepended with an option flag.
      */
-    public static final String OPTION = "(?:(?:--|//)(\\w+)|[-/](\\w))(\\s+(.+))?";
+    public static final String OPTION = "(?:(?:--|//)(\\w+)|[-/]([a-z]))(\\s+(.+))?";
 
     /**
      * A regular expression pattern that matches valid mentions for users, members, channels and roles.
      * This regular expression patterns contains one group for the mentioned id.
      * Note that this regular expression pattern will not match mentions prepended with an option flag.
      */
-    public static final String MENTION = "(?<!(?:(?:--|//)\\w+|[-/]\\w)\\s+)<(?:@[!&]?|#)\\d+>";
+    public static final String MENTION = "(?<!(?:(?:--|//)\\w+|[-/][a-z])\\s+)<(?:@[!&]?|#)\\d+>";
 
 }

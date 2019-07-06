@@ -4,16 +4,16 @@ These commands are related to [Warframe](https://www.warframe.com/).
 
 Command | Description
 --------|------------
-[order-book](#command-order-book) | displays the top five rows of the order book for a tradable Warframe item using data from warframe.market
-[price-check](#command-price-check) | performs a price check on a tradable Warframe item using data from warframe.market
+[order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
+[price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 
 ## Command: `order-book`
 
-Displays the top five rows of the order book for a tradable Warframe item using data from warframe.market.
+Displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market.
 
 Note that only offers of "in game" and "online" users are considered for this command.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **warframe.order-book**.
 
@@ -28,9 +28,9 @@ order-book | ob
 
 ## Command: `price-check`
 
-Performs a price check on a tradable Warframe item using data from warframe.market.
+Performs a price check on a tradeable Warframe item using data from warframe.market.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **warframe.price-check**.
 

@@ -42,6 +42,7 @@ public enum Node {
     GUILD_INACTIVITY_GET("guild.inactivity.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_INACTIVITY_SET("guild.inactivity.set", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_INACTIVITY_UNSET("guild.inactivity.unset", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_REPORT_ROLE("guild.report.role", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_REPORT_SELF("guild.report.self", Module.GUILD, Permissions.EVERYONE),
     GUILD_REPORT_SERVER("guild.report.server", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_REPORT_USER("guild.report.user", Module.GUILD, Permissions.MANAGE_SERVER),

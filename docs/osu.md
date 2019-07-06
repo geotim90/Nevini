@@ -16,7 +16,7 @@ Command | Description
 
 Displays general information of an osu! beatmap.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.beatmap**.
 
@@ -33,7 +33,7 @@ osu!beatmap | osu!b<br>osu!bm<br>osu!map
 
 Displays the top 100 scores of an osu! user.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.best**.
 
@@ -51,7 +51,7 @@ Keyword | Aliases
 
 Displays osu! user events.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.events**.
 
@@ -105,7 +105,7 @@ osu!leaderboard | osu!rank<br>osu!ranks
 
 Displays up to 50 most recent plays over the last 24 hours of an osu! user.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.recent**.
 
@@ -148,7 +148,7 @@ feed | subscribe
 
 Displays the top 100 scores of an osu! beatmap.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.scores**.
 
@@ -170,7 +170,7 @@ Keyword | Aliases
 
 Displays general information of an osu! user.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.stats**.
 

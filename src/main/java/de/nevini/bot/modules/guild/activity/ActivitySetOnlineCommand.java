@@ -3,29 +3,15 @@ package de.nevini.bot.modules.guild.activity;
 import de.nevini.bot.command.Command;
 import de.nevini.bot.command.CommandDescriptor;
 import de.nevini.bot.command.CommandEvent;
-import de.nevini.bot.resolvers.StringResolver;
 import de.nevini.bot.resolvers.common.Resolvers;
 import de.nevini.bot.scope.Node;
-import de.nevini.bot.util.Formatter;
 import de.nevini.framework.command.CommandOptionDescriptor;
 import de.nevini.framework.command.CommandReaction;
 import net.dv8tion.jda.core.entities.Member;
-import org.apache.commons.lang3.StringUtils;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
 
 class ActivitySetOnlineCommand extends Command {
-
-    private static final StringResolver timestampResolver = new StringResolver("timestamp", "time", "t",
-            CommandOptionDescriptor.builder()
-                    .syntax("--time <timestamp>")
-                    .description("A valid ISO 8601 UTC timestamp (e.g. `" + LocalDateTime.now().toString() + "`)."
-                            + "\n`now` can be used as a shortcut for the current date and time.")
-                    .keyword("--time")
-                    .aliases(new String[]{"//time", "-t", "/t"})
-                    .build());
 
     ActivitySetOnlineCommand() {
         super(CommandDescriptor.builder()
@@ -35,7 +21,7 @@ class ActivitySetOnlineCommand extends Command {
                 .description("configures user activity information for when they were last online on Discord")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
-                        timestampResolver.describe()
+                        Resolvers.TIMESTAMP.describe()
                 })
                 .details("Note that timestamps provided via this command do not override *real* activity information. "
                         + "Instead, they just provided a manual minimum value for activity reports on this server.")
@@ -48,33 +34,19 @@ class ActivitySetOnlineCommand extends Command {
     }
 
     private void acceptMember(CommandEvent event, Member member) {
-        timestampResolver.resolveOptionOrInput(event,
+        Resolvers.TIMESTAMP.resolveOptionOrInput(event,
                 timestamp -> acceptMemberAndTimestamp(event, member, timestamp));
     }
 
-    private void acceptMemberAndTimestamp(CommandEvent event, Member member, String timestamp) {
+    private void acceptMemberAndTimestamp(CommandEvent event, Member member, OffsetDateTime timestamp) {
         // validate timestamp
-        OffsetDateTime dateTime;
-        if (StringUtils.isEmpty(timestamp)) {
-            // command was aborted or no input provided
-            event.reply(CommandReaction.DEFAULT_NOK, event::complete);
+        if (timestamp.isAfter(OffsetDateTime.now())) {
+            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in future!", event::complete);
             return;
-        } else {
-            try {
-                // try to parse input
-                dateTime = Formatter.parseTimestamp(timestamp);
-            } catch (DateTimeParseException e) {
-                // failed to parse timestamp
-                event.reply(CommandReaction.WARNING, "You did not provide a valid timestamp!", event::complete);
-                return;
-            }
-            if (dateTime.isAfter(OffsetDateTime.now())) {
-                event.reply(CommandReaction.WARNING, "You cannot use a timestamp in future!", event::complete);
-                return;
-            }
         }
+
         // set activity
-        event.getActivityService().manualActivityOnline(member, dateTime);
+        event.getActivityService().manualActivityOnline(member, timestamp);
         event.reply(CommandReaction.OK, event::complete);
     }
 

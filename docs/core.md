@@ -17,7 +17,7 @@ Provides a list of commands or details on a specific command.
 If a valid command is provided, this will display details on that specific command.<br>
 If no valid command is provided, this will display a list of commands.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **core.help**.
 
@@ -362,7 +362,7 @@ reset | clear<br>default
 
 Measures the bot's communication latency.
 
-This command can be executed in a text or via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **core.ping**.
 
