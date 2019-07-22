@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
@@ -55,7 +54,7 @@ public class PageableEmbed {
      * The {@link EventDispatcher} to use.
      */
     @NonNull
-    private final EventDispatcher<Event> eventDispatcher;
+    private final EventDispatcher eventDispatcher;
 
     /**
      * A callback for when this {@link PageableEmbed} is first displayed.

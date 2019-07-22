@@ -12,15 +12,13 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Dispatches events of type {@code <E>} (or any sub-class) using a publisher-subscriber pattern. Specific event types
+ * Dispatches events using a publisher-subscriber pattern. Specific event types
  * can be subscribed using {@link #subscribe(Class, Predicate, Consumer, boolean, long, TimeUnit, Runnable, boolean)}.
  * Events can be published using {@link #publish(Object)}. There are also methods for asynchronous task execution
  * ({@link #execute(Runnable)} and {@link #schedule(long, TimeUnit, Runnable)}. The internal executor services can be
  * shut down using {@link #shutdown()}.
- *
- * @param <E> the base type for all events
  */
-public class EventDispatcher<E> {
+public class EventDispatcher {
 
     private final Map<Class<?>, Set<Subscription<?>>> subscriptions = new ConcurrentHashMap<>();
     private final ScheduledExecutorService scheduledExecutorService;
@@ -70,7 +68,7 @@ public class EventDispatcher<E> {
      * @param <T>             the event type
      * @throws NullPointerException if {@code eventType} or {@code callback} is {@code null}
      */
-    public synchronized <T extends E> void subscribe(
+    public synchronized <T> void subscribe(
             @NonNull Class<T> eventType, Predicate<T> condition, @NonNull Consumer<T> callback, boolean onlyOnce,
             long timeout, TimeUnit timeoutUnit, Runnable timeoutCallback, boolean timeoutAlways
     ) {
@@ -114,7 +112,7 @@ public class EventDispatcher<E> {
      * @throws NullPointerException if {@code eventType} or {@code callback} is {@code null}
      * @see #subscribe(Class, Predicate, Consumer, boolean, long, TimeUnit, Runnable, boolean)
      */
-    public <T extends E> void subscribe(
+    public <T> void subscribe(
             Class<T> eventType, Predicate<T> condition, Consumer<T> callback, boolean onlyOnce
     ) {
         subscribe(eventType, condition, callback, onlyOnce, 0, null, null, false);
@@ -131,7 +129,7 @@ public class EventDispatcher<E> {
      * @throws NullPointerException if {@code eventType} or {@code callback} is {@code null}
      * @see #subscribe(Class, Predicate, Consumer, boolean, long, TimeUnit, Runnable, boolean)
      */
-    public <T extends E> void subscribe(Class<T> eventType, Consumer<T> callback) {
+    public <T> void subscribe(Class<T> eventType, Consumer<T> callback) {
         subscribe(eventType, null, callback, false, 0, null, null, false);
     }
 
@@ -173,7 +171,7 @@ public class EventDispatcher<E> {
      * @param event the event to publish
      * @throws NullPointerException if {@code event} is {@code null}
      */
-    public synchronized void publish(@NonNull E event) {
+    public synchronized void publish(@NonNull Object event) {
         if (!scheduledExecutorService.isShutdown()) {
             scheduledExecutorService.execute(() -> dispatchEvent(event));
         }
@@ -186,7 +184,7 @@ public class EventDispatcher<E> {
      * @throws NullPointerException if {@code event} is {@code null}
      *                              (should not occur due to the {@code null} check in {@link #publish(Object)})
      */
-    private void dispatchEvent(E event) {
+    private void dispatchEvent(Object event) {
         // get the event type
         Class<?> eventType = event.getClass();
         // iterate over event type class hierarchy
@@ -228,7 +226,7 @@ public class EventDispatcher<E> {
      * @param <T> the event type parameter for {@code eventType}, {@code condition} and {@code callback}
      */
     @Value
-    private class Subscription<T extends E> {
+    private class Subscription<T> {
 
         @NonNull
         private final Class<T> eventType;
@@ -244,7 +242,7 @@ public class EventDispatcher<E> {
          * @return {@code true} if the event passed the filter {@code condition} and {@code callback} was called
          * successfully; {@code false} otherwise
          */
-        boolean onEvent(E event) {
+        boolean onEvent(Object event) {
             if (eventType.isInstance(event)) {
                 T castEvent = eventType.cast(event);
                 if (condition == null || condition.test(castEvent)) {

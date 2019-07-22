@@ -6,7 +6,6 @@ import de.nevini.commons.concurrent.EventDispatcher;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.RichPresence;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ public class ActivityPlayingListener {
     public ActivityPlayingListener(
             @Autowired ActivityService activityService,
             @Autowired GameService gameService,
-            @Autowired EventDispatcher<Event> eventDispatcher
+            @Autowired EventDispatcher eventDispatcher
     ) {
         this.activityService = activityService;
         this.gameService = gameService;

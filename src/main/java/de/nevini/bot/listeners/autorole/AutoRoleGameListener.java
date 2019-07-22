@@ -6,7 +6,6 @@ import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ public class AutoRoleGameListener {
 
     public AutoRoleGameListener(
             @Autowired AutoRoleService autoRoleService,
-            @Autowired EventDispatcher<Event> eventDispatcher
+            @Autowired EventDispatcher eventDispatcher
     ) {
         this.autoRoleService = autoRoleService;
         eventDispatcher.subscribe(UserUpdateGameEvent.class, this::onUserUpdateGame);

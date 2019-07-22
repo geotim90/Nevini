@@ -13,7 +13,6 @@ import de.nevini.framework.message.MessageLineSplitter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +41,7 @@ public class OsuListener {
     private final FeedService feedService;
     private final OsuService osuService;
 
-    private final EventDispatcher<Event> eventDispatcher;
+    private final EventDispatcher eventDispatcher;
     private final Set<Long> updateQueue = new LinkedHashSet<>();
     private final Map<Long, Long> its = new ConcurrentHashMap<>();
     private long uts = 0L;
@@ -51,7 +50,7 @@ public class OsuListener {
             @Autowired IgnService ignService,
             @Autowired FeedService feedService,
             @Autowired OsuService osuService,
-            @Autowired EventDispatcher<Event> eventDispatcher
+            @Autowired EventDispatcher eventDispatcher
     ) {
         this.ignService = ignService;
         this.feedService = feedService;

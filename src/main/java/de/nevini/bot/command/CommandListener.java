@@ -4,7 +4,6 @@ import de.nevini.commons.concurrent.EventDispatcher;
 import de.nevini.framework.command.CommandOptions;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class CommandListener {
 
     public CommandListener(
             @Autowired CommandContext commandContext,
-            @Autowired EventDispatcher<Event> eventDispatcher
+            @Autowired EventDispatcher eventDispatcher
     ) {
         this.commandContext = commandContext;
         eventDispatcher.subscribe(MessageReceivedEvent.class, this::onEvent);

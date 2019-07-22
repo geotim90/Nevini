@@ -6,7 +6,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
@@ -35,7 +34,7 @@ public class ConfirmationDecorator {
      * The {@link EventDispatcher} to use.
      */
     @NonNull
-    private final EventDispatcher<Event> eventDispatcher;
+    private final EventDispatcher eventDispatcher;
 
     /**
      * The callback to call.

@@ -15,12 +15,12 @@ import java.util.concurrent.TimeoutException;
 
 public class EventDispatcherTest {
 
-    private EventDispatcher<Number> eventDispatcher;
+    private EventDispatcher eventDispatcher;
 
     @Before
     public void createEventDispatcher() {
         // create a new event dispatcher for each test
-        eventDispatcher = new EventDispatcher<>();
+        eventDispatcher = new EventDispatcher();
     }
 
     /**

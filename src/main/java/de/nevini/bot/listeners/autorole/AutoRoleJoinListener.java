@@ -5,7 +5,6 @@ import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class AutoRoleJoinListener {
 
     public AutoRoleJoinListener(
             @Autowired AutoRoleService autoRoleService,
-            @Autowired EventDispatcher<Event> eventDispatcher
+            @Autowired EventDispatcher eventDispatcher
     ) {
         this.autoRoleService = autoRoleService;
         eventDispatcher.subscribe(GuildMemberJoinEvent.class, this::onMemberJoin);

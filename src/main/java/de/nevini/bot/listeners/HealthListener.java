@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HealthListener {
 
-    public HealthListener(@Autowired EventDispatcher<Event> eventDispatcher) {
+    public HealthListener(@Autowired EventDispatcher eventDispatcher) {
         eventDispatcher.subscribe(DisconnectEvent.class, this::logDisconnect);
         eventDispatcher.subscribe(ExceptionEvent.class, this::logException);
         eventDispatcher.subscribe(ReadyEvent.class, this::logReady);

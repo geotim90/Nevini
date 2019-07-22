@@ -3,7 +3,6 @@ package de.nevini.bot;
 import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.events.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +19,7 @@ public class Application {
     }
 
     public Application(
-            @Autowired EventDispatcher<Event> eventDispatcher,
+            @Autowired EventDispatcher eventDispatcher,
             @Value("${bot.active:false}") boolean active,
             @Value("${bot.token:#{null}}") String token,
             @Value("${bot.shard:0}") int shard,

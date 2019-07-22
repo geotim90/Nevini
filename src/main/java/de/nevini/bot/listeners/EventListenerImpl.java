@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class EventListenerImpl extends EventDispatcher<Event> implements EventListener {
+public class EventListenerImpl extends EventDispatcher implements EventListener {
 
     public EventListenerImpl() {
         super(Runtime.getRuntime().availableProcessors());

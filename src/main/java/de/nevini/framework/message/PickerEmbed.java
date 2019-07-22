@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
 import java.util.List;
@@ -72,7 +71,7 @@ public class PickerEmbed<T> {
      * The {@link EventDispatcher} to use.
      */
     @NonNull
-    private final EventDispatcher<Event> eventDispatcher;
+    private final EventDispatcher eventDispatcher;
 
     /**
      * Callback for when an item was chosen.

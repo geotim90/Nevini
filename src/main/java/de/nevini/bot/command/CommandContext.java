@@ -6,7 +6,6 @@ import de.nevini.commons.concurrent.EventDispatcher;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.events.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -27,7 +26,7 @@ public class CommandContext {
     private final String serverInvite;
 
     private final Map<String, Command> commands;
-    private final EventDispatcher<Event> eventDispatcher;
+    private final EventDispatcher eventDispatcher;
 
     private final ActivityService activityService;
     private final AutoRoleService autoRoleService;
@@ -48,7 +47,7 @@ public class CommandContext {
             @Value("${bot.server.id:#{null}}") String serverId,
             @Value("${bot.server.invite:#{null}}") String serverInvite,
             @Autowired ApplicationContext applicationContext,
-            @Autowired EventDispatcher<Event> eventDispatcher,
+            @Autowired EventDispatcher eventDispatcher,
             @Autowired ActivityService activityService,
             @Autowired AutoRoleService autoRoleService,
             @Autowired FeedService feedService,

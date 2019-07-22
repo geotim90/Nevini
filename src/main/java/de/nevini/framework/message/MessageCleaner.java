@@ -2,7 +2,6 @@ package de.nevini.framework.message;
 
 import de.nevini.commons.concurrent.EventDispatcher;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.events.Event;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +36,7 @@ public class MessageCleaner {
      * @param eventDispatcher the {@link EventDispatcher} to use for scheduling
      * @param message         the {@link Message} to delete
      */
-    public static void tryScheduleDelete(EventDispatcher<Event> eventDispatcher, Message message) {
+    public static void tryScheduleDelete(EventDispatcher eventDispatcher, Message message) {
         if (eventDispatcher != null && message != null) {
             eventDispatcher.schedule(1, TimeUnit.MINUTES, () -> tryDelete(message));
         }

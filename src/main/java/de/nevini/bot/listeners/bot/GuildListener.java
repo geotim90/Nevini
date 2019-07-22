@@ -7,7 +7,6 @@ import de.nevini.bot.util.Formatter;
 import de.nevini.commons.concurrent.EventDispatcher;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.GuildAvailableEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
@@ -24,7 +23,7 @@ public class GuildListener {
 
     public GuildListener(
             @Autowired FeedService feedService,
-            @Autowired EventDispatcher<Event> eventDispatcher
+            @Autowired EventDispatcher eventDispatcher
     ) {
         this.feedService = feedService;
         eventDispatcher.subscribe(GuildJoinEvent.class, this::onGuildJoin);
