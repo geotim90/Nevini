@@ -34,12 +34,12 @@ public class OsuScoresRequest implements ApiRequest<List<OsuScore>> {
 
     @Override
     public @NonNull String getEndpoint() {
-        return "https://osu.ppy.sh/api/get_scores?b=" + beatmapId;
+        return "https://osu.ppy.sh/api/get_scores";
     }
 
     @Override
     public @NonNull RequestBody getRequestBody(@NonNull MultipartBody.Builder builder) {
-        // use URL parameter instead of: builder.addFormDataPart("b", Integer.toString(beatmapId));
+        builder.addFormDataPart("b", Integer.toString(beatmapId));
         if (user != null) builder.addFormDataPart("u", user);
         if (userType != null) builder.addFormDataPart("type", userType.getUserType());
         if (mode != null) builder.addFormDataPart("m", Integer.toString(mode.getId()));
