@@ -11,7 +11,7 @@ import de.nevini.api.wfm.requests.WfmItemRequest;
 import de.nevini.api.wfm.requests.WfmItemsRequest;
 import de.nevini.api.wfm.requests.WfmOrdersRequest;
 import de.nevini.api.wfm.requests.WfmStatisticsRequest;
-import de.nevini.commons.concurrent.TokenBucket;
+import de.nevini.util.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
