@@ -34,6 +34,7 @@ public class CommandContext {
     private final GameService gameService;
     private final IgnService ignService;
     private final InactivityService inactivityService;
+    private final MetricsService metricsService;
     private final ModuleService moduleService;
     private final PermissionService permissionService;
     private final PrefixService prefixService;
@@ -54,6 +55,7 @@ public class CommandContext {
             @Autowired GameService gameService,
             @Autowired IgnService ignService,
             @Autowired InactivityService inactivityService,
+            @Autowired MetricsService metricsService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
             @Autowired PrefixService prefixService
@@ -80,6 +82,7 @@ public class CommandContext {
         this.gameService = gameService;
         this.ignService = ignService;
         this.inactivityService = inactivityService;
+        this.metricsService = metricsService;
         this.moduleService = moduleService;
         this.permissionService = permissionService;
         this.prefixService = prefixService;

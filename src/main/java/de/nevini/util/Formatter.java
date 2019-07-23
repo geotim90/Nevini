@@ -19,6 +19,10 @@ import java.util.regex.Pattern;
 
 public class Formatter {
 
+    public static String formatDouble(double value) {
+        return new DecimalFormat("#0.##", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
+    }
+
     public static String formatFloat(float value) {
         return new DecimalFormat("#0.##", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
     }

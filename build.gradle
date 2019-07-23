@@ -37,6 +37,8 @@ dependencies {
 	implementation 'com.google.guava:guava:28.0-jre'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
+	// metrics
+	implementation 'io.dropwizard.metrics:metrics-core'
 	// jda
 	implementation 'net.dv8tion:JDA:3.8.3_464'
 	implementation 'com.jagrosh:jda-utilities:2.1.5'

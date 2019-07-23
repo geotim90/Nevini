@@ -54,8 +54,16 @@ public abstract class Command {
                 && checkBotPermission(event)
                 && checkUserPermission(event)
         ) {
-            log.info("{} - Executing {} called via {}", event.getMessageId(), getClass().getSimpleName(),
-                    summarize(event.getMessage().getContentRaw()));
+            if (event.getGuild() != null) {
+                // count calls per guild (excluding direct messages)
+                log.info("{} {} {} - Executing {} called via {}", event.getGuild().getId(), event.getAuthor().getId(),
+                        event.getMessageId(), getClass().getSimpleName(), summarize(event.getMessage().getContentRaw()));
+                event.getMetricsService().mark("Command executions", event.getGuild().getId());
+            }
+
+            // count calls per command class (including direct messages)
+            event.getMetricsService().mark("Command executions", getClass().getSimpleName());
+
             try {
                 execute(event);
             } catch (RuntimeException e) {
