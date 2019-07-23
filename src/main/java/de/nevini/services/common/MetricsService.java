@@ -26,17 +26,12 @@ public class MetricsService {
 
     /**
      * Marks the occurrence of an event for the meter identified by {@code name}.
-     * Also marks the occurrence of an event for the meter identified by {@code name} and {@code discriminator}
-     * if {@code discriminator} is not {@code null}.
      *
      * @throws NullPointerException if {@code name} is {@code null}
      * @see com.codahale.metrics.Meter#mark()
      */
-    public void mark(@NonNull String name, String discriminator) {
+    public void mark(@NonNull String name) {
         getRegistry().meter(name).mark();
-        if (discriminator != null) {
-            getRegistry().meter(name + " (" + discriminator + ")").mark();
-        }
     }
 
 }

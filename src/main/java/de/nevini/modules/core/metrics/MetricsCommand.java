@@ -9,6 +9,9 @@ import de.nevini.scope.Permissions;
 import de.nevini.util.Formatter;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
+import java.util.Map;
+
 @Component
 public class MetricsCommand extends Command {
 
@@ -27,8 +30,11 @@ public class MetricsCommand extends Command {
     protected void execute(CommandEvent event) {
         final StringBuilder builder = new StringBuilder();
 
-        event.getMetricsService().getRegistry().getMetrics().forEach((name, metric) -> {
-            builder.append("\n**").append(name).append("**: ");
+        event.getMetricsService().getRegistry().getMetrics().entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getKey)).forEach(e ->
+        {
+            builder.append("\n**").append(e.getKey()).append("**: ");
+            Metric metric = e.getValue();
             if (metric instanceof Gauge) {
                 builder.append("value=");
                 Object value = ((Gauge) metric).getValue();

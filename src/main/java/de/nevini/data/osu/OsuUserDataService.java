@@ -161,7 +161,7 @@ public class OsuUserDataService {
     private @NonNull Optional<OsuUser> getFromDatabase(@NonNull Pair<String, OsuMode> args) {
         log.trace("getFromDatabase({})", args);
         Optional<OsuUserData> data = repository.findByUserNameAndMode(args.getLeft(), args.getRight().getId());
-        return data.map(OsuUserData -> cache(OsuUserDataMapper.convert(OsuUserData), args.getRight()));
+        return data.map(osuUserData -> cache(OsuUserDataMapper.convert(osuUserData), args.getRight()));
     }
 
     private @NonNull OsuUser cache(@NonNull OsuUser user, @NonNull OsuMode mode) {

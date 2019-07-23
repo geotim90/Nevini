@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -89,7 +90,8 @@ public class OsuBeatmapDataService {
     }
 
     public @NonNull Collection<OsuBeatmap> findAllByTitleContainsIgnoreCase(@NonNull String title) {
-        return repository.findAllByTitleContainsIgnoreCase(title);
+        Collection<OsuBeatmapData> data = repository.findAllByTitleContainsIgnoreCase(title);
+        return data.stream().map(OsuBeatmapDataMapper::convert).collect(Collectors.toList());
     }
 
 }
