@@ -32,13 +32,13 @@ public class OsuReplayRequest implements ApiRequest<OsuReplay> {
 
     @Override
     public @NonNull String getEndpoint() {
-        return "https://osu.ppy.sh/api/get_replay?b=" + beatmapId;
+        return "https://osu.ppy.sh/api/get_replay";
     }
 
     @Override
     public @NonNull RequestBody getRequestBody(@NonNull MultipartBody.Builder builder) {
         builder.addFormDataPart("m", Integer.toString(mode.getId()));
-        // use URL parameter instead of: builder.addFormDataPart("b", Integer.toString(beatmapId));
+        builder.addFormDataPart("b", Integer.toString(beatmapId));
         builder.addFormDataPart("u", user);
         if (userType != null) builder.addFormDataPart("type", userType.getUserType());
         if (mods != null) builder.addFormDataPart("mods", OsuConverter.convertModsToString(mods));

@@ -5,7 +5,7 @@ import de.nevini.api.ApiRequest;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.osu.model.*;
 import de.nevini.api.osu.requests.*;
-import de.nevini.commons.concurrent.TokenBucket;
+import de.nevini.util.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
