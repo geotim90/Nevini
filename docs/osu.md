@@ -4,7 +4,7 @@ These commands are related to [osu!](https://osu.ppy.sh).
 
 Command | Description
 --------|------------
-[osu!beatmap](#command-osubeatmap) | displays general information of an osu! beatmap
+[osu!beatmap](#command-osubeatmap) | displays general information of osu! beatmaps
 [osu!best](#command-osubest) | displays the top 100 scores of an osu! user
 [osu!events](#command-osuevents) | displays osu! user events
 [osu!leaderboard](#command-osuleaderboard) | displays the top 10 osu! users on this server
@@ -14,7 +14,7 @@ Command | Description
 
 ## Command: `osu!beatmap`
 
-Displays general information of an osu! beatmap.
+Displays general information of osu! beatmaps.
 
 This command can be executed in a text channel or via direct message.
 
