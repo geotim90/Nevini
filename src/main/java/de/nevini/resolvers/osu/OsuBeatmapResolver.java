@@ -2,9 +2,9 @@ package de.nevini.resolvers.osu;
 
 import de.nevini.api.osu.model.OsuBeatmap;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.services.osu.OsuService;
+import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
 import java.util.Comparator;
@@ -46,8 +46,8 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
 
     @Override
     protected String getFieldValueForPicker(OsuBeatmap item) {
-        return "[" + item.getTitle() + " [" + item.getMode().getName() + "]" + "](https://osu.ppy.sh/b/"
-                + item.getBeatmapId() + ")";
+        return "[" + item.getArtist() + " - " + item.getTitle() + " [" + item.getVersion() + "] ("
+                + item.getMode().getName() + ")](https://osu.ppy.sh/b/" + item.getBeatmapId() + ")";
     }
 
 }
