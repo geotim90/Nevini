@@ -35,7 +35,7 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
     @Override
     public List<OsuBeatmap> findSorted(@NonNull CommandEvent event, String query) {
         return event.locate(OsuService.class).findBeatmaps(query).stream()
-                .sorted(Comparator.comparing(OsuBeatmap::getTitle))
+                .sorted(Comparator.comparing(OsuBeatmap::getTitle).thenComparing(OsuBeatmap::getDifficultyRating))
                 .collect(Collectors.toList());
     }
 
