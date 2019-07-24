@@ -10,16 +10,12 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-public class PageableEmbed {
-
-    // use a page size that is <= 25 and divisible by 2 and 3 for column layouts
-    private static final int INLINE_PAGE_SIZE = 24;
-    // use a smaller page size for single column content
-    private static final int BLOCK_PAGE_SIZE = 10;
+public class MultiEmbed {
 
     private static final String EMOTE_BACK = "\u25C0";
     private static final String EMOTE_CANCEL = "\u23F9";
@@ -28,13 +24,13 @@ public class PageableEmbed {
     private static final String EMOTE_LAST = "\u23ed";
 
     /**
-     * The {@link MessageChannel} to post this {@link PageableEmbed} in when {@link #display()} is called.
+     * The {@link MessageChannel} to post this {@link MultiEmbed} in when {@link #display()} is called.
      */
     @NonNull
     private final MessageChannel channel;
 
     /**
-     * The only {@link User} that is allowed to interact with this {@link PageableEmbed}.
+     * The only {@link User} that is allowed to interact with this {@link MultiEmbed}.
      */
     @NonNull
     private final User user;
@@ -45,10 +41,10 @@ public class PageableEmbed {
     private final String footerIconUrl;
 
     /**
-     * An {@link EmbedBuilder} with potentially more fields than can be displayed at once.
+     * The {@link EmbedBuilder} instances to use for rendering individual pages.
      */
     @NonNull
-    private final EmbedBuilder embed;
+    private final List<EmbedBuilder> embeds;
 
     /**
      * The {@link EventDispatcher} to use.
@@ -57,19 +53,18 @@ public class PageableEmbed {
     private final EventDispatcher eventDispatcher;
 
     /**
-     * A callback for when this {@link PageableEmbed} is first displayed.
+     * A callback for when this {@link MultiEmbed} is first displayed.
      */
     @NonNull
     private final Consumer<? super Message> callback;
 
-    private MessageEmbed template = null;
     private Message container = null;
     private int currentPage = 0;
 
     public void display() {
-        if (embed.getFields().size() <= getPageSize()) {
-            channel.sendMessage(embed.build()).queue(callback);
-        } else {
+        if (embeds.size() == 1) {
+            channel.sendMessage(embeds.get(0).build()).queue(callback);
+        } else if (!embeds.isEmpty()) {
             renderPage(1);
         }
     }
@@ -84,12 +79,9 @@ public class PageableEmbed {
             } else if (pageNumber > pageCount) {
                 renderPage(pageCount);
             } else {
-                ensureTemplate();
-                EmbedBuilder pageBuilder = new EmbedBuilder(template);
-                pageBuilder.getFields().addAll(embed.getFields().subList((pageNumber - 1) * getPageSize(),
-                        Math.min(embed.getFields().size(), pageNumber * getPageSize())));
-                pageBuilder.setFooter("Page " + pageNumber + "/" + pageCount, footerIconUrl);
-                MessageEmbed page = pageBuilder.build();
+                EmbedBuilder embed = embeds.get(pageNumber - 1);
+                embed.setFooter("Page " + pageNumber + "/" + pageCount, footerIconUrl);
+                MessageEmbed page = embed.build();
                 if (container == null) {
                     channel.sendMessage(page).queue(message -> {
                         callback.accept(message);
@@ -99,14 +91,6 @@ public class PageableEmbed {
                     container.editMessage(page).queue(message -> paginate(message, pageNumber));
                 }
             }
-        }
-    }
-
-    private void ensureTemplate() {
-        if (template == null) {
-            EmbedBuilder templateBuilder = new EmbedBuilder(embed);
-            templateBuilder.clearFields();
-            template = templateBuilder.build();
         }
     }
 
@@ -153,15 +137,7 @@ public class PageableEmbed {
     }
 
     private int getPageCount() {
-        return ((embed.getFields().size() - 1) / getPageSize()) + 1;
-    }
-
-    private int getPageSize() {
-        if (embed.getFields().isEmpty() || !embed.getFields().get(0).isInline()) {
-            return BLOCK_PAGE_SIZE;
-        } else {
-            return INLINE_PAGE_SIZE;
-        }
+        return embeds.size();
     }
 
 }
