@@ -103,8 +103,8 @@ class ActivityGetCommand extends Command {
         if (lastPlayed == null) {
             event.reply(member.getEffectiveName() + " has not played this game recently.", event::complete);
         } else {
-            event.reply(member.getEffectiveName() + " played this game "
-                    + Formatter.formatLargestUnitAgo(lastPlayed), event::complete);
+            event.reply(member.getEffectiveName() + " played this game " + Formatter.formatLargestUnitAgo(lastPlayed)
+                    + " (" + Formatter.formatTimestamp(lastPlayed) + ")", event::complete);
         }
     }
 
