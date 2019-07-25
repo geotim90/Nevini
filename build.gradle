@@ -41,7 +41,7 @@ dependencies {
 	implementation 'io.dropwizard.metrics:metrics-core'
 	// jda
 	implementation 'net.dv8tion:JDA:3.8.3_464'
-	implementation 'com.jagrosh:jda-utilities:2.1.5'
+	implementation 'com.jagrosh:jda-utilities-commons:2.1.5'
 	// database
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
