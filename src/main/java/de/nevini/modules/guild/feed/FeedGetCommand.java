@@ -3,12 +3,12 @@ package de.nevini.modules.guild.feed;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.jpa.feed.FeedData;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
 import de.nevini.util.Formatter;
+import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.Collection;

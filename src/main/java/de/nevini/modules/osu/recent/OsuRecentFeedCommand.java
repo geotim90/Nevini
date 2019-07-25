@@ -3,12 +3,12 @@ package de.nevini.modules.osu.recent;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.modules.guild.feed.FeedSetCommand;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
 import de.nevini.scope.Permissions;
+import de.nevini.util.command.CommandOptionDescriptor;
 
 class OsuRecentFeedCommand extends Command {
 

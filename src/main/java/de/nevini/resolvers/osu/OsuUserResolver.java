@@ -2,9 +2,9 @@ package de.nevini.resolvers.osu;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.resolvers.common.Resolvers;
+import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import lombok.Value;
 import net.dv8tion.jda.core.entities.ChannelType;

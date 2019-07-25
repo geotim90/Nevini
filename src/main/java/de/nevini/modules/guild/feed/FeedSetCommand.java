@@ -1,6 +1,8 @@
 package de.nevini.modules.guild.feed;
 
-import de.nevini.command.*;
+import de.nevini.command.Command;
+import de.nevini.command.CommandDescriptor;
+import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;

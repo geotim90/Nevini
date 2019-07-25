@@ -5,11 +5,11 @@ import de.nevini.api.wfm.model.orders.WfmOrder;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.warframe.WarframeResolvers;
 import de.nevini.scope.Node;
 import de.nevini.services.warframe.WarframeMarketService;
 import de.nevini.util.Formatter;
+import de.nevini.util.command.CommandOptionDescriptor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

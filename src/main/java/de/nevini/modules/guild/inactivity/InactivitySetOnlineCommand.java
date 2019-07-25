@@ -1,6 +1,8 @@
 package de.nevini.modules.guild.inactivity;
 
-import de.nevini.command.*;
+import de.nevini.command.Command;
+import de.nevini.command.CommandDescriptor;
+import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.StringResolver;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;

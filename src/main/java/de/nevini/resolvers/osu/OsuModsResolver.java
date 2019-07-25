@@ -2,9 +2,9 @@ package de.nevini.resolvers.osu;
 
 import de.nevini.api.osu.model.OsuMod;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
+import de.nevini.util.command.CommandOptionDescriptor;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
