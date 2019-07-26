@@ -21,6 +21,7 @@ class ActivityGetCommand extends Command {
     ActivityGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
+                .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.GUILD_ACTIVITY_GET)
                 .description("displays user and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
