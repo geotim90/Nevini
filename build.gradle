@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.4.1'
+version = '4.4.2'
 sourceCompatibility = '8'
 
 configurations {
@@ -41,7 +41,7 @@ dependencies {
 	implementation 'io.dropwizard.metrics:metrics-core'
 	// jda
 	implementation 'net.dv8tion:JDA:3.8.3_464'
-	implementation 'com.jagrosh:jda-utilities:2.1.5'
+	implementation 'com.jagrosh:jda-utilities-commons:2.1.5'
 	// database
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'

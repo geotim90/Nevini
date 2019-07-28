@@ -1,10 +1,10 @@
 package de.nevini.modules.core.permission;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
-import de.nevini.util.command.CommandReaction;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
+import de.nevini.util.command.CommandOptionDescriptor;
+import de.nevini.util.command.CommandReaction;
 import lombok.Data;
 import lombok.NonNull;
 import net.dv8tion.jda.core.Permission;

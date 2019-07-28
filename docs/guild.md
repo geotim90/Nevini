@@ -40,6 +40,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
+get | display<br>echo<br>list<br>print<br>show
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
 
@@ -68,7 +69,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-06T15:35:09.932`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-28T09:36:32.818`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -89,7 +90,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-06T15:35:09.933`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-28T09:36:32.819`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -111,7 +112,7 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game with a matching id or name.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-06T15:35:09.934`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-28T09:36:32.820`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -584,6 +585,10 @@ Displays user inactivity thresholds.
 This command can only be executed in a text channel and not via direct message.
 
 Permission overrides may be applied on node **guild.activity.get**.
+
+Keyword | Aliases
+--------|--------
+get | display<br>echo<br>list<br>print<br>show
 
 ### Command: `inactivity set`
 

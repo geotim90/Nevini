@@ -6,7 +6,6 @@ import de.nevini.api.osu.model.OsuUserEvent;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.jpa.game.GameData;
 import de.nevini.modules.osu.OsuCommandUtils;
 import de.nevini.resolvers.osu.OsuResolvers;
@@ -15,6 +14,7 @@ import de.nevini.scope.Node;
 import de.nevini.scope.Permissions;
 import de.nevini.services.osu.OsuService;
 import de.nevini.util.Formatter;
+import de.nevini.util.command.CommandOptionDescriptor;
 import org.springframework.stereotype.Component;
 
 @Component

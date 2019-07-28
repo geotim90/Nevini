@@ -1,10 +1,10 @@
 package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.scope.Module;
 import de.nevini.util.Finder;
+import de.nevini.util.command.CommandOptionDescriptor;
 
 import java.util.List;
 import java.util.regex.Pattern;

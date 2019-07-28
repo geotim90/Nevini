@@ -3,11 +3,11 @@ package de.nevini.modules.guild.activity;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.jpa.game.GameData;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import de.nevini.util.Formatter;
+import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,6 +21,7 @@ class ActivityGetCommand extends Command {
     ActivityGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
+                .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.GUILD_ACTIVITY_GET)
                 .description("displays user and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
@@ -103,8 +104,9 @@ class ActivityGetCommand extends Command {
         if (lastPlayed == null) {
             event.reply(member.getEffectiveName() + " has not played this game recently.", event::complete);
         } else {
-            event.reply(member.getEffectiveName() + " played this game "
-                    + Formatter.formatLargestUnitAgo(lastPlayed), event::complete);
+            event.reply("**" + member.getEffectiveName() + "** last played **" + game.getName() + "** ("
+                    + Long.toUnsignedString(game.getId()) + ") **" + Formatter.formatLargestUnitAgo(lastPlayed) + "** ("
+                    + Formatter.formatTimestamp(lastPlayed) + ")\n", event::complete);
         }
     }
 

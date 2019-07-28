@@ -34,12 +34,20 @@ public class GuildsCommand extends Command {
         List<Guild> guilds = event.getJDA().getGuilds();
         StringBuilder builder = new StringBuilder();
         builder.append("**Guilds on this shard**: ").append(guilds.size()).append('\n');
+        long totalMembers = 0;
+        long totalBots = 0;
         for (Guild guild : guilds) {
+            long members = count(guild, false);
+            long bots = count(guild, true);
             builder.append("\n**").append(guild.getName()).append("** (").append(guild.getId()).append(") owned by **")
                     .append(guild.getOwner().getUser().getAsTag()).append("** (").append(guild.getOwnerId())
-                    .append(") with ").append(Formatter.formatLong(count(guild, false))).append(" members and ")
-                    .append(Formatter.formatLong(count(guild, true))).append(" bots");
+                    .append(") with ").append(Formatter.formatLong(members)).append(" members and ")
+                    .append(Formatter.formatLong(bots)).append(" bots");
+            totalMembers += members;
+            totalBots += bots;
         }
+        builder.append("\n\n**Total members**: ").append(Formatter.formatLong(totalMembers));
+        builder.append("\n**Total bots**: ").append(Formatter.formatLong(totalBots));
         event.reply(builder.toString(), event::complete);
     }
 

@@ -2,8 +2,8 @@ package de.nevini.resolvers.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
+import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import net.dv8tion.jda.core.entities.Role;
 

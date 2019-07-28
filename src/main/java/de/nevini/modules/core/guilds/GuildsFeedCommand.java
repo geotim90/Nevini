@@ -3,11 +3,11 @@ package de.nevini.modules.core.guilds;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.modules.guild.feed.FeedSetCommand;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
+import de.nevini.util.command.CommandOptionDescriptor;
 
 class GuildsFeedCommand extends Command {
 

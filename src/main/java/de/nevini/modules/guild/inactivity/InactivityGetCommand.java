@@ -11,6 +11,7 @@ class InactivityGetCommand extends Command {
     InactivityGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
+                .aliases(new String[]{"display", "echo", "list", "print", "show"})
                 .node(Node.GUILD_ACTIVITY_GET)
                 .description("displays user inactivity thresholds")
                 .build());

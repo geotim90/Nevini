@@ -2,10 +2,10 @@ package de.nevini.resolvers.warframe;
 
 import de.nevini.api.wfm.model.items.WfmItemName;
 import de.nevini.command.CommandEvent;
-import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.services.warframe.WarframeMarketService;
 import de.nevini.util.Finder;
+import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
 import java.util.Comparator;
