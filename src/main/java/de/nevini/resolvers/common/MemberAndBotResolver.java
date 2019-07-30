@@ -59,12 +59,12 @@ public class MemberAndBotResolver extends AbstractResolver<Member> {
     }
 
     @Override
-    protected String getFieldNameForPicker(Member item) {
+    protected @NonNull String getFieldNameForPicker(Member item) {
         return item.getEffectiveName();
     }
 
     @Override
-    protected String getFieldValueForPicker(Member item) {
+    protected @NonNull String getFieldValueForPicker(Member item) {
         return item.getUser().getId();
     }
 

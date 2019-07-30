@@ -48,12 +48,12 @@ public class StringResolver extends AbstractResolver<String> {
     }
 
     @Override
-    protected String getFieldNameForPicker(String item) {
+    protected @NonNull String getFieldNameForPicker(String item) {
         return item;
     }
 
     @Override
-    protected String getFieldValueForPicker(String item) {
+    protected @NonNull String getFieldValueForPicker(String item) {
         return "";
     }
 

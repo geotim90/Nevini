@@ -41,12 +41,12 @@ public class GuildResolver extends AbstractResolver<Guild> {
     }
 
     @Override
-    protected String getFieldNameForPicker(Guild item) {
+    protected @NonNull String getFieldNameForPicker(Guild item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(Guild item) {
+    protected @NonNull String getFieldValueForPicker(Guild item) {
         return item.getId();
     }
 

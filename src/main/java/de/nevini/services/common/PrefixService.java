@@ -75,7 +75,7 @@ public class PrefixService {
      * @param event the {@link MessageReceivedEvent}
      * @throws NullPointerException if {@code event} is {@code null}
      */
-    public @NonNull String extractPrefix(@NonNull MessageReceivedEvent event) {
+    public String extractPrefix(@NonNull MessageReceivedEvent event) {
         String content = event.getMessage().getContentRaw();
 
         // check for the guild prefix (assumed to be the most commonly used one)

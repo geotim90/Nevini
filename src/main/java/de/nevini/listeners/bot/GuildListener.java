@@ -45,8 +45,8 @@ public class GuildListener {
                             + guild.getOwner().getUser().getAsTag() + "** (" + guild.getOwnerId() + ") with "
                             + Formatter.formatLong(count(guild, false)) + " members and "
                             + Formatter.formatLong(count(guild, true)) + " bots").queue();
+                    feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
-                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
         }
     }
@@ -65,8 +65,8 @@ public class GuildListener {
                 if (channel != null) {
                     channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just left **"
                             + guild.getName() + "** (" + guild.getId() + ")").queue();
+                    feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
-                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
         }
     }
@@ -81,8 +81,8 @@ public class GuildListener {
                 if (channel != null) {
                     channel.sendMessage("**" + guild.getName() + "** (" + guild.getId() + ") became available again")
                             .queue();
+                    feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
-                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
         }
     }
@@ -97,8 +97,8 @@ public class GuildListener {
                 if (channel != null) {
                     channel.sendMessage("**" + guild.getName() + "** (" + guild.getId() + ") became unavailable")
                             .queue();
+                    feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
-                feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
             }
         }
     }

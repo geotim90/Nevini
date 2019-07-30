@@ -5,6 +5,7 @@ import de.nevini.resolvers.AbstractResolver;
 import de.nevini.scope.Node;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
+import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,7 @@ public class NodeResolver extends AbstractResolver<Node> {
     }
 
     @Override
-    public List<Node> findSorted(CommandEvent event, String query) {
+    public List<Node> findSorted(@NonNull CommandEvent event, String query) {
         return Finder.findAny(Arrays.stream(Node.values())
                         .filter(node -> node.getNode().startsWith(node.getModule().getName()))
                         .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
@@ -42,12 +43,12 @@ public class NodeResolver extends AbstractResolver<Node> {
     }
 
     @Override
-    protected String getFieldNameForPicker(Node item) {
+    protected @NonNull String getFieldNameForPicker(Node item) {
         return item.getNode();
     }
 
     @Override
-    protected String getFieldValueForPicker(Node item) {
+    protected @NonNull String getFieldValueForPicker(Node item) {
         return "";
     }
 

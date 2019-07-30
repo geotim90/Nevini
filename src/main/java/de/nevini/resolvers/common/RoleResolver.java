@@ -48,12 +48,12 @@ public class RoleResolver extends AbstractResolver<Role> {
     }
 
     @Override
-    protected String getFieldNameForPicker(Role item) {
+    protected @NonNull String getFieldNameForPicker(Role item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(Role item) {
+    protected @NonNull String getFieldValueForPicker(Role item) {
         return item.getId();
     }
 

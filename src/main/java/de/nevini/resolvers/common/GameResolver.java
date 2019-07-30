@@ -36,12 +36,12 @@ public class GameResolver extends AbstractResolver<GameData> {
     }
 
     @Override
-    protected String getFieldNameForPicker(GameData item) {
+    protected @NonNull String getFieldNameForPicker(GameData item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(GameData item) {
+    protected @NonNull String getFieldValueForPicker(GameData item) {
         return Long.toUnsignedString(item.getId());
     }
 

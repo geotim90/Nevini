@@ -40,12 +40,12 @@ public class OsuBeatmapResolver extends AbstractResolver<OsuBeatmap> {
     }
 
     @Override
-    protected String getFieldNameForPicker(OsuBeatmap item) {
+    protected @NonNull String getFieldNameForPicker(OsuBeatmap item) {
         return Integer.toString(item.getBeatmapId());
     }
 
     @Override
-    protected String getFieldValueForPicker(OsuBeatmap item) {
+    protected @NonNull String getFieldValueForPicker(OsuBeatmap item) {
         return "[" + item.getArtist() + " - " + item.getTitle() + " [" + item.getVersion() + "] ("
                 + item.getMode().getName() + ")](https://osu.ppy.sh/b/" + item.getBeatmapId() + ")";
     }

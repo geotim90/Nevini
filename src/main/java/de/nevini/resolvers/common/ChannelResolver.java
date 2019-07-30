@@ -49,12 +49,12 @@ public class ChannelResolver extends AbstractResolver<TextChannel> {
     }
 
     @Override
-    protected String getFieldNameForPicker(TextChannel item) {
+    protected @NonNull String getFieldNameForPicker(TextChannel item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(TextChannel item) {
+    protected @NonNull String getFieldValueForPicker(TextChannel item) {
         return item.getId();
     }
 
