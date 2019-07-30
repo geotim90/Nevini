@@ -13,9 +13,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class MemberResolver extends AbstractResolver<Member> {
+public class MemberAndBotResolver extends AbstractResolver<Member> {
 
-    MemberResolver() {
+    MemberAndBotResolver() {
         super("user", new Pattern[]{
                 FinderUtil.USER_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")
@@ -26,7 +26,7 @@ public class MemberResolver extends AbstractResolver<Member> {
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax("[--user] [<user>]")
-                .description("Refers to " + (list ? "all users" : "a specific user")
+                .description("Refers to " + (list ? "all users and bots" : "a specific user or bot")
                         + " with a matching mention, id, name, nickname or in-game name.\n"
                         + "The `--user` flag is optional if a user mention is used"
                         + (argument ? " or this option is provided first" : "") + ".\n"
@@ -39,7 +39,6 @@ public class MemberResolver extends AbstractResolver<Member> {
     @Override
     public List<Member> findSorted(@NonNull CommandEvent event, String query) {
         List<Member> matches = FinderUtil.findMembers(query, event.getGuild()).stream()
-                .filter(m -> !m.getUser().isBot())
                 .sorted(Comparator.comparing(Member::getEffectiveName))
                 .collect(Collectors.toList());
 

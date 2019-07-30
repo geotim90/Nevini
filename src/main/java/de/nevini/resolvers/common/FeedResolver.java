@@ -5,6 +5,7 @@ import de.nevini.resolvers.AbstractResolver;
 import de.nevini.scope.Feed;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
+import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ public class FeedResolver extends AbstractResolver<Feed> {
     }
 
     @Override
-    public List<Feed> findSorted(CommandEvent event, String query) {
+    public List<Feed> findSorted(@NonNull CommandEvent event, String query) {
         return Finder.findAny(Arrays.stream(Feed.values())
                         .filter(feed -> !feed.isOwnerOnly() || event.isBotOwner()).collect(Collectors.toList()),
                 feed -> new String[]{
@@ -41,12 +42,12 @@ public class FeedResolver extends AbstractResolver<Feed> {
     }
 
     @Override
-    protected String getFieldNameForPicker(Feed item) {
+    protected @NonNull String getFieldNameForPicker(Feed item) {
         return item.getType();
     }
 
     @Override
-    protected String getFieldValueForPicker(Feed item) {
+    protected @NonNull String getFieldValueForPicker(Feed item) {
         return item.getName();
     }
 

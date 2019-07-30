@@ -37,7 +37,7 @@ public class TimestampResolver extends AbstractResolver<OffsetDateTime> {
     }
 
     @Override
-    public List<OffsetDateTime> findSorted(CommandEvent ignore, String query) {
+    public List<OffsetDateTime> findSorted(@NonNull CommandEvent ignore, String query) {
         return Optional.ofNullable(parse(query)).map(Collections::singletonList).orElse(Collections.emptyList());
     }
 

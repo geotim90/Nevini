@@ -226,7 +226,7 @@ public class EventDispatcher {
      * @param <T> the event type parameter for {@code eventType}, {@code condition} and {@code callback}
      */
     @Value
-    private class Subscription<T> {
+    private static class Subscription<T> {
 
         @NonNull
         private final Class<T> eventType;

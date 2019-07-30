@@ -5,6 +5,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
+import lombok.NonNull;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -28,18 +29,18 @@ public class OsuModeResolver extends AbstractResolver<OsuMode> {
     }
 
     @Override
-    public List<OsuMode> findSorted(CommandEvent ignore, String query) {
+    public List<OsuMode> findSorted(@NonNull CommandEvent ignore, String query) {
         return Finder.findAny(OsuMode.values(), mode -> new String[]{mode.getName(), mode.name(),
                 mode.name().replace('_', ' ')}, query);
     }
 
     @Override
-    protected String getFieldNameForPicker(OsuMode item) {
+    protected @NonNull String getFieldNameForPicker(OsuMode item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(OsuMode item) {
+    protected @NonNull String getFieldValueForPicker(OsuMode item) {
         return "";
     }
 

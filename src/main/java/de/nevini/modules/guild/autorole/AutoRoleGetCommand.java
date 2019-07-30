@@ -26,7 +26,7 @@ class AutoRoleGetCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         Collection<AutoRoleData> autoRoles = event.getAutoRoleService().getAutoRoles(event.getGuild());
-        if (autoRoles == null || autoRoles.isEmpty()) {
+        if (autoRoles.isEmpty()) {
             event.reply("There are currently no auto-roles configured for this server.", event::complete);
         } else {
             EmbedBuilder builder = event.createEmbedBuilder();

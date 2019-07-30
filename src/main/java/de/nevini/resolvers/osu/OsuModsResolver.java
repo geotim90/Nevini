@@ -5,6 +5,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
+import lombok.NonNull;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -51,7 +52,7 @@ public class OsuModsResolver extends AbstractResolver<OsuMod[]> {
     }
 
     @Override
-    public List<OsuMod[]> findSorted(CommandEvent ignore, String query) {
+    public List<OsuMod[]> findSorted(@NonNull CommandEvent ignore, String query) {
         if (query.matches("(?i)(EZ|NF|HT|HR|SD|PF|DT|NC|HD|FL|SO|TD)+")) {
             int count = query.length() / 2;
             OsuMod[] mods = new OsuMod[count];
@@ -69,13 +70,13 @@ public class OsuModsResolver extends AbstractResolver<OsuMod[]> {
     }
 
     @Override
-    protected String getFieldNameForPicker(OsuMod[] item) {
+    protected @NonNull String getFieldNameForPicker(OsuMod[] item) {
         // should only be called for ambiguous single mod inputs
         return item[0].getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(OsuMod[] item) {
+    protected @NonNull String getFieldValueForPicker(OsuMod[] item) {
         return "";
     }
 

@@ -80,13 +80,13 @@ public class OsuUserResolver extends AbstractResolver<OsuUserResolver.OsuUserOrM
     }
 
     @Override
-    protected String getFieldNameForPicker(OsuUserOrMember item) {
+    protected @NonNull String getFieldNameForPicker(OsuUserOrMember item) {
         // should only be called for ambiguous member inputs
         return item.getMember().getEffectiveName();
     }
 
     @Override
-    protected String getFieldValueForPicker(OsuUserOrMember item) {
+    protected @NonNull String getFieldValueForPicker(OsuUserOrMember item) {
         // should only be called for ambiguous member inputs
         return item.getMember().getUser().getId();
     }

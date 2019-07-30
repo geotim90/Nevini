@@ -5,6 +5,7 @@ import de.nevini.resolvers.AbstractResolver;
 import de.nevini.scope.Module;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
+import lombok.NonNull;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -31,17 +32,17 @@ public class ModuleResolver extends AbstractResolver<Module> {
     }
 
     @Override
-    public List<Module> findSorted(CommandEvent ignore, String query) {
+    public List<Module> findSorted(@NonNull CommandEvent ignore, String query) {
         return Finder.find(Module.values(), Module::getName, query);
     }
 
     @Override
-    protected String getFieldNameForPicker(Module item) {
+    protected @NonNull String getFieldNameForPicker(Module item) {
         return item.getName();
     }
 
     @Override
-    protected String getFieldValueForPicker(Module item) {
+    protected @NonNull String getFieldValueForPicker(Module item) {
         return "";
     }
 
