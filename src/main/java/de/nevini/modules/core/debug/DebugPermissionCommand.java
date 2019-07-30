@@ -64,14 +64,14 @@ class DebugPermissionCommand extends Command {
                 .node(Node.CORE_HELP) // dummy node
                 .description("creates a data dump of all permissions and overrides for a user on the server")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER.describe(false, true)
+                        Resolvers.MEMBER_OR_BOT.describe(false, true)
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
+        Resolvers.MEMBER_OR_BOT.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
