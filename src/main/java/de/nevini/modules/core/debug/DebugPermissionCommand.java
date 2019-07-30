@@ -5,6 +5,7 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
+import de.nevini.scope.Permissions;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +64,10 @@ class DebugPermissionCommand extends Command {
                 .ownerOnly(true)
                 .node(Node.CORE_HELP) // dummy node
                 .description("creates a data dump of all permissions and overrides for a user on the server")
+                .minimumBotPermissions(Permissions.sum(
+                        Permissions.BOT_EMBED,
+                        new Permission[]{Permission.MESSAGE_ATTACH_FILES}
+                ))
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER_OR_BOT.describe(false, true)
                 })
@@ -144,8 +149,8 @@ class DebugPermissionCommand extends Command {
 
     private void println(PrintWriter out, String server, String user, String channel, String role, PermissionOverride override) {
         out.append(server).append(',').append(user).append(',').append(channel).append(',').append(role);
-        long allowed = override.getAllowedRaw();
-        long denied = override.getDeniedRaw();
+        long allowed = override == null ? 0 : override.getAllowedRaw();
+        long denied = override == null ? 0 : override.getDeniedRaw();
         for (long mask : masks) {
             out.append(',').append((allowed & mask) > 0 ? "ON" : (denied & mask) > 0 ? "NO" : "");
         }
