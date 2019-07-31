@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,11 @@ public class AutoRoleService {
         }
     }
 
+    public Role getJoinRole(@NonNull Guild guild) {
+        return repository.findById(new AutoRoleId(guild.getIdLong(), "join", -1L))
+                .map(data -> guild.getRoleById(data.getRole())).orElse(null);
+    }
+
     public void setPlayingAutoRole(@NonNull GameData game, @NonNull Role role) {
         AutoRoleData data = new AutoRoleData(role.getGuild().getIdLong(), "playing", game.getId(), role.getIdLong());
         log.info("Save data: {}", data);
@@ -56,6 +62,10 @@ public class AutoRoleService {
             log.info("Delete data: {}", id);
             repository.deleteById(id);
         }
+    }
+
+    public Collection<AutoRoleData> getPlayingAutoRoles(long game) {
+        return repository.findAllByTypeInAndId(new String[]{"playing"}, game);
     }
 
     public void setPlaysAutoRole(@NonNull GameData game, @NonNull Role role) {
@@ -73,6 +83,10 @@ public class AutoRoleService {
         }
     }
 
+    public Collection<AutoRoleData> getGameAutoRoles(long game) {
+        return repository.findAllByTypeInAndId(new String[]{"playing", "plays"}, game);
+    }
+
     public void setVeteranAutoRole(long days, @NonNull Role role) {
         AutoRoleData data = new AutoRoleData(role.getGuild().getIdLong(), "veteran", days, role.getIdLong());
         log.info("Save data: {}", data);
@@ -88,21 +102,28 @@ public class AutoRoleService {
         }
     }
 
-    public Collection<AutoRoleData> getGameAutoRoles(long game) {
-        return repository.findAllByTypeInAndId(new String[]{"playing", "plays"}, game);
-    }
-
-    public Collection<AutoRoleData> getPlayingAutoRoles(long game) {
-        return repository.findAllByTypeInAndId(new String[]{"playing"}, game);
-    }
-
     public Collection<AutoRoleData> getVeteranAutoRoles(@NonNull Guild guild) {
         return repository.findAllByGuildAndType(guild.getIdLong(), "veteran");
     }
 
-    public Role getJoinRole(@NonNull Guild guild) {
-        return repository.findById(new AutoRoleId(guild.getIdLong(), "join", -1L))
-                .map(data -> guild.getRoleById(data.getRole())).orElse(null);
+    public void setVoiceAutoRole(@NonNull VoiceChannel channel, @NonNull Role role) {
+        AutoRoleData data = new AutoRoleData(role.getGuild().getIdLong(), "voice", channel.getIdLong(), role.getIdLong());
+        log.info("Save data: {}", data);
+        repository.save(data);
+    }
+
+    @Transactional
+    public void removeVoiceAutoRole(@NonNull VoiceChannel channel) {
+        AutoRoleId id = new AutoRoleId(channel.getGuild().getIdLong(), "voice", channel.getIdLong());
+        if (repository.existsById(id)) {
+            log.info("Delete data: {}", id);
+            repository.deleteById(id);
+        }
+    }
+
+    public Role getVoiceRole(@NonNull VoiceChannel channel) {
+        return repository.findById(new AutoRoleId(channel.getGuild().getIdLong(), "voice", channel.getIdLong()))
+                .map(data -> channel.getGuild().getRoleById(data.getRole())).orElse(null);
     }
 
 }

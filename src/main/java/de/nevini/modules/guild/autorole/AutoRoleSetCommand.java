@@ -20,7 +20,8 @@ class AutoRoleSetCommand extends Command {
                         new AutoRoleSetJoinCommand(),
                         new AutoRoleSetPlayingCommand(),
                         new AutoRoleSetPlaysCommand(),
-                        new AutoRoleSetVeteranCommand()
+                        new AutoRoleSetVeteranCommand(),
+                        new AutoRoleSetVoiceCommand()
                 })
                 .description("configures auto-roles")
                 .build());

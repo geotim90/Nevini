@@ -13,5 +13,6 @@ public class Resolvers {
     public static final PermissionResolver PERMISSION = new PermissionResolver();
     public static final RoleResolver ROLE = new RoleResolver();
     public static final TimestampResolver TIMESTAMP = new TimestampResolver();
+    public static final VoiceChannelResolver VOICE_CHANNEL = new VoiceChannelResolver();
 
 }

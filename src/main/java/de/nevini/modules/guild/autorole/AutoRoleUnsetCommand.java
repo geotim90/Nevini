@@ -20,7 +20,8 @@ class AutoRoleUnsetCommand extends Command {
                         new AutoRoleUnsetJoinCommand(),
                         new AutoRoleUnsetPlayingCommand(),
                         new AutoRoleUnsetPlaysCommand(),
-                        new AutoRoleUnsetVeteranCommand()
+                        new AutoRoleUnsetVeteranCommand(),
+                        new AutoRoleUnsetVoiceCommand()
                 })
                 .description("removes auto-roles")
                 .build());

@@ -44,6 +44,8 @@ class AutoRoleGetCommand extends Command {
                                 role.getName(), true);
                     } else if ("veteran".equals(autoRole.getType())) {
                         builder.addField("Veteran (" + autoRole.getId() + " days)", role.getName(), true);
+                    } else if ("voice".equals(autoRole.getType())) {
+                        builder.addField("Voice (" + autoRole.getId() + ")", role.getName(), true);
                     } else {
                         log.warn("Unknown auto-role type: {}", autoRole.getType());
                     }
