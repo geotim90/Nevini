@@ -10,6 +10,8 @@ public interface AutoRoleRepository extends CrudRepository<AutoRoleData, AutoRol
 
     Collection<AutoRoleData> findAllByGuild(long guild);
 
+    Collection<AutoRoleData> findAllByGuildAndType(long guild, String type);
+
     Collection<AutoRoleData> findAllByTypeInAndId(String[] type, long game);
 
 }
