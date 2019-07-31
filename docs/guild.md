@@ -69,7 +69,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T16:26:14.724`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T17:47:11.190`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -90,7 +90,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T16:26:14.725`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T17:47:11.192`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -112,7 +112,7 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game with a matching id or name.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T16:26:14.726`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T17:47:11.192`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -168,6 +168,7 @@ Command | Description
 [auto-role set playing](#command-auto-role-set-playing) | configures auto-roles for users that are currently playing a certain game
 [auto-role set plays](#command-auto-role-set-plays) | configures auto-roles for users that ever play a certain game
 [auto-role set veteran](#command-auto-role-set-veteran) | configures auto-roles for users that joined the server some time ago
+[auto-role set voice](#command-auto-role-set-voice) | configures auto-roles for users that are currently in a specific voice channel
 
 #### Command: `auto-role set join`
 
@@ -243,6 +244,25 @@ Keyword | Aliases
 --duration | //duration<br>--days<br>//days<br>-d<br>/d
 --role | //role<br>-r<br>/r
 
+#### Command: `auto-role set voice`
+
+Configures auto-roles for users that are currently in a specific voice channel.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.set**.
+
+Option | Description
+-------|------------
+\[--channel\] \[\<channel\>\] | Refers to a specific voice channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--channel | //channel<br>-c<br>/c
+--role | //role<br>-r<br>/r
+
 ### Command: `auto-role unset`
 
 Removes auto-roles.
@@ -259,6 +279,7 @@ Command | Description
 [auto-role unset playing](#command-auto-role-unset-playing) | stops auto-roles for users that are currently playing a certain game
 [auto-role unset plays](#command-auto-role-unset-plays) | stops auto-roles for users that ever play a certain game
 [auto-role unset veteran](#command-auto-role-unset-veteran) | stops auto-roles for users that joined the server some time ago
+[auto-role unset voice](#command-auto-role-unset-voice) | stops auto-roles for users that are currently in a specific voice channel
 
 #### Command: `auto-role unset join`
 
@@ -319,6 +340,23 @@ Option | Description
 Keyword | Aliases
 --------|--------
 --duration | //duration<br>--days<br>//days<br>-d<br>/d
+
+#### Command: `auto-role unset voice`
+
+Stops auto-roles for users that are currently in a specific voice channel.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.auto-role.unset**.
+
+Option | Description
+-------|------------
+\[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--game | //game
 
 ## Command: `feed`
 
