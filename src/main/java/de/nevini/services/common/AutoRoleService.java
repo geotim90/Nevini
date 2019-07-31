@@ -73,12 +73,31 @@ public class AutoRoleService {
         }
     }
 
+    public void setVeteranAutoRole(long days, @NonNull Role role) {
+        AutoRoleData data = new AutoRoleData(role.getGuild().getIdLong(), "veteran", days, role.getIdLong());
+        log.info("Save data: {}", data);
+        repository.save(data);
+    }
+
+    @Transactional
+    public void removeVeteranAutoRole(long days, @NonNull Guild guild) {
+        AutoRoleId id = new AutoRoleId(guild.getIdLong(), "veteran", days);
+        if (repository.existsById(id)) {
+            log.info("Delete data: {}", id);
+            repository.deleteById(id);
+        }
+    }
+
     public Collection<AutoRoleData> getGameAutoRoles(long game) {
         return repository.findAllByTypeInAndId(new String[]{"playing", "plays"}, game);
     }
 
     public Collection<AutoRoleData> getPlayingAutoRoles(long game) {
         return repository.findAllByTypeInAndId(new String[]{"playing"}, game);
+    }
+
+    public Collection<AutoRoleData> getVeteranAutoRoles(@NonNull Guild guild) {
+        return repository.findAllByGuildAndType(guild.getIdLong(), "veteran");
     }
 
     public Role getJoinRole(@NonNull Guild guild) {

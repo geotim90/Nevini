@@ -19,7 +19,8 @@ class AutoRoleSetCommand extends Command {
                 .children(new Command[]{
                         new AutoRoleSetJoinCommand(),
                         new AutoRoleSetPlayingCommand(),
-                        new AutoRoleSetPlaysCommand()
+                        new AutoRoleSetPlaysCommand(),
+                        new AutoRoleSetVeteranCommand()
                 })
                 .description("configures auto-roles")
                 .build());
