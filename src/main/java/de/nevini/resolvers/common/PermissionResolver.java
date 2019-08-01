@@ -5,7 +5,7 @@ import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 
 import java.util.List;
 import java.util.regex.Pattern;

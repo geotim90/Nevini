@@ -6,7 +6,7 @@ import de.nevini.jpa.inactivity.InactivityId;
 import de.nevini.jpa.inactivity.InactivityRepository;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

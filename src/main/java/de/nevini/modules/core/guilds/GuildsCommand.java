@@ -6,7 +6,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.scope.Permissions;
 import de.nevini.util.Formatter;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

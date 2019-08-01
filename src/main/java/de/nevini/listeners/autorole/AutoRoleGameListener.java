@@ -4,9 +4,10 @@ import de.nevini.jpa.autorole.AutoRoleData;
 import de.nevini.services.common.AutoRoleService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.user.UserActivityEndEvent;
+import net.dv8tion.jda.api.events.user.UserActivityStartEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,59 +22,56 @@ public class AutoRoleGameListener {
             @Autowired EventDispatcher eventDispatcher
     ) {
         this.autoRoleService = autoRoleService;
-        eventDispatcher.subscribe(UserUpdateGameEvent.class, this::onUserUpdateGame);
+        eventDispatcher.subscribe(UserActivityStartEvent.class, this::onUserActivityStart);
+        eventDispatcher.subscribe(UserActivityEndEvent.class, this::onUserActivityEnd);
     }
 
-    private void onUserUpdateGame(UserUpdateGameEvent e) {
-        if (!e.getUser().isBot()) {
-            Game oldGame = e.getOldGame();
-            Game newGame = e.getNewGame();
-            if (newGame != null && newGame.isRich() && newGame.getType() == Game.GameType.DEFAULT) {
-                onUserPlaying(e, newGame.asRichPresence());
-            } else if (newGame == null && oldGame != null && oldGame.isRich() && oldGame.getType() == Game.GameType.DEFAULT) {
-                onUserStoppedPlaying(e, oldGame.asRichPresence());
+    private void onUserActivityStart(UserActivityStartEvent e) {
+        if (!e.getUser().isBot() && e.getNewActivity().getType() == Activity.ActivityType.DEFAULT) {
+            RichPresence presence = e.getNewActivity().asRichPresence();
+            if (presence != null) {
+                // iterate over matching auto-roles
+                for (AutoRoleData autoRole : autoRoleService.getGameAutoRoles(presence.getApplicationIdLong())) {
+                    // look for guild, member and role
+                    Guild guild = e.getJDA().getGuildById(autoRole.getGuild());
+                    if (guild == null) continue;
+                    Member member = guild.getMember(e.getUser());
+                    if (member == null) continue;
+                    Role role = guild.getRoleById(autoRole.getRole());
+                    if (role == null) continue;
+                    // check permission
+                    if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
+                    // add role if not present
+                    if (!member.getRoles().contains(role)) {
+                        log.debug("Adding role {} to {}", role, member);
+                        guild.addRoleToMember(member, role).queue();
+                    }
+                }
             }
         }
     }
 
-    private void onUserPlaying(UserUpdateGameEvent e, RichPresence game) {
-        // iterate over matching auto-roles
-        for (AutoRoleData autoRole : autoRoleService.getGameAutoRoles(game.getApplicationIdLong())) {
-            // look for guild, member and role
-            Guild guild = e.getJDA().getGuildById(autoRole.getGuild());
-            if (guild == null) continue;
-            Member member = guild.getMember(e.getUser());
-            if (member == null) continue;
-            Role role = guild.getRoleById(autoRole.getRole());
-
-            // check permission
-            if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
-
-            // add role if not present
-            if (!member.getRoles().contains(role)) {
-                log.debug("Adding role {} to {}", role, member);
-                guild.getController().addSingleRoleToMember(member, role).queue();
-            }
-        }
-    }
-
-    private void onUserStoppedPlaying(UserUpdateGameEvent e, RichPresence game) {
-        // iterate over matching auto-roles
-        for (AutoRoleData autoRole : autoRoleService.getPlayingAutoRoles(game.getApplicationIdLong())) {
-            // look for guild, member and role
-            Guild guild = e.getJDA().getGuildById(autoRole.getGuild());
-            if (guild == null) continue;
-            Member member = guild.getMember(e.getUser());
-            if (member == null) continue;
-            Role role = guild.getRoleById(autoRole.getRole());
-
-            // check permission
-            if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
-
-            // remove role if present
-            if (member.getRoles().contains(role)) {
-                log.debug("Removing role {} from {}", role, member);
-                guild.getController().removeSingleRoleFromMember(member, role).queue();
+    private void onUserActivityEnd(UserActivityEndEvent e) {
+        if (!e.getUser().isBot() && e.getOldActivity().getType() == Activity.ActivityType.DEFAULT) {
+            RichPresence presence = e.getOldActivity().asRichPresence();
+            if (presence != null) {
+                // iterate over matching auto-roles
+                for (AutoRoleData autoRole : autoRoleService.getPlayingAutoRoles(presence.getApplicationIdLong())) {
+                    // look for guild, member and role
+                    Guild guild = e.getJDA().getGuildById(autoRole.getGuild());
+                    if (guild == null) continue;
+                    Member member = guild.getMember(e.getUser());
+                    if (member == null) continue;
+                    Role role = guild.getRoleById(autoRole.getRole());
+                    if (role == null) continue;
+                    // check permission
+                    if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
+                    // remove role if present
+                    if (member.getRoles().contains(role)) {
+                        log.debug("Removing role {} from {}", role, member);
+                        guild.removeRoleFromMember(member, role).queue();
+                    }
+                }
             }
         }
     }

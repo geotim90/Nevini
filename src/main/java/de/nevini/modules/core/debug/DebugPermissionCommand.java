@@ -9,13 +9,12 @@ import de.nevini.scope.Permissions;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.PermissionOverride;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.utils.PermissionUtil;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.PermissionOverride;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -110,7 +109,7 @@ class DebugPermissionCommand extends Command {
                 println(out, server, user, "(server)", "(effective)",
                         PermissionUtil.getEffectivePermission(member));
 
-                for (Channel channel : event.getGuild().getChannels(true)) {
+                for (GuildChannel channel : event.getGuild().getChannels(true)) {
                     // 4. channel permissions
                     println(out, server, user, channel.getName(), "(everyone)",
                             channel.getPermissionOverride(event.getGuild().getPublicRole()));
@@ -131,7 +130,7 @@ class DebugPermissionCommand extends Command {
                 }
             }
 
-            event.getTextChannel().sendFile(export, new MessageBuilder("Here is the data you requested:").build())
+            event.getTextChannel().sendMessage("Here is the data you requested:").addFile(export)
                     .queue(event::complete);
         } catch (IOException e) {
             log.error("Something went wrong while exporting data.", e);

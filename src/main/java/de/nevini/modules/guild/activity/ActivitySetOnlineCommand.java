@@ -7,7 +7,7 @@ import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
-import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
 

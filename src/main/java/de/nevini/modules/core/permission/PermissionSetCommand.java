@@ -7,7 +7,7 @@ import de.nevini.scope.Node;
 import de.nevini.util.command.CommandReaction;
 import de.nevini.util.message.ConfirmationDecorator;
 import lombok.NonNull;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;

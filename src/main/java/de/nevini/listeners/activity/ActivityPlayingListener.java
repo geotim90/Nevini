@@ -3,10 +3,10 @@ package de.nevini.listeners.activity;
 import de.nevini.services.common.ActivityService;
 import de.nevini.services.common.GameService;
 import de.nevini.util.concurrent.EventDispatcher;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.RichPresence;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.RichPresence;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.user.UserActivityStartEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,19 +23,18 @@ public class ActivityPlayingListener {
     ) {
         this.activityService = activityService;
         this.gameService = gameService;
-        eventDispatcher.subscribe(UserUpdateGameEvent.class, this::onUserUpdateGame);
+        eventDispatcher.subscribe(UserActivityStartEvent.class, this::onUserActivityStart);
     }
 
-    private void onUserUpdateGame(UserUpdateGameEvent e) {
+    private void onUserActivityStart(UserActivityStartEvent e) {
         if (!e.getUser().isBot()) {
-            processUserGame(e.getUser(), e.getOldGame());
-            processUserGame(e.getUser(), e.getNewGame());
+            processUserGame(e.getUser(), e.getNewActivity());
         }
     }
 
-    private void processUserGame(User user, Game game) {
-        RichPresence presence = game != null ? game.asRichPresence() : null;
-        if (presence != null && presence.getType() == Game.GameType.DEFAULT) {
+    private void processUserGame(User user, Activity activity) {
+        RichPresence presence = activity != null ? activity.asRichPresence() : null;
+        if (presence != null && presence.getType() == Activity.ActivityType.DEFAULT) {
             activityService.updateActivityPlaying(user, gameService.getGame(presence));
         }
     }

@@ -6,9 +6,9 @@ import de.nevini.jpa.permission.PermissionRepository;
 import de.nevini.scope.Node;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.utils.PermissionUtil;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -215,7 +215,7 @@ public class PermissionService {
         }
     }
 
-    private Optional<Boolean> getChannelUserPermission(Channel channel, Member user, Node node) {
+    private Optional<Boolean> getChannelUserPermission(TextChannel channel, Member user, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -225,7 +225,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelRolePermission(Channel channel, Role role, Node node) {
+    private Optional<Boolean> getChannelRolePermission(TextChannel channel, Role role, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -235,7 +235,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelRolePermission(Channel channel, Member user, Node node) {
+    private Optional<Boolean> getChannelRolePermission(TextChannel channel, Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -245,7 +245,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(Channel channel, Permission permission, Node node) {
+    private Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Permission permission, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -255,7 +255,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(Channel channel, Role role, Node node) {
+    private Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Role role, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -266,7 +266,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(Channel channel, Member user, Node node) {
+    private Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -276,7 +276,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getChannelPermission(Channel channel, Node node) {
+    private Optional<Boolean> getChannelPermission(TextChannel channel, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),

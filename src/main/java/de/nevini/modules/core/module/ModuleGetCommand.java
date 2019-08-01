@@ -8,7 +8,7 @@ import de.nevini.scope.Module;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.Arrays;
 import java.util.List;

@@ -9,7 +9,7 @@ import de.nevini.scope.Permissions;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
 @Slf4j
 class AutoRoleUnsetVoiceCommand extends Command {

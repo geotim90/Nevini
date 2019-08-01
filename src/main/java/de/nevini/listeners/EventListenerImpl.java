@@ -1,10 +1,12 @@
 package de.nevini.listeners;
 
 import de.nevini.util.concurrent.EventDispatcher;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.ShutdownEvent;
-import net.dv8tion.jda.core.hooks.EventListener;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.ShutdownEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,7 +24,7 @@ public class EventListenerImpl extends EventDispatcher implements EventListener 
     }
 
     @Override
-    public void onEvent(Event event) {
+    public void onEvent(@NonNull GenericEvent event) {
         publish(event);
     }
 

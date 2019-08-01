@@ -1,7 +1,7 @@
 package de.nevini.util.message;
 
 import de.nevini.util.concurrent.EventDispatcher;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.entities.Message;
 
 import java.util.concurrent.TimeUnit;
 

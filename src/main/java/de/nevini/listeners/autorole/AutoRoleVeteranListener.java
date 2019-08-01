@@ -4,11 +4,11 @@ import de.nevini.jpa.autorole.AutoRoleData;
 import de.nevini.services.common.AutoRoleService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.user.update.UserUpdateOnlineStatusEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,11 +40,11 @@ public class AutoRoleVeteranListener {
                 if (role == null) continue;
                 // check member eligibility
                 Member member = guild.getMember(e.getUser());
-                if (member.getJoinDate().isAfter(OffsetDateTime.now().minusDays(autoRole.getId()))) continue;
+                if (member.getTimeJoined().isAfter(OffsetDateTime.now().minusDays(autoRole.getId()))) continue;
                 // add role if not present
                 if (!member.getRoles().contains(role)) {
                     log.debug("Adding role {} to {}", role, member);
-                    guild.getController().addSingleRoleToMember(member, role).queue();
+                    guild.addRoleToMember(member, role).queue();
                 }
             }
         }

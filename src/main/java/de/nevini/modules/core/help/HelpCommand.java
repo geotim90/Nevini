@@ -8,7 +8,7 @@ import de.nevini.scope.Node;
 import de.nevini.scope.Permissions;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -70,7 +70,7 @@ public class HelpCommand extends Command {
             }
         }
         builder.append("\n\nTo add me to your server, visit <")
-                .append(event.getJDA().asBot().getInviteUrl(Permissions.BOT_FULL)).append(">");
+                .append(event.getJDA().getInviteUrl(Permissions.BOT_FULL)).append(">");
         builder.append("\n\nFurther documentation can be viewed under <https://nevini.de/docs>")
                 .append("\n\nFor additional help and support, join ").append(event.getServerInvite());
         event.replyDm(builder.toString(), ignore -> event.complete(true));

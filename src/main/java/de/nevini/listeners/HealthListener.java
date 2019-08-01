@@ -2,7 +2,7 @@ package de.nevini.listeners;
 
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.events.*;
+import net.dv8tion.jda.api.events.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class HealthListener {
     }
 
     private void logDisconnect(DisconnectEvent event) {
-        log.warn("Disconnected at {}", event.getDisconnectTime());
+        log.warn("Disconnected at {}", event.getTimeDisconnected());
     }
 
     private void logException(ExceptionEvent event) {
@@ -42,7 +42,7 @@ public class HealthListener {
     }
 
     private void logShutdown(ShutdownEvent event) {
-        log.info("Shutdown at {}", event.getShutdownTime());
+        log.info("Shutdown at {}", event.getTimeShutdown());
     }
 
 }

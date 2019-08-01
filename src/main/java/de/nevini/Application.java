@@ -2,7 +2,7 @@ package de.nevini;
 
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.api.JDABuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -28,13 +28,12 @@ public class Application {
         if (active && token != null && shards > 0) {
             log.info("Configuring JDABuilder");
             JDABuilder shardBuilder = new JDABuilder();
-            shardBuilder.setAudioEnabled(false);
 
             log.info("Authenticating using token");
             shardBuilder.setToken(token);
 
             log.info("Registering event dispatcher");
-            shardBuilder.addEventListener(eventDispatcher);
+            shardBuilder.addEventListeners(eventDispatcher);
 
             log.info("Building shard {} ({} of {})", shard, shard + 1, shards);
             shardBuilder.useSharding(shard, shards).build();

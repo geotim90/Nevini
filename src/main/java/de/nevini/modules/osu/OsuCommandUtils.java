@@ -5,7 +5,7 @@ import de.nevini.jpa.game.GameData;
 import de.nevini.resolvers.osu.OsuUserResolver;
 import de.nevini.services.common.IgnService;
 import lombok.NonNull;
-import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.api.entities.ChannelType;
 import org.apache.commons.lang3.StringUtils;
 
 public class OsuCommandUtils {

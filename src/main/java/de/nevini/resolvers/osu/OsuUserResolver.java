@@ -7,9 +7,9 @@ import de.nevini.resolvers.common.Resolvers;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import lombok.Value;
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.Collections;
 import java.util.List;
