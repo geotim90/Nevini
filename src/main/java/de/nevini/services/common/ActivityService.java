@@ -5,10 +5,10 @@ import de.nevini.jpa.activity.ActivityData;
 import de.nevini.jpa.activity.ActivityId;
 import de.nevini.jpa.game.GameData;
 import lombok.NonNull;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +75,7 @@ public class ActivityService {
                 ACTIVITY_TYPE_MESSAGE,
                 message.getGuild().getIdLong(),
                 -1L,
-                message.getCreationTime().toInstant().toEpochMilli()
+                message.getTimeCreated().toInstant().toEpochMilli()
         ));
     }
 

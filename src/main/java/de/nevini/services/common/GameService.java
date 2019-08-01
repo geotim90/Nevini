@@ -5,7 +5,7 @@ import de.nevini.data.game.GameDataService;
 import de.nevini.jpa.game.GameData;
 import de.nevini.util.Finder;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.RichPresence;
+import net.dv8tion.jda.api.entities.RichPresence;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

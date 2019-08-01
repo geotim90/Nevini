@@ -5,7 +5,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.AbstractResolver;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
-import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.api.entities.Member;
 
 import java.util.Comparator;
 import java.util.List;

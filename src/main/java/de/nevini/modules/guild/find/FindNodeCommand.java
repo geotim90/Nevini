@@ -6,7 +6,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.List;
 

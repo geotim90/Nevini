@@ -8,8 +8,8 @@ import de.nevini.util.command.CommandReaction;
 import lombok.NonNull;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.ChannelType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;

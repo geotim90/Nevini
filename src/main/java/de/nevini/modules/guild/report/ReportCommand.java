@@ -9,8 +9,8 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import lombok.Value;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;

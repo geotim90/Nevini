@@ -1,6 +1,6 @@
 package de.nevini.scope;
 
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 
 /**
  * Collections of commonly used permissions for Nevini.

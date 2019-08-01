@@ -9,7 +9,7 @@ import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.Collection;
 import java.util.regex.Matcher;

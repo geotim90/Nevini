@@ -3,13 +3,13 @@ package de.nevini.listeners.autorole;
 import de.nevini.services.common.AutoRoleService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.VoiceChannel;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,7 @@ public class AutoRoleVoiceListener {
         // add role if not present
         if (!member.getRoles().contains(role)) {
             log.debug("Adding role {} to {}", role, member);
-            member.getGuild().getController().addSingleRoleToMember(member, role).queue();
+            member.getGuild().addRoleToMember(member, role).queue();
         }
     }
 
@@ -58,7 +58,7 @@ public class AutoRoleVoiceListener {
         // remove role if present
         if (member.getRoles().contains(role)) {
             log.debug("Removing role {} from {}", role, member);
-            member.getGuild().getController().removeSingleRoleFromMember(member, role).queue();
+            member.getGuild().removeRoleFromMember(member, role).queue();
         }
     }
 

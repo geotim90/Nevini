@@ -11,9 +11,9 @@ import de.nevini.util.Formatter;
 import de.nevini.util.concurrent.EventDispatcher;
 import de.nevini.util.message.MessageLineSplitter;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.user.UserActivityStartEvent;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -57,22 +57,21 @@ public class OsuListener {
         this.osuService = osuService;
 
         this.eventDispatcher = eventDispatcher;
-        eventDispatcher.subscribe(UserUpdateGameEvent.class, this::onUserUpdateGame);
+        eventDispatcher.subscribe(UserActivityStartEvent.class, this::onUserActivityStart);
     }
 
-    private void onUserUpdateGame(UserUpdateGameEvent e) {
+    private void onUserActivityStart(UserActivityStartEvent e) {
         if (!e.getUser().isBot()) {
-            processUserGame(e, e.getOldGame());
-            processUserGame(e, e.getNewGame());
+            processUserActivity(e, e.getNewActivity());
             updateQueue(e.getJDA());
         }
     }
 
-    private void processUserGame(UserUpdateGameEvent event, Game game) {
-        if (game != null && game.isRich() && osuService.getGame().getName().equals(game.getName())) {
+    private void processUserActivity(UserActivityStartEvent event, Activity activity) {
+        if (osuService.getGame().getName().equals(activity.getName())) {
             // osu! presence contains the in-game name
-            RichPresence presence = game.asRichPresence();
-            if (presence.getLargeImage() != null) {
+            RichPresence presence = activity.asRichPresence();
+            if (presence != null && presence.getLargeImage() != null) {
                 String text = ObjectUtils.defaultIfNull(presence.getLargeImage().getText(), "");
                 Matcher matcher = Pattern.compile("(.+) \\(rank #[\\d,]+\\)").matcher(text);
                 if (matcher.matches()) {

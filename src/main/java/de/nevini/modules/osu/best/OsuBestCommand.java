@@ -14,7 +14,7 @@ import de.nevini.scope.Permissions;
 import de.nevini.services.osu.OsuService;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

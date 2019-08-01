@@ -2,8 +2,8 @@ package de.nevini.listeners.activity;
 
 import de.nevini.services.common.ActivityService;
 import de.nevini.util.concurrent.EventDispatcher;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.events.user.update.UserUpdateOnlineStatusEvent;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -4,9 +4,9 @@ import de.nevini.util.command.CommandReaction;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;

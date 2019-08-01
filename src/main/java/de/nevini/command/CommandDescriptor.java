@@ -6,7 +6,7 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 
 @Value
 @Builder

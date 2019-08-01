@@ -3,9 +3,9 @@ package de.nevini.listeners.autorole;
 import de.nevini.services.common.AutoRoleService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +34,7 @@ public class AutoRoleJoinListener {
         // add role if not present
         if (!e.getMember().getRoles().contains(joinRole)) {
             log.debug("Adding role {} to {}", joinRole, e.getMember());
-            e.getGuild().getController().addSingleRoleToMember(e.getMember(), joinRole).queue();
+            e.getGuild().addRoleToMember(e.getMember(), joinRole).queue();
         }
     }
 

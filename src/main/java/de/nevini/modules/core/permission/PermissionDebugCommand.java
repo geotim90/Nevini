@@ -5,8 +5,8 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandReaction;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.apache.commons.lang3.ObjectUtils;
 
 class PermissionDebugCommand extends Command {

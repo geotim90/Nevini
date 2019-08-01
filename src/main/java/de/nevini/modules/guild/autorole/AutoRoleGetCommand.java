@@ -6,8 +6,8 @@ import de.nevini.command.CommandEvent;
 import de.nevini.jpa.autorole.AutoRoleData;
 import de.nevini.scope.Node;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Role;
 
 import java.util.Collection;
 

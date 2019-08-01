@@ -3,7 +3,7 @@ package de.nevini.scope;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 
 @AllArgsConstructor
 @Getter

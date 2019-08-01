@@ -6,7 +6,7 @@ import de.nevini.scope.Module;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.api.Permission;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

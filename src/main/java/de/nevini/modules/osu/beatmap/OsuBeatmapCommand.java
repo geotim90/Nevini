@@ -11,7 +11,7 @@ import de.nevini.services.osu.OsuService;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.message.LazyMultiEmbed;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
