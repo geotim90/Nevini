@@ -23,7 +23,7 @@ public class TributeMemberData {
     @Id
     private Long member;
 
-    private Long its;
+    private Long start;
 
     private Byte flag;
 

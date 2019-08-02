@@ -2,7 +2,7 @@ CREATE TABLE tribute_member
 (
     guild  BIGINT  NOT NULL,
     member BIGINT  NOT NULL,
-    its    BIGINT  NOT NULL,
+    start  BIGINT           DEFAULT NULL,
     flag   TINYINT NOT NULL DEFAULT 0,
     PRIMARY KEY (guild, member)
 );

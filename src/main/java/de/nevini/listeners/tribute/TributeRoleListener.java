@@ -23,7 +23,7 @@ public class TributeRoleListener {
     private void onMemberRoleAdd(GuildMemberRoleAddEvent e) {
         Role role = tributeService.getRole(e.getGuild());
         if (role != null && e.getRoles().contains(role)) {
-            tributeService.addMember(e.getMember());
+            tributeService.setStart(e.getMember(), System.currentTimeMillis());
         }
     }
 
