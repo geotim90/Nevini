@@ -14,19 +14,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AbstractResolver<T> {
+public abstract class OptionResolver<T> extends FlagResolver {
 
     private final String typeName;
-    private final Pattern[] optionPatterns;
 
-    protected AbstractResolver(@NonNull String typeName, @NonNull Pattern[] optionPatterns) {
+    protected OptionResolver(@NonNull String typeName, @NonNull Pattern[] optionPatterns) {
+        super(optionPatterns);
         this.typeName = typeName;
-        this.optionPatterns = optionPatterns;
     }
 
+    @Override
     public CommandOptionDescriptor describe() {
         return describe(false, false);
     }
@@ -34,16 +33,6 @@ public abstract class AbstractResolver<T> {
     public abstract CommandOptionDescriptor describe(boolean list, boolean argument);
 
     public abstract List<T> findSorted(@NonNull CommandEvent event, String query);
-
-    private String getFromOptions(@NonNull CommandEvent event) {
-        for (String option : event.getOptions().getOptions()) {
-            for (Pattern pattern : optionPatterns) {
-                Matcher matcher = pattern.matcher(option);
-                if (matcher.matches()) return StringUtils.defaultString(matcher.group(1), StringUtils.EMPTY);
-            }
-        }
-        return null;
-    }
 
     public void resolveArgumentOrOptionOrDefault(
             @NonNull CommandEvent event, T defaultValue, @NonNull Consumer<T> callback

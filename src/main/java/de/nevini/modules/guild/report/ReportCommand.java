@@ -11,6 +11,7 @@ import de.nevini.util.command.CommandReaction;
 import lombok.Value;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -19,13 +20,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class ReportCommand extends Command {
-
-    private static final Pattern SERVER_FLAG = Pattern.compile("(?i)(?:(?:--|//)(?:server|guild)|[-/][sg])");
 
     public ReportCommand() {
         super(CommandDescriptor.builder()
@@ -35,12 +32,7 @@ public class ReportCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
                         Resolvers.ROLE.describe(),
-                        CommandOptionDescriptor.builder()
-                                .syntax("--server")
-                                .description("Displays an activity report for the entire server.")
-                                .keyword("--server")
-                                .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
-                                .build()
+                        Resolvers.GUILD_FLAG.describe()
                 })
                 .details("By default, you need the **Manage Server** permission to execute this command with `--user`.\n"
                         + "Permission overrides for `--user` may be applied on node **guild.report.user**.\n\n"
@@ -53,28 +45,24 @@ public class ReportCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (event.getOptions().getOptions().stream().map(SERVER_FLAG::matcher).anyMatch(Matcher::matches)
+        if ((StringUtils.isNotEmpty(event.getArgument()) || Resolvers.MEMBER.isOptionPresent(event))
+                && checkUserNodePermission(event, Node.GUILD_REPORT_USER)
+        ) {
+            Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(
+                    event, event.getMember(), member -> {
+                        if (member != null) doMemberReport(event, member);
+                    }
+            );
+        } else if (Resolvers.ROLE.isOptionPresent(event) && checkUserNodePermission(event, Node.GUILD_REPORT_ROLE)) {
+            Resolvers.ROLE.resolveOptionOrInputIfExists(
+                    event, role -> {
+                        if (role != null) doGuildReport(event, role);
+                    }
+            );
+        } else if (Resolvers.GUILD_FLAG.isOptionPresent(event)
                 && checkUserNodePermission(event, Node.GUILD_REPORT_SERVER)
         ) {
             doGuildReport(event, null);
-        } else if (!event.getOptions().getArguments().isEmpty()
-                && (checkUserNodePermission(event, Node.GUILD_REPORT_USER)
-                || checkUserNodePermission(event, Node.GUILD_REPORT_ROLE))
-        ) {
-            if (checkUserNodePermission(event, Node.GUILD_REPORT_USER)) {
-                Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(
-                        event, event.getMember(), member -> {
-                            if (member != null) doMemberReport(event, member);
-                        }
-                );
-            }
-            if (checkUserNodePermission(event, Node.GUILD_REPORT_ROLE)) {
-                Resolvers.ROLE.resolveOptionOrInputIfExists(
-                        event, role -> {
-                            if (role != null) doGuildReport(event, role);
-                        }
-                );
-            }
         } else {
             doMemberReport(event, event.getMember());
         }

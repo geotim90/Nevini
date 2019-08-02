@@ -2,7 +2,7 @@ package de.nevini.resolvers.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ChannelResolver extends AbstractResolver<TextChannel> {
+public class TextChannelResolver extends OptionResolver<TextChannel> {
 
-    ChannelResolver() {
+    TextChannelResolver() {
         super("channel", new Pattern[]{
                 FinderUtil.CHANNEL_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)channel|[-/]c)(?:\\s+(.+))?")

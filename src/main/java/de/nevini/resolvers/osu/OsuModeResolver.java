@@ -2,7 +2,7 @@ package de.nevini.resolvers.osu;
 
 import de.nevini.api.osu.model.OsuMode;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
@@ -10,7 +10,7 @@ import lombok.NonNull;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class OsuModeResolver extends AbstractResolver<OsuMode> {
+public class OsuModeResolver extends OptionResolver<OsuMode> {
 
     protected OsuModeResolver() {
         super("mode", new Pattern[]{Pattern.compile("(?i)(?:--|//)mode(?:\\s+(.+))?")});

@@ -30,7 +30,7 @@ class PermissionDebugCommand extends Command {
         StringBuilder builder = new StringBuilder(
                 "Permission to execute commands with permission node **" + options.getNode().getNode() + "**\n"
         );
-        if (options.isServer()) {
+        if (options.isGuild()) {
             if (options.getPermission() != null) {
                 appendPermissionTrace(event, options, builder);
             } else if (options.getRole() != null) {

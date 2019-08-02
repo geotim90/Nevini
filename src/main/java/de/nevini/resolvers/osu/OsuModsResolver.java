@@ -2,7 +2,7 @@ package de.nevini.resolvers.osu;
 
 import de.nevini.api.osu.model.OsuMod;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class OsuModsResolver extends AbstractResolver<OsuMod[]> {
+public class OsuModsResolver extends OptionResolver<OsuMod[]> {
 
     private static final Map<String, OsuMod> MODS;
 

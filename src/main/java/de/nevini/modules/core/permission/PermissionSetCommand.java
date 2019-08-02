@@ -32,7 +32,7 @@ abstract class PermissionSetCommand extends Command {
 
     private void acceptOptions(CommandEvent event, PermissionOptions options) {
         if (canSetPermission(event, options)) {
-            if (options.isServer()) {
+            if (options.isGuild()) {
                 if (options.getPermission() != null) {
                     setPermissionPermissions(event, options);
                 } else if (options.getRole() != null) {
@@ -59,7 +59,7 @@ abstract class PermissionSetCommand extends Command {
     }
 
     private boolean canSetPermission(CommandEvent event, PermissionOptions options) {
-        if (options.isServer()) {
+        if (options.isGuild()) {
             if (options.getNodes().stream()
                     .anyMatch(node -> !event.getPermissionService().hasUserPermission(event.getMember(), node))
             ) {

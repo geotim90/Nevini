@@ -2,7 +2,7 @@ package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
 import de.nevini.jpa.game.GameData;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GameResolver extends AbstractResolver<GameData> {
+public class GameResolver extends OptionResolver<GameData> {
 
     GameResolver() {
         super("game", new Pattern[]{Pattern.compile("(?i)(?:--|//)game(?:\\s+(.+))?")});

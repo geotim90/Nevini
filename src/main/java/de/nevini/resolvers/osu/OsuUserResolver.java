@@ -2,7 +2,7 @@ package de.nevini.resolvers.osu;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class OsuUserResolver extends AbstractResolver<OsuUserResolver.OsuUserOrMember> {
+public class OsuUserResolver extends OptionResolver<OsuUserResolver.OsuUserOrMember> {
 
     @Value
     public static class OsuUserOrMember {

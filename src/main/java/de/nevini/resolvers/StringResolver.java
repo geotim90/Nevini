@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class StringResolver extends AbstractResolver<String> {
+public class StringResolver extends OptionResolver<String> {
 
     private static Pattern compileOptionPattern(String optionName) {
         return Pattern.compile("(?i)(?:--|//)" + Pattern.quote(optionName) + "(?:\\s+(.+))?");

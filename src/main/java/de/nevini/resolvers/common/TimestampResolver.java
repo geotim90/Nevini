@@ -1,7 +1,7 @@
 package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TimestampResolver extends AbstractResolver<OffsetDateTime> {
+public class TimestampResolver extends OptionResolver<OffsetDateTime> {
 
     TimestampResolver() {
         super("timestamp", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)time(?:stamp)|[-/]t)(?:\\s+(.+))?")});
