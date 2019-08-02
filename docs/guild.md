@@ -11,6 +11,7 @@ Command | Description
 [ign](#command-ign) | displays and configures in-game names
 [inactivity](#command-inactivity) | displays and configures user inactivity information
 [report](#command-report) | displays an activity report for the entire server or just a single user
+[tribute](#command-tribute) | displays and configures user contributions
 
 ## Command: `activity`
 
@@ -69,7 +70,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T17:47:11.190`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -90,7 +91,7 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T17:47:11.192`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -112,7 +113,7 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 --game \<game\> | Refers to a specific game with a matching id or name.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `2019-07-31T17:47:11.192`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
 
 Keyword | Aliases
 --------|--------
@@ -288,7 +289,7 @@ Stops auto-roles for users that join the server.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.auto-role.unset**.
+Permission overrides may be applied on node **guild.auto-role.set**.
 
 #### Command: `auto-role unset playing`
 
@@ -297,7 +298,7 @@ Stops auto-roles for users that are currently playing a certain game.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.auto-role.unset**.
+Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
@@ -314,7 +315,7 @@ Stops auto-roles for users that ever play a certain game.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.auto-role.unset**.
+Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
@@ -331,7 +332,7 @@ Stops auto-roles for users that joined the server some time ago.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.auto-role.unset**.
+Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
@@ -348,7 +349,7 @@ Stops auto-roles for users that are currently in a specific voice channel.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.auto-role.unset**.
+Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
@@ -434,7 +435,7 @@ This command will stop automatic feed updates for a specific feed.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.feed.unset**.
+Permission overrides may be applied on node **guild.feed.set**.
 
 Option | Description
 -------|------------
@@ -757,7 +758,7 @@ Removes the user inactivity threshold for when they were last online on Discord.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.inactivity.unset**.
+Permission overrides may be applied on node **guild.inactivity.set**.
 
 Keyword | Aliases
 --------|--------
@@ -770,7 +771,7 @@ Removes the user inactivity threshold for when they last posted a message in thi
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.inactivity.unset**.
+Permission overrides may be applied on node **guild.inactivity.set**.
 
 Keyword | Aliases
 --------|--------
@@ -783,7 +784,7 @@ Removes a user game inactivity threshold.
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.inactivity.unset**.
+Permission overrides may be applied on node **guild.inactivity.set**.
 
 Option | Description
 -------|------------
@@ -815,10 +816,202 @@ Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
---server | Displays an activity report for the entire server.
+--server | Refers to the current server.
 
 Keyword | Aliases
 --------|--------
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --role | //role<br>-r<br>/r
 --server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
+
+## Command: `tribute`
+
+Displays and configures user contributions.
+
+By default, this command will behave the same as **tribute get**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+tribute | contribution<br>donation
+
+Command | Description
+--------|------------
+[tribute get](#command-tribute-get) | displays user contributions
+[tribute set](#command-tribute-set) | confirms user contributions
+[tribute unset](#command-tribute-unset) | revokes confirmation of user contributions
+[tribute role](#command-tribute-role) | displays and configures the role for users that need to contribute
+[tribute timeout](#command-tribute-timeout) | displays and configures the timeout for users that need to contribute
+
+### Command: `tribute get`
+
+Displays user contributions.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.get**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+get | display<br>echo<br>list<br>print<br>show
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+### Command: `tribute set`
+
+Confirms user contributions.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+set | confirm
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+### Command: `tribute unset`
+
+Revokes confirmation of user contributions.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+unset | revoke<br>reset<br>clear<br>reset<br>undo
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+### Command: `tribute role`
+
+Displays and configures the role for users that need to contribute.
+
+By default, this command will behave the same as **tribute role get**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Command | Description
+--------|------------
+[tribute role get](#command-tribute-role-get) | displays the role for users that need to contribute
+[tribute role set](#command-tribute-role-set) | configures the role for users that need to contribute
+[tribute role unset](#command-tribute-role-unset) | removes the configured role for users that need to contribute
+
+#### Command: `tribute role get`
+
+Displays the role for users that need to contribute.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.role.get**.
+
+Keyword | Aliases
+--------|--------
+get | display<br>echo<br>list<br>print<br>show
+
+#### Command: `tribute role set`
+
+Configures the role for users that need to contribute.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.role.set**.
+
+Option | Description
+-------|------------
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--role | //role<br>-r<br>/r
+
+#### Command: `tribute role unset`
+
+Removes the configured role for users that need to contribute.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.role.set**.
+
+Keyword | Aliases
+--------|--------
+unset | remove
+
+### Command: `tribute timeout`
+
+Displays and configures the timeout for users that need to contribute.
+
+By default, this command will behave the same as **tribute timeout get**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+timeout | deadline
+
+Command | Description
+--------|------------
+[tribute timeout get](#command-tribute-timeout-get) | displays the timeout for users that need to contribute
+[tribute timeout set](#command-tribute-timeout-set) | configures the timeout for users that need to contribute
+[tribute timeout unset](#command-tribute-timeout-unset) | removes the configured timeout for users that need to contribute
+
+#### Command: `tribute timeout get`
+
+Displays the timeout for users that need to contribute.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.timeout.get**.
+
+Keyword | Aliases
+--------|--------
+get | display<br>echo<br>list<br>print<br>show
+
+#### Command: `tribute timeout set`
+
+Configures the timeout for users that need to contribute.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.timeout.set**.
+
+Option | Description
+-------|------------
+\[--duration\] \<days\> | The number of days in which a user must contribute. The flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--duration | //duration<br>--days<br>//days<br>-d<br>/d
+
+#### Command: `tribute timeout unset`
+
+Removes the configured timeout for users that need to contribute.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.timeout.set**.
+
+Keyword | Aliases
+--------|--------
+unset | remove<br>clear<br>reset

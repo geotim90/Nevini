@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
 
 public class TimestampResolver extends OptionResolver<OffsetDateTime> {
 
+    private static final LocalDateTime SAMPLE = LocalDateTime.of(1999, 12, 31, 23, 59, 59, 999000000);
+
     TimestampResolver() {
         super("timestamp", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)time(?:stamp)|[-/]t)(?:\\s+(.+))?")});
     }
@@ -27,7 +29,7 @@ public class TimestampResolver extends OptionResolver<OffsetDateTime> {
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax(argument ? "[--time] <timestamp>" : "--time <timestamp>")
-                .description("A valid ISO 8601 UTC timestamp (e.g. `" + LocalDateTime.now().toString() + "`)."
+                .description("A valid ISO 8601 UTC timestamp (e.g. `" + SAMPLE.toString() + "`)."
                         + "\n`now` can be used as a shortcut for the current date and time."
                         + "\nRelative input such as `5 days ago` or `-24h` can also be used."
                         + (argument ? "\nThe `--time` flag is optional if this option is provided first." : ""))

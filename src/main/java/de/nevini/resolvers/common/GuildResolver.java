@@ -23,7 +23,7 @@ public class GuildResolver extends OptionResolver<Guild> {
     @Override
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax("[--server] [<server>]")
+                .syntax(argument ? "[--server] [<server>]" : "--server [<server>]")
                 .description("Refers to " + (list ? "all servers" : "a specific server")
                         + " with a matching id or name.\n"
                         + (argument ? "The `--server` flag is optional if this option is provided first" : "") + ".\n"

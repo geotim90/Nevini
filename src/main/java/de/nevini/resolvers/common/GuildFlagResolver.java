@@ -16,7 +16,7 @@ public class GuildFlagResolver extends FlagResolver {
     @Override
     public CommandOptionDescriptor describe() {
         return CommandOptionDescriptor.builder()
-                .syntax("[--server] [<server>]")
+                .syntax("--server")
                 .description("Refers to the current server.")
                 .keyword("--server")
                 .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
