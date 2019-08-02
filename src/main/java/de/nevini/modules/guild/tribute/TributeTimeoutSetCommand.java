@@ -1,33 +1,30 @@
-package de.nevini.modules.guild.autorole;
+package de.nevini.modules.guild.tribute;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.StringResolver;
 import de.nevini.scope.Node;
-import de.nevini.scope.Permissions;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-@Slf4j
-class AutoRoleUnsetVeteranCommand extends Command {
+class TributeTimeoutSetCommand extends Command {
 
     private static final StringResolver durationResolver = new StringResolver("duration", "duration",
             CommandOptionDescriptor.builder()
                     .syntax("[--duration] <days>")
-                    .description("The number of days after which a user is considered a veteran. The flag is optional.")
+                    .description("The number of days in which a user must contribute. "
+                            + "The flag is optional if this option is provided first.")
                     .keyword("--duration")
                     .aliases(new String[]{"//duration", "--days", "//days", "-d", "/d"})
                     .build());
 
-    AutoRoleUnsetVeteranCommand() {
+    TributeTimeoutSetCommand() {
         super(CommandDescriptor.builder()
-                .keyword("veteran")
-                .node(Node.GUILD_AUTO_ROLE_SET)
-                .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
-                .description("stops auto-roles for users that joined the server some time ago")
+                .keyword("set")
+                .node(Node.GUILD_TRIBUTE_TIMEOUT_SET)
+                .description("configures the timeout for users that need to contribute")
                 .options(new CommandOptionDescriptor[]{
                         durationResolver.describe()
                 })
@@ -60,8 +57,8 @@ class AutoRoleUnsetVeteranCommand extends Command {
                 return;
             }
         }
-
-        event.getAutoRoleService().removeVeteranAutoRole(days, event.getGuild());
+        // set tribute timeout
+        event.getTributeService().setTimeout(event.getGuild(), days);
         event.reply(CommandReaction.OK, event::complete);
     }
 

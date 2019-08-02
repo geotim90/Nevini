@@ -38,6 +38,7 @@ public class CommandContext {
     private final ModuleService moduleService;
     private final PermissionService permissionService;
     private final PrefixService prefixService;
+    private final TributeService tributeService;
 
     @Getter(AccessLevel.PRIVATE)
     private final ApplicationContext applicationContext;
@@ -58,7 +59,8 @@ public class CommandContext {
             @Autowired MetricsService metricsService,
             @Autowired ModuleService moduleService,
             @Autowired PermissionService permissionService,
-            @Autowired PrefixService prefixService
+            @Autowired PrefixService prefixService,
+            @Autowired TributeService tributeService
     ) {
         this.lockdown = lockdown;
         this.ownerId = ownerId;
@@ -86,6 +88,7 @@ public class CommandContext {
         this.moduleService = moduleService;
         this.permissionService = permissionService;
         this.prefixService = prefixService;
+        this.tributeService = tributeService;
 
         this.applicationContext = applicationContext;
     }

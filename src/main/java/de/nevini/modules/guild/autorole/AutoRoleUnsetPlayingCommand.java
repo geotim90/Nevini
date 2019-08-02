@@ -17,7 +17,7 @@ class AutoRoleUnsetPlayingCommand extends Command {
     AutoRoleUnsetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
-                .node(Node.GUILD_AUTO_ROLE_UNSET)
+                .node(Node.GUILD_AUTO_ROLE_SET)
                 .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("stops auto-roles for users that are currently playing a certain game")
                 .options(new CommandOptionDescriptor[]{

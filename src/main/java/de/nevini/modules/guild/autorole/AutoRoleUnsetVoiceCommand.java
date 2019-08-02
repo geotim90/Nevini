@@ -17,7 +17,7 @@ class AutoRoleUnsetVoiceCommand extends Command {
     AutoRoleUnsetVoiceCommand() {
         super(CommandDescriptor.builder()
                 .keyword("voice")
-                .node(Node.GUILD_AUTO_ROLE_UNSET)
+                .node(Node.GUILD_AUTO_ROLE_SET)
                 .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("stops auto-roles for users that are currently in a specific voice channel")
                 .options(new CommandOptionDescriptor[]{
