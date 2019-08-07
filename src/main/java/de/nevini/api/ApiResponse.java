@@ -55,8 +55,8 @@ public class ApiResponse<T> {
     private final T result;
 
     /**
-     * The {@link Throwable} if once was caught.
-     * Will be {@code null} unless {@link #isError()}.
+     * The {@link Throwable} if one was caught.
+     * Will be {@code null} if not {@link #isError()} or no {@link Throwable} was caught.
      */
     private final Throwable throwable;
 
