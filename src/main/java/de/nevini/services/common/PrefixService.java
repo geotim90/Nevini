@@ -85,7 +85,7 @@ public class PrefixService {
         }
 
         // check for member mention
-        if (event.getGuild() != null) {
+        if (event.isFromGuild()) {
             Member selfMember = event.getGuild().getSelfMember();
             if (content.startsWith(selfMember.getAsMention())) {
                 return selfMember.getAsMention();
