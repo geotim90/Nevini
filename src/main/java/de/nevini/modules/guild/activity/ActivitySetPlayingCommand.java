@@ -12,9 +12,9 @@ import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
 
-class ActivitySetPlayingCommand extends Command {
+public class ActivitySetPlayingCommand extends Command {
 
-    ActivitySetPlayingCommand() {
+    public ActivitySetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
                 .aliases(new String[]{"played", "last-played", "lastplayed"})

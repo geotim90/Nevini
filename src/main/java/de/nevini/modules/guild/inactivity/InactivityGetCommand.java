@@ -12,7 +12,12 @@ class InactivityGetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
-                .node(Node.GUILD_ACTIVITY_GET)
+                .children(new Command[]{
+                        new InactivityGetMessageCommand(),
+                        new InactivityGetOnlineCommand(),
+                        new InactivityGetPlayingCommand()
+                })
+                .node(Node.GUILD_INACTIVITY_GET)
                 .description("displays user inactivity thresholds")
                 .build());
     }

@@ -9,9 +9,9 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import net.dv8tion.jda.api.entities.Member;
 
-class TributeUnsetCommand extends Command {
+public class TributeUnsetCommand extends Command {
 
-    TributeUnsetCommand() {
+    public TributeUnsetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("unset")
                 .aliases(new String[]{"revoke", "reset", "clear", "reset", "undo"})

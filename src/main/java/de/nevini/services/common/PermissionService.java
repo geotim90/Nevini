@@ -483,4 +483,8 @@ public class PermissionService {
         permissionRepository.save(permission);
     }
 
+    public Collection<PermissionData> getRolePermissions(@NonNull Guild guild, @NonNull Node node) {
+        return permissionRepository.findAllByGuildAndTypeAndNode(guild.getIdLong(), ROLE, node.getNode());
+    }
+
 }

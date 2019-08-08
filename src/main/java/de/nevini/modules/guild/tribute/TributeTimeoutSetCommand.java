@@ -9,7 +9,7 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import org.apache.commons.lang3.StringUtils;
 
-class TributeTimeoutSetCommand extends Command {
+public class TributeTimeoutSetCommand extends Command {
 
     private static final StringResolver durationResolver = new StringResolver("duration", "duration",
             CommandOptionDescriptor.builder()
@@ -20,7 +20,7 @@ class TributeTimeoutSetCommand extends Command {
                     .aliases(new String[]{"//duration", "--days", "//days", "-d", "/d"})
                     .build());
 
-    TributeTimeoutSetCommand() {
+    public TributeTimeoutSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.GUILD_TRIBUTE_TIMEOUT_SET)

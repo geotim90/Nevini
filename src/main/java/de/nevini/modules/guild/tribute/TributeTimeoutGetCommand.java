@@ -5,9 +5,9 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 
-class TributeTimeoutGetCommand extends Command {
+public class TributeTimeoutGetCommand extends Command {
 
-    TributeTimeoutGetCommand() {
+    public TributeTimeoutGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})

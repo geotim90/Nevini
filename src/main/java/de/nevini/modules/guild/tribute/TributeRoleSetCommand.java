@@ -9,9 +9,9 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import net.dv8tion.jda.api.entities.Role;
 
-class TributeRoleSetCommand extends Command {
+public class TributeRoleSetCommand extends Command {
 
-    TributeRoleSetCommand() {
+    public TributeRoleSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.GUILD_TRIBUTE_ROLE_SET)

@@ -9,7 +9,7 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import org.apache.commons.lang3.StringUtils;
 
-class InactivitySetOnlineCommand extends Command {
+public class InactivitySetOnlineCommand extends Command {
 
     private static final StringResolver durationResolver = new StringResolver("duration", "duration",
             CommandOptionDescriptor.builder()
@@ -19,7 +19,7 @@ class InactivitySetOnlineCommand extends Command {
                     .aliases(new String[]{"//duration", "--days", "//days", "-d", "/d"})
                     .build());
 
-    InactivitySetOnlineCommand() {
+    public InactivitySetOnlineCommand() {
         super(CommandDescriptor.builder()
                 .keyword("online")
                 .aliases(new String[]{"last-online", "lastonline"})

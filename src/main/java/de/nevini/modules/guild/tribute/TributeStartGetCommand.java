@@ -9,9 +9,9 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.api.entities.Member;
 
-class TributeStartGetCommand extends Command {
+public class TributeStartGetCommand extends Command {
 
-    TributeStartGetCommand() {
+    public TributeStartGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})

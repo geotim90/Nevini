@@ -6,9 +6,9 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandReaction;
 
-class TributeTimeoutUnsetCommand extends Command {
+public class TributeTimeoutUnsetCommand extends Command {
 
-    TributeTimeoutUnsetCommand() {
+    public TributeTimeoutUnsetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("unset")
                 .aliases(new String[]{"remove", "clear", "reset"})

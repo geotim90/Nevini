@@ -11,7 +11,7 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import org.apache.commons.lang3.StringUtils;
 
-class InactivitySetPlayingCommand extends Command {
+public class InactivitySetPlayingCommand extends Command {
 
     private static final StringResolver durationResolver = new StringResolver("duration", "duration",
             CommandOptionDescriptor.builder()
@@ -22,7 +22,7 @@ class InactivitySetPlayingCommand extends Command {
                     .aliases(new String[]{"//duration", "--days", "//days", "-d", "/d"})
                     .build());
 
-    InactivitySetPlayingCommand() {
+    public InactivitySetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
                 .aliases(new String[]{"played", "last-played", "lastplayed"})

@@ -11,9 +11,9 @@ import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
 
-class ActivitySetMessageCommand extends Command {
+public class ActivitySetMessageCommand extends Command {
 
-    ActivitySetMessageCommand() {
+    public ActivitySetMessageCommand() {
         super(CommandDescriptor.builder()
                 .keyword("message")
                 .aliases(new String[]{"last-message", "lastmessage"})
