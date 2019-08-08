@@ -17,7 +17,7 @@ class ActivitySetOnlineCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("online")
                 .aliases(new String[]{"last-online", "lastonline"})
-                .node(Node.GUILD_ACTIVITY_GET)
+                .node(Node.GUILD_ACTIVITY_SET)
                 .description("configures user activity information for when they were last online on Discord")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
