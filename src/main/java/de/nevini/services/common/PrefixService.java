@@ -78,14 +78,14 @@ public class PrefixService {
     public String extractPrefix(@NonNull MessageReceivedEvent event) {
         String content = event.getMessage().getContentRaw();
 
-        // check for the guild prefix (assumed to be the most commonly used one)
-        String guildPrefix = getGuildPrefix(event.getGuild());
-        if (content.startsWith(guildPrefix)) {
-            return guildPrefix;
-        }
-
-        // check for member mention
         if (event.isFromGuild()) {
+            // check for the guild prefix (assumed to be the most commonly used one)
+            String guildPrefix = getGuildPrefix(event.getGuild());
+            if (content.startsWith(guildPrefix)) {
+                return guildPrefix;
+            }
+
+            // check for member mention
             Member selfMember = event.getGuild().getSelfMember();
             if (content.startsWith(selfMember.getAsMention())) {
                 return selfMember.getAsMention();
@@ -93,6 +93,12 @@ public class PrefixService {
                 return '@' + selfMember.getEffectiveName();
             } else if (content.matches("\\Q@!" + selfMember.getEffectiveName() + "\\E\\b.*")) {
                 return "@!" + selfMember.getEffectiveName();
+            }
+        } else {
+            // check for the default prefix in direct messages
+            String guildPrefix = getGuildPrefix(null);
+            if (content.startsWith(guildPrefix)) {
+                return guildPrefix;
             }
         }
 

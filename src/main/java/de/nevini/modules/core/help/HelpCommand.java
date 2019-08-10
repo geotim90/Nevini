@@ -51,7 +51,7 @@ public class HelpCommand extends Command {
 
     private void doCommandList(CommandEvent event) {
         StringBuilder builder = new StringBuilder();
-        if (event.getGuild() == null) {
+        if (!event.isFromGuild()) {
             builder.append("Here is a list of all **").append(event.getJDA().getSelfUser().getName())
                     .append("** commands.");
         } else {
@@ -59,7 +59,7 @@ public class HelpCommand extends Command {
                     .append("** commands for modules active on **").append(event.getGuild().getName()).append("**.");
         }
         for (Module module : Module.values()) {
-            if (event.getModuleService().isModuleActive(event.getGuild(), module)) {
+            if (!event.isFromGuild() || event.getModuleService().isModuleActive(event.getGuild(), module)) {
                 builder.append("\n\n__Module: **").append(module.getName()).append("**__");
                 event.getCommands().values().stream()
                         .filter(command -> module.equals(command.getModule())

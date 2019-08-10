@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tribute_role")
+@Table(name = "tribute_timeout")
 public class TributeTimeoutData {
 
     @Id

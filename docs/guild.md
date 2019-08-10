@@ -65,7 +65,8 @@ Note that timestamps provided via this command do not override *real* activity i
 
 This command can only be executed in a text channel and not via direct message.
 
-Permission overrides may be applied on node **guild.activity.get**.
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.activity.set**.
 
 Option | Description
 -------|------------
@@ -86,7 +87,8 @@ Note that timestamps provided via this command do not override *real* activity i
 
 This command can only be executed in a text channel and not via direct message.
 
-Permission overrides may be applied on node **guild.activity.get**.
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.activity.set**.
 
 Option | Description
 -------|------------
@@ -107,7 +109,8 @@ Note that timestamps provided via this command do not override *real* activity i
 
 This command can only be executed in a text channel and not via direct message.
 
-Permission overrides may be applied on node **guild.activity.get**.
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.activity.set**.
 
 Option | Description
 -------|------------

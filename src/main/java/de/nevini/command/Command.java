@@ -96,7 +96,7 @@ public abstract class Command {
     }
 
     private boolean checkModule(CommandEvent event) {
-        if (event.getModuleService().isModuleActive(event.getGuild(), getModule())) {
+        if (!event.isFromGuild() || event.getModuleService().isModuleActive(event.getGuild(), getModule())) {
             return true;
         } else {
             // only respond to privileged users
@@ -117,7 +117,7 @@ public abstract class Command {
     }
 
     private boolean checkBotPermission(CommandEvent event) {
-        if (!event.isFromType(ChannelType.TEXT)
+        if (!event.isFromGuild()
                 || event.getGuild().getSelfMember().hasPermission(event.getTextChannel(), getMinimumBotPermissions())
         ) {
             return true;
