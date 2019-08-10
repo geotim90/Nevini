@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 	// jda
-	implementation 'net.dv8tion:JDA:4.BETA.0_35'
+	implementation 'net.dv8tion:JDA:4.BETA.0_38'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.1'
 	// database
 	runtimeOnly 'com.h2database:h2'
