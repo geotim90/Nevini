@@ -1,7 +1,7 @@
 package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GuildResolver extends AbstractResolver<Guild> {
+public class GuildResolver extends OptionResolver<Guild> {
 
     GuildResolver() {
         super("server", new Pattern[]{
@@ -23,7 +23,7 @@ public class GuildResolver extends AbstractResolver<Guild> {
     @Override
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax("[--server] [<server>]")
+                .syntax(argument ? "[--server] [<server>]" : "--server [<server>]")
                 .description("Refers to " + (list ? "all servers" : "a specific server")
                         + " with a matching id or name.\n"
                         + (argument ? "The `--server` flag is optional if this option is provided first" : "") + ".\n"

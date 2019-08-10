@@ -77,9 +77,7 @@ public class CommandEvent {
      * Only works with {@link Permission#MESSAGE_MANAGE}.
      */
     public void notifyLongTaskEnd() {
-        if (isFromType(ChannelType.TEXT)
-                && getGuild().getSelfMember().hasPermission(getTextChannel(), Permission.MESSAGE_MANAGE)
-        ) {
+        if (isFromGuild() && getGuild().getSelfMember().hasPermission(getTextChannel(), Permission.MESSAGE_MANAGE)) {
             getMessage().clearReactions().queue();
         }
     }
@@ -94,7 +92,7 @@ public class CommandEvent {
      */
     public EmbedBuilder createEmbedBuilder() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        if (getGuild() != null) {
+        if (isFromGuild()) {
             embedBuilder.setAuthor(getGuild().getName(), null, getGuild().getIconUrl());
             embedBuilder.setColor(getGuild().getSelfMember().getColor());
             embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(),
@@ -174,9 +172,7 @@ public class CommandEvent {
      * @param callback the success callback that will be called with the new {@link Message}
      */
     public void replyDm(@NonNull String content, @NonNull Consumer<? super Message> callback) {
-        if (isFromType(ChannelType.TEXT)
-                && getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.REACT)
-        ) {
+        if (isFromGuild() && getGuild().getSelfMember().hasPermission(getTextChannel(), Permissions.REACT)) {
             addReaction(CommandReaction.DM.getUnicode(), ignore());
         }
         getAuthor().openPrivateChannel().queue(channel -> sendMessage(channel, content, callback));

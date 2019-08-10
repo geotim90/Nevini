@@ -17,7 +17,7 @@ class ActivitySetMessageCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("message")
                 .aliases(new String[]{"last-message", "lastmessage"})
-                .node(Node.GUILD_ACTIVITY_GET)
+                .node(Node.GUILD_ACTIVITY_SET)
                 .description("configures user activity information for when they last posted a message "
                         + "in this Discord server")
                 .options(new CommandOptionDescriptor[]{

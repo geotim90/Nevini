@@ -1,7 +1,7 @@
 package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.scope.Module;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
@@ -10,7 +10,7 @@ import lombok.NonNull;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class ModuleResolver extends AbstractResolver<Module> {
+public class ModuleResolver extends OptionResolver<Module> {
 
     ModuleResolver() {
         super("module", new Pattern[]{Pattern.compile("(?i)(?:--|//)module(?:\\s+(.+))?")});

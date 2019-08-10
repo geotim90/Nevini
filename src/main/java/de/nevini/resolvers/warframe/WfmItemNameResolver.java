@@ -2,7 +2,7 @@ package de.nevini.resolvers.warframe;
 
 import de.nevini.api.wfm.model.items.WfmItemName;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.services.warframe.WarframeMarketService;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class WfmItemNameResolver extends AbstractResolver<WfmItemName> {
+public class WfmItemNameResolver extends OptionResolver<WfmItemName> {
 
     WfmItemNameResolver() {
         super("item name", new Pattern[]{

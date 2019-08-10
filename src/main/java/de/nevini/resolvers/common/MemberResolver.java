@@ -2,7 +2,7 @@ package de.nevini.resolvers.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,13 +13,16 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class MemberResolver extends AbstractResolver<Member> {
+public class MemberResolver extends OptionResolver<Member> {
 
-    MemberResolver() {
+    private final boolean includeBots;
+
+    MemberResolver(boolean includeBots) {
         super("user", new Pattern[]{
                 FinderUtil.USER_MENTION,
                 Pattern.compile("(?i)(?:(?:--|//)(?:user|member)|[-/][um])(?:\\s+(.+))?")
         });
+        this.includeBots = includeBots;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class MemberResolver extends AbstractResolver<Member> {
     @Override
     public List<Member> findSorted(@NonNull CommandEvent event, String query) {
         List<Member> matches = FinderUtil.findMembers(query, event.getGuild()).stream()
-                .filter(m -> !m.getUser().isBot())
+                .filter(m -> includeBots || !m.getUser().isBot())
                 .sorted(Comparator.comparing(Member::getEffectiveName))
                 .collect(Collectors.toList());
 

@@ -4,6 +4,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.jpa.feed.FeedData;
+import de.nevini.resolvers.FlagResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Feed;
 import de.nevini.scope.Node;
@@ -12,12 +13,23 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.Collection;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class FeedGetCommand extends Command {
 
-    private static final Pattern ALL_FLAG = Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)");
+    private static final FlagResolver ALL = new FlagResolver(new Pattern[]{
+            Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)")
+    }) {
+        @Override
+        public CommandOptionDescriptor describe() {
+            return CommandOptionDescriptor.builder()
+                    .syntax("--all")
+                    .description("Explicitly refers to all possible feeds.")
+                    .keyword("--all")
+                    .aliases(new String[]{"//all", "-a", "/a"})
+                    .build();
+        }
+    };
 
     FeedGetCommand() {
         super(CommandDescriptor.builder()
@@ -28,12 +40,7 @@ class FeedGetCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.FEED.describe(false, true),
                         Resolvers.CHANNEL.describe(),
-                        CommandOptionDescriptor.builder()
-                                .syntax("--all")
-                                .description("Explicitly refers to all possible feeds.")
-                                .keyword("--all")
-                                .aliases(new String[]{"//all", "-a", "/a"})
-                                .build(),
+                        ALL.describe(),
                 })
                 .details("Providing the `--all` flag will display a list of all possible feeds.\n"
                         + "Providing a feed will display whether a subscription is active and in which channel.\n"
@@ -44,7 +51,7 @@ class FeedGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (event.getOptions().getOptions().stream().map(ALL_FLAG::matcher).anyMatch(Matcher::matches)) {
+        if (ALL.isOptionPresent(event)) {
             displayAll(event);
         } else {
             Resolvers.CHANNEL.resolveOptionOrDefaultIfExists(event, event.getTextChannel(), channel ->

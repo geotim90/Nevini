@@ -40,7 +40,7 @@ class PermissionGetCommand extends Command {
                     .filter(node -> event.getModuleService().isModuleActive(event.getGuild(), node.getModule()))
                     .collect(Collectors.toList()));
         }
-        if (options.isServer()) {
+        if (options.isGuild()) {
             if (options.getPermission() != null) {
                 displayPermissionPermissions(event, options);
             } else if (options.getRole() != null) {

@@ -15,7 +15,7 @@ class FeedUnsetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("unset")
                 .aliases(new String[]{"remove", "stop", "unsubscribe", "unsub", "-"})
-                .node(Node.GUILD_FEED_UNSET)
+                .node(Node.GUILD_FEED_SET)
                 .description("stops automatic feeds")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.FEED.describe(false, true)

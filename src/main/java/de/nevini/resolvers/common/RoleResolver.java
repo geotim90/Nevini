@@ -2,7 +2,7 @@ package de.nevini.resolvers.common;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 import net.dv8tion.jda.api.entities.Role;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class RoleResolver extends AbstractResolver<Role> {
+public class RoleResolver extends OptionResolver<Role> {
 
     RoleResolver() {
         super("role", new Pattern[]{

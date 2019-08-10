@@ -116,16 +116,22 @@ public class MultiEmbed {
 
     private void handleReaction(MessageReactionAddEvent event) {
         String emote = event.getReactionEmote().getName();
-        if (EMOTE_NEXT.equals(emote)) {
-            renderPage(currentPage + 1);
-        } else if (EMOTE_BACK.equals(emote)) {
-            renderPage(currentPage - 1);
-        } else if (EMOTE_CANCEL.equals(emote)) {
-            expire();
-        } else if (EMOTE_FIRST.equals(emote)) {
-            renderPage(1);
-        } else if (EMOTE_LAST.equals(emote)) {
-            renderPage(getPageCount());
+        switch (emote) {
+            case EMOTE_NEXT:
+                renderPage(currentPage + 1);
+                break;
+            case EMOTE_BACK:
+                renderPage(currentPage - 1);
+                break;
+            case EMOTE_CANCEL:
+                expire();
+                break;
+            case EMOTE_FIRST:
+                renderPage(1);
+                break;
+            case EMOTE_LAST:
+                renderPage(getPageCount());
+                break;
         }
         event.getReaction().removeReaction(event.getUser()).queue();
     }

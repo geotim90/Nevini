@@ -1,6 +1,7 @@
 package de.nevini.modules.core.permission;
 
 import de.nevini.command.CommandEvent;
+import de.nevini.resolvers.FlagResolver;
 import de.nevini.resolvers.common.Resolvers;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
@@ -17,29 +18,31 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Data
 public class PermissionOptions {
 
+    private static final FlagResolver ALL_FLAG = new FlagResolver(new Pattern[]{
+            Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)")
+    }) {
+        @Override
+        public CommandOptionDescriptor describe() {
+            return CommandOptionDescriptor.builder()
+                    .syntax("--all")
+                    .description("Explicitly refers to all permission nodes.")
+                    .keyword("--all")
+                    .aliases(new String[]{"//all", "-a", "/a"})
+                    .build();
+        }
+    };
+
     static CommandOptionDescriptor[] getCommandOptionDescriptors(boolean resolveNodeList) {
         return new CommandOptionDescriptor[]{
                 Resolvers.NODE.describe(resolveNodeList, true),
-                CommandOptionDescriptor.builder()
-                        .syntax("--all")
-                        .description("Explicitly refers to all permission nodes.")
-                        .keyword("--all")
-                        .aliases(new String[]{"//all", "-a", "/a"})
-                        .build(),
-                CommandOptionDescriptor.builder()
-                        .syntax("--server")
-                        .description("Changes the scope to server-wide permissions "
-                                + "instead of channel-specific permissions.")
-                        .keyword("--server")
-                        .aliases(new String[]{"//server", "--guild", "//guild", "-s", "/s", "-g", "/g"})
-                        .build(),
+                ALL_FLAG.describe(),
+                Resolvers.GUILD_FLAG.describe(),
                 Resolvers.PERMISSION.describe(),
                 Resolvers.ROLE.describe(),
                 Resolvers.MEMBER.describe(),
@@ -66,9 +69,6 @@ public class PermissionOptions {
                 + "Users can only configure permissions for users whose highest role is lower than their highest role.";
     }
 
-    private static final Pattern ALL_FLAG = Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)");
-    private static final Pattern SERVER_FLAG = Pattern.compile("(?i)(?:(?:--|//)(?:server|guild)|[-/][sg])");
-
     @NonNull
     private final CommandEvent event;
     private final boolean nodeRequired;
@@ -76,7 +76,7 @@ public class PermissionOptions {
     @NonNull
     private final Consumer<PermissionOptions> callback;
 
-    private boolean server;
+    private boolean guild;
     private Permission permission;
     private Role role;
     private Member member;
@@ -85,7 +85,7 @@ public class PermissionOptions {
     private List<Node> nodes;
 
     public void get() {
-        server = event.getOptions().getOptions().stream().map(SERVER_FLAG::matcher).anyMatch(Matcher::matches);
+        guild = Resolvers.GUILD_FLAG.isOptionPresent(event);
         Resolvers.PERMISSION.resolveOptionOrInputIfExists(event, this::acceptPermission);
     }
 
@@ -119,7 +119,7 @@ public class PermissionOptions {
 
     private void acceptChannel(TextChannel channel) {
         this.channel = channel;
-        if (server && channel != null) {
+        if (guild && channel != null) {
             event.reply(CommandReaction.WARNING, "You cannot select the server and a channel at the same time!",
                     event::complete);
         } else if (multipleNodes) {
@@ -138,7 +138,7 @@ public class PermissionOptions {
     }
 
     private void acceptNodes(List<Node> nodes) {
-        if (event.getOptions().getOptions().stream().map(ALL_FLAG::matcher).anyMatch(Matcher::matches)) {
+        if (ALL_FLAG.isOptionPresent(event)) {
             if (nodes == null) {
                 this.nodes = Arrays.stream(Node.values())
                         .filter(node -> node.getNode().startsWith(node.getModule().getName()))

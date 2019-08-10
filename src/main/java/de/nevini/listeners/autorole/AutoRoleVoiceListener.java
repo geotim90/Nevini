@@ -62,8 +62,4 @@ public class AutoRoleVoiceListener {
         }
     }
 
-    private void onVoiceMove(GuildVoiceMoveEvent e) {
-
-    }
-
 }

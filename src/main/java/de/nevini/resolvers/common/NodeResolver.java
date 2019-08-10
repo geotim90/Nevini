@@ -1,7 +1,7 @@
 package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.scope.Node;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class NodeResolver extends AbstractResolver<Node> {
+public class NodeResolver extends OptionResolver<Node> {
 
     NodeResolver() {
         super("node", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)node|[-/]n)(?:\\s+(.+))?")});

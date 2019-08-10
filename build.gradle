@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.5.0'
+version = '4.5.1'
 sourceCompatibility = '8'
 
 configurations {
@@ -37,10 +37,8 @@ dependencies {
 	implementation 'com.google.guava:guava:28.0-jre'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
-	// metrics
-	implementation 'io.dropwizard.metrics:metrics-core'
 	// jda
-	implementation 'net.dv8tion:JDA:4.BETA.0_32'
+	implementation 'net.dv8tion:JDA:4.BETA.0_38'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.1'
 	// database
 	runtimeOnly 'com.h2database:h2'

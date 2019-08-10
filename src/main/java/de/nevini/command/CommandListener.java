@@ -3,7 +3,6 @@ package de.nevini.command;
 import de.nevini.util.command.CommandOptions;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,9 +70,8 @@ public class CommandListener {
 
     private boolean checkLockdown(MessageReceivedEvent event) {
         if (commandContext.isLockdown()) {
-            Guild guild = event.getGuild();
             // only allow "home" server or direct message in lockdown mode
-            if (guild != null && !Objects.equals(guild.getId(), commandContext.getServerId())) {
+            if (event.isFromGuild() && !Objects.equals(event.getGuild().getId(), commandContext.getServerId())) {
                 return false;
             }
             // only allow owner commands in lockdown mode

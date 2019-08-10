@@ -40,6 +40,7 @@ public class AutoRoleVeteranListener {
                 if (role == null) continue;
                 // check member eligibility
                 Member member = guild.getMember(e.getUser());
+                if (member == null) continue;
                 if (member.getTimeJoined().isAfter(OffsetDateTime.now().minusDays(autoRole.getId()))) continue;
                 // add role if not present
                 if (!member.getRoles().contains(role)) {

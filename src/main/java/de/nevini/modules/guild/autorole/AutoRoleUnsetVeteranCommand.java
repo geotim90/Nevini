@@ -25,7 +25,7 @@ class AutoRoleUnsetVeteranCommand extends Command {
     AutoRoleUnsetVeteranCommand() {
         super(CommandDescriptor.builder()
                 .keyword("veteran")
-                .node(Node.GUILD_AUTO_ROLE_UNSET)
+                .node(Node.GUILD_AUTO_ROLE_SET)
                 .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("stops auto-roles for users that joined the server some time ago")
                 .options(new CommandOptionDescriptor[]{

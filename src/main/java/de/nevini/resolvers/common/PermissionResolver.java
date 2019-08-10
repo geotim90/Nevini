@@ -1,7 +1,7 @@
 package de.nevini.resolvers.common;
 
 import de.nevini.command.CommandEvent;
-import de.nevini.resolvers.AbstractResolver;
+import de.nevini.resolvers.OptionResolver;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.Permission;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class PermissionResolver extends AbstractResolver<Permission> {
+public class PermissionResolver extends OptionResolver<Permission> {
 
     PermissionResolver() {
         super("permission", new Pattern[]{Pattern.compile("(?i)(?:(?:--|//)(?:permission|perm)|[-/]p)(?:\\s+(.+))?")});

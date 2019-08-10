@@ -14,7 +14,7 @@ class AutoRoleUnsetJoinCommand extends Command {
     AutoRoleUnsetJoinCommand() {
         super(CommandDescriptor.builder()
                 .keyword("join")
-                .node(Node.GUILD_AUTO_ROLE_UNSET)
+                .node(Node.GUILD_AUTO_ROLE_SET)
                 .minimumBotPermissions(Permissions.sum(Permissions.BOT_EMBED, Permissions.MANAGE_ROLES))
                 .description("stops auto-roles for users that join the server")
                 .build());

@@ -154,7 +154,7 @@ Option | Description
 -------|------------
 \[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
---server | Changes the scope to server-wide permissions instead of channel-specific permissions.
+--server | Refers to the current server.
 --permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
@@ -201,7 +201,7 @@ Option | Description
 -------|------------
 \[--node\] \<node\> | Refers to a specific permission node for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
---server | Changes the scope to server-wide permissions instead of channel-specific permissions.
+--server | Refers to the current server.
 --permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
@@ -247,7 +247,7 @@ Option | Description
 -------|------------
 \[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
---server | Changes the scope to server-wide permissions instead of channel-specific permissions.
+--server | Refers to the current server.
 --permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
@@ -294,7 +294,7 @@ Option | Description
 -------|------------
 \[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
---server | Changes the scope to server-wide permissions instead of channel-specific permissions.
+--server | Refers to the current server.
 --permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
@@ -341,7 +341,7 @@ Option | Description
 -------|------------
 \[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
 --all | Explicitly refers to all permission nodes.
---server | Changes the scope to server-wide permissions instead of channel-specific permissions.
+--server | Refers to the current server.
 --permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.

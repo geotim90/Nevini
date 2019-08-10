@@ -12,7 +12,7 @@ class InactivityUnsetMessageCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("message")
                 .aliases(new String[]{"last-message", "lastmessage"})
-                .node(Node.GUILD_INACTIVITY_UNSET)
+                .node(Node.GUILD_INACTIVITY_SET)
                 .description("removes the user inactivity threshold for when they last posted a message "
                         + "in this Discord server")
                 .build());

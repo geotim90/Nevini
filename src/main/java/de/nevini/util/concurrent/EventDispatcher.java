@@ -3,6 +3,7 @@ package de.nevini.util.concurrent;
 
 import lombok.NonNull;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.function.Predicate;
  * ({@link #execute(Runnable)} and {@link #schedule(long, TimeUnit, Runnable)}. The internal executor services can be
  * shut down using {@link #shutdown()}.
  */
+@Slf4j
 public class EventDispatcher {
 
     private final Map<Class<?>, Set<Subscription<?>>> subscriptions = new ConcurrentHashMap<>();
@@ -246,7 +248,11 @@ public class EventDispatcher {
             if (eventType.isInstance(event)) {
                 T castEvent = eventType.cast(event);
                 if (condition == null || condition.test(castEvent)) {
-                    callback.accept(castEvent);
+                    try {
+                        callback.accept(castEvent);
+                    } catch (Exception e) {
+                        log.error("Uncaught exception: ", e);
+                    }
                     return true;
                 }
             }
