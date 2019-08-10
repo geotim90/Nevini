@@ -10,14 +10,14 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.PermissionOverride;
-import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.TreeSet;
 
 @Slf4j
 class DebugPermissionCommand extends Command {
@@ -68,17 +68,30 @@ class DebugPermissionCommand extends Command {
                         new Permission[]{Permission.MESSAGE_ATTACH_FILES}
                 ))
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.MEMBER_OR_BOT.describe(false, true)
+                        Resolvers.MEMBER_OR_BOT.describe(false, true),
+                        Resolvers.ROLE.describe(false, true)
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER_OR_BOT.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
+        if (Resolvers.MEMBER_OR_BOT.isOptionPresent(event) || !Resolvers.ROLE.isOptionPresent(event)) {
+            Resolvers.MEMBER_OR_BOT.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
+        } else {
+            Resolvers.ROLE.resolveArgumentOrOptionOrInput(event, role -> acceptRole(event, role));
+        }
+    }
+
+    private void acceptRole(CommandEvent event, Role role) {
+        export(event, role.getGuild().getMembersWithRoles(role));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
+        export(event, Collections.singleton(member));
+    }
+
+    private void export(CommandEvent event, Collection<Member> members) {
         try {
             File export = File.createTempFile("export", ".csv");
             try (PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -92,41 +105,51 @@ class DebugPermissionCommand extends Command {
                         + "Add Reactions,Connect,Speak,Mute Members,Deafen Members,Move Members,Use Voice Activity,"
                         + "Priority Speaker");
 
+                TreeSet<Role> roles = new TreeSet<>();
+                members.forEach(member -> roles.addAll(member.getRoles()));
+
                 final String server = event.getGuild().getName();
-                final String user = member.getEffectiveName();
 
                 // 1. server permissions
-                println(out, server, user, "(server)", "(everyone)",
+                println(out, server, "(*)", "(server)", "(everyone)",
                         event.getGuild().getPublicRole().getPermissionsRaw());
 
                 // 2. role server permissions
-                for (Role role : member.getRoles()) {
-                    println(out, server, user, "(server)", role.getName(),
+                for (Role role : roles) {
+                    println(out, server, "(*)", "(server)", role.getName(),
                             role.getPermissionsRaw());
                 }
 
                 // 3. effective server permissions
-                println(out, server, user, "(server)", "(effective)",
-                        PermissionUtil.getEffectivePermission(member));
+                for (Member member : members) {
+                    println(out, server, member.getEffectiveName(), "(server)", "(effective)",
+                            PermissionUtil.getEffectivePermission(member));
+                }
 
                 for (GuildChannel channel : event.getGuild().getChannels(true)) {
-                    // 4. channel permissions
-                    println(out, server, user, channel.getName(), "(everyone)",
-                            channel.getPermissionOverride(event.getGuild().getPublicRole()));
+                    if (channel instanceof TextChannel || channel instanceof VoiceChannel) {
+                        // 4. channel permissions
+                        println(out, server, "(*)", channel.getName(), "(everyone)",
+                                channel.getPermissionOverride(event.getGuild().getPublicRole()));
 
-                    // 5. role channel permissions
-                    for (Role role : member.getRoles()) {
-                        println(out, server, user, channel.getName(), role.getName(),
-                                channel.getPermissionOverride(role));
+                        // 5. role channel permissions
+                        for (Role role : roles) {
+                            println(out, server, "(*)", channel.getName(), role.getName(),
+                                    channel.getPermissionOverride(role));
+                        }
+
+                        // 6. user channel permissions
+                        for (Member member : members) {
+                            println(out, server, member.getEffectiveName(), channel.getName(), "(user)",
+                                    channel.getPermissionOverride(member));
+                        }
+
+                        // 7. effective channel permissions
+                        for (Member member : members) {
+                            println(out, server, member.getEffectiveName(), channel.getName(), "(effective)",
+                                    PermissionUtil.getEffectivePermission(channel, member));
+                        }
                     }
-
-                    // 6. user channel permissions
-                    println(out, server, user, channel.getName(), "(user)",
-                            channel.getPermissionOverride(member));
-
-                    // 7. effective channel permissions
-                    println(out, server, user, channel.getName(), "(effective)",
-                            PermissionUtil.getEffectivePermission(channel, member));
                 }
             }
 
@@ -146,14 +169,18 @@ class DebugPermissionCommand extends Command {
         out.println();
     }
 
-    private void println(PrintWriter out, String server, String user, String channel, String role, PermissionOverride override) {
-        out.append(server).append(',').append(user).append(',').append(channel).append(',').append(role);
+    private void println(
+            PrintWriter out, String server, String user, String channel, String role, PermissionOverride override
+    ) {
         long allowed = override == null ? 0 : override.getAllowedRaw();
         long denied = override == null ? 0 : override.getDeniedRaw();
-        for (long mask : masks) {
-            out.append(',').append((allowed & mask) > 0 ? "ON" : (denied & mask) > 0 ? "NO" : "");
+        if (allowed != 0 || denied != 0) {
+            out.append(server).append(',').append(user).append(',').append(channel).append(',').append(role);
+            for (long mask : masks) {
+                out.append(',').append((allowed & mask) > 0 ? "ON" : (denied & mask) > 0 ? "NO" : "");
+            }
+            out.println();
         }
-        out.println();
     }
 
 }
