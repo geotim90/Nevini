@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'org.springframework.boot' version '2.1.7.RELEASE'
 }
 
 apply plugin: 'java'
@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.5.2'
+version = '4.5.3'
 sourceCompatibility = '8'
 
 configurations {
@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 	// jda
-	implementation 'net.dv8tion:JDA:4.BETA.0_38'
+	implementation 'net.dv8tion:JDA:4.0.0_39'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.1'
 	// database
 	runtimeOnly 'com.h2database:h2'

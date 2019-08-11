@@ -69,18 +69,27 @@ class DebugPermissionCommand extends Command {
                 ))
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER_OR_BOT.describe(false, true),
-                        Resolvers.ROLE.describe(false, true)
+                        Resolvers.ROLE.describe(false, true),
+                        Resolvers.GUILD_FLAG.describe()
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        if (Resolvers.MEMBER_OR_BOT.isOptionPresent(event) || !Resolvers.ROLE.isOptionPresent(event)) {
+        if (Resolvers.MEMBER_OR_BOT.isOptionPresent(event)) {
             Resolvers.MEMBER_OR_BOT.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
+        } else if (Resolvers.ROLE.isOptionPresent(event)) {
+            Resolvers.ROLE.resolveOptionOrInputIfExists(event, role -> acceptRole(event, role));
+        } else if (Resolvers.GUILD_FLAG.isOptionPresent(event)) {
+            acceptGuild(event);
         } else {
-            Resolvers.ROLE.resolveArgumentOrOptionOrInput(event, role -> acceptRole(event, role));
+            Resolvers.MEMBER_OR_BOT.resolveArgumentOrOptionOrInput(event, member -> acceptMember(event, member));
         }
+    }
+
+    private void acceptGuild(CommandEvent event) {
+        export(event, event.getGuild().getMembers());
     }
 
     private void acceptRole(CommandEvent event, Role role) {
