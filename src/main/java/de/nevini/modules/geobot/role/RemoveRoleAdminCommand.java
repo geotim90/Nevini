@@ -44,12 +44,18 @@ class RemoveRoleAdminCommand extends Command {
 
     private void acceptRole(CommandEvent event, Role role) {
         event.getPermissionService().setRolePermission(role, Node.GEOBOT_ADMIN, null);
-        event.getPermissionService().setRolePermission(role, Node.GUILD_ACTIVITY_GET, Boolean.TRUE);
-        event.getPermissionService().setRolePermission(role, Node.GUILD_INACTIVITY_GET, Boolean.TRUE);
-        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_GET, Boolean.TRUE);
-        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_SET, Boolean.TRUE);
-        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_START_GET, Boolean.TRUE);
-        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_TIMEOUT_GET, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_ACTIVITY_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_ACTIVITY_SET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_INACTIVITY_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_INACTIVITY_SET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_SET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_ROLE_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_ROLE_SET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_START_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_START_SET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_TIMEOUT_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_TIMEOUT_SET, null);
         event.reply(CommandReaction.OK, event::complete);
     }
 

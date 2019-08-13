@@ -38,6 +38,12 @@ class AddRoleModCommand extends Command {
 
     private void acceptRole(CommandEvent event, Role role) {
         event.getPermissionService().setRolePermission(role, Node.GEOBOT_MOD, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_ACTIVITY_GET, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_INACTIVITY_GET, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_GET, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_SET, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_START_GET, Boolean.TRUE);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_TIMEOUT_GET, Boolean.TRUE);
         event.reply(CommandReaction.OK, event::complete);
     }
 
