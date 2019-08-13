@@ -877,6 +877,14 @@ Keyword | Aliases
 
 Configures server level role permission overrides for node **geobot.mod**.
 
+This command also configures server level role permission overrides for the following nodes:<br>
+* **guild.activity.get**<br>
+* **guild.inactivity.get**<br>
+* **guild.tribute.get**<br>
+* **guild.tribute.set**<br>
+* **guild.tribute.start.get**<br>
+* **guild.tribute.timeout.get**
+
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
@@ -894,6 +902,20 @@ mod | moderator
 ##### Command: `geobot add role admin`
 
 Configures server level role permission overrides for node **geobot.admin**.
+
+This command also configures server level role permission overrides for the following nodes:<br>
+* **guild.activity.get**<br>
+* **guild.activity.set**<br>
+* **guild.inactivity.get**<br>
+* **guild.inactivity.set**<br>
+* **guild.tribute.get**<br>
+* **guild.tribute.set**<br>
+* **guild.tribute.role.get**<br>
+* **guild.tribute.role.set**<br>
+* **guild.tribute.start.get**<br>
+* **guild.tribute.start.set**<br>
+* **guild.tribute.timeout.get**<br>
+* **guild.tribute.timeout.set**
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -966,6 +988,14 @@ Keyword | Aliases
 
 Configures server level role permission overrides for node **geobot.mod**.
 
+This command also configures server level role permission overrides for the following nodes:<br>
+* **guild.activity.get**<br>
+* **guild.inactivity.get**<br>
+* **guild.tribute.get**<br>
+* **guild.tribute.set**<br>
+* **guild.tribute.start.get**<br>
+* **guild.tribute.timeout.get**
+
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
@@ -983,6 +1013,20 @@ mod | moderator
 ##### Command: `geobot remove role admin`
 
 Configures server level role permission overrides for node **geobot.admin**.
+
+This command also configures server level role permission overrides for the following nodes:<br>
+* **guild.activity.get**<br>
+* **guild.activity.set**<br>
+* **guild.inactivity.get**<br>
+* **guild.inactivity.set**<br>
+* **guild.tribute.get**<br>
+* **guild.tribute.set**<br>
+* **guild.tribute.role.get**<br>
+* **guild.tribute.role.set**<br>
+* **guild.tribute.start.get**<br>
+* **guild.tribute.start.set**<br>
+* **guild.tribute.timeout.get**<br>
+* **guild.tribute.timeout.set**
 
 This command can only be executed in a text channel and not via direct message.
 

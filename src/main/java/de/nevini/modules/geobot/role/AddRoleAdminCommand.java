@@ -20,7 +20,7 @@ class AddRoleAdminCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.ROLE.describe(false, true)
                 })
-                .details("This command also configures server level role permission override for the following nodes:"
+                .details("This command also configures server level role permission overrides for the following nodes:"
                         + "\n* **guild.activity.get**"
                         + "\n* **guild.activity.set**"
                         + "\n* **guild.inactivity.get**"
