@@ -43,7 +43,7 @@ public class HelpCommand extends Command {
         if (StringUtils.isEmpty(event.getArgument())) {
             doCommandList(event);
         } else {
-            String[] args = event.getArgument().split("\\s+");
+            String[] args = event.getArgument().split("\\s+", 2);
             Command command = event.getCommands().get(args[0].toLowerCase());
             doCommandHelp(event.withArgument(args.length > 1 ? args[1] : null), command, command.getKeyword());
         }
