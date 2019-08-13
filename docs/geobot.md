@@ -14,6 +14,10 @@ By default, this command will behave the same as **geobot report** for the curre
 
 This command can only be executed in a text channel and not via direct message.
 
+Keyword | Aliases
+--------|--------
+geobot | geo
+
 Command | Description
 --------|------------
 [geobot report](#command-geobot-report) | displays an activity report for the entire server or just a single user
