@@ -91,8 +91,7 @@ Displays user game activity information.
 
 This command can only be executed in a text channel and not via direct message.
 
-By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **guild.activity.set**.
+Permission overrides may be applied on node **guild.activity.get**.
 
 Option | Description
 -------|------------

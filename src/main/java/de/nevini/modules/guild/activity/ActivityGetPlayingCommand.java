@@ -16,7 +16,7 @@ public class ActivityGetPlayingCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("playing")
                 .aliases(new String[]{"played", "last-played", "lastplayed"})
-                .node(Node.GUILD_ACTIVITY_SET)
+                .node(Node.GUILD_ACTIVITY_GET)
                 .description("displays user game activity information")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),

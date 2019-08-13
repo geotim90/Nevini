@@ -20,6 +20,14 @@ class RemoveRoleModCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.ROLE.describe(false, true)
                 })
+                .details("This command also configures server level role permission overrides for the following nodes:"
+                        + "\n* **guild.activity.get**"
+                        + "\n* **guild.inactivity.get**"
+                        + "\n* **guild.tribute.get**"
+                        + "\n* **guild.tribute.set**"
+                        + "\n* **guild.tribute.start.get**"
+                        + "\n* **guild.tribute.timeout.get**"
+                )
                 .build());
     }
 
@@ -30,6 +38,12 @@ class RemoveRoleModCommand extends Command {
 
     private void acceptRole(CommandEvent event, Role role) {
         event.getPermissionService().setRolePermission(role, Node.GEOBOT_MOD, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_ACTIVITY_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_INACTIVITY_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_SET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_START_GET, null);
+        event.getPermissionService().setRolePermission(role, Node.GUILD_TRIBUTE_TIMEOUT_GET, null);
         event.reply(CommandReaction.OK, event::complete);
     }
 
