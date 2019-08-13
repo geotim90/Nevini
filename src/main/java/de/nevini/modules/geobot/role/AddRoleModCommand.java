@@ -20,6 +20,14 @@ class AddRoleModCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.ROLE.describe(false, true)
                 })
+                .details("This command also configures server level role permission override for the following nodes:"
+                        + "\n* **guild.activity.get**"
+                        + "\n* **guild.inactivity.get**"
+                        + "\n* **guild.tribute.get**"
+                        + "\n* **guild.tribute.set**"
+                        + "\n* **guild.tribute.start.get**"
+                        + "\n* **guild.tribute.timeout.get**"
+                )
                 .build());
     }
 
