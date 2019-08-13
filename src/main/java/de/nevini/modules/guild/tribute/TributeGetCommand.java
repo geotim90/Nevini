@@ -8,9 +8,9 @@ import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.api.entities.Member;
 
-class TributeGetCommand extends Command {
+public class TributeGetCommand extends Command {
 
-    TributeGetCommand() {
+    public TributeGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .node(Node.GUILD_TRIBUTE_GET)

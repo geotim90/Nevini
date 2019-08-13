@@ -22,6 +22,11 @@ class ActivityGetCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})
+                .children(new Command[]{
+                        new ActivityGetMessageCommand(),
+                        new ActivityGetOnlineCommand(),
+                        new ActivityGetPlayingCommand()
+                })
                 .node(Node.GUILD_ACTIVITY_GET)
                 .description("displays user and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
@@ -100,7 +105,7 @@ class ActivityGetCommand extends Command {
     }
 
     private void reportUserGameActivity(CommandEvent event, Member member, GameData game) {
-        Long lastPlayed = event.getActivityService().getActivityPlaying(member, game);
+        Long lastPlayed = event.getActivityService().getActivityPlaying(member, game.getId());
         if (lastPlayed == null) {
             event.reply(member.getEffectiveName() + " has not played this game recently.", event::complete);
         } else {

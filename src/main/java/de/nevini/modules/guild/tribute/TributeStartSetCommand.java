@@ -11,9 +11,9 @@ import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
 
-class TributeStartSetCommand extends Command {
+public class TributeStartSetCommand extends Command {
 
-    TributeStartSetCommand() {
+    public TributeStartSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .node(Node.GUILD_TRIBUTE_START_SET)

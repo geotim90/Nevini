@@ -6,9 +6,9 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandReaction;
 
-class InactivityUnsetMessageCommand extends Command {
+public class InactivityUnsetMessageCommand extends Command {
 
-    InactivityUnsetMessageCommand() {
+    public InactivityUnsetMessageCommand() {
         super(CommandDescriptor.builder()
                 .keyword("message")
                 .aliases(new String[]{"last-message", "lastmessage"})

@@ -74,6 +74,11 @@ public class InactivityService {
         repository.save(data);
     }
 
+    public Integer getPlayingThreshold(@NonNull Guild guild, @NonNull GameData game) {
+        return repository.findById(new InactivityId(guild.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId()))
+                .map(InactivityData::getDays).orElse(null);
+    }
+
     public Map<Long, Integer> getPlayingThresholds(@NonNull Guild guild) {
         return repository.findAllByGuildAndType(guild.getIdLong(), ACTIVITY_TYPE_PLAYING).stream()
                 .collect(Collectors.toMap(InactivityData::getId, InactivityData::getDays));

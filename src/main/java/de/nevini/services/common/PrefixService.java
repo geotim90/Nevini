@@ -123,4 +123,46 @@ public class PrefixService {
         return null;
     }
 
+    /**
+     * Attempts to extract a sibling command prefix from the provided {@link MessageReceivedEvent}.
+     * Returns {@code null} if no matching prefix was found.
+     *
+     * @param event the {@link MessageReceivedEvent}
+     * @throws NullPointerException if {@code event} or {@code siblingId} is {@code null}
+     */
+    public String extractSiblingPrefix(@NonNull MessageReceivedEvent event, @NonNull String siblingId) {
+        String content = event.getMessage().getContentRaw();
+
+        // check for member mention
+        if (event.isFromGuild()) {
+            Member siblingMember = event.getGuild().getMemberById(siblingId);
+            if (siblingMember != null) {
+                if (content.startsWith(siblingMember.getAsMention())) {
+                    return siblingMember.getAsMention();
+                } else if (content.matches("\\Q@" + siblingMember.getEffectiveName() + "\\E\\b.*")) {
+                    return '@' + siblingMember.getEffectiveName();
+                } else if (content.matches("\\Q@!" + siblingMember.getEffectiveName() + "\\E\\b.*")) {
+                    return "@!" + siblingMember.getEffectiveName();
+                }
+            }
+        }
+
+        // check for user mention
+        User siblingUser = event.getJDA().getUserById(siblingId);
+        if (siblingUser != null) {
+            if (content.startsWith(siblingUser.getAsMention())) {
+                return siblingUser.getAsMention();
+            } else if (content.matches("\\Q@" + siblingUser.getName() + "\\E\\b.*")) {
+                return '@' + siblingUser.getName();
+            } else if (content.matches("\\Q@" + siblingUser.getAsTag() + "\\E\\b.*")) {
+                return '@' + siblingUser.getAsTag();
+            } else if (content.matches("\\Q@" + siblingUser.getId() + "\\E\\b.*")) {
+                return '@' + siblingUser.getId();
+            }
+        }
+
+        // no match found
+        return null;
+    }
+
 }

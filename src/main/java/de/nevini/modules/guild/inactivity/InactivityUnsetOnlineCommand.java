@@ -6,9 +6,9 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandReaction;
 
-class InactivityUnsetOnlineCommand extends Command {
+public class InactivityUnsetOnlineCommand extends Command {
 
-    InactivityUnsetOnlineCommand() {
+    public InactivityUnsetOnlineCommand() {
         super(CommandDescriptor.builder()
                 .keyword("online")
                 .aliases(new String[]{"last-online", "lastonline"})

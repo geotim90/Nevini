@@ -9,9 +9,9 @@ import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 
-class InactivityUnsetPlayingCommand extends Command {
+public class InactivityUnsetPlayingCommand extends Command {
 
-    InactivityUnsetPlayingCommand() {
+    public InactivityUnsetPlayingCommand() {
         super(CommandDescriptor.builder()
                 .keyword("playing")
                 .aliases(new String[]{"played", "last-played", "lastplayed"})

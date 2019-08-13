@@ -34,58 +34,61 @@ public class Formatter {
     public static String formatLargestUnitAgo(long epochMilli) {
         if (epochMilli <= 0) {
             return "unknown";
+        } else if (System.currentTimeMillis() < epochMilli) {
+            return "some time in the future";
         } else {
-            return formatLargestUnitAgo(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
+            return formatLargestUnitBetween(OffsetDateTime.now(),
+                    OffsetDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC)) + " ago";
         }
     }
 
-    public static String formatLargestUnitAgo(ZonedDateTime value) {
-        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-
-        if (now.isBefore(value)) {
-            return "some time in the future";
+    public static String formatLargestUnitBetween(@NonNull OffsetDateTime earlier, @NonNull OffsetDateTime later) {
+        if (earlier.isAfter(later)) {
+            return formatLargestUnitBetween(later, earlier);
         }
 
-        long years = value.until(now, ChronoUnit.YEARS);
+        long years = earlier.until(later, ChronoUnit.YEARS);
         if (years > 1) {
-            return years + " years ago";
+            return years + " years";
         } else if (years > 0) {
-            return years + " year ago";
+            return years + " year";
         }
 
-        long months = value.until(now, ChronoUnit.MONTHS);
+        long months = earlier.until(later, ChronoUnit.MONTHS);
         if (months > 1) {
-            return months + " months ago";
+            return months + " months";
         } else if (months > 0) {
-            return months + " month ago";
+            return months + " month";
         }
 
-        long weeks = value.until(now, ChronoUnit.WEEKS);
+        long weeks = earlier.until(later, ChronoUnit.WEEKS);
         if (weeks > 1) {
-            return weeks + " weeks ago";
+            return weeks + " weeks";
         } else if (weeks > 0) {
-            return weeks + " week ago";
+            return weeks + " week";
         }
 
-        long days = value.until(now, ChronoUnit.DAYS);
+        long days = earlier.until(later, ChronoUnit.DAYS);
         if (days > 1) {
-            return days + " days ago";
+            return days + " days";
         } else if (days > 0) {
-            return days + " day ago";
+            return days + " day";
         }
 
-        long hours = value.until(now, ChronoUnit.HOURS);
+        long hours = earlier.until(later, ChronoUnit.HOURS);
         if (hours > 1) {
-            return hours + " hours ago";
+            return hours + " hours";
         } else if (hours > 0) {
-            return hours + " hour ago";
+            return hours + " hour";
         }
 
-        long minutes = value.until(now, ChronoUnit.MINUTES);
+        long minutes = earlier.until(later, ChronoUnit.MINUTES);
         if (minutes > 1) {
-            return minutes + " minutes ago";
+            return minutes + " minutes";
+        } else if (minutes > 0) {
+            return minutes + " minute";
         } else {
-            return "just now";
+            return "less than a minute";
         }
     }
 
@@ -93,7 +96,7 @@ public class Formatter {
         return NumberFormat.getIntegerInstance(Locale.US).format(value);
     }
 
-    public static String formatOsuDisplayHtml(String value) {
+    public static String formatOsuDisplayHtml(@NonNull String value) {
         String markdown = value.replaceAll("<img src='/images/(\\w+)_small.png'/>", "**$1**") // resolve rank images
                 .replaceAll("<b><a href='(/u(?:sers)?/\\d+)'>([^<]+)</a></b>", "$2") // resolve user references
                 .replaceAll("<a href='(/[bs]/\\d+(?:\\?m=\\d)?)'>([^<]+)</a>", "$2") // resolve beatmap references
@@ -224,7 +227,7 @@ public class Formatter {
         return result.trim();
     }
 
-    public static String join(String[] items, String glue, String lastGlue) {
+    public static String join(@NonNull String[] items, @NonNull String glue, @NonNull String lastGlue) {
         if (items.length == 0) {
             return StringUtils.EMPTY;
         } else if (items.length == 1) {

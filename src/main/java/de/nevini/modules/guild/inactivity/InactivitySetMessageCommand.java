@@ -9,7 +9,7 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import org.apache.commons.lang3.StringUtils;
 
-class InactivitySetMessageCommand extends Command {
+public class InactivitySetMessageCommand extends Command {
 
     private static final StringResolver durationResolver = new StringResolver("duration", "duration",
             CommandOptionDescriptor.builder()
@@ -19,7 +19,7 @@ class InactivitySetMessageCommand extends Command {
                     .aliases(new String[]{"//duration", "--days", "//days", "-d", "/d"})
                     .build());
 
-    InactivitySetMessageCommand() {
+    public InactivitySetMessageCommand() {
         super(CommandDescriptor.builder()
                 .keyword("message")
                 .aliases(new String[]{"last-message", "lastmessage"})

@@ -104,12 +104,12 @@ public class ActivityService {
         return map;
     }
 
-    public Long getActivityPlaying(@NonNull Member member, @NonNull GameData game) {
+    public Long getActivityPlaying(@NonNull Member member, long gameId) {
         ActivityData data = dataService.get(
-                new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(), -1L)
+                new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING, gameId, -1L)
         );
         ActivityData manualData = dataService.get(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING,
-                game.getId(), member.getGuild().getIdLong()));
+                gameId, member.getGuild().getIdLong()));
         if (manualData == null) {
             return data == null ? null : data.getUts();
         } else if (data == null) {

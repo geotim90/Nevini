@@ -6,9 +6,9 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import net.dv8tion.jda.api.entities.Role;
 
-class TributeRoleGetCommand extends Command {
+public class TributeRoleGetCommand extends Command {
 
-    TributeRoleGetCommand() {
+    public TributeRoleGetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("get")
                 .aliases(new String[]{"display", "echo", "list", "print", "show"})

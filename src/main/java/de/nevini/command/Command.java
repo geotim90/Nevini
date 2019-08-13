@@ -5,6 +5,7 @@ import de.nevini.scope.Node;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandPatterns;
 import de.nevini.util.command.CommandReaction;
+import de.nevini.util.message.PickerEmbed;
 import lombok.NonNull;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
@@ -186,5 +187,22 @@ public abstract class Command {
     }
 
     protected abstract void execute(CommandEvent event);
+
+    /**
+     * Lets the user pick which child command to execute.
+     */
+    protected void delegateToChildren(CommandEvent event) {
+        new PickerEmbed<>(
+                event.getTextChannel(),
+                event.getAuthor(),
+                event.createEmbedBuilder(),
+                Arrays.asList(getChildren()),
+                Command::getKeyword,
+                Command::getDescription,
+                event.getEventDispatcher(),
+                command -> command.onEvent(event),
+                () -> event.reply(CommandReaction.DEFAULT_NOK, event::complete)
+        ).display();
+    }
 
 }

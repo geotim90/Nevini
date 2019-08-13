@@ -11,9 +11,9 @@ import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
 
-class ActivitySetOnlineCommand extends Command {
+public class ActivitySetOnlineCommand extends Command {
 
-    ActivitySetOnlineCommand() {
+    public ActivitySetOnlineCommand() {
         super(CommandDescriptor.builder()
                 .keyword("online")
                 .aliases(new String[]{"last-online", "lastonline"})

@@ -45,6 +45,66 @@ get | display<br>echo<br>list<br>print<br>show
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
 
+Command | Description
+--------|------------
+[activity get message](#command-activity-get-message) | displays user activity information for when they last posted a message in this Discord server
+[activity get online](#command-activity-get-online) | displays user activity information for when they were last online on Discord
+[activity get playing](#command-activity-get-playing) | displays user game activity information
+
+#### Command: `activity get message`
+
+Displays user activity information for when they last posted a message in this Discord server.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.activity.get**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+message | last-message<br>lastmessage
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+#### Command: `activity get online`
+
+Displays user activity information for when they were last online on Discord.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.activity.get**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+online | last-online<br>lastonline
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+#### Command: `activity get playing`
+
+Displays user game activity information.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.activity.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--game \<game\> | Refers to a specific game with a matching id or name.
+
+Keyword | Aliases
+--------|--------
+playing | played<br>last-played<br>lastplayed
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--game | //game
+
 ### Command: `activity set`
 
 Configures user activity information.
@@ -664,11 +724,62 @@ Displays user inactivity thresholds.
 
 This command can only be executed in a text channel and not via direct message.
 
-Permission overrides may be applied on node **guild.activity.get**.
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.get**.
 
 Keyword | Aliases
 --------|--------
 get | display<br>echo<br>list<br>print<br>show
+
+Command | Description
+--------|------------
+[inactivity get message](#command-inactivity-get-message) | displays the user inactivity threshold for when they last posted a message in this Discord server
+[inactivity get online](#command-inactivity-get-online) | displays the user inactivity threshold for when they were last online on Discord
+[inactivity get playing](#command-inactivity-get-playing) | displays user game inactivity thresholds
+
+#### Command: `inactivity get message`
+
+Displays the user inactivity threshold for when they last posted a message in this Discord server.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.get**.
+
+Keyword | Aliases
+--------|--------
+message | last-message<br>lastmessage
+
+#### Command: `inactivity get online`
+
+Displays the user inactivity threshold for when they were last online on Discord.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.get**.
+
+Keyword | Aliases
+--------|--------
+online | last-online<br>lastonline
+
+#### Command: `inactivity get playing`
+
+Displays user game inactivity thresholds.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.inactivity.get**.
+
+Option | Description
+-------|------------
+--game \<game\> | Refers to a specific game with a matching id or name.
+
+Keyword | Aliases
+--------|--------
+playing | played<br>last-played<br>lastplayed
+--game | //game
 
 ### Command: `inactivity set`
 

@@ -9,9 +9,9 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import net.dv8tion.jda.api.entities.Member;
 
-class TributeSetCommand extends Command {
+public class TributeSetCommand extends Command {
 
-    TributeSetCommand() {
+    public TributeSetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("set")
                 .aliases(new String[]{"confirm"})

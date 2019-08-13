@@ -6,9 +6,9 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.util.command.CommandReaction;
 
-class TributeRoleUnsetCommand extends Command {
+public class TributeRoleUnsetCommand extends Command {
 
-    TributeRoleUnsetCommand() {
+    public TributeRoleUnsetCommand() {
         super(CommandDescriptor.builder()
                 .keyword("unset")
                 .aliases(new String[]{"remove"})
