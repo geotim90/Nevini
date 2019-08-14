@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -15,7 +15,8 @@ class FindNodeCommand extends Command {
     FindNodeCommand() {
         super(CommandDescriptor.builder()
                 .keyword("node")
-                .node(Node.GUILD_FIND_MODULE)
+                .aliases(new String[]{"nodes", "n"})
+                .node(Node.UTIL_FIND_MODULE)
                 .description("finds nodes by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.NODE.describe(true, true)

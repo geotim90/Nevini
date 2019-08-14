@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -16,7 +16,9 @@ class FindGameCommand extends Command {
     FindGameCommand() {
         super(CommandDescriptor.builder()
                 .keyword("game")
-                .node(Node.GUILD_FIND_GAME)
+                .aliases(new String[]{"games"})
+                .guildOnly(false)
+                .node(Node.UTIL_FIND_GAME)
                 .description("finds games by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.GAME.describe(true, true)

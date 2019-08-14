@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -16,8 +16,8 @@ class FindRoleCommand extends Command {
     FindRoleCommand() {
         super(CommandDescriptor.builder()
                 .keyword("role")
-                .aliases(new String[]{"r"})
-                .node(Node.GUILD_FIND_ROLE)
+                .aliases(new String[]{"roles", "r"})
+                .node(Node.UTIL_FIND_ROLE)
                 .description("finds roles by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.ROLE.describe(true, true)

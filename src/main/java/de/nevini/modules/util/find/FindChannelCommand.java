@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -16,8 +16,8 @@ class FindChannelCommand extends Command {
     FindChannelCommand() {
         super(CommandDescriptor.builder()
                 .keyword("channel")
-                .aliases(new String[]{"c"})
-                .node(Node.GUILD_FIND_CHANNEL)
+                .aliases(new String[]{"channels", "c"})
+                .node(Node.UTIL_FIND_CHANNEL)
                 .description("finds text channels by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.CHANNEL.describe(true, true)

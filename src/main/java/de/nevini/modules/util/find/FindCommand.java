@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -11,7 +11,7 @@ public class FindCommand extends Command {
     public FindCommand() {
         super(CommandDescriptor.builder()
                 .keyword("find")
-                .aliases(new String[]{"search"})
+                .aliases(new String[]{"search", "resolve"})
                 .children(new Command[]{
                         new FindUserCommand(),
                         new FindRoleCommand(),

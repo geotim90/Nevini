@@ -1,4 +1,4 @@
-package de.nevini.modules.core.debug;
+package de.nevini.modules.util.debug;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -60,9 +60,8 @@ class DebugPermissionCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("permission")
                 .aliases(new String[]{"permissions", "perm", "perms"})
-                .ownerOnly(true)
-                .node(Node.CORE_HELP) // dummy node
-                .description("creates a data dump of all permissions and overrides for a user on the server")
+                .node(Node.UTIL_DEBUG_PERMISSION)
+                .description("creates a data dump of all relevant permissions and overrides on the server")
                 .minimumBotPermissions(Permissions.sum(
                         Permissions.BOT_EMBED,
                         new Permission[]{Permission.MESSAGE_ATTACH_FILES}
