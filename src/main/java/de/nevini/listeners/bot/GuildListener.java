@@ -8,6 +8,7 @@ import de.nevini.util.Formatter;
 import de.nevini.util.concurrent.EventDispatcher;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildAvailableEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -31,10 +32,15 @@ public class GuildListener {
     ) {
         this.dblService = dblService;
         this.feedService = feedService;
+        eventDispatcher.subscribe(ReadyEvent.class, ignore -> onReady());
         eventDispatcher.subscribe(GuildJoinEvent.class, this::onGuildJoin);
         eventDispatcher.subscribe(GuildLeaveEvent.class, this::onGuildLeave);
         eventDispatcher.subscribe(GuildAvailableEvent.class, this::onGuildAvailable);
         eventDispatcher.subscribe(GuildUnavailableEvent.class, this::onGuildUnavailable);
+    }
+
+    private void onReady() {
+        dblService.updateServerCount();
     }
 
     private void onGuildJoin(GuildJoinEvent event) {

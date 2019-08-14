@@ -49,7 +49,7 @@ This command can only be executed in a text channel and not via direct message.
 
 Keyword | Aliases
 --------|--------
-find | search
+find | search<br>resolve
 
 Command | Description
 --------|------------
@@ -75,7 +75,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-user | member<br>u<br>m
+user | users<br>member<br>members<br>u<br>m
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 
 ### Command: `find role`
@@ -93,7 +93,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-role | r
+role | roles<br>r
 --role | //role<br>-r<br>/r
 
 ### Command: `find permission`
@@ -111,6 +111,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
+permission | permissions<br>perm<br>perms<br>p
 --permission | //permission<br>--perm<br>//perm<br>-p<br>/p
 
 ### Command: `find node`
@@ -128,6 +129,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
+node | nodes<br>n
 --node | //node<br>-n<br>/n
 
 ### Command: `find module`
@@ -145,13 +147,14 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
+module | modules
 --module | //module
 
 ### Command: `find game`
 
 Finds games by any of their identifiers.
 
-This command can only be executed in a text channel and not via direct message.
+This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **util.find.game**.
 
@@ -161,6 +164,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
+game | games
 --game | //game
 
 ### Command: `find channel`
@@ -178,5 +182,5 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-channel | c
+channel | channels<br>c
 --channel | //channel<br>-c<br>/c

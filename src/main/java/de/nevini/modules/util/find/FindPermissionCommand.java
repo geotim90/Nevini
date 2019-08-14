@@ -17,7 +17,8 @@ class FindPermissionCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("permission")
                 .aliases(new String[]{"permissions", "perm", "perms", "p"})
-                .node(Node.UTIL_FIND_MODULE)
+                .guildOnly(false)
+                .node(Node.UTIL_FIND_PERMISSION)
                 .description("finds permission by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.PERMISSION.describe(true, true)

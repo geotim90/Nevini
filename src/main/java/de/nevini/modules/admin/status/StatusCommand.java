@@ -1,4 +1,4 @@
-package de.nevini.modules.core.status;
+package de.nevini.modules.admin.status;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;

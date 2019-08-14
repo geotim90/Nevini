@@ -1,4 +1,4 @@
-package de.nevini.modules.core.guilds;
+package de.nevini.modules.admin.guilds;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;

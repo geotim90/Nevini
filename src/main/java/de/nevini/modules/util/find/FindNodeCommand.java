@@ -16,6 +16,7 @@ class FindNodeCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("node")
                 .aliases(new String[]{"nodes", "n"})
+                .guildOnly(false)
                 .node(Node.UTIL_FIND_MODULE)
                 .description("finds nodes by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
