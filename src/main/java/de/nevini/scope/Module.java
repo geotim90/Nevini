@@ -22,7 +22,7 @@ public enum Module {
             "These commands are related to [osu!](https://osu.ppy.sh)."),
     WARFRAME("warframe", false, false,
             "These commands are related to [Warframe](https://www.warframe.com/)."),
-    GEOBOT("geobot", false, false, "Geobot style command emulation.");
+    GEOBOT("geobot", false, false, "[Geobot](https://github.com/geotim90/geobot) style command emulation.");
 
     /**
      * The name of the module.

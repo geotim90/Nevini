@@ -1,6 +1,6 @@
 # Module: `geobot`
 
-Geobot style command emulation.
+[Geobot](https://github.com/geotim90/geobot) style command emulation.
 
 Command | Description
 --------|------------
