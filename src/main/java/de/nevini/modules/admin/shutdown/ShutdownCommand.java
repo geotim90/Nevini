@@ -1,4 +1,4 @@
-package de.nevini.modules.core.shutdown;
+package de.nevini.modules.admin.shutdown;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;

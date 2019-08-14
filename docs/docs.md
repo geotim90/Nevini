@@ -8,6 +8,7 @@ Module | Description
 [guild](./guild) | These commands help manage a server (aka. guild) and monitor user (aka. member) activity. This modules is active by default but can be deactivated.
 [osu](./osu) | These commands are related to [osu!](https://osu.ppy.sh).
 [warframe](./warframe) | These commands are related to [Warframe](https://www.warframe.com/).
+[geobot](./geobot) | [Geobot](https://github.com/geotim90/geobot) style command emulation.
 
 ## Commands
 

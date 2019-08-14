@@ -13,7 +13,8 @@ public class ActivityCommand extends Command {
                 .keyword("activity")
                 .children(new Command[]{
                         new ActivityGetCommand(),
-                        new ActivitySetCommand()
+                        new ActivitySetCommand(),
+                        new ActivityUnsetCommand()
                 })
                 .description("displays and configures user activity information")
                 .details("By default, this command will behave the same as **activity get**.")

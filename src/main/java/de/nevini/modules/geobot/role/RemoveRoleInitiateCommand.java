@@ -8,7 +8,7 @@ import de.nevini.scope.Node;
 
 class RemoveRoleInitiateCommand extends Command {
 
-    private static TributeRoleUnsetCommand delegate = new TributeRoleUnsetCommand();
+    private static final TributeRoleUnsetCommand delegate = new TributeRoleUnsetCommand();
 
     RemoveRoleInitiateCommand() {
         super(CommandDescriptor.builder()

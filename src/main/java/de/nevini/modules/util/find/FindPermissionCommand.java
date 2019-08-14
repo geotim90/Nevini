@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -16,7 +16,9 @@ class FindPermissionCommand extends Command {
     FindPermissionCommand() {
         super(CommandDescriptor.builder()
                 .keyword("permission")
-                .node(Node.GUILD_FIND_MODULE)
+                .aliases(new String[]{"permissions", "perm", "perms", "p"})
+                .guildOnly(false)
+                .node(Node.UTIL_FIND_PERMISSION)
                 .description("finds permission by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.PERMISSION.describe(true, true)

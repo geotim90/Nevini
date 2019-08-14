@@ -9,7 +9,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.6.3'
+version = '4.6.4'
 sourceCompatibility = '8'
 
 configurations {
@@ -21,6 +21,7 @@ configurations {
 repositories {
 	mavenCentral()
 	jcenter()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -40,6 +41,7 @@ dependencies {
 	// jda
 	implementation 'net.dv8tion:JDA:4.0.0_39'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.1'
+	implementation 'org.discordbots:DBL-Java-Library:2.0.1'
 	// database
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
@@ -47,4 +49,10 @@ dependencies {
 	testCompile 'junit:junit'
 	testCompile 'org.mockito:mockito-core'
 	testCompile 'org.mockito:mockito-inline'
+}
+
+task generateVersionFile()  {
+	doLast {
+		new File(new File(projectDir, "src/main/resources"), "version.txt").text = "$version"
+	}
 }

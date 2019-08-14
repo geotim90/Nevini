@@ -35,7 +35,7 @@ import static de.nevini.util.Functions.ignore;
 
 @Slf4j
 @Component
-public class OsuListener {
+public class OsuActivityListener {
 
     private final IgnService ignService;
     private final FeedService feedService;
@@ -46,7 +46,7 @@ public class OsuListener {
     private final Map<Long, Long> its = new ConcurrentHashMap<>();
     private long uts = 0L;
 
-    public OsuListener(
+    public OsuActivityListener(
             @Autowired IgnService ignService,
             @Autowired FeedService feedService,
             @Autowired OsuService osuService,

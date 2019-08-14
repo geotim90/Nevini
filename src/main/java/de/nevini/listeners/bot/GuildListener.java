@@ -3,10 +3,12 @@ package de.nevini.listeners.bot;
 import de.nevini.jpa.feed.FeedData;
 import de.nevini.scope.Feed;
 import de.nevini.services.common.FeedService;
+import de.nevini.services.dbl.DiscordBotListService;
 import de.nevini.util.Formatter;
 import de.nevini.util.concurrent.EventDispatcher;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildAvailableEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -15,24 +17,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class GuildListener {
 
+    private final DiscordBotListService dblService;
     private final FeedService feedService;
 
     public GuildListener(
+            @Autowired DiscordBotListService dblService,
             @Autowired FeedService feedService,
             @Autowired EventDispatcher eventDispatcher
     ) {
+        this.dblService = dblService;
         this.feedService = feedService;
+        eventDispatcher.subscribe(ReadyEvent.class, ignore -> onReady());
         eventDispatcher.subscribe(GuildJoinEvent.class, this::onGuildJoin);
         eventDispatcher.subscribe(GuildLeaveEvent.class, this::onGuildLeave);
         eventDispatcher.subscribe(GuildAvailableEvent.class, this::onGuildAvailable);
         eventDispatcher.subscribe(GuildUnavailableEvent.class, this::onGuildUnavailable);
     }
 
+    private void onReady() {
+        dblService.updateServerCount();
+    }
+
     private void onGuildJoin(GuildJoinEvent event) {
+        dblService.updateServerCount();
         Guild guild = event.getGuild();
         Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
         for (FeedData subscription : subscriptions) {
@@ -42,9 +54,9 @@ public class GuildListener {
                 if (channel != null) {
                     channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just joined **"
                             + guild.getName() + "** (" + guild.getId() + ") owned by **"
-                            + guild.getOwner().getUser().getAsTag() + "** (" + guild.getOwnerId() + ") with "
-                            + Formatter.formatLong(count(guild, false)) + " members and "
-                            + Formatter.formatLong(count(guild, true)) + " bots").queue();
+                            + Optional.ofNullable(guild.getOwner()).map(e -> e.getUser().getAsTag()).orElse("?")
+                            + "** (" + guild.getOwnerId() + ") with " + Formatter.formatLong(count(guild, false))
+                            + " members and " + Formatter.formatLong(count(guild, true)) + " bots").queue();
                     feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
             }
@@ -56,6 +68,7 @@ public class GuildListener {
     }
 
     private void onGuildLeave(GuildLeaveEvent event) {
+        dblService.updateServerCount();
         Guild guild = event.getGuild();
         Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
         for (FeedData subscription : subscriptions) {

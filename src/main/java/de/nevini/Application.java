@@ -1,7 +1,10 @@
 package de.nevini;
 
+import de.nevini.locators.JdaProvider;
 import de.nevini.util.concurrent.EventDispatcher;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,11 +15,14 @@ import javax.security.auth.login.LoginException;
 
 @Slf4j
 @SpringBootApplication
-public class Application {
+public class Application implements JdaProvider {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+    @Getter
+    private JDA jda;
 
     public Application(
             @Autowired EventDispatcher eventDispatcher,
@@ -36,7 +42,7 @@ public class Application {
             shardBuilder.addEventListeners(eventDispatcher);
 
             log.info("Building shard {} ({} of {})", shard, shard + 1, shards);
-            shardBuilder.useSharding(shard, shards).build();
+            jda = shardBuilder.useSharding(shard, shards).build();
         } else if (!active) {
             log.warn("Not building any shards because bot.active:false");
         } else if (token == null) {

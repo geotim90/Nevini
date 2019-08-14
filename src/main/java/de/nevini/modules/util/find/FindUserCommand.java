@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.find;
+package de.nevini.modules.util.find;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -16,8 +16,8 @@ class FindUserCommand extends Command {
     FindUserCommand() {
         super(CommandDescriptor.builder()
                 .keyword("user")
-                .aliases(new String[]{"member", "u", "m"})
-                .node(Node.GUILD_FIND_USER)
+                .aliases(new String[]{"users", "member", "members", "u", "m"})
+                .node(Node.UTIL_FIND_USER)
                 .description("finds users by any of their identifiers")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(true, true)

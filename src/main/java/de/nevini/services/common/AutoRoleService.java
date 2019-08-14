@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -102,8 +105,14 @@ public class AutoRoleService {
         }
     }
 
-    public Collection<AutoRoleData> getVeteranAutoRoles(@NonNull Guild guild) {
-        return repository.findAllByGuildAndType(guild.getIdLong(), "veteran");
+    /**
+     * Returns all configured veteran auto roles for the specified guild.
+     * The results are ordered by number of days (descending).
+     */
+    public List<AutoRoleData> getVeteranAutoRoles(@NonNull Guild guild) {
+        return repository.findAllByGuildAndType(guild.getIdLong(), "veteran").stream()
+                .sorted(Comparator.comparing(AutoRoleData::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     public void setVoiceAutoRole(@NonNull VoiceChannel channel, @NonNull Role role) {

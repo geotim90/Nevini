@@ -166,7 +166,7 @@ abstract class PermissionSetCommand extends Command {
 
     private void setChannelPermissions(CommandEvent event, PermissionOptions options) {
         StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
-                + "__ the following permissions " + "for *everyone* in **" + event.getChannel().getName() + "**?\n");
+                + "__ the following permissions " + "for *everyone* in **" + options.getChannel().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
@@ -179,7 +179,7 @@ abstract class PermissionSetCommand extends Command {
     private void setChannelPermissionPermissions(CommandEvent event, PermissionOptions options) {
         StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
                 + "__ the following permissions " + "for **" + options.getPermission().getName() + "** in **"
-                + event.getChannel().getName() + "**?\n");
+                + options.getChannel().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
@@ -193,7 +193,7 @@ abstract class PermissionSetCommand extends Command {
     private void setChannelRolePermissions(CommandEvent event, PermissionOptions options) {
         StringBuilder builder = new StringBuilder("Are you sure you want to __" + verb
                 + "__ the following permissions " + "for **" + options.getRole().getName() + "** in **"
-                + event.getChannel().getName() + "**?\n");
+                + options.getChannel().getName() + "**?\n");
         appendNodes(builder, options.getNodes());
         confirmPermissions(event, builder.toString(), () -> {
             for (Node node : options.getNodes()) {
