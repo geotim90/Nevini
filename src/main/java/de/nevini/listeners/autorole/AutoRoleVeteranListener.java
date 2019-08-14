@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
+import java.util.Iterator;
 
 @Slf4j
 @Component
@@ -33,19 +34,35 @@ public class AutoRoleVeteranListener {
         for (Guild guild : e.getUser().getMutualGuilds()) {
             // check permission
             if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
+            // get member
+            Member member = guild.getMember(e.getUser());
+            if (member == null) continue;
             // iterate over configured veteran auto roles for this guild
-            for (AutoRoleData autoRole : autoRoleService.getVeteranAutoRoles(guild)) {
+            Iterator<AutoRoleData> iterator = autoRoleService.getVeteranAutoRoles(guild).iterator();
+            while (iterator.hasNext()) {
+                AutoRoleData autoRole = iterator.next();
                 // check role still exists
                 Role role = guild.getRoleById(autoRole.getRole());
                 if (role == null) continue;
                 // check member eligibility
-                Member member = guild.getMember(e.getUser());
-                if (member == null) continue;
                 if (member.getTimeJoined().isAfter(OffsetDateTime.now().minusDays(autoRole.getId()))) continue;
                 // add role if not present
                 if (!member.getRoles().contains(role)) {
-                    log.debug("Adding role {} to {}", role, member);
+                    log.debug("Adding role {} to {} in {}", role, member, guild);
                     guild.addRoleToMember(member, role).queue();
+                }
+                break;
+            }
+            // remove lower tiered roles
+            while (iterator.hasNext()) {
+                AutoRoleData autoRole = iterator.next();
+                // check role still exists
+                Role role = guild.getRoleById(autoRole.getRole());
+                if (role == null) continue;
+                // remove role if present
+                if (member.getRoles().contains(role)) {
+                    log.debug("Removing role {} from {} in {}", role, member, guild);
+                    guild.removeRoleFromMember(member, role).queue();
                 }
             }
         }
