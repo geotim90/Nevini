@@ -24,6 +24,9 @@ public class MessageLineSplitter {
                     channel.sendMessage(part).queue();
                 }
             }
+            if (!remainder.isEmpty()) {
+                channel.sendMessage(remainder).queue(callback);
+            }
         }
     }
 
