@@ -3,6 +3,7 @@ package de.nevini.listeners.bot;
 import de.nevini.jpa.feed.FeedData;
 import de.nevini.scope.Feed;
 import de.nevini.services.common.FeedService;
+import de.nevini.services.dbl.DiscordBotListService;
 import de.nevini.util.Formatter;
 import de.nevini.util.concurrent.EventDispatcher;
 import net.dv8tion.jda.api.entities.Guild;
@@ -20,12 +21,15 @@ import java.util.Optional;
 @Component
 public class GuildListener {
 
+    private final DiscordBotListService dblService;
     private final FeedService feedService;
 
     public GuildListener(
+            @Autowired DiscordBotListService dblService,
             @Autowired FeedService feedService,
             @Autowired EventDispatcher eventDispatcher
     ) {
+        this.dblService = dblService;
         this.feedService = feedService;
         eventDispatcher.subscribe(GuildJoinEvent.class, this::onGuildJoin);
         eventDispatcher.subscribe(GuildLeaveEvent.class, this::onGuildLeave);
@@ -34,6 +38,7 @@ public class GuildListener {
     }
 
     private void onGuildJoin(GuildJoinEvent event) {
+        dblService.updateServerCount();
         Guild guild = event.getGuild();
         Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
         for (FeedData subscription : subscriptions) {
@@ -57,6 +62,7 @@ public class GuildListener {
     }
 
     private void onGuildLeave(GuildLeaveEvent event) {
+        dblService.updateServerCount();
         Guild guild = event.getGuild();
         Collection<FeedData> subscriptions = feedService.getSubscription(Feed.GUILDS);
         for (FeedData subscription : subscriptions) {
