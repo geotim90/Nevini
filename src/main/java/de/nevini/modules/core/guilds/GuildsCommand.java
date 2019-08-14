@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GuildsCommand extends Command {
@@ -40,9 +41,9 @@ public class GuildsCommand extends Command {
             long members = count(guild, false);
             long bots = count(guild, true);
             builder.append("\n**").append(guild.getName()).append("** (").append(guild.getId()).append(") owned by **")
-                    .append(guild.getOwner().getUser().getAsTag()).append("** (").append(guild.getOwnerId())
-                    .append(") with ").append(Formatter.formatLong(members)).append(" members and ")
-                    .append(Formatter.formatLong(bots)).append(" bots");
+                    .append(Optional.ofNullable(guild.getOwner()).map(e -> e.getUser().getAsTag()).orElse("?"))
+                    .append("** (").append(guild.getOwnerId()).append(") with ").append(Formatter.formatLong(members))
+                    .append(" members and ").append(Formatter.formatLong(bots)).append(" bots");
             totalMembers += members;
             totalBots += bots;
         }

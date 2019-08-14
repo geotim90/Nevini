@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class GuildListener {
@@ -42,9 +43,9 @@ public class GuildListener {
                 if (channel != null) {
                     channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just joined **"
                             + guild.getName() + "** (" + guild.getId() + ") owned by **"
-                            + guild.getOwner().getUser().getAsTag() + "** (" + guild.getOwnerId() + ") with "
-                            + Formatter.formatLong(count(guild, false)) + " members and "
-                            + Formatter.formatLong(count(guild, true)) + " bots").queue();
+                            + Optional.ofNullable(guild.getOwner()).map(e -> e.getUser().getAsTag()).orElse("?")
+                            + "** (" + guild.getOwnerId() + ") with " + Formatter.formatLong(count(guild, false))
+                            + " members and " + Formatter.formatLong(count(guild, true)) + " bots").queue();
                     feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
             }

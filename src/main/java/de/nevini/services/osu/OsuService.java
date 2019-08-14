@@ -7,7 +7,7 @@ import de.nevini.api.osu.requests.OsuUserRecentRequest;
 import de.nevini.api.osu.requests.OsuUserRequest;
 import de.nevini.data.osu.*;
 import de.nevini.jpa.game.GameData;
-import de.nevini.scope.Locatable;
+import de.nevini.locators.Locatable;
 import de.nevini.services.common.GameService;
 import de.nevini.util.Finder;
 import lombok.NonNull;

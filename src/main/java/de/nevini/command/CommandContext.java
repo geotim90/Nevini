@@ -1,6 +1,6 @@
 package de.nevini.command;
 
-import de.nevini.scope.Locatable;
+import de.nevini.locators.Locatable;
 import de.nevini.services.common.*;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.AccessLevel;

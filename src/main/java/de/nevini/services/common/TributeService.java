@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -74,11 +72,6 @@ public class TributeService {
     public boolean getTribute(@NonNull Member member) {
         return memberRepository.findById(new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
                 .map(data -> data.getFlag() == CONTRIBUTED).orElse(false);
-    }
-
-    public Collection<Long> getTributes(@NonNull Guild guild) {
-        return memberRepository.findAllByGuildAndFlag(guild.getIdLong(), CONTRIBUTED).stream()
-                .map(TributeMemberData::getMember).collect(Collectors.toList());
     }
 
     @Transactional

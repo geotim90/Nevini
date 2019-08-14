@@ -6,7 +6,7 @@ import de.nevini.api.wfm.model.statistics.WfmStatisticsPayload;
 import de.nevini.data.wfm.WfmItemNameDataService;
 import de.nevini.data.wfm.WfmOrdersDataService;
 import de.nevini.data.wfm.WfmStatisticsDataService;
-import de.nevini.scope.Locatable;
+import de.nevini.locators.Locatable;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -8,7 +8,7 @@ import de.nevini.scope.Node;
 
 class AddRoleInitiateCommand extends Command {
 
-    private static TributeRoleSetCommand delegate = new TributeRoleSetCommand();
+    private static final TributeRoleSetCommand delegate = new TributeRoleSetCommand();
 
     AddRoleInitiateCommand() {
         super(CommandDescriptor.builder()
