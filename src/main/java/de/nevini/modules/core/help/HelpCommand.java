@@ -69,7 +69,9 @@ public class HelpCommand extends Command {
                                 .append(command.getKeyword()).append("** - ").append(command.getDescription()));
             }
         }
-        builder.append("\n\nTo add me to your server, visit <")
+        builder.append("\n\n**Nevini** is currently running in version ").append(event.getVersionService().getVersion())
+                .append(".");
+        builder.append("\n\nTo add **Nevini** to your server, visit <")
                 .append(event.getJDA().getInviteUrl(Permissions.BOT_FULL)).append(">");
         builder.append("\n\nFurther documentation can be viewed under <https://nevini.de/docs>")
                 .append("\n\nFor additional help and support, join ").append(event.getServerInvite());

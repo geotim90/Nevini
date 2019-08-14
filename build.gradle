@@ -48,3 +48,9 @@ dependencies {
 	testCompile 'org.mockito:mockito-core'
 	testCompile 'org.mockito:mockito-inline'
 }
+
+task generateVersionFile()  {
+	doLast {
+		new File(new File(projectDir, "src/main/resources"), "version.txt").text = "$version"
+	}
+}
