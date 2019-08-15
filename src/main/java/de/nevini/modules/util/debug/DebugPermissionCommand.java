@@ -170,11 +170,13 @@ class DebugPermissionCommand extends Command {
     }
 
     private void println(PrintWriter out, String server, String user, String channel, String role, long permissions) {
-        out.append(server).append(',').append(user).append(',').append(channel).append(',').append(role);
-        for (long mask : masks) {
-            out.append(',').append((permissions & mask) > 0 ? "ON" : "");
+        if (permissions != 0) {
+            out.append(server).append(',').append(user).append(',').append(channel).append(',').append(role);
+            for (long mask : masks) {
+                out.append(',').append((permissions & mask) > 0 ? "ON" : "");
+            }
+            out.println();
         }
-        out.println();
     }
 
     private void println(
