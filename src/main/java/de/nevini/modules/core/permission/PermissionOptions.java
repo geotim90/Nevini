@@ -118,11 +118,19 @@ public class PermissionOptions {
     }
 
     private void acceptChannel(TextChannel channel) {
-        this.channel = channel;
+        // check for scope conflict
         if (guild && channel != null) {
             event.reply(CommandReaction.WARNING, "You cannot select the server and a channel at the same time!",
                     event::complete);
-        } else if (multipleNodes) {
+            return;
+        }
+
+        if (!guild) {
+            // default to current channel
+            this.channel = ObjectUtils.defaultIfNull(channel, event.getTextChannel());
+        }
+
+        if (multipleNodes) {
             if (nodeRequired) {
                 Resolvers.NODE.resolveListArgumentOrOptionOrInput(event, this::acceptNodes);
             } else {
