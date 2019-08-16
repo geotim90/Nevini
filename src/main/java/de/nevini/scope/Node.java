@@ -27,6 +27,7 @@ public enum Node {
     GEOBOT_ADMIN("geobot.admin", Module.GEOBOT, Permissions.MANAGE_SERVER),
     GUILD_ACTIVITY_GET("guild.activity.get", Module.GUILD, Permissions.EVERYONE),
     GUILD_ACTIVITY_SET("guild.activity.set", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_AUTO_MOD_GHOST_PING_IMMUNITY("guild.auto-mod.ghost-ping.immunity", Module.GUILD, Permissions.EVERYONE),
     GUILD_AUTO_ROLE_GET("guild.auto-role.get", Module.GUILD, Permissions.MANAGE_ROLES),
     GUILD_AUTO_ROLE_JOIN("guild.auto-role.join", Module.GUILD, Permissions.EVERYONE),
     GUILD_AUTO_ROLE_PLAYING("guild.auto-role.playing", Module.GUILD, Permissions.EVERYONE),
