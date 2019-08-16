@@ -215,7 +215,7 @@ public class PermissionService {
         }
     }
 
-    private Optional<Boolean> getChannelUserPermission(TextChannel channel, Member user, Node node) {
+    public Optional<Boolean> getChannelUserPermission(TextChannel channel, Member user, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -225,7 +225,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelRolePermission(TextChannel channel, Role role, Node node) {
+    public Optional<Boolean> getChannelRolePermission(TextChannel channel, Role role, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -235,7 +235,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelRolePermission(TextChannel channel, Member user, Node node) {
+    public Optional<Boolean> getChannelRolePermission(TextChannel channel, Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -245,7 +245,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Permission permission, Node node) {
+    public Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Permission permission, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -255,7 +255,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Role role, Node node) {
+    public Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Role role, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -266,7 +266,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Member user, Node node) {
+    public Optional<Boolean> getChannelPermissionPermission(TextChannel channel, Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -276,7 +276,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getChannelPermission(TextChannel channel, Node node) {
+    public Optional<Boolean> getChannelPermission(TextChannel channel, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 channel.getGuild().getIdLong(),
                 channel.getIdLong(),
@@ -286,7 +286,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getUserPermission(Member user, Node node) {
+    public Optional<Boolean> getUserPermission(Member user, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 user.getGuild().getIdLong(),
                 -1L,
@@ -296,7 +296,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getRolePermission(Role role, Node node) {
+    public Optional<Boolean> getRolePermission(Role role, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 role.getGuild().getIdLong(),
                 -1L,
@@ -306,7 +306,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getRolePermission(Member user, Node node) {
+    public Optional<Boolean> getRolePermission(Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 user.getGuild().getIdLong(),
                 -1L,
@@ -316,7 +316,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getPermissionPermission(Guild guild, Permission permission, Node node) {
+    public Optional<Boolean> getPermissionPermission(Guild guild, Permission permission, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 guild.getIdLong(),
                 -1L,
@@ -326,7 +326,7 @@ public class PermissionService {
         )).orElse(null));
     }
 
-    private Optional<Boolean> getPermissionPermission(Role role, Node node) {
+    public Optional<Boolean> getPermissionPermission(Role role, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 role.getGuild().getIdLong(),
                 -1L,
@@ -336,7 +336,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getPermissionPermission(Member user, Node node) {
+    public Optional<Boolean> getPermissionPermission(Member user, Node node) {
         return resolvePermissions(permissionRepository.findAllByGuildAndChannelAndTypeAndIdInAndNode(
                 user.getGuild().getIdLong(),
                 -1L,
@@ -346,7 +346,7 @@ public class PermissionService {
         ));
     }
 
-    private Optional<Boolean> getServerPermission(Guild server, Node node) {
+    public Optional<Boolean> getServerPermission(Guild server, Node node) {
         return resolvePermission(permissionRepository.findById(new PermissionId(
                 server.getIdLong(),
                 -1L,
