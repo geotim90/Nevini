@@ -1,6 +1,6 @@
 # Module: `util`
 
-These commands provide various utility functions.
+These commands provide various utility functions. This modules is active by default but can be deactivated.
 
 Command | Description
 --------|------------
@@ -29,7 +29,7 @@ Permission overrides may be applied on node **util.debug.permission**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 --server | Refers to the current server.
 
 Keyword | Aliases
@@ -100,10 +100,10 @@ role | roles<br>r
 
 Finds permission by any of their identifiers.
 
-This command can only be executed in a text channel and not via direct message.
+This command can be executed in a text channel or via direct message.
 
-By default, you need the **Manage Server** permission to execute this command.<br>
-Permission overrides may be applied on node **util.find.module**.
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **util.find.permission**.
 
 Option | Description
 -------|------------
@@ -118,7 +118,7 @@ permission | permissions<br>perm<br>perms<br>p
 
 Finds nodes by any of their identifiers.
 
-This command can only be executed in a text channel and not via direct message.
+This command can be executed in a text channel or via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **util.find.module**.
@@ -136,7 +136,7 @@ node | nodes<br>n
 
 Finds modules by any of their identifiers.
 
-This command can only be executed in a text channel and not via direct message.
+This command can be executed in a text channel or via direct message.
 
 By default, you need the **Manage Server** permission to execute this command.<br>
 Permission overrides may be applied on node **util.find.module**.
