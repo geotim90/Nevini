@@ -23,6 +23,8 @@ class AutoRoleSetJoinCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.ROLE.describe(false, true)
                 })
+                .details("Restrictions on who can be assigned join roles may be applied on node **"
+                        + Node.GUILD_AUTO_ROLE_JOIN.getNode() + "** (only server level overrides are applicable).")
                 .build());
     }
 

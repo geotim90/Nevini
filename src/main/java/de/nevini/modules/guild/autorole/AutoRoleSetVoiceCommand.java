@@ -25,6 +25,8 @@ class AutoRoleSetVoiceCommand extends Command {
                         Resolvers.VOICE_CHANNEL.describe(),
                         Resolvers.ROLE.describe(false, true)
                 })
+                .details("Restrictions on who can be assigned voice roles may be applied on node **"
+                        + Node.GUILD_AUTO_ROLE_VOICE.getNode() + "** (only server level overrides are applicable).")
                 .build());
     }
 

@@ -1,6 +1,8 @@
 package de.nevini.listeners.autorole;
 
+import de.nevini.scope.Node;
 import de.nevini.services.common.AutoRoleService;
+import de.nevini.services.common.PermissionService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.Permission;
@@ -14,12 +16,15 @@ import org.springframework.stereotype.Component;
 public class AutoRoleJoinListener {
 
     private final AutoRoleService autoRoleService;
+    private final PermissionService permissionService;
 
     public AutoRoleJoinListener(
             @Autowired AutoRoleService autoRoleService,
+            @Autowired PermissionService permissionService,
             @Autowired EventDispatcher eventDispatcher
     ) {
         this.autoRoleService = autoRoleService;
+        this.permissionService = permissionService;
         eventDispatcher.subscribe(GuildMemberJoinEvent.class, this::onMemberJoin);
     }
 
@@ -27,12 +32,12 @@ public class AutoRoleJoinListener {
         // get role
         Role joinRole = autoRoleService.getJoinRole(e.getGuild());
         if (joinRole == null) return;
-
-        // check permissions
-        if (!e.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) return;
-
         // add role if not present
         if (!e.getMember().getRoles().contains(joinRole)) {
+            // check permissions
+            if (!e.getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES)) return;
+            if (!permissionService.hasUserPermission(e.getMember(), Node.GUILD_AUTO_ROLE_JOIN)) return;
+            // add role
             log.debug("Adding role {} to {}", joinRole, e.getMember());
             e.getGuild().addRoleToMember(e.getMember(), joinRole).queue();
         }

@@ -25,6 +25,8 @@ class AutoRoleSetPlaysCommand extends Command {
                         Resolvers.GAME.describe(),
                         Resolvers.ROLE.describe(false, true)
                 })
+                .details("Restrictions on who can be assigned plays roles may be applied on node **"
+                        + Node.GUILD_AUTO_ROLE_PLAYING.getNode() + "** (only server level overrides are applicable).")
                 .build());
     }
 
