@@ -129,9 +129,9 @@ public abstract class OptionResolver<T> extends FlagResolver {
                         replyCancelled(event);
                     } else {
                         resolveInput(event, e.getMessage().getContentRaw(), callback);
+                        MessageCleaner.tryDelete(e.getMessage());
                     }
                     MessageCleaner.tryDelete(message);
-                    MessageCleaner.tryDelete(e.getMessage());
                 },
                 true,
                 1,
