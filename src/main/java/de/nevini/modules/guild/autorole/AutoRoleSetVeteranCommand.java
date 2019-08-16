@@ -34,6 +34,8 @@ class AutoRoleSetVeteranCommand extends Command {
                         durationResolver.describe(),
                         Resolvers.ROLE.describe()
                 })
+                .details("Restrictions on who can be assigned veteran roles may be applied on node **"
+                        + Node.GUILD_AUTO_ROLE_VETERAN.getNode() + "** (only server level overrides are applicable).")
                 .build());
     }
 

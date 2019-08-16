@@ -1,7 +1,9 @@
 package de.nevini.listeners.autorole;
 
 import de.nevini.jpa.autorole.AutoRoleData;
+import de.nevini.scope.Node;
 import de.nevini.services.common.AutoRoleService;
+import de.nevini.services.common.PermissionService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.Permission;
@@ -16,12 +18,15 @@ import org.springframework.stereotype.Component;
 public class AutoRoleGameListener {
 
     private final AutoRoleService autoRoleService;
+    private final PermissionService permissionService;
 
     public AutoRoleGameListener(
             @Autowired AutoRoleService autoRoleService,
+            @Autowired PermissionService permissionService,
             @Autowired EventDispatcher eventDispatcher
     ) {
         this.autoRoleService = autoRoleService;
+        this.permissionService = permissionService;
         eventDispatcher.subscribe(UserActivityStartEvent.class, this::onUserActivityStart);
         eventDispatcher.subscribe(UserActivityEndEvent.class, this::onUserActivityEnd);
     }
@@ -39,10 +44,12 @@ public class AutoRoleGameListener {
                     if (member == null) continue;
                     Role role = guild.getRoleById(autoRole.getRole());
                     if (role == null) continue;
-                    // check permission
-                    if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
                     // add role if not present
                     if (!member.getRoles().contains(role)) {
+                        // check permission
+                        if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
+                        if (!permissionService.hasUserPermission(member, Node.GUILD_AUTO_ROLE_PLAYING)) continue;
+                        // add role
                         log.debug("Adding role {} to {}", role, member);
                         guild.addRoleToMember(member, role).queue();
                     }
@@ -64,10 +71,11 @@ public class AutoRoleGameListener {
                     if (member == null) continue;
                     Role role = guild.getRoleById(autoRole.getRole());
                     if (role == null) continue;
-                    // check permission
-                    if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
                     // remove role if present
                     if (member.getRoles().contains(role)) {
+                        // check permission
+                        if (!guild.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) continue;
+                        // add role
                         log.debug("Removing role {} from {}", role, member);
                         guild.removeRoleFromMember(member, role).queue();
                     }

@@ -1,7 +1,9 @@
 package de.nevini.listeners.autorole;
 
 import de.nevini.jpa.autorole.AutoRoleData;
+import de.nevini.scope.Node;
 import de.nevini.services.common.AutoRoleService;
+import de.nevini.services.common.PermissionService;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.Permission;
@@ -20,12 +22,15 @@ import java.util.Iterator;
 public class AutoRoleVeteranListener {
 
     private final AutoRoleService autoRoleService;
+    private final PermissionService permissionService;
 
     public AutoRoleVeteranListener(
             @Autowired AutoRoleService autoRoleService,
+            @Autowired PermissionService permissionService,
             @Autowired EventDispatcher eventDispatcher
     ) {
         this.autoRoleService = autoRoleService;
+        this.permissionService = permissionService;
         eventDispatcher.subscribe(UserUpdateOnlineStatusEvent.class, this::onUpdateOnlineStatus);
     }
 
@@ -37,6 +42,8 @@ public class AutoRoleVeteranListener {
             // get member
             Member member = guild.getMember(e.getUser());
             if (member == null) continue;
+            // check permission
+            if (!permissionService.hasUserPermission(e.getMember(), Node.GUILD_AUTO_ROLE_VETERAN)) return;
             // iterate over configured veteran auto roles for this guild
             Iterator<AutoRoleData> iterator = autoRoleService.getVeteranAutoRoles(guild).iterator();
             while (iterator.hasNext()) {

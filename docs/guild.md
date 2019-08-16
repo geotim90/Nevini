@@ -313,6 +313,8 @@ Command | Description
 
 Configures auto-roles for users that join the server.
 
+Restrictions on who can be assigned join roles may be applied on node **guild.auto-role.join** (only server level overrides are applicable).
+
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
@@ -329,6 +331,8 @@ Keyword | Aliases
 #### Command: `auto-role set playing`
 
 Configures auto-roles for users that are currently playing a certain game.
+
+Restrictions on who can be assigned playing roles may be applied on node **guild.auto-role.playing** (only server level overrides are applicable).
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -349,6 +353,8 @@ Keyword | Aliases
 
 Configures auto-roles for users that ever play a certain game.
 
+Restrictions on who can be assigned plays roles may be applied on node **guild.auto-role.playing** (only server level overrides are applicable).
+
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
@@ -368,6 +374,8 @@ Keyword | Aliases
 
 Configures auto-roles for users that joined the server some time ago.
 
+Restrictions on who can be assigned veteran roles may be applied on node **guild.auto-role.veteran** (only server level overrides are applicable).
+
 This command can only be executed in a text channel and not via direct message.
 
 By default, you need the **Manage Roles** permission to execute this command.<br>
@@ -386,6 +394,8 @@ Keyword | Aliases
 #### Command: `auto-role set voice`
 
 Configures auto-roles for users that are currently in a specific voice channel.
+
+Restrictions on who can be assigned voice roles may be applied on node **guild.auto-role.voice** (only server level overrides are applicable).
 
 This command can only be executed in a text channel and not via direct message.
 
