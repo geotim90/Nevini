@@ -38,6 +38,8 @@ public class AutoRoleVoiceListener {
     }
 
     private void onVoiceJoin(Member member, VoiceChannel channel) {
+        // ignore bots
+        if (member.getUser().isBot()) return;
         // get role
         Role role = autoRoleService.getVoiceRole(channel);
         if (role == null) return;
@@ -53,6 +55,8 @@ public class AutoRoleVoiceListener {
     }
 
     private void onVoiceLeave(Member member, VoiceChannel channel) {
+        // ignore bots
+        if (member.getUser().isBot()) return;
         // get role
         Role role = autoRoleService.getVoiceRole(channel);
         if (role == null) return;

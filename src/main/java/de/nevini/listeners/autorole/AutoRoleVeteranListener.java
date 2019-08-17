@@ -35,6 +35,8 @@ public class AutoRoleVeteranListener {
     }
 
     private void onUpdateOnlineStatus(UserUpdateOnlineStatusEvent e) {
+        // ignore bots
+        if (e.getUser().isBot()) return;
         // iterate over mutual guilds
         for (Guild guild : e.getUser().getMutualGuilds()) {
             // check permission
@@ -43,7 +45,7 @@ public class AutoRoleVeteranListener {
             Member member = guild.getMember(e.getUser());
             if (member == null) continue;
             // check permission
-            if (!permissionService.hasUserPermission(e.getMember(), Node.GUILD_AUTO_ROLE_VETERAN)) return;
+            if (!permissionService.hasUserPermission(e.getMember(), Node.GUILD_AUTO_ROLE_VETERAN)) continue;
             // iterate over configured veteran auto roles for this guild
             Iterator<AutoRoleData> iterator = autoRoleService.getVeteranAutoRoles(guild).iterator();
             while (iterator.hasNext()) {

@@ -29,6 +29,8 @@ public class AutoRoleJoinListener {
     }
 
     private void onMemberJoin(GuildMemberJoinEvent e) {
+        // ignore bots
+        if (e.getUser().isBot()) return;
         // get role
         Role joinRole = autoRoleService.getJoinRole(e.getGuild());
         if (joinRole == null) return;
