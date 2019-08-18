@@ -10,8 +10,13 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.audit.ActionType;
+import net.dv8tion.jda.api.audit.AuditLogEntry;
+import net.dv8tion.jda.api.audit.AuditLogOption;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Message.MentionType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
@@ -21,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 
 @Slf4j
@@ -43,7 +47,7 @@ public class GhostPingMessageListener {
 
     @Value
     private static class CachedMessage {
-        private final String content;
+        private final Message message;
         private final List<IMentionable> mentions;
     }
 
@@ -73,8 +77,7 @@ public class GhostPingMessageListener {
                 ) {
                     // cache mentions for one minute
                     log.debug("Caching mentions for message {}: {}", event.getMessageIdLong(), mentions);
-                    receivedCache.put(event.getMessageIdLong(),
-                            new CachedMessage(event.getMessage().getContentRaw(), mentions));
+                    receivedCache.put(event.getMessageIdLong(), new CachedMessage(event.getMessage(), mentions));
                 }
             }
         }
@@ -87,12 +90,12 @@ public class GhostPingMessageListener {
             // warn author if old mentions were removed
             if (!newMentions.containsAll(message.getMentions())) {
                 log.debug("Posting ghost ping warning for message {} (updated)", event.getMessageIdLong());
-                postWarning(event.getChannel(), event.getMember(), message.getContent());
+                postWarning(event.getChannel(), event.getMember(), message.getMessage());
             }
             // update cache if new mentions were added
             if (!message.getMentions().containsAll(newMentions)) {
                 log.debug("Caching mentions for message {} (updated): {}", event.getMessageIdLong(), newMentions);
-                receivedCache.put(event.getMessageIdLong(), new CachedMessage(message.getContent(), newMentions));
+                receivedCache.put(event.getMessageIdLong(), new CachedMessage(message.getMessage(), newMentions));
             }
         }
     }
@@ -100,31 +103,66 @@ public class GhostPingMessageListener {
     private void onMessageDelete(GuildMessageDeleteEvent event) {
         CachedMessage message = receivedCache.getIfPresent(event.getMessageIdLong());
         if (message != null) {
-            log.debug("Posting ghost ping warning for message {} (deleted)", event.getMessageIdLong());
-            postWarning(event.getChannel(), null, message.getContent());
+            // check audit log
+            if (event.getGuild().getSelfMember().hasPermission(Permission.VIEW_AUDIT_LOGS)) {
+                event.getGuild().retrieveAuditLogs().type(ActionType.MESSAGE_DELETE).limit(1).queue(
+                        auditLog -> acceptMessageDeleteAuditLog(event, message, auditLog),
+                        ignore -> acceptMessageDeleteWithoutAuditLog(event, message)
+                );
+            } else {
+                acceptMessageDeleteWithoutAuditLog(event, message);
+            }
         }
     }
 
-    private void postWarning(TextChannel channel, Member member, String content) {
+    private void acceptMessageDeleteAuditLog(
+            GuildMessageDeleteEvent event, CachedMessage message, List<AuditLogEntry> auditLog
+    ) {
+        // find the culprit in the audit log
+        Member culprit = auditLog.stream().filter(e ->
+                // entry id must be more recent than that of the deleted message
+                e.getIdLong() > message.getMessage().getIdLong()
+                        // entry target must match the author of the original message
+                        && e.getTargetIdLong() == message.getMessage().getAuthor().getIdLong()
+                        // entry options must match the channel of the original message
+                        && message.getMessage().getChannel().getId().equals(e.getOption(AuditLogOption.CHANNEL))
+        ).findFirst().map(AuditLogEntry::getUser).map(user -> event.getGuild().getMember(user))
+                // if the audit log contains no entry, the author of the message most likely deleted their own message
+                .orElse(message.getMessage().getMember());
+        // check immunity
+        if (culprit == null || !permissionService.hasChannelUserPermission(event.getChannel(), culprit, IMMUNITY)) {
+            // post warning
+            log.debug("Posting ghost ping warning for message {} (deleted)", event.getMessageIdLong());
+            postWarning(event.getChannel(), culprit, message.getMessage());
+        }
+    }
+
+    private void acceptMessageDeleteWithoutAuditLog(GuildMessageDeleteEvent event, CachedMessage message) {
+        // post warning
+        log.debug("Posting ghost ping warning for message {} (deleted)", event.getMessageIdLong());
+        postWarning(event.getChannel(), null, message.getMessage());
+    }
+
+    private void postWarning(TextChannel channel, Member member, Message message) {
+        Member author = message.getMember();
         Member selfMember = channel.getGuild().getSelfMember();
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        if (member == null) {
+        if (author == null) {
             embedBuilder.setAuthor(channel.getGuild().getName(), null, channel.getGuild().getIconUrl());
             embedBuilder.setColor(selfMember.getColor());
         } else {
-            embedBuilder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
-            embedBuilder.setColor(member.getColor());
+            embedBuilder.setAuthor(author.getEffectiveName(), null, author.getUser().getAvatarUrl());
+            embedBuilder.setColor(author.getColor());
         }
-        embedBuilder.setDescription(content);
-        embedBuilder.setFooter(selfMember.getEffectiveName(), selfMember.getUser().getAvatarUrl());
-        embedBuilder.setTimestamp(Instant.now());
-        embedBuilder.setTitle("Original message:");
+        embedBuilder.setDescription(message.getContentRaw());
+        embedBuilder.setFooter("Original message");
+        embedBuilder.setTimestamp(message.getTimeCreated());
 
         MessageBuilder messageBuilder = new MessageBuilder();
-        if (member != null) {
-            messageBuilder.setContent(member.getAsMention() + " Please do not ghost ping.");
-        } else {
+        if (member == null) {
             messageBuilder.setContent("Please do not ghost ping.");
+        } else {
+            messageBuilder.setContent(member.getAsMention() + " Please do not ghost ping.");
         }
         messageBuilder.setEmbed(embedBuilder.build());
         messageBuilder.sendTo(channel).queue();

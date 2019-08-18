@@ -39,7 +39,7 @@ public class DiscordBotListService {
         int serverCount = jda.getGuilds().size();
         log.info("Updating DBL server count for shard [{} / {}] to {}", shardId, shardTotal, serverCount);
         api.get().setStats(shardId, shardTotal, serverCount).exceptionally(e -> {
-            log.error("Failed to update DBL server count", e);
+            log.warn("Failed to update DBL server count", e);
             return null;
         });
     }
