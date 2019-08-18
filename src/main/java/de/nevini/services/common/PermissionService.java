@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,14 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class PermissionService {
 
-    private final static byte SERVER = 1;
-    private final static byte PERMISSION = 2;
-    private final static byte ROLE = 3;
-    private final static byte USER = 4;
-    private final static byte CHANNEL = 5;
-    private final static byte CHANNEL_PERMISSION = 6;
-    private final static byte CHANNEL_ROLE = 7;
-    private final static byte CHANNEL_USER = 8;
+    public final static byte SERVER = 1;
+    public final static byte PERMISSION = 2;
+    public final static byte ROLE = 3;
+    public final static byte USER = 4;
+    public final static byte CHANNEL = 5;
+    public final static byte CHANNEL_PERMISSION = 6;
+    public final static byte CHANNEL_ROLE = 7;
+    public final static byte CHANNEL_USER = 8;
 
     private final PermissionRepository permissionRepository;
 
@@ -485,6 +486,11 @@ public class PermissionService {
 
     public Collection<PermissionData> getRolePermissions(@NonNull Guild guild, @NonNull Node node) {
         return permissionRepository.findAllByGuildAndTypeAndNode(guild.getIdLong(), ROLE, node.getNode());
+    }
+
+    public Collection<PermissionData> getPermissions(@NonNull Guild guild, @NonNull List<Node> nodes) {
+        return permissionRepository.findAllByGuildAndNodeIn(guild.getIdLong(),
+                nodes.stream().map(Node::getNode).collect(Collectors.toList()));
     }
 
 }

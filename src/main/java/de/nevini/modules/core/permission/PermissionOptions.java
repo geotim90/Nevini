@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Data
 public class PermissionOptions {
 
-    private static final FlagResolver ALL_FLAG = new FlagResolver(new Pattern[]{
+    static final FlagResolver ALL_FLAG = new FlagResolver(new Pattern[]{
             Pattern.compile("(?i)(?:(?:--|//)all|[-/]a)")
     }) {
         @Override

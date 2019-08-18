@@ -119,10 +119,11 @@ permission | permissions<br>perm<br>perms
 Command | Description
 --------|------------
 [permission get](#command-permission-get) | displays effective permissions for bot commands
-[permission debug](#command-permission-debug) | displays a permission node trace for bot commands
 [permission allow](#command-permission-allow) | configures permission node overrides for bot commands
 [permission deny](#command-permission-deny) | configures permission node overrides for bot commands
 [permission reset](#command-permission-reset) | resets permission node overrides for bot commands
+[permission debug](#command-permission-debug) | displays a permission node trace for bot commands
+[permission overrides](#command-permission-overrides) | displays all configured overrides for the specified node or nodes
 
 ### Command: `permission get`
 
@@ -163,52 +164,6 @@ Option | Description
 Keyword | Aliases
 --------|--------
 get | display<br>echo<br>list<br>print<br>show
---node | //node<br>-n<br>/n
---all | //all<br>-a<br>/a
---server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
---permission | //permission<br>--perm<br>//perm<br>-p<br>/p
---role | //role<br>-r<br>/r
---user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
---channel | //channel<br>-c<br>/c
-
-### Command: `permission debug`
-
-Displays a permission node trace for bot commands.
-
-Permission node overrides for bot commands are applied in the following order:<br>
-1. Default permissions<br>
-2. Server permissions<br>
-3. Permissions based on effective permissions (e.g. "Manage Server")<br>
-4. Role permissions<br>
-5. User permissions<br>
-6. Channel permissions<br>
-7. Channel-specific permissions based on effective permissions (e.g. "Manage Server")<br>
-8. Channel-specific role permissions<br>
-9. Channel-specific user permissions
-
-If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
-Server owners and administrators are not restricted by permission node overrides.<br>
-Users can only configure permissions for permission nodes they have themselves.<br>
-Users can only configure permissions for roles of a lower position than their highest role.<br>
-Users can only configure permissions for users whose highest role is lower than their highest role.
-
-This command can only be executed in a text channel and not via direct message.
-
-By default, you need the **Manage Roles** permission to execute this command.<br>
-Permission overrides may be applied on node **core.permission.debug**.
-
-Option | Description
--------|------------
-\[--node\] \<node\> | Refers to a specific permission node for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
---all | Explicitly refers to all permission nodes.
---server | Refers to the current server.
---permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
-\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
-
-Keyword | Aliases
---------|--------
 --node | //node<br>-n<br>/n
 --all | //all<br>-a<br>/a
 --server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
@@ -357,6 +312,89 @@ reset | clear<br>default
 --role | //role<br>-r<br>/r
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --channel | //channel<br>-c<br>/c
+
+### Command: `permission debug`
+
+Displays a permission node trace for bot commands.
+
+Permission node overrides for bot commands are applied in the following order:<br>
+1. Default permissions<br>
+2. Server permissions<br>
+3. Permissions based on effective permissions (e.g. "Manage Server")<br>
+4. Role permissions<br>
+5. User permissions<br>
+6. Channel permissions<br>
+7. Channel-specific permissions based on effective permissions (e.g. "Manage Server")<br>
+8. Channel-specific role permissions<br>
+9. Channel-specific user permissions
+
+If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
+Server owners and administrators are not restricted by permission node overrides.<br>
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **core.permission.debug**.
+
+Option | Description
+-------|------------
+\[--node\] \<node\> | Refers to a specific permission node for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
+--all | Explicitly refers to all permission nodes.
+--server | Refers to the current server.
+--permission \<permission\> | Refers to a specific permission with a matching name (e.g. "Manage Server").
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
+
+Keyword | Aliases
+--------|--------
+--node | //node<br>-n<br>/n
+--all | //all<br>-a<br>/a
+--server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
+--permission | //permission<br>--perm<br>//perm<br>-p<br>/p
+--role | //role<br>-r<br>/r
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--channel | //channel<br>-c<br>/c
+
+### Command: `permission overrides`
+
+Displays all configured overrides for the specified node or nodes.
+
+Permission node overrides for bot commands are applied in the following order:<br>
+1. Default permissions<br>
+2. Server permissions<br>
+3. Permissions based on effective permissions (e.g. "Manage Server")<br>
+4. Role permissions<br>
+5. User permissions<br>
+6. Channel permissions<br>
+7. Channel-specific permissions based on effective permissions (e.g. "Manage Server")<br>
+8. Channel-specific role permissions<br>
+9. Channel-specific user permissions
+
+If multiple overrides on the same "level" disagree with each other (e.g. conflicting roles), **allow** will trump **deny**.<br>
+Server owners and administrators are not restricted by permission node overrides.<br>
+Users can only configure permissions for permission nodes they have themselves.<br>
+Users can only configure permissions for roles of a lower position than their highest role.<br>
+Users can only configure permissions for users whose highest role is lower than their highest role.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Roles** permission to execute this command.<br>
+Permission overrides may be applied on node **core.permission.overrides**.
+
+Option | Description
+-------|------------
+\[--node\] \<node\> | Refers to all permission nodes for bot commands with a matching name.<br>The `--node` flag is optional if this option is provided first.
+--all | Explicitly refers to all permission nodes.
+
+Keyword | Aliases
+--------|--------
+overrides | override
+--node | //node<br>-n<br>/n
+--all | //all<br>-a<br>/a
 
 ## Command: `ping`
 

@@ -14,10 +14,11 @@ public class PermissionCommand extends Command {
                 .aliases(new String[]{"permissions", "perm", "perms"})
                 .children(new Command[]{
                         new PermissionGetCommand(),
-                        new PermissionDebugCommand(),
                         new PermissionAllowCommand(),
                         new PermissionDenyCommand(),
-                        new PermissionResetCommand()
+                        new PermissionResetCommand(),
+                        new PermissionDebugCommand(),
+                        new PermissionOverridesCommand(),
                 })
                 .description("displays and configures permission node overrides for bot commands")
                 .details("By default, this command will behave the same as **permission get**.")
