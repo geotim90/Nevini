@@ -13,4 +13,6 @@ public interface PermissionRepository extends CrudRepository<PermissionData, Per
 
     Collection<PermissionData> findAllByGuildAndTypeAndNode(long guild, byte type, String node);
 
+    Collection<PermissionData> findAllByGuildAndNodeIn(long idLong, Collection<String> collect);
+
 }

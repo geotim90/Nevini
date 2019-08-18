@@ -18,11 +18,17 @@ public abstract class FlagResolver {
 
     public abstract CommandOptionDescriptor describe();
 
-    protected String getFromOptions(@NonNull CommandEvent event) {
+    String getFromOptions(@NonNull CommandEvent event) {
         for (String option : event.getOptions().getOptions()) {
             for (Pattern pattern : optionPatterns) {
                 Matcher matcher = pattern.matcher(option);
-                if (matcher.matches()) return StringUtils.defaultString(matcher.group(1), StringUtils.EMPTY);
+                if (matcher.matches()) {
+                    if (matcher.groupCount() > 0) {
+                        return StringUtils.defaultString(matcher.group(1), StringUtils.EMPTY);
+                    } else {
+                        return StringUtils.EMPTY;
+                    }
+                }
             }
         }
         return null;

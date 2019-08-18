@@ -236,7 +236,7 @@ class DebugPermissionCommand extends Command {
             event.getTextChannel().sendMessage("Here is the data you requested:").addFile(export)
                     .queue(event::complete);
         } catch (IOException e) {
-            log.error("Something went wrong while exporting data.", e);
+            log.warn("Something went wrong while exporting data.", e);
             event.reply(CommandReaction.ERROR, event::complete);
         }
     }

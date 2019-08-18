@@ -18,6 +18,7 @@ public enum Node {
     CORE_PERMISSION_DEBUG("core.permission.debug", Module.CORE, Permissions.MANAGE_ROLES),
     CORE_PERMISSION_DENY("core.permission.deny", Module.CORE, Permissions.MANAGE_ROLES),
     CORE_PERMISSION_GET("core.permission.get", Module.CORE, Permissions.MANAGE_ROLES),
+    CORE_PERMISSION_OVERRIDES("core.permission.overrides", Module.CORE, Permissions.MANAGE_ROLES),
     CORE_PERMISSION_RESET("core.permission.reset", Module.CORE, Permissions.MANAGE_ROLES),
     CORE_PING("core.ping", Module.CORE, Permissions.EVERYONE),
     CORE_PREFIX_GET("core.prefix.get", Module.CORE, Permissions.EVERYONE),

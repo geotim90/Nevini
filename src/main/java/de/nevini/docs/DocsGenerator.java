@@ -34,7 +34,7 @@ public class DocsGenerator {
 
         File dir = new File(path);
         if (!dir.exists() || !dir.isDirectory()) {
-            log.error("Path for generated docs is not a valid directory: {}", path);
+            log.warn("Path for generated docs is not a valid directory: {}", path);
             return;
         }
 
@@ -51,7 +51,7 @@ public class DocsGenerator {
                 generateModuleDoc(module,
                         commands.stream().filter(c -> module.equals(c.getModule())).collect(Collectors.toList()), out);
             } catch (IOException e) {
-                log.error("Error while generating docs: ", e);
+                log.warn("Error while generating docs: ", e);
             }
             log.info("Generated md for module: {}", module.getName());
         }
