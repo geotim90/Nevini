@@ -20,28 +20,34 @@ public class DiscordBotListService {
 
     public DiscordBotListService(
             @Autowired JdaProvider jdaProvider,
-            @Value("${dbl.token}") String token
+            @Value("${dbl.token:#{null}}") String token
     ) {
         jda = jdaProvider.getJda();
         this.token = token;
     }
 
     private DiscordBotListAPI initApi() {
-        return new DiscordBotListAPI.Builder()
-                .botId(jda.getSelfUser().getId())
-                .token(token)
-                .build();
+        if (token == null) {
+            return null;
+        } else {
+            return new DiscordBotListAPI.Builder()
+                    .botId(jda.getSelfUser().getId())
+                    .token(token)
+                    .build();
+        }
     }
 
     public void updateServerCount() {
-        int shardId = jda.getShardInfo().getShardId();
-        int shardTotal = jda.getShardInfo().getShardTotal();
-        int serverCount = jda.getGuilds().size();
-        log.info("Updating DBL server count for shard [{} / {}] to {}", shardId, shardTotal, serverCount);
-        api.get().setStats(shardId, shardTotal, serverCount).exceptionally(e -> {
-            log.warn("Failed to update DBL server count", e);
-            return null;
-        });
+        if (token != null) {
+            int shardId = jda.getShardInfo().getShardId();
+            int shardTotal = jda.getShardInfo().getShardTotal();
+            int serverCount = jda.getGuilds().size();
+            log.info("Updating DBL server count for shard [{} / {}] to {}", shardId, shardTotal, serverCount);
+            api.get().setStats(shardId, shardTotal, serverCount).exceptionally(e -> {
+                log.warn("Failed to update DBL server count", e);
+                return null;
+            });
+        }
     }
 
 }
