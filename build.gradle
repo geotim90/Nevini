@@ -1,5 +1,4 @@
 plugins {
-	id 'java'
 	id 'org.springframework.boot' version '2.1.7.RELEASE'
 }
 
@@ -9,7 +8,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.7.2'
+version = '4.7.3'
 sourceCompatibility = '8'
 
 configurations {
@@ -51,8 +50,4 @@ dependencies {
 	testCompile 'org.mockito:mockito-inline'
 }
 
-task generateVersionFile()  {
-	doLast {
-		new File(new File(projectDir, "src/main/resources"), "version.txt").text = "$version"
-	}
-}
+new File(new File(projectDir, "src/main/resources"), "version.txt").text = "$version"
