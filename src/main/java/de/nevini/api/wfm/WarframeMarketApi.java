@@ -1,16 +1,11 @@
 package de.nevini.api.wfm;
 
-import de.nevini.api.Api;
-import de.nevini.api.ApiRequest;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfm.model.item.WfmItemResponse;
 import de.nevini.api.wfm.model.items.WfmItemsResponse;
 import de.nevini.api.wfm.model.orders.WfmOrdersResponse;
 import de.nevini.api.wfm.model.statistics.WfmStatisticsResponse;
-import de.nevini.api.wfm.requests.WfmItemRequest;
-import de.nevini.api.wfm.requests.WfmItemsRequest;
-import de.nevini.api.wfm.requests.WfmOrdersRequest;
-import de.nevini.api.wfm.requests.WfmStatisticsRequest;
+import de.nevini.api.wfm.requests.*;
 import de.nevini.util.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -22,15 +17,14 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @AllArgsConstructor
-public class WarframeMarketApi implements Api {
+public class WarframeMarketApi {
 
     private final TokenBucket rateLimit = new TokenBucket(3, 3, 3, TimeUnit.SECONDS);
 
     @NonNull
     private final OkHttpClient httpClient;
 
-    @Override
-    public @NonNull <T> ApiResponse<T> call(@NonNull ApiRequest<T> apiRequest) {
+    private @NonNull <T> ApiResponse<T> call(@NonNull WfmApiRequest<T> apiRequest) {
         log.debug("Request: {}", apiRequest);
         // check rate limits
         if (rateLimit.requestToken()) {

@@ -1,17 +1,17 @@
 package de.nevini.api.osu.model;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.Builder;
+import de.nevini.api.osu.external.requests.OsuUserType;
 import lombok.Value;
 
-@Builder
 @Value
 public class OsuReplay {
 
-    @SerializedName("content")
+    private final OsuMode mode;
+    private final Integer beatmapId;
+    private final String user;
+    private final OsuUserType userType;
+    private final OsuMod[] mods;
     private final String content;
-
-    @SerializedName("encoding")
     private final String encoding;
 
 }

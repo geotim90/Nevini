@@ -1,6 +1,10 @@
 package de.nevini.api;
 
+import lombok.NonNull;
 import lombok.Value;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Wrapper for the result of an API call.
@@ -75,11 +79,64 @@ public class ApiResponse<T> {
     }
 
     /**
+     * Returns {@code true} if {@link #getResult()} is {@code null}.
+     * Returns {@code false} if {@link #getResult()} is not {@code null}.
+     */
+    public boolean isEmpty() {
+        return result == null;
+    }
+
+    /**
      * Returns {@code true} if the API call failed.
      * Returns {@code false} if {@link #isOk()} or {@link #isRateLimited()}.
      */
     public boolean isError() {
         return throwable != null && !rateLimited;
+    }
+
+    /**
+     * Returns a copy of {@code this} {@link ApiResponse} with a mapped result.
+     * Note that the {@code mapper} will not be called if {@link #isEmpty()}.
+     *
+     * @param mapper the {@link Function} to map {@link #getResult()} with
+     * @param <V>    the target result type
+     */
+    public <V> @NonNull ApiResponse<V> map(@NonNull Function<T, V> mapper) {
+        if (isEmpty()) {
+            return new ApiResponse<>(null, throwable, rateLimited);
+        } else {
+            return new ApiResponse<>(mapper.apply(result), throwable, rateLimited);
+        }
+    }
+
+    /**
+     * Returns {@code this} {@link ApiResponse} if {@link #isOk()} and not {@link #isEmpty()}.
+     * Returns the provided alternative if {@code this} {@link ApiResponse} not {@link #isOk()} or {@link #isEmpty()}.
+     *
+     * @param alternative the {@link ApiResponse} to return in the latter case
+     */
+    public @NonNull ApiResponse<T> orElse(@NonNull ApiResponse<T> alternative) {
+        return isOk() && !isEmpty() ? this : alternative;
+    }
+
+    /**
+     * Returns {@code this} {@link ApiResponse} if {@link #isOk()} and not {@link #isEmpty()}.
+     * Returns the provided alternative if {@code this} {@link ApiResponse} not {@link #isOk()} or {@link #isEmpty()}.
+     *
+     * @param alternative the {@link Supplier} to call in the latter case
+     */
+    public @NonNull ApiResponse<T> orElse(@NonNull Supplier<ApiResponse<T>> alternative) {
+        return isOk() && !isEmpty() ? this : alternative.get();
+    }
+
+    /**
+     * Returns {@code this} {@link ApiResponse} if {@link #isOk()} and not {@link #isEmpty()}.
+     * Returns the provided alternative if {@code this} {@link ApiResponse} not {@link #isOk()} or {@link #isEmpty()}.
+     *
+     * @param alternative the {@link Function} to call with {@code this} {@link ApiResponse} in the latter case
+     */
+    public @NonNull ApiResponse<T> orElse(@NonNull Function<ApiResponse<T>, ApiResponse<T>> alternative) {
+        return isOk() && !isEmpty() ? this : alternative.apply(this);
     }
 
 }

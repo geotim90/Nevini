@@ -64,7 +64,7 @@ public class OsuBestCommand extends Command {
             for (OsuUserBest score : best) {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger((int) Math.floor(score.getPp())) + "pp - "
-                                + Formatter.formatLargestUnitAgo(score.getDate().getTime()),
+                                + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osuService.getBeatmapString(score.getBeatmapId())
                                 + "](https://osu.ppy.sh/b/" + score.getBeatmapId() + ")",
                         false);

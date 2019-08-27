@@ -1,7 +1,6 @@
 package de.nevini.api.wfm.requests;
 
 import com.google.gson.reflect.TypeToken;
-import de.nevini.api.ApiRequest;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfm.model.orders.WfmOrdersResponse;
 import lombok.Builder;
@@ -15,7 +14,7 @@ import java.lang.reflect.Type;
 
 @Builder
 @Value
-public class WfmOrdersRequest implements ApiRequest<WfmOrdersResponse> {
+public class WfmOrdersRequest implements WfmApiRequest<WfmOrdersResponse> {
 
     @NonNull
     private final String itemUrlName;

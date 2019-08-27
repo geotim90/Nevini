@@ -2,6 +2,7 @@ package de.nevini.api.osu.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 @AllArgsConstructor
@@ -43,5 +44,13 @@ public enum OsuMod {
 
     private final int id;
     private final String name;
+
+    public static int sum(@NonNull OsuMod... mods) {
+        int value = 0;
+        for (OsuMod mod : mods) {
+            value |= mod.getId();
+        }
+        return value;
+    }
 
 }

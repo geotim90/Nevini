@@ -85,7 +85,7 @@ public class OsuScoresCommand extends Command {
             for (OsuScore score : scores) {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger(score.getScore()) + " - "
-                                + Formatter.formatLargestUnitAgo(score.getDate().getTime()),
+                                + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osuService.getUserName(score.getUserId()) + "](https://osu.ppy.sh/u/"
                                 + score.getUserId() + ")",
                         false);
