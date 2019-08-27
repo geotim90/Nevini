@@ -8,6 +8,7 @@ import de.nevini.scope.Node;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
 import java.util.Collection;
 
@@ -35,17 +36,19 @@ class AutoRoleGetCommand extends Command {
                 Role role = event.getGuild().getRoleById(autoRole.getRole());
                 if (role != null) {
                     if ("join".equals(autoRole.getType())) {
-                        builder.addField("Joins " + event.getGuild().getName(), role.getName(), true);
+                        builder.addField("Joins " + event.getGuild().getName(), role.getAsMention(), true);
                     } else if ("playing".equals(autoRole.getType())) {
                         builder.addField("Playing " + event.getGameService().getGameName(autoRole.getId()),
-                                role.getName(), true);
+                                role.getAsMention(), true);
                     } else if ("plays".equals(autoRole.getType())) {
                         builder.addField("Plays " + event.getGameService().getGameName(autoRole.getId()),
-                                role.getName(), true);
+                                role.getAsMention(), true);
                     } else if ("veteran".equals(autoRole.getType())) {
-                        builder.addField("Veteran (" + autoRole.getId() + " days)", role.getName(), true);
+                        builder.addField("Veteran (" + autoRole.getId() + " days)", role.getAsMention(), true);
                     } else if ("voice".equals(autoRole.getType())) {
-                        builder.addField("Voice (" + autoRole.getId() + ")", role.getName(), true);
+                        VoiceChannel channel = event.getGuild().getVoiceChannelById(autoRole.getId());
+                        String channelName = channel == null ? autoRole.getId().toString() : channel.getName();
+                        builder.addField("Voice (" + channelName + ")", role.getAsMention(), true);
                     } else {
                         log.warn("Unknown auto-role type: {}", autoRole.getType());
                     }
