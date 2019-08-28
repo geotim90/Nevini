@@ -8,7 +8,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuMod {
+public enum OsuMod implements OsuEnum {
 
     NO_FAIL(1, "No Fail"),
     EASY(2, "Easy"),

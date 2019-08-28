@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuTeamType {
+public enum OsuTeamType implements OsuEnum {
 
     HEAD_TO_HEAD(0, "Head to head"),
     TAG_CO_OP(1, "Tag Co-op"),

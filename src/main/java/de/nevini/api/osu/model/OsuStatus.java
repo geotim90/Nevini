@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuStatus {
+public enum OsuStatus implements OsuEnum {
 
     LOVED(4, "Loved"),
     QUALIFIED(3, "Qualified"),

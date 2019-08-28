@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuScoringType {
+public enum OsuScoringType implements OsuEnum {
 
     SCORE(0, "Score"),
     ACCURACY(1, "Accuracy"),

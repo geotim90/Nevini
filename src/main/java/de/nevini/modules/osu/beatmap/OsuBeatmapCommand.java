@@ -23,7 +23,8 @@ public class OsuBeatmapCommand extends Command {
     public OsuBeatmapCommand() {
         super(CommandDescriptor.builder()
                 .keyword("osu!beatmap")
-                .aliases(new String[]{"osu!b", "osu!bm", "osu!map"})
+                .aliases(new String[]{"osu!b", "osu!beatmaps", "osu!beatmapset", "osu!bm", "osu!bms", "osu!find",
+                        "osu!map", "osu!maps", "osu!mapset", "osu!s", "osu!search", "osu!set"})
                 .guildOnly(false)
                 .node(Node.OSU_BEATMAP)
                 .description("displays general information of osu! beatmaps")
@@ -64,7 +65,7 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Status", beatmap.getApproved().getName(), true);
                         embed.addField("Play Count", Formatter.formatInteger(beatmap.getPlayCount()), true);
                         embed.addField("Favourite Count", Formatter.formatInteger(beatmap.getFavouriteCount()), true);
-                        embed.addField("Mapped", beatmap.getCreatorName(), true);
+                        embed.addField("Mapper", beatmap.getCreatorName(), true);
                         embed.addField("Submitted", Formatter.formatTimestamp(beatmap.getSubmitDate()), true);
                         embed.addField("Ranked", Formatter.formatTimestamp(beatmap.getApprovedDate()), true);
                         embed.addField("Length", Formatter.formatSeconds(beatmap.getTotalLength()), true);

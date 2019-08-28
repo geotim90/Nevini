@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuGenre {
+public enum OsuGenre implements OsuEnum {
 
     ANY(0, "Any"),
     UNSPECIFIED(1, "Unspecified"),

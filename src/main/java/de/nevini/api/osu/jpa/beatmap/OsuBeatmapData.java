@@ -36,18 +36,33 @@ public class OsuBeatmapData {
 
     private Integer creatorId;
 
+    /**
+     * Star Difficulty
+     */
     private Double difficultyRating;
 
     private Double difficultyAim;
 
     private Double difficultySpeed;
 
+    /**
+     * Circle Size (CS)
+     */
     private Double difficultySize;
 
+    /**
+     * Overall Difficulty (OD)
+     */
     private Double difficultyOverall;
 
+    /**
+     * Approach Rate (AR)
+     */
     private Double difficultyApproach;
 
+    /**
+     * HP Drain Rate (HP)
+     */
     private Double difficultyDrain;
 
     private Integer hitLength;

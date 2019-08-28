@@ -6,7 +6,6 @@ import de.nevini.api.osu.services.*;
 import de.nevini.jpa.game.GameData;
 import de.nevini.locators.Locatable;
 import de.nevini.services.common.GameService;
-import de.nevini.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -25,6 +24,7 @@ public class OsuService implements Locatable {
 
     private final Lazy<GameData> game;
 
+    private final OsuBeatmapSearchService beatmapSearchService;
     private final OsuBeatmapService beatmapService;
     private final OsuScoreService scoresService;
     private final OsuUserService userService;
@@ -34,6 +34,7 @@ public class OsuService implements Locatable {
 
     public OsuService(
             @Autowired GameService gameService,
+            @Autowired OsuBeatmapSearchService beatmapSearchService,
             @Autowired OsuBeatmapService beatmapService,
             @Autowired OsuScoreService scoresService,
             @Autowired OsuUserService userService,
@@ -42,7 +43,7 @@ public class OsuService implements Locatable {
             @Autowired OsuUserRecentService userRecentService
     ) {
         game = Lazy.of(() -> gameService.findGames("osu!").stream().findFirst().orElse(null));
-
+        this.beatmapSearchService = beatmapSearchService;
         this.beatmapService = beatmapService;
         this.scoresService = scoresService;
         this.userService = userService;
@@ -57,13 +58,19 @@ public class OsuService implements Locatable {
 
     public Collection<OsuBeatmap> findBeatmaps(@NonNull String query) {
         try {
-            OsuBeatmap beatmap = getBeatmap(Integer.parseInt(query));
+            int id = Integer.parseInt(query);
+            OsuBeatmap beatmap = getBeatmap(id);
             if (beatmap != null) {
                 return Collections.singleton(beatmap);
             }
+            List<OsuBeatmap> beatmapset = beatmapService.get(
+                    OsuApiGetBeatmapsRequest.builder().beatmapsetId(id).build()).getResult();
+            if (beatmapset != null && !beatmapset.isEmpty()) {
+                return beatmapset;
+            }
         } catch (NumberFormatException ignore) {
         }
-        return Finder.find(beatmapService.find(query), OsuBeatmap::getTitle, query);
+        return beatmapSearchService.search(query);
     }
 
     public OsuBeatmap getBeatmap(int beatmapId) {
