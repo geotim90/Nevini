@@ -45,6 +45,8 @@ public enum OsuMod {
     private final int id;
     private final String name;
 
+    public static int NONE = 0;
+
     public static int sum(@NonNull OsuMod... mods) {
         int value = 0;
         for (OsuMod mod : mods) {

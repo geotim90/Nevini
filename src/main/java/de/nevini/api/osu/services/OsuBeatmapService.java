@@ -10,6 +10,8 @@ import de.nevini.api.osu.jpa.beatmap.OsuBeatmapData;
 import de.nevini.api.osu.jpa.beatmap.OsuBeatmapRepository;
 import de.nevini.api.osu.mappers.OsuBeatmapMapper;
 import de.nevini.api.osu.model.OsuBeatmap;
+import de.nevini.api.osu.model.OsuMod;
+import de.nevini.api.osu.model.OsuScore;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +30,18 @@ public class OsuBeatmapService {
     private final Cache<Integer, OsuBeatmap> cache;
     private final OsuApi api;
     private final OsuBeatmapRepository repository;
+    private final OsuScoreService scoreService;
 
     public OsuBeatmapService(
             @Autowired OsuApiProvider apiProvider,
-            @Autowired OsuBeatmapRepository repository
+            @Autowired OsuBeatmapRepository repository,
+            @Autowired OsuScoreService scoreService
     ) {
         this.requestCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.api = apiProvider.getApi();
         this.repository = repository;
+        this.scoreService = scoreService;
     }
 
     public @NonNull ApiResponse<List<OsuBeatmap>> get(@NonNull OsuApiGetBeatmapsRequest request) {
@@ -51,7 +56,10 @@ public class OsuBeatmapService {
 
     private @NonNull ApiResponse<List<OsuBeatmap>> getFromApi(@NonNull OsuApiGetBeatmapsRequest request) {
         ApiResponse<List<OsuBeatmapData>> response = api.getBeatmaps(request).map(list ->
-                list.stream().map(OsuBeatmapMapper::map).collect(Collectors.toList())
+                list.stream().map(beatmap -> {
+                    OsuScore score = scoreService.get(beatmap.getBeatmapId(), beatmap.getMode(), OsuMod.NONE).getResult();
+                    return OsuBeatmapMapper.map(beatmap, score);
+                }).collect(Collectors.toList())
         );
         ApiResponse<List<OsuBeatmap>> result = response.map(list ->
                 list.stream().map(OsuBeatmapMapper::map).collect(Collectors.toList())
@@ -94,7 +102,12 @@ public class OsuBeatmapService {
     }
 
     private @NonNull ApiResponse<OsuBeatmap> getFromDatabase(int beatmapId) {
-        return ApiResponse.ok(repository.findById(beatmapId).map(OsuBeatmapMapper::map).orElse(null));
+        OsuBeatmap beatmap = repository.findById(beatmapId).map(OsuBeatmapMapper::map).orElse(null);
+        if (beatmap != null && beatmap.getMaxPp() == null) {
+            // missing max pp score information
+            return ApiResponse.empty();
+        }
+        return ApiResponse.ok(beatmap);
     }
 
     public Collection<OsuBeatmap> find(@NonNull String query) {

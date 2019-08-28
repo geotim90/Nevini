@@ -86,6 +86,8 @@ public class OsuBeatmapData {
 
     private Integer maxCombo;
 
+    private Double maxPp;
+
     private Boolean downloadUnavailable;
 
     private Boolean audioUnavailable;

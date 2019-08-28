@@ -41,6 +41,7 @@ public class OsuBeatmap {
     private final Integer countSlider;
     private final Integer countSpinner;
     private final Integer maxCombo;
+    private final Double maxPp;
     private final Boolean downloadUnavailable;
     private final Boolean audioUnavailable;
 

@@ -2,10 +2,7 @@ package de.nevini.api.osu.mappers;
 
 import de.nevini.api.osu.external.model.OsuApiBeatmap;
 import de.nevini.api.osu.jpa.beatmap.OsuBeatmapData;
-import de.nevini.api.osu.model.OsuBeatmap;
-import de.nevini.api.osu.model.OsuGenre;
-import de.nevini.api.osu.model.OsuLanguage;
-import de.nevini.api.osu.model.OsuStatus;
+import de.nevini.api.osu.model.*;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,7 +11,7 @@ import static de.nevini.api.osu.mappers.OsuMapperUtils.convertMode;
 
 public class OsuBeatmapMapper {
 
-    public static @NonNull OsuBeatmapData map(@NonNull OsuApiBeatmap beatmap) {
+    public static @NonNull OsuBeatmapData map(@NonNull OsuApiBeatmap beatmap, OsuScore score) {
         return new OsuBeatmapData(
                 beatmap.getApproved(),
                 convertDate(beatmap.getSubmitDate()),
@@ -51,6 +48,7 @@ public class OsuBeatmapMapper {
                 beatmap.getCountSlider(),
                 beatmap.getCountSpinner(),
                 beatmap.getMaxCombo(),
+                score == null ? null : score.getPp(),
                 beatmap.getDownloadUnavailable(),
                 beatmap.getAudioUnavailable()
         );
@@ -93,6 +91,7 @@ public class OsuBeatmapMapper {
                 beatmap.getCountSlider(),
                 beatmap.getCountSpinner(),
                 beatmap.getMaxCombo(),
+                beatmap.getMaxPp(),
                 beatmap.getDownloadUnavailable(),
                 beatmap.getAudioUnavailable()
         );

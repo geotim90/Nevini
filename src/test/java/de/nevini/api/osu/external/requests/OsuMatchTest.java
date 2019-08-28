@@ -44,7 +44,7 @@ public class OsuMatchTest extends OsuApiProvider {
         Assert.assertEquals(Integer.valueOf(OsuMatchType.UNKNOWN.getId()), game.getMatchType());
         Assert.assertEquals(Integer.valueOf(OsuScoringType.SCORE.getId()), game.getScoringType());
         Assert.assertEquals(Integer.valueOf(OsuTeamType.HEAD_TO_HEAD.getId()), game.getTeamType());
-        Assert.assertEquals(Integer.valueOf(OsuMod.sum()), game.getMods());
+        Assert.assertEquals(Integer.valueOf(OsuMod.NONE), game.getMods());
 
         OsuApiMatchGameScore score = game.getScores().get(0);
         Assert.assertEquals(Integer.valueOf(0), score.getSlot());

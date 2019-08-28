@@ -70,7 +70,7 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Length", Formatter.formatSeconds(beatmap.getTotalLength()), true);
                         embed.addField("Drain Length", Formatter.formatSeconds(beatmap.getHitLength()), true);
                         embed.addField("BPM", Formatter.formatDouble(beatmap.getBpm()), true);
-                        embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()), true);
+                        embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + 'x', true);
                         embed.addField("Circle Size (CS)", Formatter.formatDouble(beatmap.getDifficultySize()), true);
                         embed.addField("HP Drain (HP)", Formatter.formatDouble(beatmap.getDifficultyDrain()), true);
                         embed.addField("Accuracy (OD)", Formatter.formatDouble(beatmap.getDifficultyOverall()), true);
@@ -81,6 +81,9 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Language", beatmap.getLanguage().getName(), true);
                         embed.addField("Tags", StringUtils.join(beatmap.getTags(), ", "), true);
                         embed.addField("Success Rate", Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()), true);
+                        if (beatmap.getMaxPp() != null) {
+                            embed.addField("Max Performance", Formatter.formatInteger((int) Math.floor(beatmap.getMaxPp())) + "pp", true);
+                        }
                         return embed;
                     },
                     event.getEventDispatcher(),
