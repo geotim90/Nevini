@@ -245,13 +245,16 @@ public class OsuBeatmapSearchService {
 
     private void ensureCachedBeatmapsetId(String value) {
         try {
-            beatmapService.get(OsuApiGetBeatmapsRequest.builder().beatmapsetId(Integer.parseInt(value)).build());
+            beatmapService.get(OsuApiGetBeatmapsRequest.builder()
+                    .beatmapsetId(Integer.parseInt(value))
+                    .limit(10)
+                    .build());
         } catch (NumberFormatException ignore) {
         }
     }
 
     private void ensureCachedCreator(String value) {
-        beatmapService.get(OsuApiGetBeatmapsRequest.builder().user(value).build());
+        beatmapService.get(OsuApiGetBeatmapsRequest.builder().user(value).limit(10).build());
     }
 
 }
