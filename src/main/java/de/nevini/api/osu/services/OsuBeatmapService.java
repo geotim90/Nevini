@@ -56,7 +56,8 @@ public class OsuBeatmapService {
     private @NonNull ApiResponse<List<OsuBeatmap>> getFromApi(@NonNull OsuApiGetBeatmapsRequest request) {
         ApiResponse<List<OsuBeatmapData>> response = api.getBeatmaps(request).map(list ->
                 list.stream().map(beatmap -> {
-                    OsuScore score = scoreService.get(beatmap.getBeatmapId(), beatmap.getMode(), OsuMod.NONE).getResult();
+                    OsuScore score = scoreService.getCached(beatmap.getBeatmapId(), beatmap.getMode(), OsuMod.NONE)
+                            .getResult();
                     return OsuBeatmapMapper.map(beatmap, score);
                 }).collect(Collectors.toList())
         );
