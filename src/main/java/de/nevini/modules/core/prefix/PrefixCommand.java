@@ -13,7 +13,8 @@ public class PrefixCommand extends Command {
                 .keyword("prefix")
                 .children(new Command[]{
                         new PrefixGetCommand(),
-                        new PrefixSetCommand()
+                        new PrefixSetCommand(),
+                        new PrefixUnsetCommand()
                 })
                 .description("displays and configures the command prefix")
                 .details("By default, this command will behave the same as **prefix get**.")

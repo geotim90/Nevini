@@ -18,9 +18,9 @@ Nevini will default to direct messages if everything else fails.
 
 ## Commands
 
-To execute commands, write a message that begins with `>` or `@Nevini` in a channel where Nevini can read messages.
-You can change the `>` prefix using the `prefix set` command.
-The `@Nevini` mention can be changed by setting a nickname for the bot.
+To execute commands, write a message that begins with `NVN>` or `@Nevini` in a channel where Nevini can read messages.
+You can change the `NVN>` prefix using the `prefix set` command.
+The `@Nevini` mention can be changed by setting a nickname for the bot on your server.
 Use the `help` command to get a list of commands available on your server.
 Use the `help --all` command to get a list of all supported commands.
 

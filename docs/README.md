@@ -41,8 +41,8 @@ There are a few options that work with every command.
 
 Option | Description
 -------|------------
---dm   | Forces Nevini to reply via direct message instead of replying in the current channel.
---rm   | Nevini will attempt to remove the message containing the command after processing it.
+--dm   | Forces Nevini to reply via direct message instead of replying in the current channel. Note that this flag is incompatible with commands that require interaction.
+--rm   | Nevini will attempt to remove the message containing the command after processing it and will attempt to remove any response after one minute.
 
 ## Aliases
 

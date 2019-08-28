@@ -420,6 +420,7 @@ Command | Description
 --------|------------
 [prefix get](#command-prefix-get) | displays the currently configured command prefix
 [prefix set](#command-prefix-set) | configures the command prefix
+[prefix unset](#command-prefix-unset) | removes the configured command prefix
 
 ### Command: `prefix get`
 
@@ -451,3 +452,12 @@ Option | Description
 Keyword | Aliases
 --------|--------
 --prefix | //prefix
+
+### Command: `prefix unset`
+
+Removes the configured command prefix.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **core.prefix.set**.
