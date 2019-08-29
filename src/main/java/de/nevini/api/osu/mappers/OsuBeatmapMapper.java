@@ -4,7 +4,6 @@ import de.nevini.api.osu.external.model.OsuApiBeatmap;
 import de.nevini.api.osu.jpa.beatmap.OsuBeatmapData;
 import de.nevini.api.osu.model.*;
 import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
 
 import static de.nevini.api.osu.mappers.OsuMapperUtils.convertDate;
 import static de.nevini.api.osu.mappers.OsuMapperUtils.convertMode;
@@ -82,7 +81,7 @@ public class OsuBeatmapMapper {
                 beatmap.getVersion(),
                 beatmap.getFileMd5(),
                 convertMode(beatmap.getMode()),
-                convertTags(beatmap.getTags()),
+                beatmap.getTags(),
                 beatmap.getFavouriteCount(),
                 beatmap.getRating(),
                 beatmap.getPlayCount(),
@@ -128,10 +127,6 @@ public class OsuBeatmapMapper {
             }
         }
         return null;
-    }
-
-    private static String[] convertTags(String value) {
-        return StringUtils.split(value, ' ');
     }
 
 }

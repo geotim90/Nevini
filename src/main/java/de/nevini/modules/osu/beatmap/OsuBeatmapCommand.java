@@ -12,7 +12,6 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.message.LazyMultiEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Source", beatmap.getSource(), true);
                         embed.addField("Genre", beatmap.getGenre().getName(), true);
                         embed.addField("Language", beatmap.getLanguage().getName(), true);
-                        embed.addField("Tags", StringUtils.join(beatmap.getTags(), ", "), true);
+                        embed.addField("Tags", beatmap.getTags(), true);
                         embed.addField("Success Rate", Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()), true);
                         if (beatmap.getMaxPp() != null) {
                             embed.addField("Max Performance", Formatter.formatInteger((int) Math.floor(beatmap.getMaxPp())) + "pp", true);
