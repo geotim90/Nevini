@@ -3,10 +3,10 @@ ALTER TABLE osu_beatmap
         AFTER max_combo;
 
 ALTER TABLE osu_beatmap
-    MODIFY COLUMN max_combo INT DEFAULT NULL; -- null when mode=3
+    MODIFY COLUMN max_combo INT DEFAULT NULL;
 
 ALTER TABLE osu_beatmap
-    MODIFY COLUMN difficulty_aim DOUBLE DEFAULT NULL; -- null when mode=3
+    MODIFY COLUMN difficulty_aim DOUBLE DEFAULT NULL;
 
 ALTER TABLE osu_beatmap
-    MODIFY COLUMN difficulty_speed DOUBLE DEFAULT NULL; -- null when mode=3
+    MODIFY COLUMN difficulty_speed DOUBLE DEFAULT NULL;
