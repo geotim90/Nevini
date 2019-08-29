@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,14 +20,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventListenerImpl extends EventDispatcher implements EventListener {
 
-    public EventListenerImpl() {
+    private final ConfigurableApplicationContext applicationContext;
+
+    public EventListenerImpl(@Autowired ConfigurableApplicationContext applicationContext) {
         super(Runtime.getRuntime().availableProcessors());
+        this.applicationContext = applicationContext;
         subscribe(ShutdownEvent.class, event -> shutdown());
     }
 
     @Override
     public void onEvent(@NonNull GenericEvent event) {
         publish(event);
+    }
+
+    @Override
+    public synchronized void shutdown() {
+        super.shutdown();
+        applicationContext.close();
     }
 
 }
