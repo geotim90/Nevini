@@ -53,7 +53,7 @@ public class OsuService implements Locatable {
     }
 
     public GameData getGame() {
-        return game.getOptional().orElseThrow(() -> new IllegalStateException("No game data!"));
+        return game.getOptional().orElse(new GameData(367827983903490050L, "osu!", null));
     }
 
     public Collection<OsuBeatmap> findBeatmaps(@NonNull String query) {
