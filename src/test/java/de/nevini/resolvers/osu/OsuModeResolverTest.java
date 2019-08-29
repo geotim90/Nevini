@@ -22,11 +22,14 @@ public class OsuModeResolverTest {
         // needs to match the name (case-insensitive)
         assertEquals(expected, resolver.findSorted(event, "osu!catch"));
         // needs to match the name (case-insensitive substring)
+        assertEquals(expected, resolver.findSorted(event, "c"));
         assertEquals(expected, resolver.findSorted(event, "catch"));
         // needs to match the enum const name (case-insensitive)
         assertEquals(expected, resolver.findSorted(event, "catch_the_beat"));
         // needs to match the enum const name without underscores (case-insensitive)
         assertEquals(expected, resolver.findSorted(event, "catch the beat"));
+        assertEquals(expected, resolver.findSorted(event, "catchthebeat"));
+        assertEquals(expected, resolver.findSorted(event, "ctb"));
     }
 
 }

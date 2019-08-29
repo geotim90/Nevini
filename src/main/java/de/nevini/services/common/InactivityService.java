@@ -40,7 +40,7 @@ public class InactivityService {
     }
 
     @Transactional
-    public void removeOnlineThreshold(@NonNull Guild guild) {
+    public synchronized void removeOnlineThreshold(@NonNull Guild guild) {
         InactivityId id = new InactivityId(guild.getIdLong(), ACTIVITY_TYPE_ONLINE, -1L);
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
@@ -60,7 +60,7 @@ public class InactivityService {
     }
 
     @Transactional
-    public void removeMessageThreshold(@NonNull Guild guild) {
+    public synchronized void removeMessageThreshold(@NonNull Guild guild) {
         InactivityId id = new InactivityId(guild.getIdLong(), ACTIVITY_TYPE_MESSAGE, -1L);
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
@@ -85,7 +85,7 @@ public class InactivityService {
     }
 
     @Transactional
-    public void removePlayingThreshold(@NonNull Guild guild, @NonNull GameData game) {
+    public synchronized void removePlayingThreshold(@NonNull Guild guild, @NonNull GameData game) {
         InactivityId id = new InactivityId(guild.getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId());
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);

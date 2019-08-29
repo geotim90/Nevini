@@ -30,8 +30,12 @@ public class OsuModeResolver extends OptionResolver<OsuMode> {
 
     @Override
     public List<OsuMode> findSorted(@NonNull CommandEvent ignore, String query) {
-        return Finder.findAny(OsuMode.values(), mode -> new String[]{mode.getName(), mode.name(),
-                mode.name().replace('_', ' ')}, query);
+        return Finder.findAnyLenient(OsuMode.values(), mode -> new String[]{
+                Integer.toString(mode.getId()),
+                mode.getName(),
+                mode.name(),
+                mode.name().replace('_', ' ')
+        }, query);
     }
 
     @Override

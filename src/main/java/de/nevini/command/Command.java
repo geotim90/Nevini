@@ -28,6 +28,7 @@ public abstract class Command {
         verify();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void verify() {
         if (!getKeyword().matches(CommandPatterns.KEYWORD) || getKeyword().matches(CommandPatterns.OPTION)) {
             throw new IllegalStateException("Invalid keyword: " + getKeyword());

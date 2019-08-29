@@ -68,7 +68,7 @@ public class OsuRecentCommand extends Command {
             for (OsuUserRecent score : recent) {
                 embed.addField(Formatter.formatOsuRank(score.getRank()) + " "
                                 + Formatter.formatInteger(score.getScore()) + " points - "
-                                + Formatter.formatLargestUnitAgo(score.getDate().getTime()),
+                                + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osuService.getBeatmapString(score.getBeatmapId())
                                 + "](https://osu.ppy.sh/b/" + score.getBeatmapId() + ")",
                         false);

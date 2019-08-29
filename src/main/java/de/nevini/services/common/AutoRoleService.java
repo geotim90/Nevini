@@ -39,7 +39,7 @@ public class AutoRoleService {
     }
 
     @Transactional
-    public void removeJoinAutoRole(@NonNull Guild guild) {
+    public synchronized void removeJoinAutoRole(@NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "join", -1L);
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
@@ -59,7 +59,7 @@ public class AutoRoleService {
     }
 
     @Transactional
-    public void removePlayingAutoRole(@NonNull GameData game, @NonNull Guild guild) {
+    public synchronized void removePlayingAutoRole(@NonNull GameData game, @NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "playing", game.getId());
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
@@ -78,7 +78,7 @@ public class AutoRoleService {
     }
 
     @Transactional
-    public void removePlaysAutoRole(@NonNull GameData game, @NonNull Guild guild) {
+    public synchronized void removePlaysAutoRole(@NonNull GameData game, @NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "playing", game.getId());
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
@@ -97,7 +97,7 @@ public class AutoRoleService {
     }
 
     @Transactional
-    public void removeVeteranAutoRole(long days, @NonNull Guild guild) {
+    public synchronized void removeVeteranAutoRole(long days, @NonNull Guild guild) {
         AutoRoleId id = new AutoRoleId(guild.getIdLong(), "veteran", days);
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);
@@ -122,7 +122,7 @@ public class AutoRoleService {
     }
 
     @Transactional
-    public void removeVoiceAutoRole(@NonNull VoiceChannel channel) {
+    public synchronized void removeVoiceAutoRole(@NonNull VoiceChannel channel) {
         AutoRoleId id = new AutoRoleId(channel.getGuild().getIdLong(), "voice", channel.getIdLong());
         if (repository.existsById(id)) {
             log.info("Delete data: {}", id);

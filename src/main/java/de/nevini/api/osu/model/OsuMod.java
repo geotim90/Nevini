@@ -2,12 +2,13 @@ package de.nevini.api.osu.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuMod {
+public enum OsuMod implements OsuEnum {
 
     NO_FAIL(1, "No Fail"),
     EASY(2, "Easy"),
@@ -43,5 +44,15 @@ public enum OsuMod {
 
     private final int id;
     private final String name;
+
+    public static int NONE = 0;
+
+    public static int sum(@NonNull OsuMod... mods) {
+        int value = 0;
+        for (OsuMod mod : mods) {
+            value |= mod.getId();
+        }
+        return value;
+    }
 
 }

@@ -1,7 +1,6 @@
 package de.nevini.modules.osu.events;
 
 import de.nevini.api.osu.model.OsuMode;
-import de.nevini.api.osu.model.OsuUser;
 import de.nevini.api.osu.model.OsuUserEvent;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -16,6 +15,8 @@ import de.nevini.services.osu.OsuService;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class OsuEventsCommand extends Command {
@@ -52,16 +53,16 @@ public class OsuEventsCommand extends Command {
         OsuService osuService = event.locate(OsuService.class);
         GameData game = osuService.getGame();
         String ign = OsuCommandUtils.resolveUserName(userOrMember, event.getIgnService(), game);
-        OsuUser user = osuService.getUserEvents(ign, mode, 31);
-        if (user == null) {
+        List<OsuUserEvent> events = osuService.getUserEvents(ign, mode, 31);
+        if (events == null) {
             event.reply("User not found.", event::complete);
-        } else if (user.getEvents().isEmpty()) {
+        } else if (events.isEmpty()) {
             event.reply("No events found.", event::complete);
         } else {
             StringBuilder builder = new StringBuilder();
-            for (OsuUserEvent e : user.getEvents()) {
+            for (OsuUserEvent e : events) {
                 builder.append(Formatter.formatOsuDisplayHtml(e.getDisplayHtml())).append(" ")
-                        .append(Formatter.formatLargestUnitAgo(e.getDate().getTime())).append('\n');
+                        .append(Formatter.formatLargestUnitAgo(e.getDate())).append('\n');
             }
             event.reply(builder.toString(), event::complete);
         }

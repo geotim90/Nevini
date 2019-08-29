@@ -1,6 +1,9 @@
 package de.nevini.listeners.osu;
 
-import de.nevini.api.osu.model.*;
+import de.nevini.api.osu.model.OsuMode;
+import de.nevini.api.osu.model.OsuRank;
+import de.nevini.api.osu.model.OsuUserEvent;
+import de.nevini.api.osu.model.OsuUserRecent;
 import de.nevini.jpa.feed.FeedData;
 import de.nevini.jpa.ign.IgnData;
 import de.nevini.scope.Feed;
@@ -171,8 +174,8 @@ public class OsuActivityListener {
             );
 
             // query data
-            OsuUser user = osuService.getUserEvents(ign, OsuMode.STANDARD, days);
-            if (user != null && !user.getEvents().isEmpty()) {
+            List<OsuUserEvent> events = osuService.getUserEvents(ign, OsuMode.STANDARD, days);
+            if (events != null && !events.isEmpty()) {
                 for (FeedData feed : feeds) {
                     // get guild
                     Guild guild = jda.getGuildById(feed.getGuild());
@@ -188,12 +191,12 @@ public class OsuActivityListener {
 
                     // collect events
                     StringBuilder builder = new StringBuilder();
-                    user.getEvents().stream()
-                            .filter(e -> e.getDate().getTime() > feed.getUts())
+                    events.stream()
+                            .filter(e -> e.getDate() > feed.getUts())
                             .sorted(Comparator.comparing(OsuUserEvent::getDate))
                             .forEach(e -> {
                                 String markdown = Formatter.formatOsuDisplayHtml(e.getDisplayHtml())
-                                        + " at " + Formatter.formatTimestamp(e.getDate().getTime());
+                                        + " at " + Formatter.formatTimestamp(e.getDate());
                                 log.debug("Feed {} on {} in {}: {}", feed.getType(), channel.getGuild().getId(),
                                         channel.getId(), markdown);
                                 builder.append(markdown).append('\n');
@@ -206,12 +209,12 @@ public class OsuActivityListener {
                     }
 
                     // update timestamp
-                    user.getEvents().stream()
-                            .filter(e -> e.getDate().getTime() > feed.getUts())
+                    events.stream()
+                            .filter(e -> e.getDate() > feed.getUts())
                             .map(OsuUserEvent::getDate)
                             .max(Comparator.naturalOrder())
                             .ifPresent(max -> feedService.updateSubscription(
-                                    Feed.OSU_EVENTS, member.getUser().getIdLong(), channel, max.getTime()
+                                    Feed.OSU_EVENTS, member.getUser().getIdLong(), channel, max
                             ));
                 }
             }
@@ -260,13 +263,13 @@ public class OsuActivityListener {
                     recent.stream()
                             // only consider recent beatmap scores that were not a fail or retry
                             .filter(e -> e.getBeatmapId() != 0 && !OsuRank.F.equals(e.getRank())
-                                    && e.getDate().getTime() > feed.getUts())
+                                    && e.getDate() > feed.getUts())
                             .sorted(Comparator.comparing(OsuUserRecent::getDate))
                             .forEach(e -> {
                                 String markdown = Formatter.formatOsuRank(e.getRank()) + " " + userName + " achieved "
                                         + Formatter.formatInteger(e.getScore()) + " points on "
                                         + osuService.getBeatmapString(e.getBeatmapId()) + " at "
-                                        + Formatter.formatTimestamp(e.getDate().getTime());
+                                        + Formatter.formatTimestamp(e.getDate());
                                 log.debug("Feed {} on {} in {}: {}",
                                         feed.getType(),
                                         channel.getGuild().getId(),
@@ -283,11 +286,11 @@ public class OsuActivityListener {
 
                     // update timestamp
                     recent.stream()
-                            .filter(e -> e.getDate().getTime() > feed.getUts())
+                            .filter(e -> e.getDate() > feed.getUts())
                             .map(OsuUserRecent::getDate)
                             .max(Comparator.naturalOrder())
                             .ifPresent(max -> feedService.updateSubscription(
-                                    Feed.OSU_RECENT, member.getUser().getIdLong(), channel, max.getTime()
+                                    Feed.OSU_RECENT, member.getUser().getIdLong(), channel, max
                             ));
                 }
             }

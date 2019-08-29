@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public enum OsuMode {
+public enum OsuMode implements OsuEnum {
 
     STANDARD(0, "osu!"),
     TAIKO(1, "osu!taiko"),

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class PrefixService {
 
     public PrefixService(
             @Autowired PrefixRepository prefixRepository,
-            @Value("${bot.prefix.default:>}") String defaultPrefix
+            @Value("${bot.prefix.default:NVN>}") String defaultPrefix
     ) {
         this.prefixRepository = prefixRepository;
         this.defaultPrefix = defaultPrefix;
@@ -65,6 +66,15 @@ public class PrefixService {
         PrefixData data = new PrefixData(guild.getIdLong(), prefix);
         log.info("Save data: {}", data);
         prefixRepository.save(data);
+    }
+
+    @Transactional
+    public synchronized void removeGuildPrefix(@NonNull Guild guild) {
+        long id = guild.getIdLong();
+        if (prefixRepository.existsById(id)) {
+            log.info("Delete data: {}", id);
+            prefixRepository.deleteById(id);
+        }
     }
 
     /**

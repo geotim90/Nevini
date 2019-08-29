@@ -1,15 +1,11 @@
 package de.nevini.services.osu;
 
+import de.nevini.api.osu.external.requests.*;
 import de.nevini.api.osu.model.*;
-import de.nevini.api.osu.requests.OsuScoresRequest;
-import de.nevini.api.osu.requests.OsuUserBestRequest;
-import de.nevini.api.osu.requests.OsuUserRecentRequest;
-import de.nevini.api.osu.requests.OsuUserRequest;
-import de.nevini.data.osu.*;
+import de.nevini.api.osu.services.*;
 import de.nevini.jpa.game.GameData;
 import de.nevini.locators.Locatable;
 import de.nevini.services.common.GameService;
-import de.nevini.util.Finder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -28,50 +24,61 @@ public class OsuService implements Locatable {
 
     private final Lazy<GameData> game;
 
-    private final OsuBeatmapDataService beatmapDataService;
-    private final OsuUserDataService userDataService;
-    private final OsuScoresDataService scoresDataService;
-    private final OsuUserBestDataService userBestDataService;
-    private final OsuUserRecentDataService userRecentDataService;
+    private final OsuBeatmapSearchService beatmapSearchService;
+    private final OsuBeatmapService beatmapService;
+    private final OsuScoreService scoresService;
+    private final OsuUserService userService;
+    private final OsuUserBestService userBestService;
+    private final OsuUserEventService userEventService;
+    private final OsuUserRecentService userRecentService;
 
     public OsuService(
             @Autowired GameService gameService,
-            @Autowired OsuBeatmapDataService beatmapDataService,
-            @Autowired OsuUserDataService userDataService,
-            @Autowired OsuScoresDataService scoresDataService,
-            @Autowired OsuUserBestDataService userBestDataService,
-            @Autowired OsuUserRecentDataService userRecentDataService
+            @Autowired OsuBeatmapSearchService beatmapSearchService,
+            @Autowired OsuBeatmapService beatmapService,
+            @Autowired OsuScoreService scoresService,
+            @Autowired OsuUserService userService,
+            @Autowired OsuUserBestService userBestService,
+            @Autowired OsuUserEventService userEventService,
+            @Autowired OsuUserRecentService userRecentService
     ) {
         game = Lazy.of(() -> gameService.findGames("osu!").stream().findFirst().orElse(null));
-
-        this.beatmapDataService = beatmapDataService;
-        this.userDataService = userDataService;
-        this.scoresDataService = scoresDataService;
-        this.userBestDataService = userBestDataService;
-        this.userRecentDataService = userRecentDataService;
+        this.beatmapSearchService = beatmapSearchService;
+        this.beatmapService = beatmapService;
+        this.scoresService = scoresService;
+        this.userService = userService;
+        this.userBestService = userBestService;
+        this.userEventService = userEventService;
+        this.userRecentService = userRecentService;
     }
 
     public GameData getGame() {
-        return game.getOptional().orElseThrow(() -> new IllegalStateException("No game data!"));
+        return game.getOptional().orElse(new GameData(367827983903490050L, "osu!", null));
     }
 
     public Collection<OsuBeatmap> findBeatmaps(@NonNull String query) {
         try {
-            OsuBeatmap beatmap = getBeatmap(Integer.parseInt(query));
+            int id = Integer.parseInt(query);
+            OsuBeatmap beatmap = getBeatmap(id);
             if (beatmap != null) {
                 return Collections.singleton(beatmap);
             }
+            List<OsuBeatmap> beatmapset = beatmapService.get(
+                    OsuApiGetBeatmapsRequest.builder().beatmapsetId(id).build()).getResult();
+            if (beatmapset != null && !beatmapset.isEmpty()) {
+                return beatmapset;
+            }
         } catch (NumberFormatException ignore) {
         }
-        return Finder.find(beatmapDataService.findAllByTitleContainsIgnoreCase(query), OsuBeatmap::getTitle, query);
+        return beatmapSearchService.search(query);
     }
 
     public OsuBeatmap getBeatmap(int beatmapId) {
-        return beatmapDataService.get(beatmapId);
+        return beatmapService.get(beatmapId).getResult();
     }
 
     public String getBeatmapString(int beatmapId) {
-        OsuBeatmap beatmap = beatmapDataService.getCached(beatmapId);
+        OsuBeatmap beatmap = beatmapService.getCached(beatmapId).getResult();
         return beatmap == null
                 ? "https://osu.ppy.sh/b/" + beatmapId
                 : beatmap.getArtist() + " - " + beatmap.getTitle()
@@ -79,7 +86,7 @@ public class OsuService implements Locatable {
     }
 
     public List<OsuScore> getScores(int beatmap, String ign, OsuMode mode, OsuMod[] mods) {
-        OsuScoresRequest.OsuScoresRequestBuilder requestBuilder = OsuScoresRequest.builder()
+        OsuApiGetScoresRequest.OsuApiGetScoresRequestBuilder requestBuilder = OsuApiGetScoresRequest.builder()
                 .beatmapId(beatmap)
                 .limit(100);
         if (StringUtils.isNotEmpty(ign)) {
@@ -87,12 +94,12 @@ public class OsuService implements Locatable {
             requestBuilder.userType(OsuUserType.STRING);
         }
         if (mode != null) {
-            requestBuilder.mode(mode);
+            requestBuilder.mode(mode.getId());
         }
         if (mods != null) {
-            requestBuilder.mods(mods);
+            requestBuilder.mods(OsuMod.sum(mods));
         }
-        return scoresDataService.get(requestBuilder.build());
+        return scoresService.get(requestBuilder.build()).getResult();
     }
 
     public OsuUser getUser(@NonNull String user) {
@@ -100,39 +107,43 @@ public class OsuService implements Locatable {
     }
 
     public OsuUser getUser(@NonNull String user, OsuMode mode) {
-        return userDataService.get(user, mode);
+        return userService.get(OsuApiGetUserRequest.builder()
+                .user(user)
+                .userType(OsuUserType.STRING)
+                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD).getId())
+                .build()).getResult().get(0);
     }
 
     public List<OsuUserBest> getUserBest(@NonNull String user, OsuMode mode) {
-        return userBestDataService.get(OsuUserBestRequest.builder()
+        return userBestService.get(OsuApiGetUserBestRequest.builder()
                 .user(user)
                 .userType(OsuUserType.STRING)
-                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD))
+                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD).getId())
                 .limit(100)
-                .build());
+                .build()).getResult();
     }
 
-    public OsuUser getUserEvents(@NonNull String user, OsuMode mode, int eventDays) {
-        return userDataService.get(OsuUserRequest.builder()
+    public List<OsuUserEvent> getUserEvents(@NonNull String user, OsuMode mode, int eventDays) {
+        return userEventService.get(OsuApiGetUserRequest.builder()
                 .user(user)
                 .userType(OsuUserType.STRING)
-                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD))
+                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD).getId())
                 .eventDays(eventDays)
-                .build());
+                .build()).getResult();
     }
 
     public String getUserName(int userId) {
-        OsuUser user = userDataService.getCached(userId);
+        OsuUser user = userService.getCached(userId, OsuMode.STANDARD.getId()).getResult();
         return user == null ? Integer.toString(userId) : user.getUserName();
     }
 
     public List<OsuUserRecent> getUserRecent(@NonNull String user, OsuMode mode) {
-        return userRecentDataService.get(OsuUserRecentRequest.builder()
+        return userRecentService.get(OsuApiGetUserRecentRequest.builder()
                 .user(user)
                 .userType(OsuUserType.STRING)
-                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD))
+                .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD).getId())
                 .limit(50)
-                .build());
+                .build()).getResult();
     }
 
 }
