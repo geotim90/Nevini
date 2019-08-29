@@ -31,15 +31,18 @@ public class OsuUserService {
     private final Cache<OsuUserId, OsuUser> cache;
     private final OsuApi api;
     private final OsuUserRepository repository;
+    private final OsuAsyncService asyncService;
 
     public OsuUserService(
             @Autowired OsuApiProvider apiProvider,
-            @Autowired OsuUserRepository repository
+            @Autowired OsuUserRepository repository,
+            @Autowired OsuAsyncService asyncService
     ) {
         this.requestCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.api = apiProvider.getApi();
         this.repository = repository;
+        this.asyncService = asyncService;
     }
 
     public @NonNull ApiResponse<List<OsuUser>> get(@NonNull OsuApiGetUserRequest request) {
@@ -63,6 +66,7 @@ public class OsuUserService {
             requestCache.put(request, result.getResult());
             result.getResult().forEach(user -> cache.put(new OsuUserId(user.getUserId(),
                     ObjectUtils.defaultIfNull(request.getMode(), OsuMode.STANDARD.getId())), user));
+            log.debug("Save data: {}", response.getResult());
             repository.saveAll(response.getResult());
         }
         return result;
@@ -100,6 +104,14 @@ public class OsuUserService {
     }
 
     private @NonNull ApiResponse<OsuUser> getFromDatabase(@NonNull OsuUserId id) {
+        // queue update
+        OsuApiGetUserRequest request = OsuApiGetUserRequest.builder()
+                .user(Integer.toString(id.getUserId()))
+                .userType(OsuUserType.ID)
+                .mode(id.getMode())
+                .build();
+        asyncService.addTask(request, () -> get(request));
+        // get from database
         return ApiResponse.ok(repository.findById(id).map(OsuUserMapper::map).orElse(null));
     }
 

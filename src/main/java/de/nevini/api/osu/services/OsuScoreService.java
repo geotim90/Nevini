@@ -28,15 +28,18 @@ public class OsuScoreService {
     private final Cache<OsuScoreId, OsuScore> cache;
     private final OsuApi api;
     private final OsuScoreRepository repository;
+    private final OsuAsyncService asyncService;
 
     public OsuScoreService(
             @Autowired OsuApiProvider apiProvider,
-            @Autowired OsuScoreRepository repository
+            @Autowired OsuScoreRepository repository,
+            @Autowired OsuAsyncService asyncService
     ) {
         this.requestCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.api = apiProvider.getApi();
         this.repository = repository;
+        this.asyncService = asyncService;
     }
 
     public @NonNull ApiResponse<List<OsuScore>> get(@NonNull OsuApiGetScoresRequest request) {
@@ -89,6 +92,7 @@ public class OsuScoreService {
                 .beatmapId(scoreId.getBeatmapId())
                 .mode(scoreId.getMode())
                 .mods(scoreId.getMods())
+                .limit(1)
                 .build();
         ApiResponse<List<OsuScoreData>> response = api.getScores(request).map(list ->
                 list.stream().map(score -> OsuScoreMapper.map(score, request)).collect(Collectors.toList())
@@ -96,16 +100,27 @@ public class OsuScoreService {
         ApiResponse<List<OsuScore>> result = response.map(list ->
                 list.stream().map(OsuScoreMapper::map).collect(Collectors.toList())
         );
-        if (!result.isEmpty() && result.getResult().size() == 1) {
+        if (!result.isEmpty() && !result.getResult().isEmpty()) {
             OsuScore score = result.getResult().get(0);
             cache.put(scoreId, score);
-            repository.save(response.getResult().get(0));
+            OsuScoreData scoreData = response.getResult().get(0);
+            log.debug("Save data: {}", scoreData);
+            repository.save(scoreData);
             return ApiResponse.ok(score);
         }
         return result.map(list -> list.stream().findFirst().orElse(null));
     }
 
     private @NonNull ApiResponse<OsuScore> getFromDatabase(@NonNull OsuScoreId scoreId) {
+        // queue update
+        OsuApiGetScoresRequest request = OsuApiGetScoresRequest.builder()
+                .beatmapId(scoreId.getBeatmapId())
+                .mode(scoreId.getMode())
+                .mods(scoreId.getMods())
+                .limit(1)
+                .build();
+        asyncService.addTask(request, () -> get(request));
+        // get from database
         return ApiResponse.ok(repository.findById(scoreId).map(OsuScoreMapper::map).orElse(null));
     }
 

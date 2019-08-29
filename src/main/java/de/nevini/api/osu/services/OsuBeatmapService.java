@@ -30,17 +30,20 @@ public class OsuBeatmapService {
     private final OsuApi api;
     private final OsuBeatmapRepository repository;
     private final OsuScoreService scoreService;
+    private final OsuAsyncService asyncService;
 
     public OsuBeatmapService(
             @Autowired OsuApiProvider apiProvider,
             @Autowired OsuBeatmapRepository repository,
-            @Autowired OsuScoreService scoreService
+            @Autowired OsuScoreService scoreService,
+            @Autowired OsuAsyncService asyncService
     ) {
         this.requestCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.api = apiProvider.getApi();
         this.repository = repository;
         this.scoreService = scoreService;
+        this.asyncService = asyncService;
     }
 
     public @NonNull ApiResponse<List<OsuBeatmap>> get(@NonNull OsuApiGetBeatmapsRequest request) {
@@ -68,6 +71,7 @@ public class OsuBeatmapService {
             requestCache.put(request, result.getResult());
             if (request.getMode() == null && request.getMods() == null) {
                 result.getResult().forEach(beatmap -> cache.put(beatmap.getBeatmapId(), beatmap));
+                log.debug("Save data: {}", response.getResult());
                 repository.saveAll(response.getResult());
             }
         }
@@ -102,6 +106,12 @@ public class OsuBeatmapService {
     }
 
     private @NonNull ApiResponse<OsuBeatmap> getFromDatabase(int beatmapId) {
+        // queue update
+        OsuApiGetBeatmapsRequest request = OsuApiGetBeatmapsRequest.builder()
+                .beatmapId(beatmapId)
+                .build();
+        asyncService.addTask(request, () -> get(request));
+        // get from database
         OsuBeatmap beatmap = repository.findById(beatmapId).map(OsuBeatmapMapper::map).orElse(null);
         if (beatmap != null && beatmap.getMaxPp() == null) {
             // missing max pp score information

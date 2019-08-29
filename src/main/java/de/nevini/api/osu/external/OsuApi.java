@@ -11,6 +11,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +44,13 @@ public class OsuApi {
                     .post(apiRequest.getRequestBody(builder)));
             try {
                 // make the call and parse the result
-                return apiRequest.parseResponse(httpClient.newCall(request).execute());
+                ApiResponse<T> response = apiRequest.parseResponse(httpClient.newCall(request).execute());
+                if (log.isDebugEnabled() && !response.isEmpty() && response.getResult() instanceof Collection) {
+                    log.debug("Request successful with " + ((Collection) response.getResult()).size() + " results");
+                } else {
+                    log.debug("Request successful with {} result", response.isEmpty() ? "empty" : "non-empty");
+                }
+                return response;
             } catch (Throwable throwable) {
                 // an error occurred
                 log.info("Request failed: {}", apiRequest, throwable);

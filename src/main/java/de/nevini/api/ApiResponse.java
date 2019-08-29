@@ -3,6 +3,7 @@ package de.nevini.api;
 import lombok.NonNull;
 import lombok.Value;
 
+import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -79,11 +80,13 @@ public class ApiResponse<T> {
     }
 
     /**
-     * Returns {@code true} if {@link #getResult()} is {@code null}.
-     * Returns {@code false} if {@link #getResult()} is not {@code null}.
+     * Returns {@code true} if {@link #getResult()} is {@code null} or is an empty {@link String} or {@link Collection}.
+     * Returns {@code false} if {@link #getResult()} is not {@code null} or is a non-empty {@link String} or {@link Collection}.
      */
     public boolean isEmpty() {
-        return result == null;
+        return result == null
+                || (result instanceof String && ((String) result).isEmpty())
+                || (result instanceof Collection && ((Collection) result).isEmpty());
     }
 
     /**
