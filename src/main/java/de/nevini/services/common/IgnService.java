@@ -30,7 +30,7 @@ public class IgnService {
         return Optional.ofNullable(getIgn(member, game)).map(IgnData::getName).orElse(null);
     }
 
-    public IgnData getIgn(@NonNull Member member, @NonNull GameData game) {
+    private IgnData getIgn(@NonNull Member member, @NonNull GameData game) {
         Optional<IgnData> ign = ignRepository.findById(new IgnId(
                 member.getGuild().getIdLong(),
                 member.getUser().getIdLong(),

@@ -21,7 +21,7 @@ public class OsuScoreMapper {
         ));
     }
 
-    public static @NonNull OsuScoreData map(@NonNull OsuApiScore score, @NonNull OsuScoreId id) {
+    private static @NonNull OsuScoreData map(@NonNull OsuApiScore score, @NonNull OsuScoreId id) {
         return new OsuScoreData(
                 score.getScoreId(),
                 id.getBeatmapId(),

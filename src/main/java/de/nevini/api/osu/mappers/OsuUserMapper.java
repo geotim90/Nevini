@@ -23,7 +23,7 @@ public class OsuUserMapper {
         ));
     }
 
-    public static @NonNull OsuUserData map(@NonNull OsuApiUser user, @NonNull OsuUserId id) {
+    private static @NonNull OsuUserData map(@NonNull OsuApiUser user, @NonNull OsuUserId id) {
         assert Objects.equals(user.getUserId(), id.getUserId());
         return new OsuUserData(
                 user.getUserId(),
