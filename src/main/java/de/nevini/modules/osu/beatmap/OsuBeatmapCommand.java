@@ -57,34 +57,38 @@ public class OsuBeatmapCommand extends Command {
 
                         EmbedBuilder embed = event.createEmbedBuilder();
                         embed.setAuthor(game.getName(), null, game.getIcon());
-                        embed.setTitle(beatmap.getTitle(), "https://osu.ppy.sh/b/" + beatmap.getBeatmapId());
-                        embed.setDescription(beatmap.getArtist());
-                        embed.addField("Game Mode", beatmap.getMode().getName(), true);
-                        embed.addField("Version", beatmap.getVersion(), true);
-                        embed.addField("Star Difficulty", Formatter.formatDouble(beatmap.getDifficultyRating()), true);
+                        embed.setTitle(Formatter.formatOsuBeatmap(beatmap), "https://osu.ppy.sh/b/" + beatmap.getBeatmapId());
+                        embed.setDescription("Mapped by " + beatmap.getCreatorName());
                         embed.addField("Status", beatmap.getApproved().getName(), true);
-                        embed.addField("Play Count", Formatter.formatInteger(beatmap.getPlayCount()), true);
-                        embed.addField("Favourite Count", Formatter.formatInteger(beatmap.getFavouriteCount()), true);
-                        embed.addField("Mapper", beatmap.getCreatorName(), true);
-                        embed.addField("Submitted", Formatter.formatTimestamp(beatmap.getSubmitDate()), true);
-                        embed.addField("Ranked", Formatter.formatTimestamp(beatmap.getApprovedDate()), true);
+                        embed.addField("Star Difficulty", Formatter.formatDouble(beatmap.getDifficultyRating()), true);
                         embed.addField("Length", Formatter.formatSeconds(beatmap.getTotalLength()), true);
                         embed.addField("Drain Length", Formatter.formatSeconds(beatmap.getHitLength()), true);
                         embed.addField("BPM", Formatter.formatDouble(beatmap.getBpm()), true);
-                        embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + 'x', true);
+                        if (beatmap.getMaxPp() != null) {
+                            embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + "x "
+                                    + Formatter.formatInteger((int) Math.floor(beatmap.getMaxPp())) + "pp", true);
+                        } else {
+                            embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + 'x', true);
+                        }
+                        embed.addField("Circles", Formatter.formatInteger(beatmap.getCountNormal()), true);
+                        embed.addField("Sliders", Formatter.formatInteger(beatmap.getCountSlider()), true);
+                        embed.addField("Spinners", Formatter.formatInteger(beatmap.getCountSpinner()), true);
                         embed.addField("Circle Size (CS)", Formatter.formatDouble(beatmap.getDifficultySize()), true);
                         embed.addField("HP Drain (HP)", Formatter.formatDouble(beatmap.getDifficultyDrain()), true);
                         embed.addField("Accuracy (OD)", Formatter.formatDouble(beatmap.getDifficultyOverall()), true);
                         embed.addField("Approach Rate (AR)", Formatter.formatDouble(beatmap.getDifficultyApproach()), true);
+                        embed.addField("Aim Difficulty", Formatter.formatDouble(beatmap.getDifficultyAim()), true);
+                        embed.addField("Speed Difficulty", Formatter.formatDouble(beatmap.getDifficultySpeed()), true);
+                        embed.addField("Success Rate", Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()), true);
+                        embed.addField("Play Count", Formatter.formatInteger(beatmap.getPlayCount()), true);
+                        embed.addField("Favourite Count", Formatter.formatInteger(beatmap.getFavouriteCount()), true);
                         embed.addField("User Rating", Formatter.formatDouble(beatmap.getRating()), true);
+                        embed.addField("Submitted", Formatter.formatTimestamp(beatmap.getSubmitDate()), true);
+                        embed.addField("Ranked", Formatter.formatTimestamp(beatmap.getApprovedDate()), true);
                         embed.addField("Source", beatmap.getSource(), true);
                         embed.addField("Genre", beatmap.getGenre().getName(), true);
                         embed.addField("Language", beatmap.getLanguage().getName(), true);
                         embed.addField("Tags", beatmap.getTags(), true);
-                        embed.addField("Success Rate", Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()), true);
-                        if (beatmap.getMaxPp() != null) {
-                            embed.addField("Max Performance", Formatter.formatInteger((int) Math.floor(beatmap.getMaxPp())) + "pp", true);
-                        }
                         return embed;
                     },
                     event.getEventDispatcher(),
