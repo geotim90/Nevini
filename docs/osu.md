@@ -27,6 +27,9 @@ This command supports search criteria similar to the in-game search function (<h
 * `bpm` - Beats per minute<br>
 * `length` - Length in seconds<br>
 * `drain` - Drain Time in seconds<br>
+* `circles` - Number of Circles<br>
+* `spinners` - Number of Spinners<br>
+* `sliders` - Number of Sliders<br>
 * `combo` - Max combo<br>
 * `pp` - Max performance (without mods)<br>
 * `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>

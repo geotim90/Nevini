@@ -91,11 +91,11 @@ public class OsuBeatmapSearchService {
             case "drain":
                 return buildQueryPartIntegerPredicate(root.get("hitLength"), comparator, value, builder);
             case "circles":
-                return buildQueryPartIntegerPredicate(root.get("circles"), comparator, value, builder);
+                return buildQueryPartIntegerPredicate(root.get("countNormal"), comparator, value, builder);
             case "sliders":
-                return buildQueryPartIntegerPredicate(root.get("sliders"), comparator, value, builder);
+                return buildQueryPartIntegerPredicate(root.get("countSlider"), comparator, value, builder);
             case "spinners":
-                return buildQueryPartIntegerPredicate(root.get("spinners"), comparator, value, builder);
+                return buildQueryPartIntegerPredicate(root.get("countSpinner"), comparator, value, builder);
             case "combo":
                 return buildQueryPartIntegerPredicate(root.get("maxCombo"), comparator, value, builder);
             case "pp":
