@@ -16,13 +16,40 @@ Command | Description
 
 Displays general information of osu! beatmaps.
 
+This command supports search criteria similar to the in-game search function (<https://osu.ppy.sh/help/wiki/Interface#search>):<br>
+* `ar` - Approach Rate (AR)<br>
+* `cs` - Circle Size (CS)<br>
+* `od` - Overall Difficulty (OD)<br>
+* `hp` - HP Drain Rate (HP)<br>
+* `stars` - Star Difficulty<br>
+* `aim` - Aim Difficulty<br>
+* `speed` - Speed Difficulty<br>
+* `bpm` - Beats per minute<br>
+* `length` - Length in seconds<br>
+* `drain` - Drain Time in seconds<br>
+* `combo` - Max combo<br>
+* `pp` - Max performance (without mods)<br>
+* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>
+* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short<br>
+* `b` - Beatmap id<br>
+* `s` - Beatmapset id<br>
+* `title` - Song title<br>
+* `artist` - Song artist<br>
+* `diff` - Beatmap difficulty name / version<br>
+* `mapper` - Mapper name<br>
+* `source` - Song source<br>
+* `genre` - Song genre<br>
+* `language` - Song language<br>
+* `tag` - Beatmapset tags<br>
+* `rating` - Beatmapset rating
+
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **osu.beatmap**.
 
 Option | Description
 -------|------------
-\[--beatmap\] \<beatmap\> | Refers to an osu! beatmap with a matching id or name. You can also provide search criteria similar to the in-game search function (<https://osu.ppy.sh/help/wiki/Interface#search>):<br>* `ar` - Approach Rate (AR)<br>* `cs` - Circle Size (CS)<br>* `od` - Overall Difficulty (OD)<br>* `hp` - HP Drain Rate (HP)<br>* `stars` - Star Difficulty<br>* `aim` - Aim Difficulty<br>* `speed` - Speed Difficulty<br>* `bpm` - Beats per minute<br>* `length` - Length in seconds<br>* `drain` - Drain Time in seconds<br>* `combo` - Max combo<br>* `pp` - Max performance (without mods)<br>* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short<br>* `b` - Beatmap id<br>* `s` - Beatmapset id<br>* `title` - Song title<br>* `artist` - Song artist<br>* `diff` - Beatmap difficulty name / version<br>* `mapper` - Mapper name<br>* `source` - Song source<br>* `genre` - Song genre<br>* `language` - Song language<br>* `tag` - Beatmapset tags<br>* `rating` - Beatmapset rating<br>The `--beatmap` flag is optional if this option is provided first.
+\[--beatmap\] \<beatmap\> | Refers to an osu! beatmap with a matching id or name.<br>The `--beatmap` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -154,7 +181,7 @@ Permission overrides may be applied on node **osu.scores**.
 
 Option | Description
 -------|------------
-\[--beatmap\] \<beatmap\> | Refers to an osu! beatmap with a matching id or name. You can also provide search criteria similar to the in-game search function (<https://osu.ppy.sh/help/wiki/Interface#search>):<br>* `ar` - Approach Rate (AR)<br>* `cs` - Circle Size (CS)<br>* `od` - Overall Difficulty (OD)<br>* `hp` - HP Drain Rate (HP)<br>* `stars` - Star Difficulty<br>* `aim` - Aim Difficulty<br>* `speed` - Speed Difficulty<br>* `bpm` - Beats per minute<br>* `length` - Length in seconds<br>* `drain` - Drain Time in seconds<br>* `combo` - Max combo<br>* `pp` - Max performance (without mods)<br>* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short<br>* `b` - Beatmap id<br>* `s` - Beatmapset id<br>* `title` - Song title<br>* `artist` - Song artist<br>* `diff` - Beatmap difficulty name / version<br>* `mapper` - Mapper name<br>* `source` - Song source<br>* `genre` - Song genre<br>* `language` - Song language<br>* `tag` - Beatmapset tags<br>* `rating` - Beatmapset rating<br>The `--beatmap` flag is optional if this option is provided first.
+\[--beatmap\] \<beatmap\> | Refers to an osu! beatmap with a matching id or name.<br>The `--beatmap` flag is optional if this option is provided first.
 \[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
 --mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
 --mods \<mods\> | Refers to osu! mods with a matching name (e.g. "No Fail") or short code (e.g. `NF`, `HDHR`, `HDHRNCFL`).

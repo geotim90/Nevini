@@ -30,6 +30,7 @@ public class OsuBeatmapCommand extends Command {
                 .options(new CommandOptionDescriptor[]{
                         OsuResolvers.BEATMAP.describe(false, true)
                 })
+                .details(OsuResolvers.BEATMAP.details())
                 .build());
     }
 

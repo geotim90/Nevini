@@ -23,39 +23,43 @@ public class OsuBeatmapResolver extends OptionResolver<OsuBeatmap> {
         return CommandOptionDescriptor.builder()
                 .syntax(argument ? "[--beatmap] <beatmap>" : "--beatmap <beatmap>")
                 .description("Refers to " + (list ? "all osu! beatmaps" : "an osu! beatmap")
-                        + " with a matching id or name. You can also provide search criteria similar to the in-game"
-                        + " search function (<https://osu.ppy.sh/help/wiki/Interface#search>):"
-                        + "\n* `ar` - Approach Rate (AR)"
-                        + "\n* `cs` - Circle Size (CS)"
-                        + "\n* `od` - Overall Difficulty (OD)"
-                        + "\n* `hp` - HP Drain Rate (HP)"
-                        + "\n* `stars` - Star Difficulty"
-                        + "\n* `aim` - Aim Difficulty"
-                        + "\n* `speed` - Speed Difficulty"
-                        + "\n* `bpm` - Beats per minute"
-                        + "\n* `length` - Length in seconds"
-                        + "\n* `drain` - Drain Time in seconds"
-                        + "\n* `combo` - Max combo"
-                        + "\n* `pp` - Max performance (without mods)"
-                        + "\n* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short"
-                        + "\n* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short"
-                        + "\n* `b` - Beatmap id"
-                        + "\n* `s` - Beatmapset id"
-                        + "\n* `title` - Song title"
-                        + "\n* `artist` - Song artist"
-                        + "\n* `diff` - Beatmap difficulty name / version"
-                        + "\n* `mapper` - Mapper name"
-                        + "\n* `source` - Song source"
-                        + "\n* `genre` - Song genre"
-                        + "\n* `language` - Song language"
-                        + "\n* `tag` - Beatmapset tags"
-                        + "\n* `rating` - Beatmapset rating"
+                        + " with a matching id or name."
                         + (argument
                         ? "\nThe `--beatmap` flag is optional if this option is provided first."
                         : ""))
                 .keyword("--beatmap")
                 .aliases(new String[]{"//beatmap", "--bm", "//bm"})
                 .build();
+    }
+
+    public String details() {
+        return "This command supports search criteria similar to the in-game search function "
+                + "(<https://osu.ppy.sh/help/wiki/Interface#search>):"
+                + "\n* `ar` - Approach Rate (AR)"
+                + "\n* `cs` - Circle Size (CS)"
+                + "\n* `od` - Overall Difficulty (OD)"
+                + "\n* `hp` - HP Drain Rate (HP)"
+                + "\n* `stars` - Star Difficulty"
+                + "\n* `aim` - Aim Difficulty"
+                + "\n* `speed` - Speed Difficulty"
+                + "\n* `bpm` - Beats per minute"
+                + "\n* `length` - Length in seconds"
+                + "\n* `drain` - Drain Time in seconds"
+                + "\n* `combo` - Max combo"
+                + "\n* `pp` - Max performance (without mods)"
+                + "\n* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short"
+                + "\n* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short"
+                + "\n* `b` - Beatmap id"
+                + "\n* `s` - Beatmapset id"
+                + "\n* `title` - Song title"
+                + "\n* `artist` - Song artist"
+                + "\n* `diff` - Beatmap difficulty name / version"
+                + "\n* `mapper` - Mapper name"
+                + "\n* `source` - Song source"
+                + "\n* `genre` - Song genre"
+                + "\n* `language` - Song language"
+                + "\n* `tag` - Beatmapset tags"
+                + "\n* `rating` - Beatmapset rating";
     }
 
     @Override
