@@ -8,7 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.time.*;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
@@ -19,6 +22,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Formatter {
+
+    public static String formatDate(long epochMilli) {
+        return formatDate(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
+    }
+
+    public static String formatDate(@NonNull TemporalAccessor value) {
+        return DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC).format(value);
+    }
 
     public static String formatDouble(double value) {
         return new DecimalFormat("#0.##", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
@@ -241,16 +252,6 @@ public class Formatter {
         } else {
             return StringUtils.join(Arrays.copyOf(items, items.length - 1), glue)
                     + lastGlue + items[items.length - 1];
-        }
-    }
-
-    public static @NonNull OffsetDateTime parseTimestamp(@NonNull String timestamp) {
-        if ("now".equalsIgnoreCase(timestamp)) {
-            return OffsetDateTime.now(ZoneOffset.UTC);
-        } else {
-            String padding = "0000-01-01T00:00:00";
-            String padded = timestamp + padding.substring(Math.min(padding.length(), timestamp.length()));
-            return LocalDateTime.parse(padded).atOffset(ZoneOffset.UTC);
         }
     }
 

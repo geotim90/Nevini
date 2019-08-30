@@ -17,34 +17,34 @@ Command | Description
 Displays general information of osu! beatmaps.
 
 This command supports search criteria similar to the in-game search function (<https://osu.ppy.sh/help/wiki/Interface#search>):<br>
-* `ar` - Approach Rate (AR)<br>
-* `cs` - Circle Size (CS)<br>
-* `od` - Overall Difficulty (OD)<br>
-* `hp` - HP Drain Rate (HP)<br>
+* `b` - Beatmap id<br>
+* `s` - Beatmapset id<br>
+* `artist` - Song artist<br>
+* `title` - Song title<br>
+* `diff` - Beatmap difficulty name / version<br>
+* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>
+* `mapper` - Mapper name<br>
+* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short<br>
 * `stars` - Star Difficulty<br>
-* `aim` - Aim Difficulty<br>
-* `speed` - Speed Difficulty<br>
-* `bpm` - Beats per minute<br>
 * `length` - Length in seconds<br>
 * `drain` - Drain Time in seconds<br>
+* `bpm` - Beats per minute<br>
+* `combo` - Max combo<br>
+* `pp` - Max performance (without mods)<br>
 * `circles` - Number of Circles<br>
 * `spinners` - Number of Spinners<br>
 * `sliders` - Number of Sliders<br>
-* `combo` - Max combo<br>
-* `pp` - Max performance (without mods)<br>
-* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>
-* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short<br>
-* `b` - Beatmap id<br>
-* `s` - Beatmapset id<br>
-* `title` - Song title<br>
-* `artist` - Song artist<br>
-* `diff` - Beatmap difficulty name / version<br>
-* `mapper` - Mapper name<br>
+* `cs` - Circle Size (CS)<br>
+* `hp` - HP Drain Rate (HP)<br>
+* `od` - Overall Difficulty (OD)<br>
+* `ar` - Approach Rate (AR)<br>
+* `aim` - Aim Difficulty<br>
+* `speed` - Speed Difficulty<br>
+* `rating` - Beatmapset rating<br>
 * `source` - Song source<br>
 * `genre` - Song genre<br>
 * `language` - Song language<br>
-* `tag` - Beatmapset tags<br>
-* `rating` - Beatmapset rating
+* `tag` - Beatmapset tags
 
 This command can be executed in a text channel or via direct message.
 
@@ -56,7 +56,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-osu!beatmap | osu!b<br>osu!beatmaps<br>osu!beatmapset<br>osu!bm<br>osu!bms<br>osu!find<br>osu!map<br>osu!maps<br>osu!mapset<br>osu!s<br>osu!search<br>osu!set
+osu!beatmap | osu!b<br>osu!beatmaps<br>osu!beatmapset<br>osu!bm<br>osu!bms<br>osu!filter<br>osu!find<br>osu!map<br>osu!maps<br>osu!mapset<br>osu!s<br>osu!search<br>osu!set
 --beatmap | //beatmap<br>--bm<br>//bm
 
 ## Command: `osu!best`

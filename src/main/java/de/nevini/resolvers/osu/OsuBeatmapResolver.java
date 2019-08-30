@@ -32,39 +32,6 @@ public class OsuBeatmapResolver extends OptionResolver<OsuBeatmap> {
                 .build();
     }
 
-    public String details() {
-        return "This command supports search criteria similar to the in-game search function "
-                + "(<https://osu.ppy.sh/help/wiki/Interface#search>):"
-                + "\n* `ar` - Approach Rate (AR)"
-                + "\n* `cs` - Circle Size (CS)"
-                + "\n* `od` - Overall Difficulty (OD)"
-                + "\n* `hp` - HP Drain Rate (HP)"
-                + "\n* `stars` - Star Difficulty"
-                + "\n* `aim` - Aim Difficulty"
-                + "\n* `speed` - Speed Difficulty"
-                + "\n* `bpm` - Beats per minute"
-                + "\n* `length` - Length in seconds"
-                + "\n* `drain` - Drain Time in seconds"
-                + "\n* `circles` - Number of Circles"
-                + "\n* `spinners` - Number of Spinners"
-                + "\n* `sliders` - Number of Sliders"
-                + "\n* `combo` - Max combo"
-                + "\n* `pp` - Max performance (without mods)"
-                + "\n* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short"
-                + "\n* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short"
-                + "\n* `b` - Beatmap id"
-                + "\n* `s` - Beatmapset id"
-                + "\n* `title` - Song title"
-                + "\n* `artist` - Song artist"
-                + "\n* `diff` - Beatmap difficulty name / version"
-                + "\n* `mapper` - Mapper name"
-                + "\n* `source` - Song source"
-                + "\n* `genre` - Song genre"
-                + "\n* `language` - Song language"
-                + "\n* `tag` - Beatmapset tags"
-                + "\n* `rating` - Beatmapset rating";
-    }
-
     @Override
     public List<OsuBeatmap> findSorted(@NonNull CommandEvent event, String query) {
         return event.locate(OsuService.class).findBeatmaps(query).stream()

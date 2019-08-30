@@ -8,7 +8,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.8.3'
+version = '4.8.4'
 sourceCompatibility = '8'
 
 configurations {

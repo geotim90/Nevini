@@ -22,15 +22,44 @@ public class OsuBeatmapCommand extends Command {
     public OsuBeatmapCommand() {
         super(CommandDescriptor.builder()
                 .keyword("osu!beatmap")
-                .aliases(new String[]{"osu!b", "osu!beatmaps", "osu!beatmapset", "osu!bm", "osu!bms", "osu!find",
-                        "osu!map", "osu!maps", "osu!mapset", "osu!s", "osu!search", "osu!set"})
+                .aliases(new String[]{"osu!b", "osu!beatmaps", "osu!beatmapset", "osu!bm", "osu!bms", "osu!filter",
+                        "osu!find", "osu!map", "osu!maps", "osu!mapset", "osu!s", "osu!search", "osu!set"})
                 .guildOnly(false)
                 .node(Node.OSU_BEATMAP)
                 .description("displays general information of osu! beatmaps")
                 .options(new CommandOptionDescriptor[]{
                         OsuResolvers.BEATMAP.describe(false, true)
                 })
-                .details(OsuResolvers.BEATMAP.details())
+                .details("This command supports search criteria similar to the in-game search function "
+                        + "(<https://osu.ppy.sh/help/wiki/Interface#search>):"
+                        + "\n* `b` - Beatmap id"
+                        + "\n* `s` - Beatmapset id"
+                        + "\n* `artist` - Song artist"
+                        + "\n* `title` - Song title"
+                        + "\n* `diff` - Beatmap difficulty name / version"
+                        + "\n* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short"
+                        + "\n* `mapper` - Mapper name"
+                        + "\n* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short"
+                        + "\n* `stars` - Star Difficulty"
+                        + "\n* `length` - Length in seconds"
+                        + "\n* `drain` - Drain Time in seconds"
+                        + "\n* `bpm` - Beats per minute"
+                        + "\n* `combo` - Max combo"
+                        + "\n* `pp` - Max performance (without mods)"
+                        + "\n* `circles` - Number of Circles"
+                        + "\n* `spinners` - Number of Spinners"
+                        + "\n* `sliders` - Number of Sliders"
+                        + "\n* `cs` - Circle Size (CS)"
+                        + "\n* `hp` - HP Drain Rate (HP)"
+                        + "\n* `od` - Overall Difficulty (OD)"
+                        + "\n* `ar` - Approach Rate (AR)"
+                        + "\n* `aim` - Aim Difficulty"
+                        + "\n* `speed` - Speed Difficulty"
+                        + "\n* `rating` - Beatmapset rating"
+                        + "\n* `source` - Song source"
+                        + "\n* `genre` - Song genre"
+                        + "\n* `language` - Song language"
+                        + "\n* `tag` - Beatmapset tags")
                 .build());
     }
 
@@ -65,7 +94,7 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Drain Length", Formatter.formatSeconds(beatmap.getHitLength()), true);
                         embed.addField("BPM", Formatter.formatDouble(beatmap.getBpm()), true);
                         if (beatmap.getMaxPp() != null) {
-                            embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + "x "
+                            embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + "x ≈ "
                                     + Formatter.formatInteger((int) Math.floor(beatmap.getMaxPp())) + "pp", true);
                         } else {
                             embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + 'x', true);
@@ -75,7 +104,7 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Spinners", Formatter.formatInteger(beatmap.getCountSpinner()), true);
                         embed.addField("Circle Size (CS)", Formatter.formatDouble(beatmap.getDifficultySize()), true);
                         embed.addField("HP Drain (HP)", Formatter.formatDouble(beatmap.getDifficultyDrain()), true);
-                        embed.addField("Accuracy (OD)", Formatter.formatDouble(beatmap.getDifficultyOverall()), true);
+                        embed.addField("Overall Difficulty (OD)", Formatter.formatDouble(beatmap.getDifficultyOverall()), true);
                         embed.addField("Approach Rate (AR)", Formatter.formatDouble(beatmap.getDifficultyApproach()), true);
                         embed.addField("Aim Difficulty", Formatter.formatDouble(beatmap.getDifficultyAim()), true);
                         embed.addField("Speed Difficulty", Formatter.formatDouble(beatmap.getDifficultySpeed()), true);
@@ -83,8 +112,8 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Play Count", Formatter.formatInteger(beatmap.getPlayCount()), true);
                         embed.addField("Favourite Count", Formatter.formatInteger(beatmap.getFavouriteCount()), true);
                         embed.addField("User Rating", Formatter.formatDouble(beatmap.getRating()), true);
-                        embed.addField("Submitted", Formatter.formatTimestamp(beatmap.getSubmitDate()), true);
-                        embed.addField("Ranked", Formatter.formatTimestamp(beatmap.getApprovedDate()), true);
+                        embed.addField("Submitted", Formatter.formatDate(beatmap.getSubmitDate()), true);
+                        embed.addField("Ranked", Formatter.formatDate(beatmap.getApprovedDate()), true);
                         embed.addField("Source", beatmap.getSource(), true);
                         embed.addField("Genre", beatmap.getGenre().getName(), true);
                         embed.addField("Language", beatmap.getLanguage().getName(), true);

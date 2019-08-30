@@ -50,7 +50,7 @@ public class TimestampResolver extends OptionResolver<OffsetDateTime> {
 
         if (s.matches("\\d{4}-\\d{2}-\\d{2}.*")) {
             String padding = "1970-01-01T00:00:00";
-            String padded = s + padding.substring(Math.min(padding.length(), s.length()));
+            String padded = s.replace(' ', 'T') + padding.substring(Math.min(padding.length(), s.length()));
             try {
                 return LocalDateTime.parse(padded).atOffset(ZoneOffset.UTC);
             } catch (DateTimeParseException ignore) {
