@@ -6,6 +6,7 @@ import de.nevini.api.osu.services.*;
 import de.nevini.jpa.game.GameData;
 import de.nevini.locators.Locatable;
 import de.nevini.services.common.GameService;
+import de.nevini.util.Formatter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -79,10 +80,7 @@ public class OsuService implements Locatable {
 
     public String getBeatmapString(int beatmapId) {
         OsuBeatmap beatmap = beatmapService.getCached(beatmapId).getResult();
-        return beatmap == null
-                ? "https://osu.ppy.sh/b/" + beatmapId
-                : beatmap.getArtist() + " - " + beatmap.getTitle()
-                + " [" + beatmap.getVersion() + "] (" + beatmap.getMode().getName() + ")";
+        return beatmap == null ? "https://osu.ppy.sh/b/" + beatmapId : Formatter.formatOsuBeatmap(beatmap);
     }
 
     public List<OsuScore> getScores(int beatmap, String ign, OsuMode mode, OsuMod[] mods) {

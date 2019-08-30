@@ -230,14 +230,20 @@ public class ReportCommand extends Command {
             OffsetDateTime deadline = joined == null ? OffsetDateTime.MAX
                     : OffsetDateTime.ofInstant(Instant.ofEpochMilli(joined), ZoneOffset.UTC)
                     .plusDays(contributionTimeoutInDays);
+            OffsetDateTime now = OffsetDateTime.now();
             if (contribution) {
                 builder.append(CommandReaction.OK.getUnicode());
-            } else if (!isInitiate || deadline.isAfter(OffsetDateTime.now())) {
+            } else if (!isInitiate || deadline.isAfter(now)) {
                 builder.append(CommandReaction.WARNING.getUnicode());
             } else {
                 builder.append(CommandReaction.ERROR.getUnicode());
             }
-            builder.append(" Contribution: **").append(contribution ? "yes" : "no").append("**\n");
+            builder.append(" Contribution: **").append(contribution ? "yes" : "no").append("**");
+            if (isInitiate) {
+                builder.append(" (").append(Formatter.formatLargestUnitBetween(now, deadline))
+                        .append(deadline.isAfter(now) ? " left" : " overdue").append(')');
+            }
+            builder.append('\n');
         }
 
         // last online

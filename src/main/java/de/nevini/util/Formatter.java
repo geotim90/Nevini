@@ -1,5 +1,6 @@
 package de.nevini.util;
 
+import de.nevini.api.osu.model.OsuBeatmap;
 import de.nevini.api.osu.model.OsuRank;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -94,6 +95,11 @@ public class Formatter {
 
     public static String formatLong(long value) {
         return NumberFormat.getIntegerInstance(Locale.US).format(value);
+    }
+
+    public static String formatOsuBeatmap(@NonNull OsuBeatmap beatmap) {
+        return beatmap.getArtist() + " - " + beatmap.getTitle()
+                + " [" + beatmap.getVersion() + "] (" + beatmap.getMode().getName() + ")";
     }
 
     public static String formatOsuDisplayHtml(@NonNull String value) {
