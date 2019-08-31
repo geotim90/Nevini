@@ -50,7 +50,10 @@ public class TributeService {
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
                     .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start,
                             NOT_CONTRIBUTED));
-            data.setStart(start);
+            // do not overwrite existing "start" values
+            if (data.getStart() == null) {
+                data.setStart(start);
+            }
             log.info("Save data: {}", data);
             memberRepository.save(data);
         }
