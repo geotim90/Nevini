@@ -61,6 +61,11 @@ public class OsuScoreService {
         );
         if (!result.isEmpty()) {
             requestCache.put(request, result.getResult());
+            if (request.getUser() == null && request.getUserType() == null && request.getLimit().equals(1)) {
+                OsuScoreData scoreData = response.getResult().get(0);
+                log.debug("Save data: {}", scoreData);
+                repository.save(scoreData);
+            }
         }
         return result;
     }
@@ -94,21 +99,7 @@ public class OsuScoreService {
                 .mods(scoreId.getMods())
                 .limit(1)
                 .build();
-        ApiResponse<List<OsuScoreData>> response = api.getScores(request).map(list ->
-                list.stream().map(score -> OsuScoreMapper.map(score, request)).collect(Collectors.toList())
-        );
-        ApiResponse<List<OsuScore>> result = response.map(list ->
-                list.stream().map(OsuScoreMapper::map).collect(Collectors.toList())
-        );
-        if (!result.isEmpty() && !result.getResult().isEmpty()) {
-            OsuScore score = result.getResult().get(0);
-            cache.put(scoreId, score);
-            OsuScoreData scoreData = response.getResult().get(0);
-            log.debug("Save data: {}", scoreData);
-            repository.save(scoreData);
-            return ApiResponse.ok(score);
-        }
-        return result.map(list -> list.stream().findFirst().orElse(null));
+        return get(request).map(list -> list.stream().findFirst().orElse(null));
     }
 
     private @NonNull ApiResponse<OsuScore> getFromDatabase(@NonNull OsuScoreId scoreId) {

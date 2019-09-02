@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,14 +29,12 @@ public class OsuBeatmapService {
     private final Cache<Integer, OsuBeatmap> cache;
     private final OsuApi api;
     private final OsuBeatmapRepository repository;
-    private final EntityManager entityManager;
     private final OsuScoreService scoreService;
     private final OsuAsyncService asyncService;
 
     public OsuBeatmapService(
             @Autowired OsuApiProvider apiProvider,
             @Autowired OsuBeatmapRepository repository,
-            @Autowired EntityManager entityManager,
             @Autowired OsuScoreService scoreService,
             @Autowired OsuAsyncService asyncService
     ) {
@@ -45,7 +42,6 @@ public class OsuBeatmapService {
         this.cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.api = apiProvider.getApi();
         this.repository = repository;
-        this.entityManager = entityManager;
         this.scoreService = scoreService;
         this.asyncService = asyncService;
     }
@@ -77,7 +73,6 @@ public class OsuBeatmapService {
                 result.getResult().forEach(beatmap -> cache.put(beatmap.getBeatmapId(), beatmap));
                 log.debug("Save data: {}", response.getResult());
                 repository.saveAll(response.getResult());
-                entityManager.flush();
             }
         }
         return result;

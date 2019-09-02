@@ -38,10 +38,44 @@ public class OsuBeatmapSearchService {
     }
 
     public Collection<OsuBeatmap> search(@NonNull String query) {
+        // make sure data referenced by id is available
+        ensureCached(query);
         // return 10 newest results of the free form query
         return repository.findAll((root, ignore, builder) -> buildQueryPredicate(root, query.trim(), builder),
-                PageRequest.of(0, 10, Sort.Direction.DESC, "approvedDate", "lastUpdate", "mode", "difficultyRating")
+                PageRequest.of(0, 10, Sort.by(Sort.Order.desc("approvedDate"), Sort.Order.desc("lastUpdate"),
+                        Sort.Order.asc("mode"), Sort.Order.desc("difficultyRating")))
         ).stream().map(OsuBeatmapMapper::map).collect(Collectors.toList());
+    }
+
+    private void ensureCached(String query) {
+        Matcher matcher = Pattern.compile("(b|s|mapper)==?(\\S+)").matcher(query);
+        while (matcher.find()) {
+            if ("b".equals(matcher.group(1))) {
+                ensureCachedBeatmapId(matcher.group(2));
+            } else if ("s".equals(matcher.group(1))) {
+                ensureCachedBeatmapsetId(matcher.group(2));
+            } else if ("mapper".equals(matcher.group(1))) {
+                ensureCachedCreator(matcher.group(2));
+            }
+        }
+    }
+
+    private void ensureCachedBeatmapId(String value) {
+        try {
+            beatmapService.getCached(Integer.parseInt(value));
+        } catch (NumberFormatException ignore) {
+        }
+    }
+
+    private void ensureCachedBeatmapsetId(String value) {
+        try {
+            beatmapService.get(OsuApiGetBeatmapsRequest.builder().beatmapsetId(Integer.parseInt(value)).build());
+        } catch (NumberFormatException ignore) {
+        }
+    }
+
+    private void ensureCachedCreator(String value) {
+        beatmapService.get(OsuApiGetBeatmapsRequest.builder().user(value).limit(10).build());
     }
 
     private Predicate buildQueryPredicate(Root<OsuBeatmapData> root, String query, CriteriaBuilder builder) {
@@ -105,10 +139,8 @@ public class OsuBeatmapSearchService {
             case "status":
                 return buildQueryPartIntegerEnumPredicate(root.get("approved"), comparator, value, builder, OsuStatus.values());
             case "b":
-                ensureCachedBeatmapId(value);
                 return buildQueryPartIntegerPredicate(root.get("beatmapId"), comparator, value, builder);
             case "s":
-                ensureCachedBeatmapsetId(value);
                 return buildQueryPartIntegerPredicate(root.get("beatmapsetId"), comparator, value, builder);
             case "title":
                 return buildQueryPartStringPredicate(root.get("title"), comparator, value, builder);
@@ -117,7 +149,6 @@ public class OsuBeatmapSearchService {
             case "diff":
                 return buildQueryPartStringPredicate(root.get("version"), comparator, value, builder);
             case "mapper":
-                ensureCachedCreator(value);
                 Predicate creatorId = buildQueryPartIntegerPredicate(root.get("creatorId"), comparator, value, builder);
                 Predicate creatorName = buildQueryPartStringPredicate(root.get("creatorName"), comparator, value, builder);
                 if (creatorId != null && creatorName != null) {
@@ -240,27 +271,6 @@ public class OsuBeatmapSearchService {
             default:
                 return null;
         }
-    }
-
-    private void ensureCachedBeatmapId(String value) {
-        try {
-            beatmapService.getCached(Integer.parseInt(value));
-        } catch (NumberFormatException ignore) {
-        }
-    }
-
-    private void ensureCachedBeatmapsetId(String value) {
-        try {
-            beatmapService.get(OsuApiGetBeatmapsRequest.builder()
-                    .beatmapsetId(Integer.parseInt(value))
-                    .limit(10)
-                    .build());
-        } catch (NumberFormatException ignore) {
-        }
-    }
-
-    private void ensureCachedCreator(String value) {
-        beatmapService.get(OsuApiGetBeatmapsRequest.builder().user(value).limit(10).build());
     }
 
 }
