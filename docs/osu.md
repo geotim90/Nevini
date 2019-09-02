@@ -41,10 +41,14 @@ This command supports search criteria similar to the in-game search function (<h
 * `aim` - Aim Difficulty<br>
 * `speed` - Speed Difficulty<br>
 * `rating` - Beatmapset rating<br>
+* `favs` - Beatmapset favourite count<br>
+* `plays` - Beatmap play count<br>
+* `pass` - Beatmap pass count<br>
 * `source` - Song source<br>
 * `genre` - Song genre<br>
 * `language` - Song language<br>
-* `tag` - Beatmapset tags
+* `tag` - Beatmapset tags<br>
+* `hash` - Beatmap hash
 
 This command can be executed in a text channel or via direct message.
 
@@ -52,7 +56,7 @@ Permission overrides may be applied on node **osu.beatmap**.
 
 Option | Description
 -------|------------
-\[--beatmap\] \<beatmap\> | Refers to an osu! beatmap with a matching id or name.<br>The `--beatmap` flag is optional if this option is provided first.
+\[--beatmap\] \<beatmap\> | Refers to all osu! beatmaps with a matching id or name.<br>The `--beatmap` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------

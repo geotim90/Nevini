@@ -57,10 +57,14 @@ public class OsuBeatmapCommand extends Command {
                         + "\n* `aim` - Aim Difficulty"
                         + "\n* `speed` - Speed Difficulty"
                         + "\n* `rating` - Beatmapset rating"
+                        + "\n* `favs` - Beatmapset favourite count"
+                        + "\n* `plays` - Beatmap play count"
+                        + "\n* `pass` - Beatmap pass count"
                         + "\n* `source` - Song source"
                         + "\n* `genre` - Song genre"
                         + "\n* `language` - Song language"
-                        + "\n* `tag` - Beatmapset tags")
+                        + "\n* `tag` - Beatmapset tags"
+                        + "\n* `hash` - Beatmap hash")
                 .build());
     }
 

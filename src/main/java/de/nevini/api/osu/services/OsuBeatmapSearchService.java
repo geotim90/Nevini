@@ -49,7 +49,7 @@ public class OsuBeatmapSearchService {
     }
 
     private void ensureCached(String query) {
-        Matcher matcher = Pattern.compile("(b|s|mapper)==?(\\S+)").matcher(query);
+        Matcher matcher = Pattern.compile("(b|s|mapper|hash)==?(\\S+)").matcher(query);
         while (matcher.find()) {
             if ("b".equals(matcher.group(1))) {
                 ensureCachedBeatmapId(matcher.group(2));
@@ -57,6 +57,8 @@ public class OsuBeatmapSearchService {
                 ensureCachedBeatmapsetId(matcher.group(2));
             } else if ("mapper".equals(matcher.group(1))) {
                 ensureCachedCreator(matcher.group(2));
+            } else if ("hash".equals(matcher.group(1))) {
+                ensureCachedHash(matcher.group(2));
             }
         }
     }
@@ -77,6 +79,10 @@ public class OsuBeatmapSearchService {
 
     private void ensureCachedCreator(String value) {
         beatmapService.get(OsuApiGetBeatmapsRequest.builder().user(value).limit(10).build());
+    }
+
+    private void ensureCachedHash(String value) {
+        beatmapService.get(OsuApiGetBeatmapsRequest.builder().beatmapHash(value).build());
     }
 
     private Predicate buildQueryPredicate(Root<OsuBeatmapData> root, String query, CriteriaBuilder builder) {
@@ -105,50 +111,18 @@ public class OsuBeatmapSearchService {
             Root<OsuBeatmapData> root, String attribute, String comparator, String value, CriteriaBuilder builder
     ) {
         switch (attribute) {
-            case "ar":
-                return buildQueryPartDoublePredicate(root.get("difficultyApproach"), comparator, value, builder);
-            case "cs":
-                return buildQueryPartDoublePredicate(root.get("difficultySize"), comparator, value, builder);
-            case "od":
-                return buildQueryPartDoublePredicate(root.get("difficultyOverall"), comparator, value, builder);
-            case "hp":
-                return buildQueryPartDoublePredicate(root.get("difficultyDrain"), comparator, value, builder);
-            case "stars":
-                return buildQueryPartDoublePredicate(root.get("difficultyRating"), comparator, value, builder);
-            case "aim":
-                return buildQueryPartDoublePredicate(root.get("difficultyAim"), comparator, value, builder);
-            case "speed":
-                return buildQueryPartDoublePredicate(root.get("difficultySpeed"), comparator, value, builder);
-            case "bpm":
-                return buildQueryPartDoublePredicate(root.get("bpm"), comparator, value, builder);
-            case "length":
-                return buildQueryPartIntegerPredicate(root.get("totalLength"), comparator, value, builder);
-            case "drain":
-                return buildQueryPartIntegerPredicate(root.get("hitLength"), comparator, value, builder);
-            case "circles":
-                return buildQueryPartIntegerPredicate(root.get("countNormal"), comparator, value, builder);
-            case "sliders":
-                return buildQueryPartIntegerPredicate(root.get("countSlider"), comparator, value, builder);
-            case "spinners":
-                return buildQueryPartIntegerPredicate(root.get("countSpinner"), comparator, value, builder);
-            case "combo":
-                return buildQueryPartIntegerPredicate(root.get("maxCombo"), comparator, value, builder);
-            case "pp":
-                return buildQueryPartDoublePredicate(root.get("maxPp"), comparator, value, builder);
-            case "mode":
-                return buildQueryPartIntegerEnumPredicate(root.get("mode"), comparator, value, builder, OsuMode.values());
-            case "status":
-                return buildQueryPartIntegerEnumPredicate(root.get("approved"), comparator, value, builder, OsuStatus.values());
             case "b":
                 return buildQueryPartIntegerPredicate(root.get("beatmapId"), comparator, value, builder);
             case "s":
                 return buildQueryPartIntegerPredicate(root.get("beatmapsetId"), comparator, value, builder);
-            case "title":
-                return buildQueryPartStringPredicate(root.get("title"), comparator, value, builder);
             case "artist":
                 return buildQueryPartStringPredicate(root.get("artist"), comparator, value, builder);
+            case "title":
+                return buildQueryPartStringPredicate(root.get("title"), comparator, value, builder);
             case "diff":
                 return buildQueryPartStringPredicate(root.get("version"), comparator, value, builder);
+            case "mode":
+                return buildQueryPartIntegerEnumPredicate(root.get("mode"), comparator, value, builder, OsuMode.values());
             case "mapper":
                 Predicate creatorId = buildQueryPartIntegerPredicate(root.get("creatorId"), comparator, value, builder);
                 Predicate creatorName = buildQueryPartStringPredicate(root.get("creatorName"), comparator, value, builder);
@@ -157,6 +131,46 @@ public class OsuBeatmapSearchService {
                 } else {
                     return creatorId != null ? creatorId : creatorName;
                 }
+            case "status":
+                return buildQueryPartIntegerEnumPredicate(root.get("approved"), comparator, value, builder, OsuStatus.values());
+            case "stars":
+                return buildQueryPartDoublePredicate(root.get("difficultyRating"), comparator, value, builder);
+            case "length":
+                return buildQueryPartIntegerPredicate(root.get("totalLength"), comparator, value, builder);
+            case "drain":
+                return buildQueryPartIntegerPredicate(root.get("hitLength"), comparator, value, builder);
+            case "bpm":
+                return buildQueryPartDoublePredicate(root.get("bpm"), comparator, value, builder);
+            case "combo":
+                return buildQueryPartIntegerPredicate(root.get("maxCombo"), comparator, value, builder);
+            case "pp":
+                return buildQueryPartDoublePredicate(root.get("maxPp"), comparator, value, builder);
+            case "circles":
+                return buildQueryPartIntegerPredicate(root.get("countNormal"), comparator, value, builder);
+            case "sliders":
+                return buildQueryPartIntegerPredicate(root.get("countSlider"), comparator, value, builder);
+            case "spinners":
+                return buildQueryPartIntegerPredicate(root.get("countSpinner"), comparator, value, builder);
+            case "cs":
+                return buildQueryPartDoublePredicate(root.get("difficultySize"), comparator, value, builder);
+            case "hp":
+                return buildQueryPartDoublePredicate(root.get("difficultyDrain"), comparator, value, builder);
+            case "od":
+                return buildQueryPartDoublePredicate(root.get("difficultyOverall"), comparator, value, builder);
+            case "ar":
+                return buildQueryPartDoublePredicate(root.get("difficultyApproach"), comparator, value, builder);
+            case "aim":
+                return buildQueryPartDoublePredicate(root.get("difficultyAim"), comparator, value, builder);
+            case "speed":
+                return buildQueryPartDoublePredicate(root.get("difficultySpeed"), comparator, value, builder);
+            case "rating":
+                return buildQueryPartDoublePredicate(root.get("rating"), comparator, value, builder);
+            case "favs":
+                return buildQueryPartIntegerPredicate(root.get("favouriteCount"), comparator, value, builder);
+            case "plays":
+                return buildQueryPartIntegerPredicate(root.get("playCount"), comparator, value, builder);
+            case "pass":
+                return buildQueryPartIntegerPredicate(root.get("passCount"), comparator, value, builder);
             case "source":
                 return buildQueryPartStringPredicate(root.get("source"), comparator, value, builder);
             case "genre":
@@ -165,8 +179,8 @@ public class OsuBeatmapSearchService {
                 return buildQueryPartIntegerEnumPredicate(root.get("language"), comparator, value, builder, OsuLanguage.values());
             case "tag":
                 return buildQueryPartStringPredicate(root.get("tags"), comparator, value, builder);
-            case "rating":
-                return buildQueryPartDoublePredicate(root.get("rating"), comparator, value, builder);
+            case "hash":
+                return buildQueryPartStringPredicate(root.get("fileMd5"), comparator, value, builder);
             default:
                 return null;
         }
