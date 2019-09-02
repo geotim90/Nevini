@@ -2,9 +2,7 @@ package de.nevini.api.wfm.requests;
 
 import de.nevini.api.ApiResponse;
 import lombok.NonNull;
-import okhttp3.MultipartBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -18,15 +16,6 @@ public interface WfmApiRequest<T> {
      * Returns the endpoint URL for this {@link WfmApiRequest}.
      */
     @NonNull String getEndpoint();
-
-    /**
-     * Returns the {@link RequestBody} for this {@link WfmApiRequest}.
-     *
-     * @param builder a prepared {@link MultipartBody.Builder}
-     */
-    default @NonNull RequestBody getRequestBody(@NonNull MultipartBody.Builder builder) {
-        return builder.build();
-    }
 
     /**
      * Returns the {@link Request} for this {@link WfmApiRequest}.
