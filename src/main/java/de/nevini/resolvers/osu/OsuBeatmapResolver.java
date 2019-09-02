@@ -7,10 +7,8 @@ import de.nevini.services.osu.OsuService;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class OsuBeatmapResolver extends OptionResolver<OsuBeatmap> {
 
@@ -34,9 +32,7 @@ public class OsuBeatmapResolver extends OptionResolver<OsuBeatmap> {
 
     @Override
     public List<OsuBeatmap> findSorted(@NonNull CommandEvent event, String query) {
-        return event.locate(OsuService.class).findBeatmaps(query).stream()
-                .sorted(Comparator.comparing(OsuBeatmap::getTitle).thenComparing(OsuBeatmap::getDifficultyRating))
-                .collect(Collectors.toList());
+        return event.locate(OsuService.class).findBeatmaps(query);
     }
 
     @Override

@@ -19,6 +19,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -37,13 +38,13 @@ public class OsuBeatmapSearchService {
         this.beatmapService = beatmapService;
     }
 
-    public Collection<OsuBeatmap> search(@NonNull String query) {
+    public List<OsuBeatmap> search(@NonNull String query) {
         // make sure data referenced by id is available
         ensureCached(query);
         // return 10 newest results of the free form query
         return repository.findAll((root, ignore, builder) -> buildQueryPredicate(root, query.trim(), builder),
                 PageRequest.of(0, 10, Sort.by(Sort.Order.desc("approvedDate"), Sort.Order.desc("lastUpdate"),
-                        Sort.Order.asc("mode"), Sort.Order.desc("difficultyRating")))
+                        Sort.Order.asc("mode"), Sort.Order.asc("difficultyRating")))
         ).stream().map(OsuBeatmapMapper::map).collect(Collectors.toList());
     }
 

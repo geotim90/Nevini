@@ -15,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -57,17 +58,18 @@ public class OsuService implements Locatable {
         return game.getOptional().orElse(new GameData(367827983903490050L, "osu!", null));
     }
 
-    public Collection<OsuBeatmap> findBeatmaps(@NonNull String query) {
+    public List<OsuBeatmap> findBeatmaps(@NonNull String query) {
         try {
             int id = Integer.parseInt(query);
             OsuBeatmap beatmap = getBeatmap(id);
             if (beatmap != null) {
-                return Collections.singleton(beatmap);
+                return Collections.singletonList(beatmap);
             }
             List<OsuBeatmap> beatmapset = beatmapService.get(
                     OsuApiGetBeatmapsRequest.builder().beatmapsetId(id).build()).getResult();
             if (beatmapset != null && !beatmapset.isEmpty()) {
-                return beatmapset;
+                return beatmapset.stream().sorted(Comparator.comparing(OsuBeatmap::getMode)
+                        .thenComparing(OsuBeatmap::getDifficultyRating)).collect(Collectors.toList());
             }
         } catch (NumberFormatException ignore) {
         }
