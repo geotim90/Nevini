@@ -12,6 +12,7 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.message.LazyMultiEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class OsuBeatmapCommand extends Command {
                 .node(Node.OSU_BEATMAP)
                 .description("displays general information of osu! beatmaps")
                 .options(new CommandOptionDescriptor[]{
-                        OsuResolvers.BEATMAP.describe(false, true)
+                        OsuResolvers.BEATMAP.describe(true, true)
                 })
                 .details("This command supports search criteria similar to the in-game search function "
                         + "(<https://osu.ppy.sh/help/wiki/Interface#search>):"
@@ -124,7 +125,9 @@ public class OsuBeatmapCommand extends Command {
                         if (beatmap.getApprovedDate() != null) {
                             embed.addField("Ranked", Formatter.formatDate(beatmap.getApprovedDate()), true);
                         }
-                        embed.addField("Source", beatmap.getSource(), true);
+                        if (StringUtils.isNotEmpty(beatmap.getSource())) {
+                            embed.addField("Source", beatmap.getSource(), true);
+                        }
                         embed.addField("Genre", beatmap.getGenre().getName(), true);
                         embed.addField("Language", beatmap.getLanguage().getName(), true);
                         embed.addField("Tags", beatmap.getTags(), true);
