@@ -40,7 +40,7 @@ public class OsuBeatmapSearchService {
     public Collection<OsuBeatmap> search(@NonNull String query) {
         // return 10 newest results of the free form query
         return repository.findAll((root, ignore, builder) -> buildQueryPredicate(root, query.trim(), builder),
-                PageRequest.of(0, 10, Sort.Direction.DESC, "approvedDate", "lastUpdate")
+                PageRequest.of(0, 10, Sort.Direction.DESC, "approvedDate", "lastUpdate", "mode", "difficultyRating")
         ).stream().map(OsuBeatmapMapper::map).collect(Collectors.toList());
     }
 
