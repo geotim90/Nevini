@@ -107,11 +107,12 @@ public class OsuService implements Locatable {
     }
 
     public OsuUser getUser(@NonNull String user, OsuMode mode) {
-        return userService.get(OsuApiGetUserRequest.builder()
+        List<OsuUser> result = userService.get(OsuApiGetUserRequest.builder()
                 .user(user)
                 .userType(OsuUserType.STRING)
                 .mode(ObjectUtils.defaultIfNull(mode, OsuMode.STANDARD).getId())
-                .build()).getResult().get(0);
+                .build()).getResult();
+        return result == null || result.isEmpty() ? null : result.get(0);
     }
 
     public List<OsuUserBest> getUserBest(@NonNull String user, OsuMode mode) {
