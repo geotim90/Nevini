@@ -89,13 +89,13 @@ public class OsuBeatmapSearchService {
         Collection<Predicate> queryPartPredicates = new ArrayList<>();
 
         // pattern for matching $1 = attribute, $2 = comparator, $3 = value
-        Pattern pattern = Pattern.compile("(?:([a-z]+)([=<>]=?|!=|<>))?(.*)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(?:([a-z]+)([=<>]=?|!=|<>))?(.+)", Pattern.CASE_INSENSITIVE);
 
         for (String queryPart : query.split("\\s+")) {
             // extract information from query part
             Matcher matcher = pattern.matcher(queryPart);
             if (!matcher.matches()) continue;
-            String attribute = StringUtils.defaultIfEmpty(matcher.group(1), "title");
+            String attribute = StringUtils.defaultIfEmpty(matcher.group(1), "text");
             String comparator = StringUtils.defaultIfEmpty(matcher.group(2), "=");
             String value = matcher.group(3);
             if (StringUtils.isEmpty(value)) continue;
@@ -181,6 +181,13 @@ public class OsuBeatmapSearchService {
                 return buildQueryPartStringPredicate(root.get("tags"), comparator, value, builder);
             case "hash":
                 return buildQueryPartStringPredicate(root.get("fileMd5"), comparator, value, builder);
+            case "text":
+                return builder.or(buildQueryPartStringPredicate(root.get("artist"), comparator, value, builder),
+                        buildQueryPartStringPredicate(root.get("title"), comparator, value, builder),
+                        buildQueryPartStringPredicate(root.get("version"), comparator, value, builder),
+                        buildQueryPartStringPredicate(root.get("creatorName"), comparator, value, builder),
+                        buildQueryPartStringPredicate(root.get("source"), comparator, value, builder),
+                        buildQueryPartStringPredicate(root.get("tags"), comparator, value, builder));
             default:
                 return null;
         }
