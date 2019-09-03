@@ -25,6 +25,8 @@ public class TributeMemberData {
 
     private Long start;
 
+    private Long delay;
+
     private Byte flag;
 
 }

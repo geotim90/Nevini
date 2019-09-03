@@ -903,6 +903,7 @@ Command | Description
 [tribute role](#command-tribute-role) | displays and configures the role for users that need to contribute
 [tribute timeout](#command-tribute-timeout) | displays and configures the timeout for users that need to contribute
 [tribute start](#command-tribute-start) | displays and configures the timestamp from which the tribute timeout is checked
+[tribute delay](#command-tribute-delay) | displays and configures delayed tribute timeouts for individual users
 
 ### Command: `tribute get`
 
@@ -1134,6 +1135,79 @@ Keyword | Aliases
 #### Command: `tribute start unset`
 
 Clears the timestamp from which the tribute timeout is checked.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.start.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+unset | remove<br>clear<br>reset
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+### Command: `tribute delay`
+
+Displays and configures delayed tribute timeouts for individual users.
+
+By default, this command will behave the same as **tribute delay get**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Keyword | Aliases
+--------|--------
+delay | extend
+
+Command | Description
+--------|------------
+[tribute delay get](#command-tribute-delay-get) | displays delayed tribute timeouts for individual users
+[tribute delay set](#command-tribute-delay-set) | configures delayed tribute timeouts for individual users
+[tribute delay unset](#command-tribute-delay-unset) | clears delayed tribute timeouts for individual users
+
+#### Command: `tribute delay get`
+
+Displays delayed tribute timeouts for individual users.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.delay.get**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+get | display<br>echo<br>list<br>print<br>show
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+#### Command: `tribute delay set`
+
+Configures delayed tribute timeouts for individual users.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.tribute.delay.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
+
+#### Command: `tribute delay unset`
+
+Clears delayed tribute timeouts for individual users.
 
 This command can only be executed in a text channel and not via direct message.
 

@@ -18,7 +18,8 @@ public class TributeCommand extends Command {
                         new TributeUnsetCommand(),
                         new TributeRoleCommand(),
                         new TributeTimeoutCommand(),
-                        new TributeStartCommand()
+                        new TributeStartCommand(),
+                        new TributeDelayCommand()
                 })
                 .description("displays and configures user contributions")
                 .details("By default, this command will behave the same as **tribute get**.")

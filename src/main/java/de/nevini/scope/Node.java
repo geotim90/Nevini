@@ -45,6 +45,8 @@ public enum Node {
     GUILD_REPORT_SELF("guild.report.self", Module.GUILD, Permissions.EVERYONE),
     GUILD_REPORT_SERVER("guild.report.server", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_REPORT_USER("guild.report.user", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_TRIBUTE_DELAY_GET("guild.tribute.delay.get", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_TRIBUTE_DELAY_SET("guild.tribute.delay.set", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_TRIBUTE_GET("guild.tribute.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_TRIBUTE_ROLE_GET("guild.tribute.role.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_TRIBUTE_ROLE_SET("guild.tribute.role.set", Module.GUILD, Permissions.MANAGE_SERVER),

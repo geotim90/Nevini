@@ -11,6 +11,7 @@ import de.nevini.util.command.CommandReaction;
 import lombok.Data;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -112,8 +113,10 @@ public class ReportCommand extends Command {
             if (!contributors.isEmpty()) {
                 builder.append("\n__**Initiates that have made a contribution**__\n");
                 for (MemberReportDetails e : contributors) {
+                    long contributionDelayInDays = ObjectUtils.defaultIfNull(
+                            event.getTributeService().getDelay(e.getMember()), 0L);
                     OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(e.getJoined()),
-                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays);
+                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays);
                     if (deadline.isAfter(OffsetDateTime.now())) {
                         builder.append(CommandReaction.DEFAULT_OK.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
@@ -137,8 +140,10 @@ public class ReportCommand extends Command {
             if (!nonContributors.isEmpty()) {
                 builder.append("\n__**Initiates that have not made a contribution**__\n");
                 for (MemberReportDetails e : nonContributors) {
+                    long contributionDelayInDays = ObjectUtils.defaultIfNull(
+                            event.getTributeService().getDelay(e.getMember()), 0L);
                     OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(e.getJoined()),
-                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays);
+                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays);
                     if (deadline.isAfter(OffsetDateTime.now())) {
                         builder.append(CommandReaction.WARNING.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
@@ -227,9 +232,11 @@ public class ReportCommand extends Command {
         Long contributionTimeoutInDays = event.getTributeService().getTimeout(event.getGuild());
         if (contributionTimeoutInDays != null) {
             boolean contribution = event.getTributeService().getTribute(member);
+            long contributionDelayInDays = ObjectUtils.defaultIfNull(
+                    event.getTributeService().getDelay(member), 0L);
             OffsetDateTime deadline = joined == null ? OffsetDateTime.MAX
                     : OffsetDateTime.ofInstant(Instant.ofEpochMilli(joined), ZoneOffset.UTC)
-                    .plusDays(contributionTimeoutInDays);
+                    .plusDays(contributionTimeoutInDays + contributionDelayInDays);
             OffsetDateTime now = OffsetDateTime.now();
             if (contribution) {
                 builder.append(CommandReaction.OK.getUnicode());
