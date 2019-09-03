@@ -413,13 +413,13 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 --game \<game\> | Refers to a specific game with a matching id or name.
-\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
---game | //game
 --duration | //duration<br>--days<br>//days<br>-d<br>/d
+--game | //game
 
 #### Command: `geobot set member`
 
@@ -549,7 +549,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days in which a user must contribute. The flag is optional if this option is provided first.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -569,7 +569,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -589,7 +589,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------

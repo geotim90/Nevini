@@ -383,7 +383,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days after which a user is considered a veteran. The flag is optional.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 \[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 
 Keyword | Aliases
@@ -484,7 +484,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days after which a user is considered a veteran. The flag is optional.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -749,7 +749,7 @@ Permission overrides may be applied on node **guild.inactivity.set**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -767,7 +767,7 @@ Permission overrides may be applied on node **guild.inactivity.set**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -785,14 +785,14 @@ Permission overrides may be applied on node **guild.inactivity.set**.
 
 Option | Description
 -------|------------
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 --game \<game\> | Refers to a specific game with a matching id or name.
-\[--duration\] \<days\> | The number of days after which a user is considered inactive. The flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
 playing | played<br>last-played<br>lastplayed
---game | //game
 --duration | //duration<br>--days<br>//days<br>-d<br>/d
+--game | //game
 
 ### Command: `inactivity unset`
 
@@ -1058,7 +1058,7 @@ Permission overrides may be applied on node **guild.tribute.timeout.set**.
 
 Option | Description
 -------|------------
-\[--duration\] \<days\> | The number of days in which a user must contribute. The flag is optional if this option is provided first.
+\[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -1198,12 +1198,12 @@ Permission overrides may be applied on node **guild.tribute.delay.set**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+--duration \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.
 
 Keyword | Aliases
 --------|--------
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
---time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
+--duration | //duration<br>--days<br>//days<br>-d<br>/d
 
 #### Command: `tribute delay unset`
 

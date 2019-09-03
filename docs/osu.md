@@ -6,6 +6,7 @@ Command | Description
 --------|------------
 [osu!beatmap](#command-osubeatmap) | displays general information of osu! beatmaps
 [osu!best](#command-osubest) | displays the top 100 scores of an osu! user
+[osu!diag](#command-osudiag) | analyses the top 100 scores of an osu! user
 [osu!events](#command-osuevents) | displays osu! user events
 [osu!leaderboard](#command-osuleaderboard) | displays the top 10 osu! users on this server
 [osu!recent](#command-osurecent) | displays up to 50 most recent plays over the last 24 hours of an osu! user
@@ -66,6 +67,24 @@ osu!beatmap | osu!b<br>osu!beatmaps<br>osu!beatmapset<br>osu!bm<br>osu!bms<br>os
 ## Command: `osu!best`
 
 Displays the top 100 scores of an osu! user.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **osu.best**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific osu! user with a matching mention, id, name, nickname or in-game name.<br>Only supports osu! user ids and names when used via direct message.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--mode \<mode\> | Refers to an osu! game mode with a matching name (`osu!`, `osu!taiko`, `osu!catch` or `osu!mania`).
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--mode | //mode
+
+## Command: `osu!diag`
+
+Analyses the top 100 scores of an osu! user.
 
 This command can be executed in a text channel or via direct message.
 

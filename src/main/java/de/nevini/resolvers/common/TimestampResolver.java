@@ -71,24 +71,74 @@ public class TimestampResolver extends OptionResolver<OffsetDateTime> {
                 break; // ignore
         }
 
-        Matcher matcher = Pattern.compile("(\\d+) ?d(ays?)? ago").matcher(s);
+        Matcher matcher = Pattern.compile("(\\d+) ?d(?:ays?)? ago").matcher(s);
         if (matcher.matches()) {
             return OffsetDateTime.now(ZoneOffset.UTC).minusDays(Long.parseLong(matcher.group(1)));
         }
 
-        matcher = Pattern.compile("(-?\\d+) ?d(ays?)?").matcher(s);
+        matcher = Pattern.compile("(-?\\d+) ?d(?:ays?)?").matcher(s);
         if (matcher.matches()) {
             return OffsetDateTime.now(ZoneOffset.UTC).plusDays(Long.parseLong(matcher.group(1)));
         }
 
-        matcher = Pattern.compile("(\\d+) ?h(ours?)? ago").matcher(s);
+        matcher = Pattern.compile("(\\d+) ?h(?:ours?)? ago").matcher(s);
         if (matcher.matches()) {
             return OffsetDateTime.now(ZoneOffset.UTC).minusHours(Long.parseLong(matcher.group(1)));
         }
 
-        matcher = Pattern.compile("(-?\\d+) ?h(ours?)?").matcher(s);
+        matcher = Pattern.compile("(-?\\d+) ?h(?:ours?)?").matcher(s);
         if (matcher.matches()) {
             return OffsetDateTime.now(ZoneOffset.UTC).plusHours(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(\\d+) ?m(?:inutes?)? ago").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(-?\\d+) ?m(?:inutes?)?").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(\\d+) ?s(?:econds?)? ago").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).minusSeconds(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(-?\\d+) ?s(?:econds?)?").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).plusSeconds(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(\\d+) ?w(?:eeks?)? ago").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).minusWeeks(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(-?\\d+) ?w(?:eeks?)?").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).plusWeeks(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(\\d+) ?m(?:onths?)? ago").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).minusMonths(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(-?\\d+) ?m(?:onths?)?").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).plusMonths(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(\\d+) ?y(?:ears?)? ago").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).minusYears(Long.parseLong(matcher.group(1)));
+        }
+
+        matcher = Pattern.compile("(-?\\d+) ?y(?:ears?)?").matcher(s);
+        if (matcher.matches()) {
+            return OffsetDateTime.now(ZoneOffset.UTC).plusYears(Long.parseLong(matcher.group(1)));
         }
 
         // no match
