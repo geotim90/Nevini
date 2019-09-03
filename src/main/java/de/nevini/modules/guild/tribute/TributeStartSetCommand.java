@@ -42,7 +42,7 @@ public class TributeStartSetCommand extends Command {
         }
 
         // set tribute start
-        event.getTributeService().setStart(member, timestamp.toInstant().toEpochMilli());
+        event.getTributeService().setStartIfNull(member, timestamp.toInstant().toEpochMilli());
         event.reply(CommandReaction.OK, event::complete);
     }
 

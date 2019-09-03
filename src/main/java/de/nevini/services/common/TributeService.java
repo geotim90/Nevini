@@ -49,6 +49,19 @@ public class TributeService {
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
                     .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start,
                             NOT_CONTRIBUTED));
+            data.setStart(start);
+            log.info("Save data: {}", data);
+            memberRepository.save(data);
+        }
+    }
+
+    @Transactional
+    public void setStartIfNull(@NonNull Member member, long start) {
+        synchronized (memberRepository) {
+            TributeMemberData data = memberRepository.findById(
+                    new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start,
+                            NOT_CONTRIBUTED));
             // do not overwrite existing "start" values
             if (data.getStart() == null) {
                 data.setStart(start);
