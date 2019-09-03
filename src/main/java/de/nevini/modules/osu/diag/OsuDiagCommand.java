@@ -88,6 +88,7 @@ public class OsuDiagCommand extends Command {
             embed.addField("Approach Rate (AR)", formatDoubles(beatmaps, OsuBeatmap::getDifficultyApproach), true);
             embed.addField("Aim Difficulty", formatDoubles(beatmaps, OsuBeatmap::getDifficultyAim), true);
             embed.addField("Speed Difficulty", formatDoubles(beatmaps, OsuBeatmap::getDifficultySpeed), true);
+            embed.addField("Beatmap Statistics", "(weighted average, followed by the minimum, average and maximum values)", false);
             embed.addField("Length", formatSeconds(beatmaps, OsuBeatmap::getTotalLength), true);
             embed.addField("Drain Length", formatSeconds(beatmaps, OsuBeatmap::getHitLength), true);
             embed.addField("BPM", formatDoubles(beatmaps, OsuBeatmap::getBpm), true);
