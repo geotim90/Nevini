@@ -47,7 +47,7 @@ public class TributeService {
         synchronized (memberRepository) {
             TributeMemberData data = memberRepository.findById(
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
-                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start,
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start, null,
                             NOT_CONTRIBUTED));
             data.setStart(start);
             log.info("Save data: {}", data);
@@ -60,7 +60,7 @@ public class TributeService {
         synchronized (memberRepository) {
             TributeMemberData data = memberRepository.findById(
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
-                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start,
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), start, null,
                             NOT_CONTRIBUTED));
             // do not overwrite existing "start" values
             if (data.getStart() == null) {
@@ -76,7 +76,7 @@ public class TributeService {
         synchronized (memberRepository) {
             TributeMemberData data = memberRepository.findById(
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
-                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null,
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null, null,
                             NOT_CONTRIBUTED));
             data.setStart(null);
             log.info("Save data: {}", data);
@@ -94,7 +94,7 @@ public class TributeService {
         synchronized (memberRepository) {
             TributeMemberData data = memberRepository.findById(
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
-                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null,
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null, null,
                             CONTRIBUTED));
             data.setFlag(CONTRIBUTED);
             log.info("Save data: {}", data);
@@ -107,7 +107,7 @@ public class TributeService {
         synchronized (memberRepository) {
             TributeMemberData data = memberRepository.findById(
                     new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
-                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null,
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null, null,
                             NOT_CONTRIBUTED));
             data.setFlag(NOT_CONTRIBUTED);
             log.info("Save data: {}", data);
@@ -152,6 +152,37 @@ public class TributeService {
                 log.info("Delete data: {}", new TributeTimeoutData(guild.getIdLong(), null));
                 timeoutRepository.deleteById(guild.getIdLong());
             }
+        }
+    }
+
+    public Long getDelay(@NonNull Member member) {
+        return memberRepository.findById(new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
+                .map(TributeMemberData::getDelay).orElse(null);
+    }
+
+    @Transactional
+    public void setDelay(@NonNull Member member, long delay) {
+        synchronized (memberRepository) {
+            TributeMemberData data = memberRepository.findById(
+                    new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null, delay,
+                            NOT_CONTRIBUTED));
+            data.setDelay(delay);
+            log.info("Save data: {}", data);
+            memberRepository.save(data);
+        }
+    }
+
+    @Transactional
+    public void unsetDelay(@NonNull Member member) {
+        synchronized (memberRepository) {
+            TributeMemberData data = memberRepository.findById(
+                    new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
+                    .orElse(new TributeMemberData(member.getGuild().getIdLong(), member.getIdLong(), null, null,
+                            NOT_CONTRIBUTED));
+            data.setDelay(null);
+            log.info("Save data: {}", data);
+            memberRepository.save(data);
         }
     }
 
