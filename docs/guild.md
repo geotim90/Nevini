@@ -1198,12 +1198,12 @@ Permission overrides may be applied on node **guild.tribute.delay.set**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
---time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+\[--duration\] \<days\> | The number of days for the delay or extension. The flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
---time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
+--duration | //duration<br>--days<br>//days<br>-d<br>/d
 
 #### Command: `tribute delay unset`
 

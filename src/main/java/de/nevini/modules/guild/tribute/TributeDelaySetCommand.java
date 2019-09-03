@@ -29,7 +29,7 @@ public class TributeDelaySetCommand extends Command {
                 .description("configures delayed tribute timeouts for individual users")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
-                        Resolvers.TIMESTAMP.describe()
+                        durationResolver.describe()
                 })
                 .build());
     }
