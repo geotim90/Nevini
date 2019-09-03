@@ -3,6 +3,7 @@ package de.nevini.resolvers.common;
 public class Resolvers {
 
     public static final TextChannelResolver CHANNEL = new TextChannelResolver();
+    public static final DurationResolver DURATION = new DurationResolver();
     public static final FeedResolver FEED = new FeedResolver();
     public static final GameResolver GAME = new GameResolver();
     public static final GuildResolver GUILD = new GuildResolver();
