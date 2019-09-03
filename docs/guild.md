@@ -1160,7 +1160,7 @@ This command can only be executed in a text channel and not via direct message.
 
 Keyword | Aliases
 --------|--------
-delay | extend
+delay | extend<br>postpone
 
 Command | Description
 --------|------------
