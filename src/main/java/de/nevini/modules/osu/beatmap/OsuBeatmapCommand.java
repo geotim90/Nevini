@@ -12,6 +12,7 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.message.LazyMultiEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -87,7 +88,7 @@ public class OsuBeatmapCommand extends Command {
                     beatmaps,
                     item -> {
                         // update information - beatmap information may be outdated
-                        OsuBeatmap beatmap = osuService.getBeatmap(item.getBeatmapId());
+                        OsuBeatmap beatmap = ObjectUtils.defaultIfNull(osuService.getBeatmap(item.getBeatmapId()), item);
 
                         EmbedBuilder embed = event.createEmbedBuilder();
                         embed.setAuthor(game.getName(), null, game.getIcon());

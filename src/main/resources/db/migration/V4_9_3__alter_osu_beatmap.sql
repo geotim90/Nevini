@@ -13,8 +13,8 @@ CREATE TABLE osu_beatmapset
     language             INT           NOT NULL,
     title                VARCHAR(256)  NOT NULL,
     tags                 VARCHAR(1000) NOT NULL,
-    download_unavailable INT           NOT NULL,
-    audio_unavailable    INT           NOT NULL,
+    download_unavailable BOOLEAN       NOT NULL,
+    audio_unavailable    BOOLEAN       NOT NULL,
     PRIMARY KEY (beatmapset_id)
 );
 

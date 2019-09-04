@@ -12,6 +12,7 @@ import de.nevini.api.osu.model.OsuBeatmap;
 import de.nevini.api.osu.model.OsuMod;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +63,11 @@ public class OsuBeatmapService {
 
     private @NonNull ApiResponse<List<OsuBeatmap>> getFromApi(@NonNull OsuApiGetBeatmapsRequest request) {
         ApiResponse<List<OsuBeatmapDataWrapper>> response = api.getBeatmaps(request).map(list ->
-                list.stream().map(beatmap -> OsuBeatmapMapper.map(beatmap,
-                        scoreService.getCached(beatmap.getBeatmapId(), beatmap.getMode(), OsuMod.NONE).getResult())
+                list.stream().map(beatmap -> OsuBeatmapMapper.map(beatmap, scoreService.getCached(
+                        beatmap.getBeatmapId(),
+                        ObjectUtils.defaultIfNull(request.getMode(), beatmap.getMode()),
+                        ObjectUtils.defaultIfNull(request.getMods(), OsuMod.NONE)
+                        ).getResult())
                 ).collect(Collectors.toList())
         );
         ApiResponse<List<OsuBeatmap>> result = response.map(list ->
