@@ -31,16 +31,28 @@ public class Formatter {
         return DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC).format(value);
     }
 
-    public static String formatDouble(double value) {
+    public static String formatDecimal(double value) {
         return new DecimalFormat("#0.##", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
     }
 
-    public static String formatFloat(float value) {
-        return new DecimalFormat("#0.##", DecimalFormatSymbols.getInstance(Locale.US)).format(value);
-    }
-
-    public static String formatInteger(int value) {
+    public static String formatInteger(long value) {
         return NumberFormat.getIntegerInstance(Locale.US).format(value);
+    }
+
+    public static String formatLargeInteger(long value) {
+        if (value < 0) {
+            return "-" + formatLargeInteger(-value);
+        }
+
+        if (value < 1000) {
+            return Long.toString(value);
+        } else if (value < 1000000) {
+            return (value / 1000) + "k";
+        } else if (value < 1000000000) {
+            return (value / 1000000) + "m";
+        } else {
+            return (value / 1000000000) + "b";
+        }
     }
 
     public static String formatLargestUnitAgo(long epochMilli) {
@@ -102,10 +114,6 @@ public class Formatter {
         } else {
             return "less than a minute";
         }
-    }
-
-    public static String formatLong(long value) {
-        return NumberFormat.getIntegerInstance(Locale.US).format(value);
     }
 
     public static String formatOsuBeatmap(@NonNull OsuBeatmap beatmap) {

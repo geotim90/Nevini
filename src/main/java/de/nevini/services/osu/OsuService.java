@@ -80,12 +80,12 @@ public class OsuService implements Locatable {
         return beatmapService.get(beatmapId).getResult();
     }
 
-    public OsuBeatmap getBeatmapCached(int beatmapId) {
-        return beatmapService.getCached(beatmapId).getResult();
+    public OsuBeatmap getBeatmapCached(int beatmapId, @NonNull OsuMode mode, @NonNull OsuMod[] mods) {
+        return beatmapService.getCached(beatmapId, mode.getId(), OsuMod.sum(mods)).getResult();
     }
 
     public String getBeatmapString(int beatmapId) {
-        OsuBeatmap beatmap = getBeatmapCached(beatmapId);
+        OsuBeatmap beatmap = beatmapService.getCached(beatmapId).getResult();
         return beatmap == null ? "https://osu.ppy.sh/b/" + beatmapId : Formatter.formatOsuBeatmap(beatmap);
     }
 

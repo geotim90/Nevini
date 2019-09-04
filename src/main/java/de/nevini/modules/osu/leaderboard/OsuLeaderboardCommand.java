@@ -54,7 +54,7 @@ public class OsuLeaderboardCommand extends Command {
                 OsuUser user = rankedUsers.get(i);
                 builder.append(EMOTE_NUMBER[i]).append(" - **").append(user.getUserName()).append("** - #")
                         .append(Formatter.formatInteger(user.getPpRank())).append(" - ")
-                        .append(Formatter.formatDouble(user.getAccuracy())).append("% - ")
+                        .append(Formatter.formatDecimal(user.getAccuracy())).append("% - ")
                         .append(Formatter.formatInteger((int) Math.floor(user.getPpRaw()))).append("pp\n");
             }
             event.reply(builder.toString(), event::complete);

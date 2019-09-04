@@ -6,6 +6,11 @@ import org.junit.Test;
 public class FormatterTest {
 
     @Test
+    public void formatLargeInteger() {
+        Assert.assertEquals("123m", Formatter.formatLargeInteger(123456789));
+    }
+
+    @Test
     public void formatOsuDisplayHtml() {
         // issue #32
         Assert.assertEquals("ABC has once again chosen to support osu! - thanks for your generosity!",

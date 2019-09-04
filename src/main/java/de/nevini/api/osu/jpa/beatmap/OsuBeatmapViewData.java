@@ -12,8 +12,18 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "osu_beatmap")
-public class OsuBeatmapData {
+@Table(name = "osu_beatmap_view")
+public class OsuBeatmapViewData {
+
+    private Integer approved;
+
+    private Long submitDate;
+
+    private Long approvedDate;
+
+    private Long lastUpdate;
+
+    private String artist;
 
     @Id
     private Integer beatmapId;
@@ -21,6 +31,19 @@ public class OsuBeatmapData {
     private Integer beatmapsetId;
 
     private Double bpm;
+
+    private String creatorName;
+
+    private Integer creatorId;
+
+    /**
+     * Star Difficulty
+     */
+    private Double difficultyRating;
+
+    private Double difficultyAim;
+
+    private Double difficultySpeed;
 
     /**
      * Circle Size (CS)
@@ -44,6 +67,14 @@ public class OsuBeatmapData {
 
     private Integer hitLength;
 
+    private String source;
+
+    private Integer genre;
+
+    private Integer language;
+
+    private String title;
+
     private Integer totalLength;
 
     private String version;
@@ -51,6 +82,12 @@ public class OsuBeatmapData {
     private String fileMd5;
 
     private Integer mode;
+
+    private Integer convertedMode;
+
+    private Integer mods;
+
+    private String tags;
 
     private Integer favouriteCount;
 
@@ -65,5 +102,13 @@ public class OsuBeatmapData {
     private Integer countSlider;
 
     private Integer countSpinner;
+
+    private Integer maxCombo;
+
+    private Double maxPp;
+
+    private Boolean downloadUnavailable;
+
+    private Boolean audioUnavailable;
 
 }
