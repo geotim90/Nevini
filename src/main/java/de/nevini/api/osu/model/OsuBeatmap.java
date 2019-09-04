@@ -32,6 +32,8 @@ public class OsuBeatmap {
     private final String version;
     private final String fileMd5;
     private final OsuMode mode;
+    private final OsuMode convertedMode;
+    private final OsuMod[] mods;
     private final String tags;
     private final Integer favouriteCount;
     private final Double rating;

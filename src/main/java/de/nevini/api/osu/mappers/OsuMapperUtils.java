@@ -9,11 +9,11 @@ import java.util.Date;
 
 public class OsuMapperUtils {
 
-    public static Date convertDate(Long value) {
+    static Date convertDate(Long value) {
         return value == null ? null : new Date(value);
     }
 
-    public static Long convertDate(Date value) {
+    static Long convertDate(Date value) {
         return value == null ? null : value.getTime();
     }
 
@@ -28,12 +28,20 @@ public class OsuMapperUtils {
         return null;
     }
 
+    static Integer convertMode(OsuMode mode) {
+        return mode == null ? null : mode.getId();
+    }
+
     static OsuMod[] convertMods(Integer value) {
         if (value == null) {
             return null;
         } else {
             return Arrays.stream(OsuMod.values()).filter(mod -> (value & mod.getId()) != 0).toArray(OsuMod[]::new);
         }
+    }
+
+    static Integer convertMods(OsuMod[] mods) {
+        return mods == null ? null : OsuMod.sum(mods);
     }
 
     static OsuRank convertRank(String value) {

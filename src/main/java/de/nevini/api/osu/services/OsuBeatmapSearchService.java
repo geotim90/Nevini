@@ -1,8 +1,8 @@
 package de.nevini.api.osu.services;
 
 import de.nevini.api.osu.external.requests.OsuApiGetBeatmapsRequest;
-import de.nevini.api.osu.jpa.beatmap.OsuBeatmapData;
-import de.nevini.api.osu.jpa.beatmap.OsuBeatmapRepository;
+import de.nevini.api.osu.jpa.beatmap.OsuBeatmapViewData;
+import de.nevini.api.osu.jpa.beatmap.OsuBeatmapViewRepository;
 import de.nevini.api.osu.mappers.OsuBeatmapMapper;
 import de.nevini.api.osu.model.*;
 import de.nevini.util.Finder;
@@ -27,11 +27,15 @@ import java.util.stream.Collectors;
 @Service
 public class OsuBeatmapSearchService {
 
-    private final OsuBeatmapRepository repository;
+    private static final Pattern PATTERN_CACHED_PART = Pattern.compile("(b|s|mapper|hash)==?(\\S+)");
+    private static final Pattern PATTERN_QUERY_PART =
+            Pattern.compile("(?:([a-z]+)([=<>]=?|!=|<>))?(\\S+)", Pattern.CASE_INSENSITIVE);
+
+    private final OsuBeatmapViewRepository repository;
     private final OsuBeatmapService beatmapService;
 
     public OsuBeatmapSearchService(
-            @Autowired OsuBeatmapRepository repository,
+            @Autowired OsuBeatmapViewRepository repository,
             @Autowired OsuBeatmapService beatmapService
     ) {
         this.repository = repository;
@@ -49,7 +53,7 @@ public class OsuBeatmapSearchService {
     }
 
     private void ensureCached(String query) {
-        Matcher matcher = Pattern.compile("(b|s|mapper|hash)==?(\\S+)").matcher(query);
+        Matcher matcher = PATTERN_CACHED_PART.matcher(query);
         while (matcher.find()) {
             if ("b".equals(matcher.group(1))) {
                 ensureCachedBeatmapId(matcher.group(2));
@@ -85,15 +89,11 @@ public class OsuBeatmapSearchService {
         beatmapService.get(OsuApiGetBeatmapsRequest.builder().beatmapHash(value).build());
     }
 
-    private Predicate buildQueryPredicate(Root<OsuBeatmapData> root, String query, CriteriaBuilder builder) {
+    private Predicate buildQueryPredicate(Root<OsuBeatmapViewData> root, String query, CriteriaBuilder builder) {
         Collection<Predicate> queryPartPredicates = new ArrayList<>();
-
-        // pattern for matching $1 = attribute, $2 = comparator, $3 = value
-        Pattern pattern = Pattern.compile("(?:([a-z]+)([=<>]=?|!=|<>))?(.+)", Pattern.CASE_INSENSITIVE);
-
         for (String queryPart : query.split("\\s+")) {
             // extract information from query part
-            Matcher matcher = pattern.matcher(queryPart);
+            Matcher matcher = PATTERN_QUERY_PART.matcher(queryPart);
             if (!matcher.matches()) continue;
             String attribute = StringUtils.defaultIfEmpty(matcher.group(1), "text");
             String comparator = StringUtils.defaultIfEmpty(matcher.group(2), "=");
@@ -108,7 +108,7 @@ public class OsuBeatmapSearchService {
     }
 
     private Predicate buildQueryPartPredicate(
-            Root<OsuBeatmapData> root, String attribute, String comparator, String value, CriteriaBuilder builder
+            Root<OsuBeatmapViewData> root, String attribute, String comparator, String value, CriteriaBuilder builder
     ) {
         switch (attribute) {
             case "b":

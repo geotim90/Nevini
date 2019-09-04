@@ -60,8 +60,9 @@ public class OsuDiagCommand extends Command {
         } else {
             event.notifyLongTaskStart();
             // collect data
-            List<OsuBeatmap> beatmaps = best.stream().map(score -> osuService.getBeatmapCached(score.getBeatmapId()))
-                    .collect(Collectors.toList());
+            List<OsuBeatmap> beatmaps = best.stream().map(score -> osuService.getBeatmapCached(
+                    score.getBeatmapId(), score.getMode(), score.getMods()
+            )).collect(Collectors.toList());
             // output statistics
             EmbedBuilder embed = event.createEmbedBuilder();
             embed.setAuthor(game.getName(), null, game.getIcon());
