@@ -44,10 +44,10 @@ public class StatusCommand extends Command {
         long usedMemory = totalMemory - freeMemory;
         long maxMemory = Runtime.getRuntime().maxMemory();
         builder.append("\n\n**Memory**:\n```");
-        builder.append(String.format("\nTotal memory: %15s bytes", Formatter.formatLong(totalMemory)));
-        builder.append(String.format("\nUsed memory:  %15s bytes", Formatter.formatLong(usedMemory)));
-        builder.append(String.format("\nFree memory:  %15s bytes", Formatter.formatLong(freeMemory)));
-        builder.append(String.format("\nMax memory:   %15s bytes", Formatter.formatLong(maxMemory)));
+        builder.append(String.format("\nTotal memory: %15s bytes", Formatter.formatInteger(totalMemory)));
+        builder.append(String.format("\nUsed memory:  %15s bytes", Formatter.formatInteger(usedMemory)));
+        builder.append(String.format("\nFree memory:  %15s bytes", Formatter.formatInteger(freeMemory)));
+        builder.append(String.format("\nMax memory:   %15s bytes", Formatter.formatInteger(maxMemory)));
         builder.append("\n```");
 
         event.reply(builder.toString(), event::complete);

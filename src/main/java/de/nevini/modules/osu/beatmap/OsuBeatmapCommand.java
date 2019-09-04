@@ -94,10 +94,10 @@ public class OsuBeatmapCommand extends Command {
                         embed.setTitle(Formatter.formatOsuBeatmap(beatmap), "https://osu.ppy.sh/b/" + beatmap.getBeatmapId());
                         embed.setDescription("Mapped by " + beatmap.getCreatorName());
                         embed.addField("Status", beatmap.getApproved().getName(), true);
-                        embed.addField("Star Difficulty", Formatter.formatDouble(beatmap.getDifficultyRating()), true);
+                        embed.addField("Star Difficulty", Formatter.formatDecimal(beatmap.getDifficultyRating()), true);
                         embed.addField("Length", Formatter.formatSeconds(beatmap.getTotalLength()), true);
                         embed.addField("Drain Length", Formatter.formatSeconds(beatmap.getHitLength()), true);
-                        embed.addField("BPM", Formatter.formatDouble(beatmap.getBpm()), true);
+                        embed.addField("BPM", Formatter.formatDecimal(beatmap.getBpm()), true);
                         if (beatmap.getMaxCombo() != null) {
                             if (beatmap.getMaxPp() != null) {
                                 embed.addField("Max Combo", Formatter.formatInteger(beatmap.getMaxCombo()) + "x ≈ "
@@ -109,20 +109,20 @@ public class OsuBeatmapCommand extends Command {
                         embed.addField("Circles", Formatter.formatInteger(beatmap.getCountNormal()), true);
                         embed.addField("Sliders", Formatter.formatInteger(beatmap.getCountSlider()), true);
                         embed.addField("Spinners", Formatter.formatInteger(beatmap.getCountSpinner()), true);
-                        embed.addField("Circle Size (CS)", Formatter.formatDouble(beatmap.getDifficultySize()), true);
-                        embed.addField("HP Drain (HP)", Formatter.formatDouble(beatmap.getDifficultyDrain()), true);
-                        embed.addField("Overall Difficulty (OD)", Formatter.formatDouble(beatmap.getDifficultyOverall()), true);
-                        embed.addField("Approach Rate (AR)", Formatter.formatDouble(beatmap.getDifficultyApproach()), true);
+                        embed.addField("Circle Size (CS)", Formatter.formatDecimal(beatmap.getDifficultySize()), true);
+                        embed.addField("HP Drain (HP)", Formatter.formatDecimal(beatmap.getDifficultyDrain()), true);
+                        embed.addField("Overall Difficulty (OD)", Formatter.formatDecimal(beatmap.getDifficultyOverall()), true);
+                        embed.addField("Approach Rate (AR)", Formatter.formatDecimal(beatmap.getDifficultyApproach()), true);
                         if (beatmap.getDifficultyAim() != null) {
-                            embed.addField("Aim Difficulty", Formatter.formatDouble(beatmap.getDifficultyAim()), true);
+                            embed.addField("Aim Difficulty", Formatter.formatDecimal(beatmap.getDifficultyAim()), true);
                         }
                         if (beatmap.getDifficultySpeed() != null) {
-                            embed.addField("Speed Difficulty", Formatter.formatDouble(beatmap.getDifficultySpeed()), true);
+                            embed.addField("Speed Difficulty", Formatter.formatDecimal(beatmap.getDifficultySpeed()), true);
                         }
                         embed.addField("Success Rate", Formatter.formatPercent((double) beatmap.getPassCount() / (double) beatmap.getPlayCount()), true);
                         embed.addField("Play Count", Formatter.formatInteger(beatmap.getPlayCount()), true);
                         embed.addField("Favourite Count", Formatter.formatInteger(beatmap.getFavouriteCount()), true);
-                        embed.addField("User Rating", Formatter.formatDouble(beatmap.getRating()), true);
+                        embed.addField("User Rating", Formatter.formatDecimal(beatmap.getRating()), true);
                         if (beatmap.getSubmitDate() != null) {
                             embed.addField("Submitted", Formatter.formatDate(beatmap.getSubmitDate()), true);
                         }

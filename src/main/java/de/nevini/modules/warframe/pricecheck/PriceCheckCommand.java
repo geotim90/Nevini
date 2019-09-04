@@ -161,7 +161,7 @@ public class PriceCheckCommand extends Command {
         if (value == null || value == 0) {
             return "     -    ";
         } else {
-            String text = Formatter.formatFloat(value);
+            String text = Formatter.formatDecimal(value);
             // right pad
             if (!text.contains(".")) {
                 text += "   ";

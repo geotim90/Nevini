@@ -35,7 +35,7 @@ public class TributeDelayGetCommand extends Command {
                     event::complete);
         } else {
             event.reply("**" + member.getEffectiveName() + "**'s tribute timeout has been delayed for "
-                    + Formatter.formatLong(delay) + " days.", event::complete);
+                    + Formatter.formatInteger(delay) + " days.", event::complete);
         }
     }
 

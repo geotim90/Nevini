@@ -42,13 +42,13 @@ public class GuildsCommand extends Command {
             long bots = count(guild, true);
             builder.append("\n**").append(guild.getName()).append("** (").append(guild.getId()).append(") owned by **")
                     .append(Optional.ofNullable(guild.getOwner()).map(e -> e.getUser().getAsTag()).orElse("?"))
-                    .append("** (").append(guild.getOwnerId()).append(") with ").append(Formatter.formatLong(members))
-                    .append(" members and ").append(Formatter.formatLong(bots)).append(" bots");
+                    .append("** (").append(guild.getOwnerId()).append(") with ").append(Formatter.formatInteger(members))
+                    .append(" members and ").append(Formatter.formatInteger(bots)).append(" bots");
             totalMembers += members;
             totalBots += bots;
         }
-        builder.append("\n\n**Total members**: ").append(Formatter.formatLong(totalMembers));
-        builder.append("\n**Total bots**: ").append(Formatter.formatLong(totalBots));
+        builder.append("\n\n**Total members**: ").append(Formatter.formatInteger(totalMembers));
+        builder.append("\n**Total bots**: ").append(Formatter.formatInteger(totalBots));
         event.reply(builder.toString(), event::complete);
     }
 

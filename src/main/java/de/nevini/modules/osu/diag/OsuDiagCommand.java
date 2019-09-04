@@ -132,8 +132,8 @@ public class OsuDiagCommand extends Command {
             }
         }
         if (count > 0) {
-            return Formatter.formatDouble(weighted_sum / weights_sum) + '\n' + Formatter.formatDouble(min) + " - "
-                    + Formatter.formatDouble(sum / count) + " - " + Formatter.formatDouble(max);
+            return Formatter.formatDecimal(weighted_sum / weights_sum) + '\n' + Formatter.formatDecimal(min) + " - "
+                    + Formatter.formatDecimal(sum / count) + " - " + Formatter.formatDecimal(max);
         } else {
             return "N/A";
         }
@@ -161,8 +161,8 @@ public class OsuDiagCommand extends Command {
         }
         if (count > 0) {
             int weightedAverage = (int) Math.floor(weighted_sum / weights_sum);
-            return Formatter.formatInteger(weightedAverage) + '\n' + Formatter.formatInteger(min) + " - "
-                    + Formatter.formatInteger(sum / count) + " - " + Formatter.formatInteger(max);
+            return Formatter.formatInteger(weightedAverage) + '\n' + Formatter.formatLargeInteger(min) + " - "
+                    + Formatter.formatLargeInteger(sum / count) + " - " + Formatter.formatLargeInteger(max);
         } else {
             return "N/A";
         }

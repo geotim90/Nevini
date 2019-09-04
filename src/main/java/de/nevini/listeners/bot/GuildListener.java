@@ -55,8 +55,8 @@ public class GuildListener {
                     channel.sendMessage("**" + guild.getSelfMember().getEffectiveName() + "** just joined **"
                             + guild.getName() + "** (" + guild.getId() + ") owned by **"
                             + Optional.ofNullable(guild.getOwner()).map(e -> e.getUser().getAsTag()).orElse("?")
-                            + "** (" + guild.getOwnerId() + ") with " + Formatter.formatLong(count(guild, false))
-                            + " members and " + Formatter.formatLong(count(guild, true)) + " bots").queue();
+                            + "** (" + guild.getOwnerId() + ") with " + Formatter.formatInteger(count(guild, false))
+                            + " members and " + Formatter.formatInteger(count(guild, true)) + " bots").queue();
                     feedService.updateSubscription(Feed.GUILDS, -1L, channel, System.currentTimeMillis());
                 }
             }

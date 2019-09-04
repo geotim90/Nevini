@@ -65,12 +65,12 @@ public class OsuStatsCommand extends Command {
             embed.addField("Global Ranking", "#" + Formatter.formatInteger(user.getPpRank()), true);
 
             embed.addField("Performance Points", Formatter.formatInteger((int) Math.floor(user.getPpRaw())), true);
-            embed.addField("Hit Accuracy", Formatter.formatDouble(user.getAccuracy()) + '%', true);
-            embed.addField("Ranked Score", Formatter.formatLong(user.getRankedScore()), true);
+            embed.addField("Hit Accuracy", Formatter.formatDecimal(user.getAccuracy()) + '%', true);
+            embed.addField("Ranked Score", Formatter.formatInteger(user.getRankedScore()), true);
 
             embed.addField("Country Ranking", "#" + Formatter.formatInteger(user.getPpCountryRank()), true);
-            embed.addField("Level", Formatter.formatDouble(user.getLevel()), true);
-            embed.addField("Total Score", Formatter.formatLong(user.getTotalScore()), true);
+            embed.addField("Level", Formatter.formatDecimal(user.getLevel()), true);
+            embed.addField("Total Score", Formatter.formatInteger(user.getTotalScore()), true);
 
             embed.addField("Play Count", Formatter.formatInteger(user.getPlayCount()), true);
             embed.addField(Formatter.formatOsuRank("SS+"), Formatter.formatInteger(user.getCountRankSsh()), true);

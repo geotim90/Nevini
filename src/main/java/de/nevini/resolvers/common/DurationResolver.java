@@ -82,7 +82,7 @@ public class DurationResolver extends OptionResolver<Long> {
 
     @Override
     protected @NonNull String getFieldNameForPicker(Long item) {
-        return Formatter.formatLong(item);
+        return Formatter.formatInteger(item);
     }
 
     @Override
