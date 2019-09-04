@@ -20,19 +20,20 @@ CREATE TABLE osu_beatmapset
 
 INSERT INTO osu_beatmapset(beatmapset_id, approved, artist, creator_name, creator_id, source, genre, language, title,
                            tags, download_unavailable, audio_unavailable)
-SELECT DISTINCT beatmapset_id,
-                approved,
-                artist,
-                creator_name,
-                creator_id,
-                source,
-                genre,
-                language,
-                title,
-                tags,
-                download_unavailable,
-                audio_unavailable
-FROM osu_beatmap;
+SELECT beatmapset_id,
+       MAX(approved),
+       MAX(artist),
+       MAX(creator_name),
+       MAX(creator_id),
+       MAX(source),
+       MAX(genre),
+       MAX(language),
+       MAX(title),
+       MAX(tags),
+       MAX(download_unavailable),
+       MAX(audio_unavailable)
+FROM osu_beatmap
+GROUP BY beatmapset_id;
 
 ALTER TABLE osu_beatmap
     DROP COLUMN approved;
