@@ -33,6 +33,7 @@ class IgnMissingCommand extends Command {
 
     private void acceptGame(CommandEvent event, GameData game) {
         Set<Member> members = new LinkedHashSet<>(event.getGuild().getMembers());
+        members.removeIf(member -> member.getUser().isBot());
         event.getIgnService().getIgns(event.getGuild(), game).forEach(ign -> {
             Member member = event.getGuild().getMemberById(ign.getUser());
             if (member != null) members.remove(member);

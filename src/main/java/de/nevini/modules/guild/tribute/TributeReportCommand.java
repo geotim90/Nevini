@@ -125,7 +125,7 @@ class TributeReportCommand extends Command {
 
         // gather report details
         Collection<MemberReportDetails> reportDetails = event.getGuild().getMembers().stream().filter(
-                member -> role == null || member.getRoles().contains(role)
+                member -> !member.getUser().isBot() && (role == null || member.getRoles().contains(role))
         ).map(member -> {
             MemberReportDetails memberDetails = new MemberReportDetails();
             memberDetails.setMember(member);
