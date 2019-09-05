@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.User;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -82,6 +83,15 @@ public class IgnService {
         IgnData data = new IgnData(-1L, user.getIdLong(), gameId, name);
         log.debug("Save data: {}", data);
         ignRepository.save(data);
+    }
+
+    @Transactional
+    public synchronized void unsetIgn(@NonNull Member member, @NonNull GameData game) {
+        IgnId id = new IgnId(member.getGuild().getIdLong(), member.getUser().getIdLong(), game.getId());
+        if (ignRepository.existsById(id)) {
+            log.info("Delete data: {}", id);
+            ignRepository.deleteById(id);
+        }
     }
 
     public List<IgnData> findByIgn(@NonNull Guild guild, String name) {

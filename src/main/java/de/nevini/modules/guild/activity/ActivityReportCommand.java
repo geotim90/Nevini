@@ -1,4 +1,4 @@
-package de.nevini.modules.guild.report;
+package de.nevini.modules.guild.activity;
 
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -12,7 +12,6 @@ import lombok.Value;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -21,10 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
-public class ReportCommand extends Command {
+class ActivityReportCommand extends Command {
 
-    public ReportCommand() {
+    ActivityReportCommand() {
         super(CommandDescriptor.builder()
                 .keyword("report")
                 .node(Node.GUILD_REPORT_SELF)

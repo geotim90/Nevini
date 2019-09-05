@@ -13,7 +13,9 @@ public class IgnCommand extends Command {
                 .keyword("ign")
                 .children(new Command[]{
                         new IgnGetCommand(),
-                        new IgnSetCommand()
+                        new IgnSetCommand(),
+                        new IgnUnsetCommand(),
+                        new IgnMissingCommand()
                 })
                 .description("displays and configures in-game names")
                 .details("By default, this command will behave the same as **ign get**.")
