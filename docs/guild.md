@@ -635,6 +635,8 @@ Command | Description
 --------|------------
 [ign get](#command-ign-get) | displays in-game names for a user and/or game
 [ign set](#command-ign-set) | configures the in-game name for a specific user in a specific game
+[ign unset](#command-ign-unset) | removes the in-game name for a specific user in a specific game
+[ign missing](#command-ign-missing) | finds users missing in-game names for a game
 
 ### Command: `ign get`
 
@@ -676,6 +678,44 @@ Keyword | Aliases
 --------|--------
 --name | //name
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--game | //game
+
+### Command: `ign unset`
+
+Removes the in-game name for a specific user in a specific game.
+
+Users can only configure in-game names for users whose highest role is lower than their highest role.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Nicknames** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.ign.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used.<br>Refers to the current user if only the `--user` flag is provided.
+--game \<game\> | Refers to a specific game with a matching id or name.
+
+Keyword | Aliases
+--------|--------
+unset | remove<br>clear<br>reset
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--game | //game
+
+### Command: `ign missing`
+
+Finds users missing in-game names for a game.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.ign.get**.
+
+Option | Description
+-------|------------
+\[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
 --game | //game
 
 ## Command: `inactivity`
