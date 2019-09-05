@@ -14,7 +14,8 @@ public class ActivityCommand extends Command {
                 .children(new Command[]{
                         new ActivityGetCommand(),
                         new ActivitySetCommand(),
-                        new ActivityUnsetCommand()
+                        new ActivityUnsetCommand(),
+                        new ActivityReportCommand()
                 })
                 .description("displays and configures user activity information")
                 .details("By default, this command will behave the same as **activity get**.")

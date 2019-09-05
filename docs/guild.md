@@ -9,7 +9,6 @@ Command | Description
 [feed](#command-feed) | displays and configures feeds
 [ign](#command-ign) | displays and configures in-game names
 [inactivity](#command-inactivity) | displays and configures user inactivity information
-[report](#command-report) | displays an activity report for the entire server or just a single user
 [tribute](#command-tribute) | displays and configures user contributions
 
 ## Command: `activity`
@@ -25,6 +24,7 @@ Command | Description
 [activity get](#command-activity-get) | displays user and/or game activity information
 [activity set](#command-activity-set) | configures user activity information
 [activity unset](#command-activity-unset) | configures user activity information
+[activity report](#command-activity-report) | displays an activity report for the entire server or just a single user
 
 ### Command: `activity get`
 
@@ -259,6 +259,35 @@ Keyword | Aliases
 playing | played<br>last-played<br>lastplayed
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
+
+### Command: `activity report`
+
+Displays an activity report for the entire server or just a single user.
+
+By default, you need the **Manage Server** permission to execute this command with `--user`.<br>
+Permission overrides for `--user` may be applied on node **guild.report.user**.
+
+By default, you need the **Manage Server** permission to execute this command with `--role`.<br>
+Permission overrides for `--role` may be applied on node **guild.report.role**.
+
+By default, you need the **Manage Server** permission to execute this command with `--server`.<br>
+Permission overrides for `--server` may be applied on node **guild.report.server**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.report.self**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+--server | Refers to the current server.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--role | //role<br>-r<br>/r
+--server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
 
 ## Command: `auto-role`
 
@@ -854,35 +883,6 @@ Keyword | Aliases
 playing | played<br>last-played<br>lastplayed
 --game | //game
 
-## Command: `report`
-
-Displays an activity report for the entire server or just a single user.
-
-By default, you need the **Manage Server** permission to execute this command with `--user`.<br>
-Permission overrides for `--user` may be applied on node **guild.report.user**.
-
-By default, you need the **Manage Server** permission to execute this command with `--role`.<br>
-Permission overrides for `--role` may be applied on node **guild.report.role**.
-
-By default, you need the **Manage Server** permission to execute this command with `--server`.<br>
-Permission overrides for `--server` may be applied on node **guild.report.server**.
-
-This command can only be executed in a text channel and not via direct message.
-
-Permission overrides may be applied on node **guild.report.self**.
-
-Option | Description
--------|------------
-\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
---server | Refers to the current server.
-
-Keyword | Aliases
---------|--------
---user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
---role | //role<br>-r<br>/r
---server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
-
 ## Command: `tribute`
 
 Displays and configures user contributions.
@@ -904,6 +904,7 @@ Command | Description
 [tribute timeout](#command-tribute-timeout) | displays and configures the timeout for users that need to contribute
 [tribute start](#command-tribute-start) | displays and configures the timestamp from which the tribute timeout is checked
 [tribute delay](#command-tribute-delay) | displays and configures delayed tribute timeouts for individual users
+[tribute report](#command-tribute-report) | displays a tribute report for the entire server or just a single user
 
 ### Command: `tribute get`
 
@@ -1222,3 +1223,32 @@ Keyword | Aliases
 --------|--------
 unset | remove<br>clear<br>reset
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
+### Command: `tribute report`
+
+Displays a tribute report for the entire server or just a single user.
+
+By default, you need the **Manage Server** permission to execute this command with `--user`.<br>
+Permission overrides for `--user` may be applied on node **guild.report.user**.
+
+By default, you need the **Manage Server** permission to execute this command with `--role`.<br>
+Permission overrides for `--role` may be applied on node **guild.report.role**.
+
+By default, you need the **Manage Server** permission to execute this command with `--server`.<br>
+Permission overrides for `--server` may be applied on node **guild.report.server**.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.report.self**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+--server | Refers to the current server.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--role | //role<br>-r<br>/r
+--server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g

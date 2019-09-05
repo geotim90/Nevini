@@ -126,7 +126,7 @@ public class TributeService {
     }
 
     @Transactional
-    public synchronized void unsetRole(@NonNull Guild guild) {
+    public void unsetRole(@NonNull Guild guild) {
         synchronized (roleRepository) {
             if (roleRepository.existsById(guild.getIdLong())) {
                 log.info("Delete data: {}", new TributeRoleData(guild.getIdLong(), null));
@@ -146,7 +146,7 @@ public class TributeService {
     }
 
     @Transactional
-    public synchronized void unsetTimeout(@NonNull Guild guild) {
+    public void unsetTimeout(@NonNull Guild guild) {
         synchronized (timeoutRepository) {
             if (timeoutRepository.existsById(guild.getIdLong())) {
                 log.info("Delete data: {}", new TributeTimeoutData(guild.getIdLong(), null));

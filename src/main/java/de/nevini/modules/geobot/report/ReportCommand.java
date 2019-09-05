@@ -47,6 +47,8 @@ public class ReportCommand extends Command {
     }
 
     private void doGuildReport(CommandEvent event) {
+        OffsetDateTime now = OffsetDateTime.now();
+
         // get timeouts
         Long contributionTimeoutInDays = event.getTributeService().getTimeout(event.getGuild());
         Integer onlineTimeoutInDays = event.getInactivityService().getOnlineThreshold(event.getGuild());
@@ -55,12 +57,12 @@ public class ReportCommand extends Command {
 
         // get inactivity thresholds
         Long onlineThreshold = onlineTimeoutInDays == null ? null
-                : OffsetDateTime.now().minusDays(onlineTimeoutInDays).toInstant().toEpochMilli();
+                : now.minusDays(onlineTimeoutInDays).toInstant().toEpochMilli();
         Long messageThreshold = messageTimeoutInDays == null ? null
-                : OffsetDateTime.now().minusDays(messageTimeoutInDays).toInstant().toEpochMilli();
+                : now.minusDays(messageTimeoutInDays).toInstant().toEpochMilli();
         Map<Long, Long> playingThresholds = new HashMap<>();
         playingTimeoutsInDays.forEach((gameId, playingTimeoutInDays) -> playingThresholds.put(gameId,
-                OffsetDateTime.now().minusDays(playingTimeoutInDays).toInstant().toEpochMilli()));
+                now.minusDays(playingTimeoutInDays).toInstant().toEpochMilli()));
 
         // gather report details
         Collection<MemberReportDetails> reportDetails = event.getGuild().getMembers().stream().filter(
@@ -117,17 +119,17 @@ public class ReportCommand extends Command {
                             event.getTributeService().getDelay(e.getMember()), 0L);
                     OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(e.getJoined()),
                             ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays);
-                    if (deadline.isAfter(OffsetDateTime.now())) {
+                    if (deadline.isAfter(now)) {
                         builder.append(CommandReaction.DEFAULT_OK.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** has contributed and is due to be promoted in **")
-                                .append(Formatter.formatLargestUnitBetween(OffsetDateTime.now(), deadline))
+                                .append(Formatter.formatLargestUnitBetween(now, deadline))
                                 .append("** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
                     } else {
                         builder.append(CommandReaction.OK.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** has contributed and was due to be promoted **")
-                                .append(Formatter.formatLargestUnitBetween(deadline, OffsetDateTime.now()))
+                                .append(Formatter.formatLargestUnitBetween(deadline, now))
                                 .append(" ago** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
                     }
                 }
@@ -144,17 +146,17 @@ public class ReportCommand extends Command {
                             event.getTributeService().getDelay(e.getMember()), 0L);
                     OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(e.getJoined()),
                             ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays);
-                    if (deadline.isAfter(OffsetDateTime.now())) {
+                    if (deadline.isAfter(now)) {
                         builder.append(CommandReaction.WARNING.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** needs to contribute in **")
-                                .append(Formatter.formatLargestUnitBetween(OffsetDateTime.now(), deadline))
+                                .append(Formatter.formatLargestUnitBetween(now, deadline))
                                 .append("** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
                     } else {
                         builder.append(CommandReaction.ERROR.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** should have contributed **")
-                                .append(Formatter.formatLargestUnitBetween(deadline, OffsetDateTime.now()))
+                                .append(Formatter.formatLargestUnitBetween(deadline, now))
                                 .append(" ago** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
                     }
                 }
@@ -196,6 +198,7 @@ public class ReportCommand extends Command {
 
     public void doMemberReport(CommandEvent event, Member member) {
         StringBuilder builder = new StringBuilder();
+        OffsetDateTime now = OffsetDateTime.now();
 
         // role hierarchy
         boolean isInitiate = hasInitiateRole(event, member);
@@ -237,7 +240,6 @@ public class ReportCommand extends Command {
             OffsetDateTime deadline = joined == null ? OffsetDateTime.MAX
                     : OffsetDateTime.ofInstant(Instant.ofEpochMilli(joined), ZoneOffset.UTC)
                     .plusDays(contributionTimeoutInDays + contributionDelayInDays);
-            OffsetDateTime now = OffsetDateTime.now();
             if (contribution) {
                 builder.append(CommandReaction.OK.getUnicode());
             } else if (!isInitiate || deadline.isAfter(now)) {
@@ -267,7 +269,7 @@ public class ReportCommand extends Command {
             } else {
                 OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(lastOnline), ZoneOffset.UTC)
                         .plusDays(onlineTimeoutInDays);
-                if (deadline.isAfter(OffsetDateTime.now())) {
+                if (deadline.isAfter(now)) {
                     builder.append(CommandReaction.OK.getUnicode());
                 } else if (isMember) {
                     builder.append(CommandReaction.ERROR.getUnicode());
@@ -293,7 +295,7 @@ public class ReportCommand extends Command {
             } else {
                 OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(lastMessage), ZoneOffset.UTC)
                         .plusDays(messageTimeoutInDays);
-                if (deadline.isAfter(OffsetDateTime.now())) {
+                if (deadline.isAfter(now)) {
                     builder.append(CommandReaction.OK.getUnicode());
                 } else if (isMember) {
                     builder.append(CommandReaction.ERROR.getUnicode());
@@ -320,7 +322,7 @@ public class ReportCommand extends Command {
             } else {
                 OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(lastPlayed), ZoneOffset.UTC)
                         .plusDays(playingTimeoutInDays);
-                if (deadline.isAfter(OffsetDateTime.now())) {
+                if (deadline.isAfter(now)) {
                     builder.append(CommandReaction.OK.getUnicode());
                 } else if (isMember) {
                     builder.append(CommandReaction.ERROR.getUnicode());
