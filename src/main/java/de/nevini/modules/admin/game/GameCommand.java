@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Component
 public class GameCommand extends Command {
 
-    private static final Pattern PATTERN = Pattern.compile("(?i)(id|name)=(.*)\\s+map\\s+(id|name|icon|multi)=(.*)");
+    private static final Pattern PATTERN = Pattern.compile("(?i)(id|name)=(.*)\\s+map\\s+(id|name|icon|multi|reject)=(.*)");
 
     public GameCommand() {
         super(CommandDescriptor.builder()
