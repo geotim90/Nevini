@@ -15,7 +15,7 @@ import java.util.Optional;
 @Component
 public class GuildsCommand extends Command {
 
-    protected GuildsCommand() {
+    public GuildsCommand() {
         super(CommandDescriptor.builder()
                 .keyword("guilds")
                 .children(new Command[]{
