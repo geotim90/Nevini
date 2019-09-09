@@ -29,7 +29,7 @@ public class CommandOptions {
             return new CommandOptions(Collections.emptyList());
         } else {
             return new CommandOptions(Arrays.asList(
-                    argument.split("\\s+(?=" + CommandPatterns.OPTION + "|" + CommandPatterns.MENTION + ")")
+                    argument.split("\\s+(?=(?:" + CommandPatterns.OPTION + "|" + CommandPatterns.MENTION + ")(?:\\s|$))")
             ));
         }
     }

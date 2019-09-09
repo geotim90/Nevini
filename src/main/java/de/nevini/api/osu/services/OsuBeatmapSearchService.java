@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 @Service
 public class OsuBeatmapSearchService {
 
-    private static final Pattern PATTERN_CACHED_PART = Pattern.compile("(b|s|mapper|hash)==?(\\S+)");
-    private static final Pattern PATTERN_QUERY_PART =
-            Pattern.compile("(?:([a-z]+)([=<>]=?|!=|<>))?(\\S+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN_CACHED_PART = Pattern.compile("(?i)(b|s|mapper|hash)==?(\\S+)");
+    private static final Pattern PATTERN_QUERY_PART = Pattern.compile("(?i)(?:([a-z]+)([=<>]=?|!=|<>))?(\\S+)");
+    private static final Pattern PATTERN_SORT_PART = Pattern.compile("(?i)(sort)([=<>]=?|!=|<>)(\\S+)");
 
     private final OsuBeatmapViewRepository repository;
     private final OsuBeatmapService beatmapService;
@@ -47,8 +47,8 @@ public class OsuBeatmapSearchService {
         ensureCached(query);
         // return 10 newest results of the free form query
         return repository.findAll((root, ignore, builder) -> buildQueryPredicate(root, query.trim(), builder),
-                PageRequest.of(0, 10, Sort.by(Sort.Order.desc("approvedDate"), Sort.Order.desc("lastUpdate"),
-                        Sort.Order.asc("mode"), Sort.Order.asc("difficultyRating")))
+                PageRequest.of(0, 10, Sort.by(getSortOrder(query), Sort.Order.desc("approvedDate"),
+                        Sort.Order.desc("lastUpdate"), Sort.Order.asc("mode"), Sort.Order.asc("difficultyRating")))
         ).stream().map(OsuBeatmapMapper::map).collect(Collectors.toList());
     }
 
@@ -110,19 +110,29 @@ public class OsuBeatmapSearchService {
     private Predicate buildQueryPartPredicate(
             Root<OsuBeatmapViewData> root, String attribute, String comparator, String value, CriteriaBuilder builder
     ) {
+        String column = getColumnName(attribute);
         switch (attribute) {
             case "b":
-                return buildQueryPartIntegerPredicate(root.get("beatmapId"), comparator, value, builder);
             case "s":
-                return buildQueryPartIntegerPredicate(root.get("beatmapsetId"), comparator, value, builder);
+            case "length":
+            case "drain":
+            case "combo":
+            case "circles":
+            case "sliders":
+            case "spinners":
+            case "favs":
+            case "plays":
+            case "pass":
+                return buildQueryPartIntegerPredicate(root.get(column), comparator, value, builder);
             case "artist":
-                return buildQueryPartStringPredicate(root.get("artist"), comparator, value, builder);
             case "title":
-                return buildQueryPartStringPredicate(root.get("title"), comparator, value, builder);
             case "diff":
-                return buildQueryPartStringPredicate(root.get("version"), comparator, value, builder);
+            case "source":
+            case "tag":
+            case "hash":
+                return buildQueryPartStringPredicate(root.get(column), comparator, value, builder);
             case "mode":
-                return buildQueryPartIntegerEnumPredicate(root.get("mode"), comparator, value, builder, OsuMode.values());
+                return buildQueryPartIntegerEnumPredicate(root.get(column), comparator, value, builder, OsuMode.values());
             case "mapper":
                 Predicate creatorId = buildQueryPartIntegerPredicate(root.get("creatorId"), comparator, value, builder);
                 Predicate creatorName = buildQueryPartStringPredicate(root.get("creatorName"), comparator, value, builder);
@@ -132,55 +142,22 @@ public class OsuBeatmapSearchService {
                     return creatorId != null ? creatorId : creatorName;
                 }
             case "status":
-                return buildQueryPartIntegerEnumPredicate(root.get("approved"), comparator, value, builder, OsuStatus.values());
+                return buildQueryPartIntegerEnumPredicate(root.get(column), comparator, value, builder, OsuStatus.values());
             case "stars":
-                return buildQueryPartDoublePredicate(root.get("difficultyRating"), comparator, value, builder);
-            case "length":
-                return buildQueryPartIntegerPredicate(root.get("totalLength"), comparator, value, builder);
-            case "drain":
-                return buildQueryPartIntegerPredicate(root.get("hitLength"), comparator, value, builder);
             case "bpm":
-                return buildQueryPartDoublePredicate(root.get("bpm"), comparator, value, builder);
-            case "combo":
-                return buildQueryPartIntegerPredicate(root.get("maxCombo"), comparator, value, builder);
             case "pp":
-                return buildQueryPartDoublePredicate(root.get("maxPp"), comparator, value, builder);
-            case "circles":
-                return buildQueryPartIntegerPredicate(root.get("countNormal"), comparator, value, builder);
-            case "sliders":
-                return buildQueryPartIntegerPredicate(root.get("countSlider"), comparator, value, builder);
-            case "spinners":
-                return buildQueryPartIntegerPredicate(root.get("countSpinner"), comparator, value, builder);
             case "cs":
-                return buildQueryPartDoublePredicate(root.get("difficultySize"), comparator, value, builder);
             case "hp":
-                return buildQueryPartDoublePredicate(root.get("difficultyDrain"), comparator, value, builder);
             case "od":
-                return buildQueryPartDoublePredicate(root.get("difficultyOverall"), comparator, value, builder);
             case "ar":
-                return buildQueryPartDoublePredicate(root.get("difficultyApproach"), comparator, value, builder);
             case "aim":
-                return buildQueryPartDoublePredicate(root.get("difficultyAim"), comparator, value, builder);
             case "speed":
-                return buildQueryPartDoublePredicate(root.get("difficultySpeed"), comparator, value, builder);
             case "rating":
-                return buildQueryPartDoublePredicate(root.get("rating"), comparator, value, builder);
-            case "favs":
-                return buildQueryPartIntegerPredicate(root.get("favouriteCount"), comparator, value, builder);
-            case "plays":
-                return buildQueryPartIntegerPredicate(root.get("playCount"), comparator, value, builder);
-            case "pass":
-                return buildQueryPartIntegerPredicate(root.get("passCount"), comparator, value, builder);
-            case "source":
-                return buildQueryPartStringPredicate(root.get("source"), comparator, value, builder);
+                return buildQueryPartDoublePredicate(root.get(column), comparator, value, builder);
             case "genre":
-                return buildQueryPartIntegerEnumPredicate(root.get("genre"), comparator, value, builder, OsuGenre.values());
+                return buildQueryPartIntegerEnumPredicate(root.get(column), comparator, value, builder, OsuGenre.values());
             case "language":
-                return buildQueryPartIntegerEnumPredicate(root.get("language"), comparator, value, builder, OsuLanguage.values());
-            case "tag":
-                return buildQueryPartStringPredicate(root.get("tags"), comparator, value, builder);
-            case "hash":
-                return buildQueryPartStringPredicate(root.get("fileMd5"), comparator, value, builder);
+                return buildQueryPartIntegerEnumPredicate(root.get(column), comparator, value, builder, OsuLanguage.values());
             case "text":
                 return builder.or(buildQueryPartStringPredicate(root.get("artist"), comparator, value, builder),
                         buildQueryPartStringPredicate(root.get("title"), comparator, value, builder),
@@ -188,6 +165,78 @@ public class OsuBeatmapSearchService {
                         buildQueryPartStringPredicate(root.get("creatorName"), comparator, value, builder),
                         buildQueryPartStringPredicate(root.get("source"), comparator, value, builder),
                         buildQueryPartStringPredicate(root.get("tags"), comparator, value, builder));
+            default:
+                return null;
+        }
+    }
+
+    private String getColumnName(String attribute) {
+        switch (attribute) {
+            case "b":
+                return "beatmapId";
+            case "s":
+                return "beatmapsetId";
+            case "artist":
+                return "artist";
+            case "title":
+            case "text":
+                return "title";
+            case "diff":
+                return "version";
+            case "mode":
+                return "mode";
+            case "mapper":
+                return "creatorName";
+            case "status":
+                return "approved";
+            case "stars":
+                return "difficultyRating";
+            case "length":
+                return "totalLength";
+            case "drain":
+                return "hitLength";
+            case "bpm":
+                return "bpm";
+            case "combo":
+                return "maxCombo";
+            case "pp":
+                return "maxPp";
+            case "circles":
+                return "countNormal";
+            case "sliders":
+                return "countSlider";
+            case "spinners":
+                return "countSpinner";
+            case "cs":
+                return "difficultySize";
+            case "hp":
+                return "difficultyDrain";
+            case "od":
+                return "difficultyOverall";
+            case "ar":
+                return "difficultyApproach";
+            case "aim":
+                return "difficultyAim";
+            case "speed":
+                return "difficultySpeed";
+            case "rating":
+                return "rating";
+            case "favs":
+                return "favouriteCount";
+            case "plays":
+                return "playCount";
+            case "pass":
+                return "passCount";
+            case "source":
+                return "source";
+            case "genre":
+                return "genre";
+            case "language":
+                return "language";
+            case "tag":
+                return "tags";
+            case "hash":
+                return "fileMd5";
             default:
                 return null;
         }
@@ -293,6 +342,31 @@ public class OsuBeatmapSearchService {
             default:
                 return null;
         }
+    }
+
+    private Sort.Order getSortOrder(String query) {
+        Matcher matcher = PATTERN_SORT_PART.matcher(query);
+        if (matcher.find()) {
+            String column = getColumnName(matcher.group(3));
+            String comparator = matcher.group(2);
+            if (StringUtils.isNotEmpty(column) && StringUtils.isNotEmpty(comparator)) {
+                switch (comparator) {
+                    case "=":
+                    case "==":
+                    case "<":
+                    case "<=":
+                        return Sort.Order.asc(column);
+                    case "!=":
+                    case "<>":
+                    case ">":
+                    case ">=":
+                        return Sort.Order.desc(column);
+                    default:
+                        break;
+                }
+            }
+        }
+        return Sort.Order.desc("approvedDate");
     }
 
 }
