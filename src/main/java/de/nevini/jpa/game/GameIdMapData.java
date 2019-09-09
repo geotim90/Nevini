@@ -24,4 +24,6 @@ public class GameIdMapData {
 
     private Boolean multi;
 
+    private Boolean reject;
+
 }

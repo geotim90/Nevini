@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Component
 public class GameCommand extends Command {
 
-    private static final Pattern PATTERN = Pattern.compile("(?i)(id|name)=(.+)\\s+map\\s+(id|name|icon|multi)=(.+)");
+    private static final Pattern PATTERN = Pattern.compile("(?i)(id|name)=(.*)\\s+map\\s+(id|name|icon|multi)=(.*)");
 
     public GameCommand() {
         super(CommandDescriptor.builder()
@@ -24,7 +24,7 @@ public class GameCommand extends Command {
                 .node(Node.CORE_HELP) // dummy node
                 .minimumBotPermissions(Permissions.TALK)
                 .description("configures rich presence mappings")
-                .details("Syntax: `( id=<id> | name=<name> ) map ( id=<id> | name=<name> | icon=<url> | multi=(true|false) )`")
+                .details("Syntax: `( id=<id> | name=<name> ) map ( id=<id> | name=<name> | icon=<url> | multi=(true|false) | reject=(true|false) )`")
                 .build());
     }
 
@@ -70,6 +70,9 @@ public class GameCommand extends Command {
                 event.reply(CommandReaction.OK, event::complete);
             } else if ("multi".equalsIgnoreCase(valueType)) {
                 event.getGameService().mapMultiById(Boolean.parseBoolean(value), id);
+                event.reply(CommandReaction.OK, event::complete);
+            } else if ("reject".equalsIgnoreCase(valueType)) {
+                event.getGameService().mapRejectById(Boolean.parseBoolean(value), id);
                 event.reply(CommandReaction.OK, event::complete);
             } else {
                 event.reply(CommandReaction.WARNING, "Invalid value type!", event::complete);

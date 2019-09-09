@@ -1,5 +1,6 @@
 package de.nevini.listeners.activity;
 
+import de.nevini.jpa.game.GameData;
 import de.nevini.services.common.ActivityService;
 import de.nevini.services.common.GameService;
 import de.nevini.util.concurrent.EventDispatcher;
@@ -35,7 +36,10 @@ public class ActivityPlayingListener {
     private void processUserGame(User user, Activity activity) {
         RichPresence presence = activity != null ? activity.asRichPresence() : null;
         if (presence != null && presence.getType() == Activity.ActivityType.DEFAULT) {
-            activityService.updateActivityPlaying(user, gameService.getGame(presence));
+            GameData game = gameService.getGame(presence);
+            if (game != null) {
+                activityService.updateActivityPlaying(user, game);
+            }
         }
     }
 

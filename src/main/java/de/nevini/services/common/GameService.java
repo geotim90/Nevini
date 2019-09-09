@@ -4,9 +4,11 @@ import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import de.nevini.data.game.GameDataService;
 import de.nevini.jpa.game.*;
 import de.nevini.util.Finder;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.RichPresence;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,7 @@ public class GameService {
         this.gameIdMapRepository = gameIdMapRepository;
     }
 
-    public GameData getGame(RichPresence presence) {
+    public GameData getGame(@NonNull RichPresence presence) {
         long mappedId = presence.getApplicationIdLong();
         String mappedName = presence.getName();
         String mappedIcon = getIcon(presence);
@@ -45,6 +47,7 @@ public class GameService {
         // resolve id mappings
         GameIdMapData idMapping = gameIdMapRepository.findById(mappedId).orElse(null);
         if (idMapping != null) {
+            if (idMapping.getReject()) return null;
             mappedName = ObjectUtils.defaultIfNull(idMapping.getName(), mappedName);
             mappedIcon = ObjectUtils.defaultIfNull(idMapping.getIcon(), mappedIcon);
             // attempt to resolve multi-game applications
@@ -53,6 +56,8 @@ public class GameService {
                 if (candidates.size() == 1) {
                     mappedId = candidates.stream().findFirst().map(GameData::getId).orElse(mappedId);
                     mappedName = candidates.stream().findFirst().map(GameData::getName).orElse(mappedName);
+                } else if (!candidates.isEmpty()) {
+                    log.info("Ambiguous game '{}' ({})", presence.getName(), presence.getApplicationId());
                 }
             }
         }
@@ -102,22 +107,29 @@ public class GameService {
     }
 
     public void mapNameById(String name, long id) {
-        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false));
-        data.setName(name);
+        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false, false));
+        data.setName(StringUtils.defaultIfBlank(name, null));
         log.info("Save data: {}", data);
         gameIdMapRepository.save(data);
     }
 
     public void mapIconById(String icon, long id) {
-        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false));
-        data.setIcon(icon);
+        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false, false));
+        data.setIcon(StringUtils.defaultIfBlank(icon, null));
         log.info("Save data: {}", data);
         gameIdMapRepository.save(data);
     }
 
     public void mapMultiById(boolean multi, long id) {
-        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false));
+        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false, false));
         data.setMulti(multi);
+        log.info("Save data: {}", data);
+        gameIdMapRepository.save(data);
+    }
+
+    public void mapRejectById(boolean reject, long id) {
+        GameIdMapData data = gameIdMapRepository.findById(id).orElse(new GameIdMapData(id, null, null, false, false));
+        data.setReject(reject);
         log.info("Save data: {}", data);
         gameIdMapRepository.save(data);
     }

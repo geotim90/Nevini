@@ -1,0 +1,2 @@
+ALTER TABLE game_id_map
+    ADD COLUMN reject BOOLEAN NOT NULL DEFAULT false;
