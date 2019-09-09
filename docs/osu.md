@@ -49,7 +49,8 @@ This command supports search criteria similar to the in-game search function (<h
 * `genre` - Song genre<br>
 * `language` - Song language<br>
 * `tag` - Beatmapset tags<br>
-* `hash` - Beatmap hash
+* `hash` - Beatmap hash<br>
+* `sort` - The attribute to sort by (one of the above)
 
 This command can be executed in a text channel or via direct message.
 

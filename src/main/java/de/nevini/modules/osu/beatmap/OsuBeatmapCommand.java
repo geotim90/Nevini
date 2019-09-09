@@ -65,7 +65,8 @@ public class OsuBeatmapCommand extends Command {
                         + "\n* `genre` - Song genre"
                         + "\n* `language` - Song language"
                         + "\n* `tag` - Beatmapset tags"
-                        + "\n* `hash` - Beatmap hash")
+                        + "\n* `hash` - Beatmap hash"
+                        + "\n* `sort` - The attribute to sort by (one of the above)")
                 .build());
     }
 
