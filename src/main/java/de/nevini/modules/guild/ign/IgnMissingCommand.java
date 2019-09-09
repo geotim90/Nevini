@@ -9,8 +9,10 @@ import de.nevini.scope.Node;
 import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 
-import java.util.LinkedHashSet;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 
 class IgnMissingCommand extends Command {
@@ -21,18 +23,28 @@ class IgnMissingCommand extends Command {
                 .node(Node.GUILD_IGN_GET)
                 .description("finds users missing in-game names for a game")
                 .options(new CommandOptionDescriptor[]{
-                        Resolvers.GAME.describe(false, true)
+                        Resolvers.GAME.describe(false, true),
+                        Resolvers.ROLE.describe(false, false)
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.GAME.resolveArgumentOrOptionOrInput(event, game -> acceptGame(event, game));
+        if (Resolvers.ROLE.isOptionPresent(event)) {
+            Resolvers.ROLE.resolveOptionOrInput(event, role -> acceptRole(event, role));
+        } else {
+            acceptRole(event, null);
+        }
     }
 
-    private void acceptGame(CommandEvent event, GameData game) {
-        Set<Member> members = new LinkedHashSet<>(event.getGuild().getMembers());
+    private void acceptRole(CommandEvent event, Role role) {
+        Resolvers.GAME.resolveArgumentOrOptionOrInput(event, game -> acceptRoleGame(event, role, game));
+    }
+
+    private void acceptRoleGame(CommandEvent event, Role role, GameData game) {
+        Set<Member> members = new HashSet<>(role == null ? event.getGuild().getMembers()
+                : event.getGuild().getMembersWithRoles(role));
         members.removeIf(member -> member.getUser().isBot());
         event.getIgnService().getIgns(event.getGuild(), game).forEach(ign -> {
             Member member = event.getGuild().getMemberById(ign.getUser());
@@ -43,8 +55,9 @@ class IgnMissingCommand extends Command {
         } else {
             EmbedBuilder builder = event.createEmbedBuilder();
             builder.setAuthor(game.getName(), null, game.getIcon());
-            members.forEach(member -> builder.addField(member.getEffectiveName(),
-                    member.getUser().getId() + '\n' + member.getUser().getAsTag(), true));
+            members.stream().sorted(Comparator.comparing(Member::getEffectiveName))
+                    .forEach(member -> builder.addField(member.getEffectiveName(),
+                            member.getUser().getId() + '\n' + member.getUser().getAsTag(), true));
             event.reply(builder, event::complete);
         }
     }

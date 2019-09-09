@@ -713,10 +713,12 @@ Permission overrides may be applied on node **guild.ign.get**.
 Option | Description
 -------|------------
 \[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
 
 Keyword | Aliases
 --------|--------
 --game | //game
+--role | //role<br>-r<br>/r
 
 ## Command: `inactivity`
 
