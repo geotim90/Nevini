@@ -45,7 +45,7 @@ public class DurationResolver extends OptionResolver<Long> {
             return parsePositiveLong(s, 1);
         }
 
-        Matcher matcher = Pattern.compile("(\\d+) ?d(?:ays?)? ago").matcher(s);
+        Matcher matcher = Pattern.compile("(\\d+) ?d(?:ays?)?").matcher(s);
         if (matcher.matches()) {
             return parsePositiveLong(matcher.group(1), 1);
         }
