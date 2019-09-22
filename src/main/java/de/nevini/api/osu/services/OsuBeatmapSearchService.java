@@ -254,18 +254,24 @@ public class OsuBeatmapSearchService {
         switch (comparator) {
             case "=":
             case "==":
-                return builder.equal(column, value);
+                return builder.and(
+                        builder.greaterThanOrEqualTo(column, value - 0.005),
+                        builder.lessThan(column, value + 0.005)
+                );
             case "!=":
             case "<>":
-                return builder.notEqual(column, value);
+                return builder.or(
+                        builder.lessThan(column, value - 0.005),
+                        builder.greaterThanOrEqualTo(column, value + 0.005)
+                );
             case "<":
-                return builder.lessThan(column, value);
+                return builder.lessThan(column, value - 0.005);
             case "<=":
-                return builder.lessThanOrEqualTo(column, value);
+                return builder.lessThan(column, value + 0.005);
             case ">":
-                return builder.greaterThan(column, value);
+                return builder.greaterThanOrEqualTo(column, value + 0.005);
             case ">=":
-                return builder.greaterThanOrEqualTo(column, value);
+                return builder.greaterThanOrEqualTo(column, value - 0.005);
             default:
                 return null;
         }
