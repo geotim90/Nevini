@@ -40,7 +40,7 @@ public class OsuBeatmapCommand extends Command {
                         + "\n* `title` - Song title"
                         + "\n* `diff` - Beatmap difficulty name / version"
                         + "\n* `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short"
-                        + "\n* `mapper` - Mapper name"
+                        + "\n* `creator` - Beatmapset creator"
                         + "\n* `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short"
                         + "\n* `stars` - Star Difficulty"
                         + "\n* `length` - Length in seconds"

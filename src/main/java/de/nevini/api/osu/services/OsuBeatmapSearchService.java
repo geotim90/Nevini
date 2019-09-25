@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class OsuBeatmapSearchService {
 
-    private static final Pattern PATTERN_CACHED_PART = Pattern.compile("(?i)(b|s|mapper|hash)==?(\\S+)");
+    private static final Pattern PATTERN_CACHED_PART = Pattern.compile("(?i)(b|s|creator|hash)==?(\\S+)");
     private static final Pattern PATTERN_QUERY_PART = Pattern.compile("(?i)(?:([a-z]+)([=<>]=?|!=|<>))?(\\S+)");
     private static final Pattern PATTERN_SORT_PART = Pattern.compile("(?i)(sort)([=<>]=?|!=|<>)(\\S+)");
 
@@ -59,7 +59,7 @@ public class OsuBeatmapSearchService {
                 ensureCachedBeatmapId(matcher.group(2));
             } else if ("s".equals(matcher.group(1))) {
                 ensureCachedBeatmapsetId(matcher.group(2));
-            } else if ("mapper".equals(matcher.group(1))) {
+            } else if ("creator".equals(matcher.group(1))) {
                 ensureCachedCreator(matcher.group(2));
             } else if ("hash".equals(matcher.group(1))) {
                 ensureCachedHash(matcher.group(2));
@@ -133,7 +133,7 @@ public class OsuBeatmapSearchService {
                 return buildQueryPartStringPredicate(root.get(column), comparator, value, builder);
             case "mode":
                 return buildQueryPartIntegerEnumPredicate(root.get(column), comparator, value, builder, OsuMode.values());
-            case "mapper":
+            case "creator":
                 Predicate creatorId = buildQueryPartIntegerPredicate(root.get("creatorId"), comparator, value, builder);
                 Predicate creatorName = buildQueryPartStringPredicate(root.get("creatorName"), comparator, value, builder);
                 if (creatorId != null && creatorName != null) {
@@ -185,7 +185,7 @@ public class OsuBeatmapSearchService {
                 return "version";
             case "mode":
                 return "mode";
-            case "mapper":
+            case "creator":
                 return "creatorName";
             case "status":
                 return "approved";
