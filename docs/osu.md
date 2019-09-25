@@ -24,7 +24,7 @@ This command supports search criteria similar to the in-game search function (<h
 * `title` - Song title<br>
 * `diff` - Beatmap difficulty name / version<br>
 * `mode` - Mode - value can be `osu`, `taiko`, `catchthebeat`, or `mania`, or `o/t/c/m` for short<br>
-* `mapper` - Mapper name<br>
+* `creator` - Beatmapset creator<br>
 * `status` - Ranked status - value can be `ranked`, `approved`, `pending`, `notsubmitted`, `unknown`, or `loved`, or `r/a/p/n/u/l` for short<br>
 * `stars` - Star Difficulty<br>
 * `length` - Length in seconds<br>

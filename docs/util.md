@@ -5,7 +5,18 @@ These commands provide various utility functions. This modules is active by defa
 Command | Description
 --------|------------
 [debug](#command-debug) | various commands for debugging and analysis
+[deobfuscate](#command-deobfuscate) | deobfuscates text
 [find](#command-find) | finds users, roles etc. by any of their identifiers
+[html-escape](#command-html-escape) | converts text using HTML escape sequences
+[html-unescape](#command-html-unescape) | converts text using HTML escape sequences
+[lower](#command-lower) | converts text to lower case
+[morse-decode](#command-morse-decode) | converts morse code to text
+[morse-encode](#command-morse-encode) | converts text to morse code
+[obfuscate](#command-obfuscate) | obfuscates text
+[reverse](#command-reverse) | reverses text
+[upper](#command-upper) | converts text to upper case
+[url-decode](#command-url-decode) | converts text using URL escape sequences
+[url-encode](#command-url-encode) | converts text using URL escape sequences
 
 ## Command: `debug`
 
@@ -38,6 +49,14 @@ permission | permissions<br>perm<br>perms
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --role | //role<br>-r<br>/r
 --server | //server<br>--guild<br>//guild<br>-s<br>/s<br>-g<br>/g
+
+## Command: `deobfuscate`
+
+Deobfuscates text.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.obfuscate**.
 
 ## Command: `find`
 
@@ -184,3 +203,107 @@ Keyword | Aliases
 --------|--------
 channel | channels<br>c
 --channel | //channel<br>-c<br>/c
+
+## Command: `html-escape`
+
+Converts text using HTML escape sequences.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.html**.
+
+Keyword | Aliases
+--------|--------
+html-escape | htmlescape<br>html-esc<br>htmlesc
+
+## Command: `html-unescape`
+
+Converts text using HTML escape sequences.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.html**.
+
+Keyword | Aliases
+--------|--------
+html-unescape | htmlunescape
+
+## Command: `lower`
+
+Converts text to lower case.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.text**.
+
+## Command: `morse-decode`
+
+Converts morse code to text.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.morse**.
+
+Keyword | Aliases
+--------|--------
+morse-decode | morsedecode<br>morse-dec<br>morsedec
+
+## Command: `morse-encode`
+
+Converts text to morse code.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.morse**.
+
+Keyword | Aliases
+--------|--------
+morse-encode | morseencode<br>morse-enc<br>morseenc
+
+## Command: `obfuscate`
+
+Obfuscates text.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.obfuscate**.
+
+## Command: `reverse`
+
+Reverses text.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.text**.
+
+## Command: `upper`
+
+Converts text to upper case.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.text**.
+
+## Command: `url-decode`
+
+Converts text using URL escape sequences.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.url**.
+
+Keyword | Aliases
+--------|--------
+url-decode | urldecode<br>url-dec<br>urldec
+
+## Command: `url-encode`
+
+Converts text using URL escape sequences.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.url**.
+
+Keyword | Aliases
+--------|--------
+url-encode | urlencode<br>url-enc<br>urlenc
