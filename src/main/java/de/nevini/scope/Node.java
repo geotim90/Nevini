@@ -72,6 +72,11 @@ public enum Node {
     UTIL_FIND_PERMISSION("util.find.permission", Module.UTIL, Permissions.MANAGE_ROLES),
     UTIL_FIND_ROLE("util.find.role", Module.UTIL, Permissions.MANAGE_ROLES),
     UTIL_FIND_USER("util.find.user", Module.UTIL, Permissions.EVERYONE),
+    UTIL_UNICODE_HTML("util.unicode.html", Module.UTIL, Permissions.EVERYONE),
+    UTIL_UNICODE_MORSE("util.unicode.morse", Module.UTIL, Permissions.EVERYONE),
+    UTIL_UNICODE_OBFUSCATE("util.unicode.obfuscate", Module.UTIL, Permissions.EVERYONE),
+    UTIL_UNICODE_TEXT("util.unicode.text", Module.UTIL, Permissions.EVERYONE),
+    UTIL_UNICODE_URL("util.unicode.url", Module.UTIL, Permissions.EVERYONE),
     WARFRAME_ORDER_BOOK("warframe.order-book", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_PRICE_CHECK("warframe.price-check", Module.WARFRAME, Permissions.EVERYONE);
 
