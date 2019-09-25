@@ -64,9 +64,11 @@ public class MorseEncoder {
     }
 
     public static String decode(String input) {
-        return Arrays.stream(input.split(" "))
-                .map(s -> ObjectUtils.defaultIfNull(Character.toString(map.inverse().get(s)), s))
-                .collect(Collectors.joining());
+        return Arrays.stream(input.split(" ")).map(s -> {
+            Character c = map.inverse().get(s);
+            if (c == null) return s;
+            return c.toString();
+        }).collect(Collectors.joining());
     }
 
 }
