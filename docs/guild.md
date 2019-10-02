@@ -21,14 +21,14 @@ This command can only be executed in a text channel and not via direct message.
 
 Command | Description
 --------|------------
-[activity get](#command-activity-get) | displays user and/or game activity information
+[activity get](#command-activity-get) | displays user, role and/or game activity information
 [activity set](#command-activity-set) | configures user activity information
 [activity unset](#command-activity-unset) | configures user activity information
 [activity report](#command-activity-report) | displays an activity report for the entire server or just a single user
 
 ### Command: `activity get`
 
-Displays user and/or game activity information.
+Displays user, role and/or game activity information.
 
 This command can only be executed in a text channel and not via direct message.
 
@@ -37,12 +37,14 @@ Permission overrides may be applied on node **guild.activity.get**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 --game \<game\> | Refers to a specific game with a matching id or name.
 
 Keyword | Aliases
 --------|--------
 get | display<br>echo<br>list<br>print<br>show
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--role | //role<br>-r<br>/r
 --game | //game
 
 Command | Description
@@ -280,7 +282,7 @@ Permission overrides may be applied on node **guild.report.self**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 --server | Refers to the current server.
 
 Keyword | Aliases
@@ -351,7 +353,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -371,7 +373,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 Option | Description
 -------|------------
 --game \<game\> | Refers to a specific game with a matching id or name.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -392,7 +394,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 Option | Description
 -------|------------
 --game \<game\> | Refers to a specific game with a matching id or name.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -413,7 +415,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 Option | Description
 -------|------------
 \[--duration\] \<days\> | A number of days.<br>Input such as `5 days` or `2w` can also be used.<br>The `--duration` flag is optional if this option is provided first.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 
 Keyword | Aliases
 --------|--------
@@ -434,7 +436,7 @@ Permission overrides may be applied on node **guild.auto-role.set**.
 Option | Description
 -------|------------
 \[--channel\] \[\<channel\>\] | Refers to a specific voice channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -713,7 +715,7 @@ Permission overrides may be applied on node **guild.ign.get**.
 Option | Description
 -------|------------
 \[--game\] \<game\> | Refers to a specific game with a matching id or name.<br>The `--game` flag is optional if this option is provided first.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 
 Keyword | Aliases
 --------|--------
@@ -1040,7 +1042,7 @@ Permission overrides may be applied on node **guild.tribute.role.set**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -1286,7 +1288,7 @@ Permission overrides may be applied on node **guild.report.self**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 --server | Refers to the current server.
 
 Keyword | Aliases

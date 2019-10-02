@@ -27,7 +27,7 @@ public class RoleResolver extends OptionResolver<Role> {
                 .syntax("[--role] <role>")
                 .description("Refers to " + (list ? "all roles" : "a specific role")
                         + " with a matching mention, id or name.\n"
-                        + "The `--role` flag is optional if a channel mention is used"
+                        + "The `--role` flag is optional if a role mention is used"
                         + (argument ? " or this option is provided first" : "") + ".")
                 .keyword("--role")
                 .aliases(new String[]{"//role", "-r", "/r"})
