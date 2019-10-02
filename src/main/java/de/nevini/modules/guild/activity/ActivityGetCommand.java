@@ -10,7 +10,9 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -28,9 +30,10 @@ class ActivityGetCommand extends Command {
                         new ActivityGetPlayingCommand()
                 })
                 .node(Node.GUILD_ACTIVITY_GET)
-                .description("displays user and/or game activity information")
+                .description("displays user, role and/or game activity information")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
+                        Resolvers.ROLE.describe(),
                         Resolvers.GAME.describe()
                 })
                 .build());
@@ -38,13 +41,48 @@ class ActivityGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event,
-                event.getMember(),
-                member -> acceptMember(event, member));
+        if (StringUtils.isEmpty(event.getArgument()) && !Resolvers.MEMBER.isOptionPresent(event)
+                && Resolvers.ROLE.isOptionPresent(event)) {
+            Resolvers.ROLE.resolveOptionOrInput(event, role -> acceptRole(event, role));
+        } else {
+            Resolvers.MEMBER.resolveArgumentOrOptionOrDefaultIfExists(event,
+                    event.getMember(),
+                    member -> acceptMember(event, member));
+        }
+    }
+
+    private void acceptRole(CommandEvent event, Role role) {
+        Resolvers.GAME.resolveOptionOrInput(event, game -> acceptRoleGame(event, role, game));
     }
 
     private void acceptMember(CommandEvent event, Member member) {
         Resolvers.GAME.resolveOptionOrInputIfExists(event, game -> acceptMemberGame(event, member, game));
+    }
+
+    private void acceptRoleGame(CommandEvent event, Role role, GameData game) {
+        Map<Member, Long> lastPlayed = getLastPlayed(event, role, game);
+        if (lastPlayed.isEmpty()) {
+            event.reply("Nobody with that role has played this game recently.", event::complete);
+        } else {
+            EmbedBuilder builder = event.createEmbedBuilder();
+            builder.setAuthor(game.getName(), null, game.getIcon());
+            lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
+                    Formatter.formatLargestUnitAgo(timestamp), true));
+            event.reply(builder, event::complete);
+        }
+    }
+
+    private Map<Member, Long> getLastPlayed(CommandEvent event, Role role, GameData game) {
+        Map<Member, Long> result = new LinkedHashMap<>();
+        event.getActivityService().getActivityPlaying(event.getGuild(), game).entrySet().stream()
+                .sorted(comparingValueReversed())
+                .forEach(e -> {
+                    Member member = event.getGuild().getMemberById(e.getKey());
+                    if (member != null && member.getRoles().contains(role)) {
+                        result.put(member, e.getValue());
+                    }
+                });
+        return result;
     }
 
     private void acceptMemberGame(CommandEvent event, Member member, GameData game) {

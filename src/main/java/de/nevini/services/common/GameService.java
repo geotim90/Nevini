@@ -62,16 +62,20 @@ public class GameService {
             }
         }
 
-        // log if game was remapped
-        if (presence.getApplicationIdLong() != mappedId) {
-            log.debug("Remapping game '{}' ({}) to '{}' ({})", presence.getName(), presence.getApplicationId(),
-                    mappedName, Long.toUnsignedString(mappedId));
-        }
+        if (mappedId != 0) {
+            // log if game was remapped
+            if (presence.getApplicationIdLong() != mappedId) {
+                log.debug("Remapping game '{}' ({}) to '{}' ({})", presence.getName(), presence.getApplicationId(),
+                        mappedName, Long.toUnsignedString(mappedId));
+            }
 
-        // update cache and database
-        GameData game = new GameData(mappedId, mappedName, mappedIcon);
-        gameDataService.put(game);
-        return game;
+            // update cache and database
+            GameData game = new GameData(mappedId, mappedName, mappedIcon);
+            gameDataService.put(game);
+            return game;
+        } else {
+            return null;
+        }
     }
 
     private String getIcon(RichPresence game) {

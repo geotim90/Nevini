@@ -40,7 +40,7 @@ Permission overrides may be applied on node **util.debug.permission**.
 Option | Description
 -------|------------
 \[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used.
 --server | Refers to the current server.
 
 Keyword | Aliases
@@ -108,7 +108,7 @@ Permission overrides may be applied on node **util.find.role**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to all roles with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to all roles with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------

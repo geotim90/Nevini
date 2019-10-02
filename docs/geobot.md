@@ -848,7 +848,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -867,7 +867,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -892,7 +892,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -924,7 +924,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -978,7 +978,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -1003,7 +1003,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
@@ -1035,7 +1035,7 @@ Permission overrides may be applied on node **geobot.admin**.
 
 Option | Description
 -------|------------
-\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a channel mention is used or this option is provided first.
+\[--role\] \<role\> | Refers to a specific role with a matching mention, id or name.<br>The `--role` flag is optional if a role mention is used or this option is provided first.
 
 Keyword | Aliases
 --------|--------
