@@ -56,4 +56,7 @@ public class OsuApiUserBest {
     @SerializedName("pp")
     private final Double pp;
 
+    @SerializedName("replay_available")
+    private final Boolean replayAvailable;
+
 }

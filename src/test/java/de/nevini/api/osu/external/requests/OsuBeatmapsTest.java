@@ -65,7 +65,7 @@ public class OsuBeatmapsTest extends OsuApiProvider {
         Assert.assertEquals("kloyd flower roxas", beatmap.getTags());
         Assert.assertEquals(Integer.valueOf(OsuGenre.VIDEO_GAME.getId()), beatmap.getGenre());
         Assert.assertEquals(Integer.valueOf(OsuLanguage.INSTRUMENTAL.getId()), beatmap.getLanguage());
-        Assert.assertEquals(Integer.valueOf(142), beatmap.getFavouriteCount());
+        Assert.assertNotNull(beatmap.getFavouriteCount()); // non-static value; can increase or decrease
         Assert.assertNotNull(beatmap.getRating()); // non-static value; can increase or decrease
         Assert.assertEquals(Boolean.FALSE, beatmap.getDownloadUnavailable());
         Assert.assertEquals(Boolean.FALSE, beatmap.getAudioUnavailable());
