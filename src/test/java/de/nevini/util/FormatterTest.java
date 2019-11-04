@@ -7,6 +7,8 @@ public class FormatterTest {
 
     @Test
     public void formatLargeInteger() {
+        Assert.assertEquals("1234", Formatter.formatLargeInteger(1234));
+        Assert.assertEquals("12k", Formatter.formatLargeInteger(12345));
         Assert.assertEquals("123m", Formatter.formatLargeInteger(123456789));
     }
 
