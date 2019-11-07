@@ -49,6 +49,7 @@ public class OsuUserBestTest extends OsuApiProvider {
         Assert.assertEquals(Date.from(ZonedDateTime.of(2014, 3, 25, 3, 58, 4, 0, ZoneOffset.UTC).toInstant()), best.getDate());
         Assert.assertEquals(OsuRank.SS.getId(), best.getRank());
         Assert.assertEquals(Double.valueOf(70.2194), best.getPp());
+        Assert.assertEquals(Boolean.FALSE, best.getReplayAvailable());
     }
 
     @Test
@@ -80,6 +81,7 @@ public class OsuUserBestTest extends OsuApiProvider {
         Assert.assertTrue(best.getDate().getTime() >= ZonedDateTime.of(2014, 3, 25, 3, 58, 4, 0, ZoneOffset.UTC).toInstant().toEpochMilli()); // new scores will always be newer
         Assert.assertNotNull(best.getRank());
         Assert.assertTrue(best.getPp() > 0f);
+        Assert.assertNotNull(best.getReplayAvailable());
     }
 
 }

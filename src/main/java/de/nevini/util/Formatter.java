@@ -44,11 +44,11 @@ public class Formatter {
             return "-" + formatLargeInteger(-value);
         }
 
-        if (value < 1000) {
+        if (value < 10000) {
             return Long.toString(value);
-        } else if (value < 1000000) {
+        } else if (value < 10000000) {
             return (value / 1000) + "k";
-        } else if (value < 1000000000) {
+        } else if (value < 10000000000L) {
             return (value / 1000000) + "m";
         } else {
             return (value / 1000000000) + "b";
