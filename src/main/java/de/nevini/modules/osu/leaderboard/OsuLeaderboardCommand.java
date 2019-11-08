@@ -42,8 +42,8 @@ public class OsuLeaderboardCommand extends Command {
                     String ign = event.getIgnService().getInGameName(member, game);
                     return StringUtils.isEmpty(ign) ? null : osuService.getUser(ign);
                 })
-                .filter(user -> user != null && user.getPpRank() > 0).sorted(Comparator.comparing(OsuUser::getPpRank))
-                .limit(10).collect(Collectors.toList());
+                .filter(user -> user != null && user.getPpRank() != null && user.getPpRank() > 0)
+                .sorted(Comparator.comparing(OsuUser::getPpRank)).limit(10).collect(Collectors.toList());
         event.notifyLongTaskEnd();
         if (rankedUsers.isEmpty()) {
             event.reply("No users found.", event::complete);
