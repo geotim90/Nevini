@@ -17,6 +17,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -67,7 +68,13 @@ public class OsuUserService {
             result.getResult().forEach(user -> cache.put(new OsuUserId(user.getUserId(),
                     ObjectUtils.defaultIfNull(request.getMode(), OsuMode.STANDARD.getId())), user));
             log.debug("Save data: {}", response.getResult());
-            repository.saveAll(response.getResult());
+            try {
+                repository.saveAll(response.getResult());
+            } catch (DataAccessException e) {
+                // new users may have one or more null values
+                log.debug("Save data failed", e);
+                return ApiResponse.error(e);
+            }
         }
         return result;
     }
