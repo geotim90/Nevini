@@ -134,9 +134,9 @@ public class OsuBeatmapsTest extends OsuApiProvider {
         Assert.assertTrue(beatmap.getPlayCount() >= 95168); // non-static value; can only increase
         Assert.assertTrue(beatmap.getPassCount() >= 10644); // non-static value; can only increase
         Assert.assertEquals(Integer.valueOf(899), beatmap.getMaxCombo());
-        Assert.assertEquals(Double.valueOf(2.7706098556518555), beatmap.getDifficultyAim());
-        Assert.assertEquals(Double.valueOf(2.9062750339508057), beatmap.getDifficultySpeed());
-        Assert.assertEquals(Double.valueOf(5.744717597961426), beatmap.getDifficultyRating());
+        Assert.assertEquals(Double.valueOf(2.77061), beatmap.getDifficultyAim());
+        Assert.assertEquals(Double.valueOf(2.90628), beatmap.getDifficultySpeed());
+        Assert.assertEquals(Double.valueOf(5.74472), beatmap.getDifficultyRating());
     }
 
 }
