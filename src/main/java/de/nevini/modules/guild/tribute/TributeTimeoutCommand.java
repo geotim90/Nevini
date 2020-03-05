@@ -13,7 +13,8 @@ class TributeTimeoutCommand extends Command {
                 .children(new Command[]{
                         new TributeTimeoutGetCommand(),
                         new TributeTimeoutSetCommand(),
-                        new TributeTimeoutUnsetCommand()
+                        new TributeTimeoutUnsetCommand(),
+                        new TributeTimeoutFeedCommand()
                 })
                 .description("displays and configures the timeout for users that need to contribute")
                 .details("By default, this command will behave the same as **tribute timeout get**.")

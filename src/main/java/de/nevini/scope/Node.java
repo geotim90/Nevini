@@ -53,6 +53,7 @@ public enum Node {
     GUILD_TRIBUTE_SET("guild.tribute.set", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_TRIBUTE_START_GET("guild.tribute.start.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_TRIBUTE_START_SET("guild.tribute.start.set", Module.GUILD, Permissions.MANAGE_SERVER),
+    GUILD_TRIBUTE_TIMEOUT_FEED(GUILD_FEED_SET.node, Module.GUILD, GUILD_FEED_SET.defaultPermissions),
     GUILD_TRIBUTE_TIMEOUT_GET("guild.tribute.timeout.get", Module.GUILD, Permissions.MANAGE_SERVER),
     GUILD_TRIBUTE_TIMEOUT_SET("guild.tribute.timeout.set", Module.GUILD, Permissions.MANAGE_SERVER),
     OSU_BEATMAP("osu.beatmap", Module.OSU, Permissions.EVERYONE),

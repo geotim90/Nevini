@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
+	id 'org.springframework.boot' version '2.2.5.RELEASE'
 }
 
 apply plugin: 'java'
@@ -8,7 +8,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '4.9.13'
+version = '4.10.0'
 sourceCompatibility = '8'
 
 configurations {
@@ -34,12 +34,12 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	// common
 	implementation 'com.google.code.gson:gson'
-	implementation 'com.google.guava:guava:28.0-jre'
+	implementation 'com.google.guava:guava:28.2-jre'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 	// jda
-	implementation 'net.dv8tion:JDA:4.0.0_39'
-	implementation 'com.jagrosh:jda-utilities-commons:3.0.1'
+	implementation 'net.dv8tion:JDA:4.1.1_110'
+	implementation 'com.jagrosh:jda-utilities-commons:3.0.2'
 	implementation 'org.discordbots:DBL-Java-Library:2.0.1'
 	// database
 	runtimeOnly 'com.h2database:h2'

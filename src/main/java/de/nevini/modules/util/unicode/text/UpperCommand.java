@@ -13,7 +13,8 @@ public class UpperCommand extends Command {
 
     public UpperCommand() {
         super(CommandDescriptor.builder()
-                .keyword("upper")
+                .keyword("upper-case")
+                .aliases(new String[]{"uppercase", "upper"})
                 .guildOnly(false)
                 .node(Node.UTIL_UNICODE_TEXT)
                 .minimumBotPermissions(Permissions.TALK)
