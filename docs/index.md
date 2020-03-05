@@ -1,4 +1,5 @@
-[![Discord Bots](https://discordbots.org/api/widget/status/570972920692736002.svg)](https://discordbots.org/bot/570972920692736002)
+[![Discord Bots](https://top.gg/api/widget/status/570972920692736002.svg)](https://top.gg/bot/570972920692736002)
+[![Discord Bots](https://top.gg/api/widget/servers/570972920692736002.svg)](https://top.gg/bot/570972920692736002)
 
 # Nevini
 
@@ -14,7 +15,7 @@ You need to be the owner of the Discord server or have the "Administrator" or "M
 You can grant or restrict permissions for Nevini as you wish.
 Nevini will default to direct messages if everything else fails.
 
-[https://discordapp.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392](https://discordapp.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392).
+[https://discordapp.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392](https://discordapp.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392)
 
 ## Commands
 
