@@ -104,7 +104,10 @@ public class TributeRoleListener {
                             .append(" ago** (").append(Formatter.formatTimestamp(member.getDeadline())).append(")\n");
                 }
             });
-            channel.sendMessage(builder.toString()).queue();
+            String message = builder.toString();
+            if (!message.isEmpty()) {
+                channel.sendMessage(builder.toString()).queue();
+            }
             feedService.updateSubscription(Feed.TRIBUTE_TIMEOUTS, -1L, channel, now);
         }
         lastUpdate = now;
