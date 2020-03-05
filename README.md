@@ -1,4 +1,5 @@
-[![Discord Bots](https://top.gg/api/widget/570972920692736002.svg)](https://top.gg/bot/570972920692736002)
+[![Discord Bots](https://top.gg/api/widget/status/570972920692736002.svg)](https://top.gg/bot/570972920692736002)
+[![Discord Bots](https://top.gg/api/widget/servers/570972920692736002.svg)](https://top.gg/bot/570972920692736002)
 
 # Nevini
 
