@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +47,15 @@ public class TributeRoleListener {
     private void onMemberRoleAdd(GuildMemberRoleAddEvent e) {
         Role role = tributeService.getRole(e.getGuild());
         if (role != null && e.getRoles().contains(role)) {
-            tributeService.setStartIfNull(e.getMember(), System.currentTimeMillis());
+            OffsetDateTime now = OffsetDateTime.now();
+            Long start = tributeService.getStart(e.getMember());
+            if (start == null) {
+                tributeService.setStartIfNull(e.getMember(), System.currentTimeMillis());
+            } else {
+                long delay = ChronoUnit.DAYS.between(
+                        OffsetDateTime.ofInstant(Instant.ofEpochMilli(start), ZoneOffset.UTC), now);
+                tributeService.setDelay(e.getMember(), delay);
+            }
         }
     }
 
