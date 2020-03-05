@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'org.springframework.boot' version '2.2.5.RELEASE'
 }
 
 apply plugin: 'java'
@@ -38,7 +38,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 	// jda
-	implementation 'net.dv8tion:JDA:4.1.1_101'
+	implementation 'net.dv8tion:JDA:4.1.1_110'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.2'
 	implementation 'org.discordbots:DBL-Java-Library:2.0.1'
 	// database
