@@ -1078,6 +1078,7 @@ Command | Description
 [tribute timeout get](#command-tribute-timeout-get) | displays the timeout for users that need to contribute
 [tribute timeout set](#command-tribute-timeout-set) | configures the timeout for users that need to contribute
 [tribute timeout unset](#command-tribute-timeout-unset) | removes the configured timeout for users that need to contribute
+[tribute timeout feed](#command-tribute-timeout-feed) | subscribes to tribute timeouts
 
 #### Command: `tribute timeout get`
 
@@ -1121,6 +1122,26 @@ Permission overrides may be applied on node **guild.tribute.timeout.set**.
 Keyword | Aliases
 --------|--------
 unset | remove<br>clear<br>reset
+
+#### Command: `tribute timeout feed`
+
+Subscribes to tribute timeouts.
+
+This command will behave the same as **feed set tribute.timeout**.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.feed.set**.
+
+Option | Description
+-------|------------
+\[--channel\] \[\<channel\>\] | Refers to a specific text channel with a matching mention, id or name.<br>The `--channel` flag is optional if a channel mention is used.<br>Refers to the current channel if only the `--channel` flag is provided.
+
+Keyword | Aliases
+--------|--------
+feed | subscribe
+--channel | //channel<br>-c<br>/c
 
 ### Command: `tribute start`
 
