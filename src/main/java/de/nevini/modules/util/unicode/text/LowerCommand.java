@@ -13,7 +13,8 @@ public class LowerCommand extends Command {
 
     public LowerCommand() {
         super(CommandDescriptor.builder()
-                .keyword("lower")
+                .keyword("lower-case")
+                .aliases(new String[]{"lowercase", "lower"})
                 .guildOnly(false)
                 .node(Node.UTIL_UNICODE_TEXT)
                 .minimumBotPermissions(Permissions.TALK)

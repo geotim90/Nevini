@@ -15,7 +15,7 @@ public class HtmlUnescapeCommand extends Command {
     public HtmlUnescapeCommand() {
         super(CommandDescriptor.builder()
                 .keyword("html-unescape")
-                .aliases(new String[]{"htmlunescape"})
+                .aliases(new String[]{"htmlunescape", "html-unesc", "htmlunesc"})
                 .guildOnly(false)
                 .node(Node.UTIL_UNICODE_HTML)
                 .minimumBotPermissions(Permissions.TALK)

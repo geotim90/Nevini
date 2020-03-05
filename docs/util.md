@@ -9,12 +9,13 @@ Command | Description
 [find](#command-find) | finds users, roles etc. by any of their identifiers
 [html-escape](#command-html-escape) | converts text using HTML escape sequences
 [html-unescape](#command-html-unescape) | converts text using HTML escape sequences
-[lower](#command-lower) | converts text to lower case
+[lower-case](#command-lower-case) | converts text to lower case
 [morse-decode](#command-morse-decode) | converts morse code to text
 [morse-encode](#command-morse-encode) | converts text to morse code
 [obfuscate](#command-obfuscate) | obfuscates text
 [reverse](#command-reverse) | reverses text
-[upper](#command-upper) | converts text to upper case
+[small-caps](#command-small-caps) | converts text to lower case
+[upper-case](#command-upper-case) | converts text to upper case
 [url-decode](#command-url-decode) | converts text using URL escape sequences
 [url-encode](#command-url-encode) | converts text using URL escape sequences
 
@@ -226,15 +227,19 @@ Permission overrides may be applied on node **util.unicode.html**.
 
 Keyword | Aliases
 --------|--------
-html-unescape | htmlunescape
+html-unescape | htmlunescape<br>html-unesc<br>htmlunesc
 
-## Command: `lower`
+## Command: `lower-case`
 
 Converts text to lower case.
 
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **util.unicode.text**.
+
+Keyword | Aliases
+--------|--------
+lower-case | lowercase<br>lower
 
 ## Command: `morse-decode`
 
@@ -276,13 +281,29 @@ This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **util.unicode.text**.
 
-## Command: `upper`
+## Command: `small-caps`
+
+Converts text to lower case.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **util.unicode.text**.
+
+Keyword | Aliases
+--------|--------
+small-caps | smallcaps<br>sc
+
+## Command: `upper-case`
 
 Converts text to upper case.
 
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **util.unicode.text**.
+
+Keyword | Aliases
+--------|--------
+upper-case | uppercase<br>upper
 
 ## Command: `url-decode`
 
