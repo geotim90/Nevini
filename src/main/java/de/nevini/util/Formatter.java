@@ -66,6 +66,11 @@ public class Formatter {
         }
     }
 
+    public static String formatLargestUnitBetween(long earlier, long later) {
+        return formatLargestUnitBetween(OffsetDateTime.ofInstant(Instant.ofEpochMilli(earlier), ZoneOffset.UTC),
+                OffsetDateTime.ofInstant(Instant.ofEpochMilli(later), ZoneOffset.UTC));
+    }
+
     public static String formatLargestUnitBetween(@NonNull OffsetDateTime earlier, @NonNull OffsetDateTime later) {
         if (earlier.isAfter(later)) {
             return formatLargestUnitBetween(later, earlier);
