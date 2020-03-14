@@ -93,15 +93,13 @@ public class TributeRoleListener {
                 if (member.isContribution()) {
                     builder.append(CommandReaction.OK.getUnicode()).append(" **")
                             .append(member.getMember().getEffectiveName())
-                            .append("** has contributed - the deadline was **")
-                            .append(Formatter.formatLargestUnitBetween(member.getDeadline(), now))
-                            .append(" ago** (").append(Formatter.formatTimestamp(member.getDeadline())).append(")\n");
+                            .append("** has contributed - the deadline was ")
+                            .append(Formatter.formatTimestamp(member.getDeadline())).append("\n");
                 } else {
                     builder.append(CommandReaction.ERROR.getUnicode()).append(" **")
                             .append(member.getMember().getEffectiveName())
-                            .append("** should have contributed **")
-                            .append(Formatter.formatLargestUnitBetween(member.getDeadline(), now))
-                            .append(" ago** (").append(Formatter.formatTimestamp(member.getDeadline())).append(")\n");
+                            .append("** failed to contribute - the deadline was ")
+                            .append(Formatter.formatTimestamp(member.getDeadline())).append("\n");
                 }
             });
             String message = builder.toString();
