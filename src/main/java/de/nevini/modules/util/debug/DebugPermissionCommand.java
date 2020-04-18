@@ -46,6 +46,7 @@ class DebugPermissionCommand extends Command {
             Permission.MESSAGE_ADD_REACTION.getRawValue(),
             Permission.VOICE_CONNECT.getRawValue(),
             Permission.VOICE_SPEAK.getRawValue(),
+            Permission.VOICE_STREAM.getRawValue(),
             Permission.VOICE_MUTE_OTHERS.getRawValue(),
             Permission.VOICE_DEAF_OTHERS.getRawValue(),
             Permission.VOICE_MOVE_OTHERS.getRawValue(),
@@ -77,6 +78,7 @@ class DebugPermissionCommand extends Command {
             | Permission.MESSAGE_ADD_REACTION.getRawValue()
             | Permission.VOICE_CONNECT.getRawValue()
             | Permission.VOICE_SPEAK.getRawValue()
+            | Permission.VOICE_STREAM.getRawValue()
             | Permission.VOICE_MUTE_OTHERS.getRawValue()
             | Permission.VOICE_DEAF_OTHERS.getRawValue()
             | Permission.VOICE_MOVE_OTHERS.getRawValue()
@@ -99,6 +101,7 @@ class DebugPermissionCommand extends Command {
             | Permission.MESSAGE_ADD_REACTION.getRawValue()
             | Permission.VOICE_CONNECT.getRawValue()
             | Permission.VOICE_SPEAK.getRawValue()
+            | Permission.VOICE_STREAM.getRawValue()
             | Permission.VOICE_MUTE_OTHERS.getRawValue()
             | Permission.VOICE_DEAF_OTHERS.getRawValue()
             | Permission.VOICE_MOVE_OTHERS.getRawValue()
@@ -127,6 +130,7 @@ class DebugPermissionCommand extends Command {
             | Permission.MESSAGE_READ.getRawValue()
             | Permission.VOICE_CONNECT.getRawValue()
             | Permission.VOICE_SPEAK.getRawValue()
+            | Permission.VOICE_STREAM.getRawValue()
             | Permission.VOICE_MUTE_OTHERS.getRawValue()
             | Permission.VOICE_DEAF_OTHERS.getRawValue()
             | Permission.VOICE_MOVE_OTHERS.getRawValue()
@@ -187,8 +191,8 @@ class DebugPermissionCommand extends Command {
                         + "Create Instant Invite,Change Nickname,Manage Nicknames,Manage Emojis,Manage Webhooks,"
                         + "Read Text Channels & See Voice Channels,Send Messages,Send TTS Messages,Manage Messages,"
                         + "Embed Links,Attach Files,Read Message History,Mention Everyone,Use External Emojis,"
-                        + "Add Reactions,Connect,Speak,Mute Members,Deafen Members,Move Members,Use Voice Activity,"
-                        + "Priority Speaker");
+                        + "Add Reactions,Connect,Speak,Stream,Mute Members,Deafen Members,Move Members,"
+                        + "Use Voice Activity,Priority Speaker");
 
                 final String server = event.getGuild().getName();
 
