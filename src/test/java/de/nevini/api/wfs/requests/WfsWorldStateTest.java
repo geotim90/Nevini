@@ -21,9 +21,15 @@ public class WfsWorldStateTest extends WfsApiProvider {
         }
 
         // make sure all data was parsed correctly
+
+        // Void Trader
         Assert.assertEquals("10d 5h 4m 30s", result.getVoidTrader().getStartString());
         Assert.assertEquals(Boolean.FALSE, result.getVoidTrader().getActive());
         Assert.assertEquals("Orcus Relay (Pluto)", result.getVoidTrader().getLocation());
+
+        // World Cycles
+        Assert.assertEquals("30m to Night", result.getCetusCycle().getShortString());
+        Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
     }
 
     @Test

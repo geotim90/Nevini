@@ -11,4 +11,10 @@ public class WfsWorldState {
     @SerializedName("voidTrader")
     WfsVoidTrader voidTrader;
 
+    @SerializedName("cetusCycle")
+    WfsCetusCycle cetusCycle;
+
+    @SerializedName("vallisCycle")
+    WfsVallisCycle vallisCycle;
+
 }

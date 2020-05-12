@@ -1,4 +1,4 @@
-package de.nevini.modules.warframe.baro;
+package de.nevini.modules.warframe.cycle;
 
 import de.nevini.api.wfs.model.WfsWorldState;
 import de.nevini.command.Command;
@@ -9,16 +9,19 @@ import de.nevini.services.warframe.WarframeStatsService;
 import de.nevini.util.command.CommandReaction;
 import org.springframework.stereotype.Component;
 
-@Component
-public class BaroCommand extends Command {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    public BaroCommand() {
+@Component
+public class CycleCommand extends Command {
+
+    public CycleCommand() {
         super(CommandDescriptor.builder()
-                .keyword("baro")
-                .aliases(new String[]{"void-trader"})
+                .keyword("cycle")
+                .aliases(new String[]{"cycles", "world-cycle", "world-cycles"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_BARO)
-                .description("displays the current status of the Void Trader using data from warframestat.us")
+                .description("displays the current World Cycles using data from warframestat.us")
                 .build());
     }
 
@@ -34,13 +37,17 @@ public class BaroCommand extends Command {
             return;
         }
 
-        if (Boolean.TRUE.equals(worldState.getVoidTrader().getActive())) {
-            // TODO Void Trader active
+        // Void Trader inactive
+        event.reply("**World Cycles**\nPlains of Eidolon: " + reformat(worldState.getCetusCycle().getShortString())
+                + "\nOrb Vallis: " + reformat(worldState.getVallisCycle().getShortString()), event::complete);
+    }
 
+    private static String reformat(String shortString) {
+        Matcher matcher = Pattern.compile("(.+) to (.+)").matcher(shortString);
+        if (matcher.matches()) {
+            return matcher.group(2) + " in " + matcher.group(1);
         } else {
-            // Void Trader inactive
-            event.reply("**Void Trader**: " + worldState.getVoidTrader().getLocation() + " - "
-                    + worldState.getVoidTrader().getStartString(), event::complete);
+            return shortString;
         }
     }
 
