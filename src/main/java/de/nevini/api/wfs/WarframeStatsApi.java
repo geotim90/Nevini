@@ -3,9 +3,11 @@ package de.nevini.api.wfs;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfs.model.WfsDrops;
 import de.nevini.api.wfs.model.WfsInfo;
+import de.nevini.api.wfs.model.WfsWorldState;
 import de.nevini.api.wfs.requests.WfsApiRequest;
 import de.nevini.api.wfs.requests.WfsDropsRequest;
 import de.nevini.api.wfs.requests.WfsInfoRequest;
+import de.nevini.api.wfs.requests.WfsWorldStateRequest;
 import de.nevini.util.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -19,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class WarframeStatsApi {
 
-    // no rate limit restrictions documentation found - limit to 2/min to be safe
-    private final TokenBucket rateLimit = new TokenBucket(2, 2, 2, TimeUnit.MINUTES);
+    // no rate limit restrictions documentation found - limit to 1/min (max 3) to be safe
+    private final TokenBucket rateLimit = new TokenBucket(3, 1, 3, TimeUnit.MINUTES);
 
     @NonNull
     private final OkHttpClient httpClient;
@@ -53,6 +55,10 @@ public class WarframeStatsApi {
     }
 
     public ApiResponse<WfsInfo> getInfo(WfsInfoRequest request) {
+        return call(request);
+    }
+
+    public ApiResponse<WfsWorldState> getWorldState(WfsWorldStateRequest request) {
         return call(request);
     }
 

@@ -11,15 +11,15 @@ import java.util.List;
 public class WfsEnemyModTable {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("enemyName")
-    private final String enemyName;
+    String enemyName;
 
-    @SerializedName("ememyModDropChance")
-    private final Float enemyModDropChance;
+    @SerializedName("enemyModDropChance")
+    Float enemyModDropChance;
 
     @SerializedName("mods")
-    private final List<WfsMod> mods;
+    List<WfsMod> mods;
 
 }

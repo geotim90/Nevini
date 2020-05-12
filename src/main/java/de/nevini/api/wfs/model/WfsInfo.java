@@ -9,12 +9,12 @@ import lombok.Value;
 public class WfsInfo {
 
     @SerializedName("hash")
-    private final String hash;
+    String hash;
 
     @SerializedName("timestamp")
-    private final Long timestamp;
+    Long timestamp;
 
     @SerializedName("modified")
-    private final Long modified;
+    Long modified;
 
 }

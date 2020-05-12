@@ -10,8 +10,8 @@ import java.util.Map;
 @Builder
 public class WfsRewards {
 
-    private final List<WfsReward> rewards;
+    List<WfsReward> rewards;
 
-    private final Map<String, List<WfsReward>> rotationRewards;
+    Map<String, List<WfsReward>> rotationRewards;
 
 }

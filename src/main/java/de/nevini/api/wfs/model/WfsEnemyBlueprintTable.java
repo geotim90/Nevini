@@ -11,21 +11,21 @@ import java.util.List;
 public class WfsEnemyBlueprintTable {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("enemyName")
-    private final String enemyName;
+    String enemyName;
 
     @SerializedName("enemyItemDropChance")
-    private final Float enemyItemDropChance;
+    Float enemyItemDropChance;
 
     @SerializedName("blueprintDropChance")
-    private final Float blueprintDropChance;
+    Float blueprintDropChance;
 
     @SerializedName("items")
-    private final List<WfsItem> items;
+    List<WfsItem> items;
 
     @SerializedName("mods")
-    private final List<WfsMod> mods;
+    List<WfsMod> mods;
 
 }

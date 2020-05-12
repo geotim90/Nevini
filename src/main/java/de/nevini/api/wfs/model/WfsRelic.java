@@ -11,18 +11,18 @@ import java.util.List;
 public class WfsRelic {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("tier")
-    private final String tier;
+    String tier;
 
     @SerializedName("relicName")
-    private final String relicName;
+    String relicName;
 
     @SerializedName("state")
-    private final String state;
+    String state;
 
     @SerializedName("rewards")
-    private final List<WfsReward> rewards;
+    List<WfsReward> rewards;
 
 }

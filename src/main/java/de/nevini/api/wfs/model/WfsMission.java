@@ -9,12 +9,12 @@ import lombok.Value;
 public class WfsMission {
 
     @SerializedName("gameMode")
-    private final String gameMode;
+    String gameMode;
 
     @SerializedName("isEvent")
-    private final Boolean isEvent;
+    Boolean isEvent;
 
     @SerializedName("rewards")
-    private final WfsRewards rewards;
+    WfsRewards rewards;
 
 }

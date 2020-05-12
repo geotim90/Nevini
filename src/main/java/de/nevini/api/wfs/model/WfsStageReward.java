@@ -9,18 +9,18 @@ import lombok.Value;
 public class WfsStageReward {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("itemName")
-    private final String itemName;
+    String itemName;
 
     @SerializedName("rarity")
-    private final String rarity;
+    String rarity;
 
     @SerializedName("chance")
-    private final Float chance;
+    Float chance;
 
     @SerializedName("stage")
-    private final String stage;
+    String stage;
 
 }

@@ -9,24 +9,24 @@ import lombok.Value;
 public class WfsEnemy {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("enemyName")
-    private final String enemyName;
+    String enemyName;
 
     @SerializedName("enemyModDropChance")
-    private final Float enemyModDropChance;
+    Float enemyModDropChance;
 
     @SerializedName("enemyItemDropChance")
-    private final Float enemyItemDropChance;
+    Float enemyItemDropChance;
 
     @SerializedName("enemyBlueprintDropChance")
-    private final Float enemyBlueprintDropChance;
+    Float enemyBlueprintDropChance;
 
     @SerializedName("rarity")
-    private final String rarity;
+    String rarity;
 
     @SerializedName("chance")
-    private final Float chance;
+    Float chance;
 
 }

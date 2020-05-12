@@ -9,18 +9,18 @@ import lombok.Value;
 public class WfsRotationReward {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("rotation")
-    private final String rotation;
+    String rotation;
 
     @SerializedName("itemName")
-    private final String itemName;
+    String itemName;
 
     @SerializedName("rarity")
-    private final String rarity;
+    String rarity;
 
     @SerializedName("chance")
-    private final Float chance;
+    Float chance;
 
 }

@@ -11,12 +11,12 @@ import java.util.List;
 public class WfsObjective {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("objectiveName")
-    private final String objectiveName;
+    String objectiveName;
 
     @SerializedName("rewards")
-    private final List<WfsRotationReward> rewards;
+    List<WfsRotationReward> rewards;
 
 }

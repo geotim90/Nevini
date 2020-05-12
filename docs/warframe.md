@@ -4,8 +4,17 @@ These commands are related to [Warframe](https://www.warframe.com/).
 
 Command | Description
 --------|------------
+[baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
+
+## Command: `baro`
+
+Displays the current status of the Void Trader using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.baro**.
 
 ## Command: `order-book`
 

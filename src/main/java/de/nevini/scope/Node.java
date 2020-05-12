@@ -78,6 +78,7 @@ public enum Node {
     UTIL_UNICODE_OBFUSCATE("util.unicode.obfuscate", Module.UTIL, Permissions.EVERYONE),
     UTIL_UNICODE_TEXT("util.unicode.text", Module.UTIL, Permissions.EVERYONE),
     UTIL_UNICODE_URL("util.unicode.url", Module.UTIL, Permissions.EVERYONE),
+    WARFRAME_BARO("warframe.baro", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_ORDER_BOOK("warframe.order-book", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_PRICE_CHECK("warframe.price-check", Module.WARFRAME, Permissions.EVERYONE);
 

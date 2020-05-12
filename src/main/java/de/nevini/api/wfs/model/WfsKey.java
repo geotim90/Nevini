@@ -12,12 +12,12 @@ import java.util.Map;
 public class WfsKey {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("keyName")
-    private final String keyName;
+    String keyName;
 
     @SerializedName("rewards")
-    private final Map<String, List<WfsItem>> rewards;
+    Map<String, List<WfsItem>> rewards;
 
 }

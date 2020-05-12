@@ -12,36 +12,36 @@ import java.util.Map;
 public class WfsDrops {
 
     @SerializedName("missionRewards")
-    private final Map<String, Map<String, WfsMission>> missionRewards;
+    Map<String, Map<String, WfsMission>> missionRewards;
 
     @SerializedName("relics")
-    private final List<WfsRelic> relics;
+    List<WfsRelic> relics;
 
     @SerializedName("transientRewards")
-    private final List<WfsObjective> transientRewards;
+    List<WfsObjective> transientRewards;
 
     @SerializedName("modLocations")
-    private final List<WfsModLocation> modLocations;
+    List<WfsModLocation> modLocations;
 
     @SerializedName("enemyModTables")
-    private final List<WfsEnemyModTable> enemyModTables;
+    List<WfsEnemyModTable> enemyModTables;
 
     @SerializedName("blueprintLocations")
-    private final List<WfsBlueprintLocation> blueprintLocations;
+    List<WfsBlueprintLocation> blueprintLocations;
 
     @SerializedName("enemyBlueprintTables")
-    private final List<WfsEnemyBlueprintTable> enemyBlueprintTables;
+    List<WfsEnemyBlueprintTable> enemyBlueprintTables;
 
     @SerializedName("sortieRewards")
-    private final List<WfsItem> sortieRewards;
+    List<WfsItem> sortieRewards;
 
     @SerializedName("keyRewards")
-    private final List<WfsKey> keyRewards;
+    List<WfsKey> keyRewards;
 
     @SerializedName("cetusBountyRewards")
-    private final List<WfsBounty> cetusBountyRewards;
+    List<WfsBounty> cetusBountyRewards;
 
     @SerializedName("solarisBountyRewards")
-    private final List<WfsBounty> solarisBountyRewards;
+    List<WfsBounty> solarisBountyRewards;
 
 }

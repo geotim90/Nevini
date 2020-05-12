@@ -12,12 +12,12 @@ import java.util.Map;
 public class WfsBounty {
 
     @SerializedName("_id")
-    private final String id;
+    String id;
 
     @SerializedName("bountyLevel")
-    private final String bountyLevel;
+    String bountyLevel;
 
     @SerializedName("rewards")
-    private final Map<String, List<WfsStageReward>> rewards;
+    Map<String, List<WfsStageReward>> rewards;
 
 }
