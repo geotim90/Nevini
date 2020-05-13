@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.List;
+
 @Builder
 @Value
 public class WfsVoidTrader {
@@ -16,5 +18,11 @@ public class WfsVoidTrader {
 
     @SerializedName("location")
     String location;
+
+    @SerializedName("inventory")
+    List<WfsInventory> inventory;
+
+    @SerializedName("endString")
+    String endString;
 
 }

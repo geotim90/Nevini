@@ -1,5 +1,6 @@
 package de.nevini.modules.warframe.baro;
 
+import de.nevini.api.wfs.model.WfsInventory;
 import de.nevini.api.wfs.model.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -35,8 +36,13 @@ public class BaroCommand extends Command {
         }
 
         if (Boolean.TRUE.equals(worldState.getVoidTrader().getActive())) {
-            // TODO Void Trader active
-
+            StringBuilder builder = new StringBuilder("**Void Trader**: " + worldState.getVoidTrader().getLocation()
+                    + " - " + worldState.getVoidTrader().getEndString() + "\n");
+            for (WfsInventory inventory : worldState.getVoidTrader().getInventory()) {
+                builder.append("\n**").append(inventory.getItem()).append("** (").append(inventory.getDucats())
+                        .append(" ducats, ").append(inventory.getCredits()).append(" credits)");
+            }
+            event.reply(builder.toString(), event::complete);
         } else {
             // Void Trader inactive
             event.reply("**Void Trader**: " + worldState.getVoidTrader().getLocation() + " - "
