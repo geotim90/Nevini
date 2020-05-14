@@ -8,6 +8,7 @@ Command | Description
 [cycle](#command-cycle) | displays the current World Cycles using data from warframestat.us
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
+[riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
 
 ## Command: `baro`
 
@@ -27,7 +28,7 @@ Displays the current World Cycles using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.baro**.
+Permission overrides may be applied on node **warframe.cycle**.
 
 Keyword | Aliases
 --------|--------
@@ -68,3 +69,20 @@ Keyword | Aliases
 --------|--------
 price-check | pc
 --item | //item
+
+## Command: `riven`
+
+Displays trading statistics for rivens using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.riven**.
+
+Option | Description
+-------|------------
+\[--riven\] \<type\> | Refers to a type of riven mod with a matching name.<br>The `--riven` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+riven | rivens
+--riven | //riven

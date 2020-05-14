@@ -20,7 +20,7 @@ public class CycleCommand extends Command {
                 .keyword("cycle")
                 .aliases(new String[]{"cycles", "world-cycle", "world-cycles"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_BARO)
+                .node(Node.WARFRAME_CYCLE)
                 .description("displays the current World Cycles using data from warframestat.us")
                 .build());
     }
