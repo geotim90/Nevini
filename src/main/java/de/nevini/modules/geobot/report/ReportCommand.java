@@ -203,7 +203,7 @@ public class ReportCommand extends Command {
         // role hierarchy
         boolean isInitiate = hasInitiateRole(event, member);
         boolean isMember = hasMemberRole(event, member);
-        builder.append("Activity report for **").append(member.getEffectiveName()).append("**\n\n__**Role**__\n");
+        builder.append("Activity report for ").append(member.getAsMention()).append("\n\n__**Role**__\n");
         if (hasAdminRole(event, member)) {
             builder.append("Admin");
         } else if (hasModRole(event, member)) {
