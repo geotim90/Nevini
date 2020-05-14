@@ -3,7 +3,7 @@ package de.nevini.api.wfs.requests;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfs.model.WfsInfo;
 import de.nevini.api.wfs.model.WfsRiven;
-import de.nevini.api.wfs.model.WfsRivens;
+import de.nevini.api.wfs.model.WfsRivenData;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class WfsRivensTest extends WfsApiProvider {
     @Test
     public void testParser() throws IOException {
         WfsRivensRequest request = WfsRivensRequest.builder().build();
-        Map<String, Map<String, WfsRivens>> result;
+        Map<String, Map<String, WfsRiven>> result;
         try (InputStreamReader reader = new InputStreamReader(
                 getClass().getResourceAsStream("rivens.json")
         )) {
@@ -24,19 +24,19 @@ public class WfsRivensTest extends WfsApiProvider {
         }
 
         // make sure all data was parsed correctly
-        Map<String, WfsRivens> archgunRivenMod = result.get("Archgun Riven Mod");
-        WfsRivens veiledArchgunRivenMod = archgunRivenMod.get("Veiled Archgun Riven Mod");
+        Map<String, WfsRiven> archgunRivenMod = result.get("Archgun Riven Mod");
+        WfsRiven veiledArchgunRivenMod = archgunRivenMod.get("Veiled Archgun Riven Mod");
         Assert.assertNull(veiledArchgunRivenMod.getRerolled());
-        WfsRiven riven = veiledArchgunRivenMod.getUnrolled();
-        Assert.assertEquals("Archgun Riven Mod", riven.getItemType());
-        Assert.assertEquals("Veiled Archgun Riven Mod", riven.getCompatibility());
-        Assert.assertEquals(Boolean.FALSE, riven.getRerolled());
-        Assert.assertEquals(Float.valueOf(24.53f), riven.getAvg());
-        Assert.assertEquals(Float.valueOf(9.69f), riven.getStddev());
-        Assert.assertEquals(Integer.valueOf(5), riven.getMin());
-        Assert.assertEquals(Integer.valueOf(60), riven.getMax());
-        Assert.assertEquals(Integer.valueOf(1), riven.getPop());
-        Assert.assertEquals(Float.valueOf(25), riven.getMedian());
+        WfsRivenData data = veiledArchgunRivenMod.getUnrolled();
+        Assert.assertEquals("Archgun Riven Mod", data.getItemType());
+        Assert.assertEquals("Veiled Archgun Riven Mod", data.getCompatibility());
+        Assert.assertEquals(Boolean.FALSE, data.getRerolled());
+        Assert.assertEquals(Float.valueOf(24.53f), data.getAvg());
+        Assert.assertEquals(Float.valueOf(9.69f), data.getStddev());
+        Assert.assertEquals(Integer.valueOf(5), data.getMin());
+        Assert.assertEquals(Integer.valueOf(60), data.getMax());
+        Assert.assertEquals(Integer.valueOf(1), data.getPop());
+        Assert.assertEquals(Float.valueOf(25), data.getMedian());
     }
 
     @Test

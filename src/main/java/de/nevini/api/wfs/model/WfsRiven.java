@@ -8,38 +8,17 @@ import lombok.Value;
 @Value
 public class WfsRiven {
 
-    @SerializedName("itemType")
-    String itemType;
-
-    @SerializedName("compatibility")
-    String compatibility;
-
     @SerializedName("rerolled")
-    Boolean rerolled;
+    WfsRivenData rerolled;
 
-    @SerializedName("avg")
-    Float avg;
-
-    @SerializedName("stddev")
-    Float stddev;
-
-    @SerializedName("min")
-    Integer min;
-
-    @SerializedName("max")
-    Integer max;
-
-    @SerializedName("pop")
-    Integer pop;
-
-    @SerializedName("median")
-    Float median;
+    @SerializedName("unrolled")
+    WfsRivenData unrolled;
 
     public String getDisplayName() {
-        if (compatibility.startsWith("Veiled")) {
-            return compatibility;
+        if (unrolled.getCompatibility().startsWith("Veiled")) {
+            return unrolled.getCompatibility();
         } else {
-            return compatibility + " " + itemType + " (" + (rerolled ? "Rerolled" : "Unrolled") + ")";
+            return unrolled.getCompatibility() + " " + unrolled.getItemType();
         }
     }
 

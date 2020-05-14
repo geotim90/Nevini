@@ -1,6 +1,7 @@
 package de.nevini.modules.warframe.riven;
 
 import de.nevini.api.wfs.model.WfsRiven;
+import de.nevini.api.wfs.model.WfsRivenData;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -33,27 +34,41 @@ public class RivenCommand extends Command {
     }
 
     private void acceptRiven(CommandEvent event, WfsRiven item) {
-        event.reply("Statistics from warframestat.us for **" + item.getDisplayName() + "**"
-                + "\n```c"
-                + "\nAverage:     " + formatPrice(item.getAvg())
-                + "\nMedian:      " + formatPrice(item.getMedian())
-                + "\nMaximum:     " + formatPrice(item.getMax())
-                + "\nMinimum:     " + formatPrice(item.getMin())
-                + "\nPopularity:  " + formatPopularity(item.getPop())
-                + "\n```", event::complete);
+        WfsRivenData unrolled = item.getUnrolled();
+        WfsRivenData rerolled = item.getRerolled();
+        if (item.getRerolled() == null) {
+            event.reply("Statistics from warframestat.us for **" + item.getDisplayName() + "**"
+                    + "\n```c"
+                    + "\nAverage:     " + formatPrice(unrolled.getAvg())
+                    + "\nMedian:      " + formatPrice(unrolled.getMedian())
+                    + "\nMaximum:     " + formatPrice(unrolled.getMax())
+                    + "\nMinimum:     " + formatPrice(unrolled.getMin())
+                    + "\nPopularity:  " + formatPopularity(unrolled.getPop())
+                    + "\n```", event::complete);
+        } else {
+            event.reply("Statistics from warframestat.us for **" + item.getDisplayName() + "**"
+                    + "\n```c"
+                    + "\n             Unrolled      Rerolled"
+                    + "\nAverage:     " + formatPrice(unrolled.getAvg()) + "   " + formatPrice(rerolled.getAvg())
+                    + "\nMedian:      " + formatPrice(unrolled.getMedian()) + "   " + formatPrice(rerolled.getMedian())
+                    + "\nMaximum:     " + formatPrice(unrolled.getMax()) + "   " + formatPrice(rerolled.getMax())
+                    + "\nMinimum:     " + formatPrice(unrolled.getMin()) + "   " + formatPrice(rerolled.getMin())
+                    + "\nPopularity:  " + formatPopularity(unrolled.getPop()) + "   " + formatPopularity(rerolled.getPop())
+                    + "\n```", event::complete);
+        }
     }
 
     private String formatPrice(Integer value) {
         if (value == null || value == 0) {
-            return "     -    ";
+            return "      -    ";
         } else {
-            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "   p";
+            return StringUtils.leftPad(Formatter.formatInteger(value), 7) + "   p";
         }
     }
 
     private String formatPrice(Float value) {
         if (value == null || value == 0) {
-            return "     -    ";
+            return "      -    ";
         } else {
             String text = Formatter.formatDecimal(value);
             // right pad
@@ -63,15 +78,15 @@ public class RivenCommand extends Command {
                 text += " ";
             }
             // left pad
-            return StringUtils.leftPad(text, 9) + "p";
+            return StringUtils.leftPad(text, 10) + "p";
         }
     }
 
     private String formatPopularity(Integer value) {
         if (value == null || value == 0) {
-            return "     -    ";
+            return "      -    ";
         } else {
-            return StringUtils.leftPad(Formatter.formatInteger(value), 6) + "   %";
+            return StringUtils.leftPad(Formatter.formatInteger(value), 7) + "   %";
         }
     }
 

@@ -2,7 +2,10 @@ package de.nevini.services.warframe;
 
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfs.WarframeStatsApi;
-import de.nevini.api.wfs.model.*;
+import de.nevini.api.wfs.model.WfsDrops;
+import de.nevini.api.wfs.model.WfsInfo;
+import de.nevini.api.wfs.model.WfsRiven;
+import de.nevini.api.wfs.model.WfsWorldState;
 import de.nevini.api.wfs.requests.WfsDropsRequest;
 import de.nevini.api.wfs.requests.WfsInfoRequest;
 import de.nevini.api.wfs.requests.WfsRivensRequest;
@@ -36,19 +39,14 @@ public class WarframeStatsService implements Locatable {
     }
 
     public synchronized Collection<WfsRiven> getRivens() {
-        ApiResponse<Map<String, Map<String, WfsRivens>>> response = api.getRivens(WfsRivensRequest.builder().build());
+        ApiResponse<Map<String, Map<String, WfsRiven>>> response = api.getRivens(WfsRivensRequest.builder().build());
         return rivens = response.map(this::mapRivens).orElse(ApiResponse.ok(rivens)).getResult();
     }
 
-    private Collection<WfsRiven> mapRivens(Map<String, Map<String, WfsRivens>> map) {
+    private Collection<WfsRiven> mapRivens(Map<String, Map<String, WfsRiven>> map) {
         Collection<WfsRiven> collection = new ArrayList<>();
-        for (Map<String, WfsRivens> submap : map.values()) {
-            for (WfsRivens rivens : submap.values()) {
-                if (rivens.getRerolled() != null) {
-                    collection.add(rivens.getRerolled());
-                }
-                collection.add(rivens.getUnrolled());
-            }
+        for (Map<String, WfsRiven> subMap : map.values()) {
+            collection.addAll(subMap.values());
         }
         return collection;
     }

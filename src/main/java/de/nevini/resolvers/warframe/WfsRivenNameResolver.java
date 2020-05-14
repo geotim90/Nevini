@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class WfsRivenTypeResolver extends OptionResolver<WfsRiven> {
+public class WfsRivenNameResolver extends OptionResolver<WfsRiven> {
 
-    WfsRivenTypeResolver() {
-        super("riven type", new Pattern[]{
+    WfsRivenNameResolver() {
+        super("riven name", new Pattern[]{
                 Pattern.compile("(?i)(?:--|//)riven(?:\\s+(.+))?")
         });
     }
@@ -25,7 +25,7 @@ public class WfsRivenTypeResolver extends OptionResolver<WfsRiven> {
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax(argument ? "[--riven] <type>" : "--riven <type>")
-                .description("Refers to " + (list ? "all riven mods" : "a type of riven mod") + " with a matching name."
+                .description("Refers to " + (list ? "all riven mods" : "a riven mod") + " with a matching name."
                         + (argument ? "\nThe `--riven` flag is optional if this option is provided first." : ""))
                 .keyword("--riven")
                 .aliases(new String[]{"//riven"})
@@ -36,9 +36,7 @@ public class WfsRivenTypeResolver extends OptionResolver<WfsRiven> {
     public List<WfsRiven> findSorted(@NonNull CommandEvent event, String query) {
         WarframeStatsService service = event.locate(WarframeStatsService.class);
         return Finder.findAnyLenient(service.getRivens(), item -> new String[]{
-                item.getDisplayName(),
-                item.getItemType(),
-                item.getCompatibility()
+                item.getDisplayName()
         }, query).stream().sorted(Comparator.comparing(WfsRiven::getDisplayName)).collect(Collectors.toList());
     }
 
@@ -49,7 +47,7 @@ public class WfsRivenTypeResolver extends OptionResolver<WfsRiven> {
 
     @Override
     protected @NonNull String getFieldValueForPicker(WfsRiven item) {
-        return item.getItemType();
+        return "";
     }
 
 }

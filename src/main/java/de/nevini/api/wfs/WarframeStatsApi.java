@@ -3,7 +3,7 @@ package de.nevini.api.wfs;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfs.model.WfsDrops;
 import de.nevini.api.wfs.model.WfsInfo;
-import de.nevini.api.wfs.model.WfsRivens;
+import de.nevini.api.wfs.model.WfsRiven;
 import de.nevini.api.wfs.model.WfsWorldState;
 import de.nevini.api.wfs.requests.*;
 import de.nevini.util.concurrent.TokenBucket;
@@ -60,7 +60,7 @@ public class WarframeStatsApi {
         return call(request, rateLimitInfo);
     }
 
-    public ApiResponse<Map<String, Map<String, WfsRivens>>> getRivens(WfsRivensRequest request) {
+    public ApiResponse<Map<String, Map<String, WfsRiven>>> getRivens(WfsRivensRequest request) {
         return call(request, rateLimitRivens);
     }
 

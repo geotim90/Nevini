@@ -80,7 +80,7 @@ Permission overrides may be applied on node **warframe.riven**.
 
 Option | Description
 -------|------------
-\[--riven\] \<type\> | Refers to a type of riven mod with a matching name.<br>The `--riven` flag is optional if this option is provided first.
+\[--riven\] \<type\> | Refers to a riven mod with a matching name.<br>The `--riven` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------

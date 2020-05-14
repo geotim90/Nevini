@@ -2,7 +2,7 @@ package de.nevini.api.wfs.requests;
 
 import com.google.gson.reflect.TypeToken;
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.WfsRivens;
+import de.nevini.api.wfs.model.WfsRiven;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Builder
 @Value
-public class WfsRivensRequest implements WfsApiRequest<Map<String, Map<String, WfsRivens>>> {
+public class WfsRivensRequest implements WfsApiRequest<Map<String, Map<String, WfsRiven>>> {
 
     @Override
     public @NonNull String getEndpoint() {
@@ -23,7 +23,7 @@ public class WfsRivensRequest implements WfsApiRequest<Map<String, Map<String, W
     }
 
     @Override
-    public @NonNull ApiResponse<Map<String, Map<String, WfsRivens>>> parseResponse(@NonNull Response response) {
+    public @NonNull ApiResponse<Map<String, Map<String, WfsRiven>>> parseResponse(@NonNull Response response) {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 return ApiResponse.ok(parseStream(body.charStream()));
@@ -33,8 +33,8 @@ public class WfsRivensRequest implements WfsApiRequest<Map<String, Map<String, W
         return ApiResponse.empty();
     }
 
-    Map<String, Map<String, WfsRivens>> parseStream(Reader reader) {
-        Type type = new TypeToken<Map<String, Map<String, WfsRivens>>>() {
+    Map<String, Map<String, WfsRiven>> parseStream(Reader reader) {
+        Type type = new TypeToken<Map<String, Map<String, WfsRiven>>>() {
         }.getType();
         return WfsJson.getGson().fromJson(reader, type);
     }
