@@ -30,6 +30,13 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // World Cycles
         Assert.assertEquals("30m to Night", result.getCetusCycle().getShortString());
         Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
+
+        // Sortie
+        Assert.assertEquals("Lech Kril", result.getSortie().getBoss());
+        Assert.assertEquals("8h 4m 30s", result.getSortie().getEta());
+        Assert.assertEquals("Ara (Mars)", result.getSortie().getVariants().get(0).getNode());
+        Assert.assertEquals("Rescue", result.getSortie().getVariants().get(0).getMissionType());
+        Assert.assertEquals("Environmental Hazard: Radiation Pockets", result.getSortie().getVariants().get(0).getModifier());
     }
 
     @Test

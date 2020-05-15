@@ -21,13 +21,13 @@ public class CycleCommand extends Command {
                 .aliases(new String[]{"cycles", "world-cycle", "world-cycles"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_CYCLE)
-                .description("displays the current World Cycles using data from warframestat.us")
+                .description("displays the current world cycles using data from warframestat.us")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // retrieve Void Trader data from service
+        // retrieve world cycles data from service
         WarframeStatsService service = event.locate(WarframeStatsService.class);
         WfsWorldState worldState = service.getWorldState();
 
@@ -37,7 +37,6 @@ public class CycleCommand extends Command {
             return;
         }
 
-        // Void Trader inactive
         event.reply("**World Cycles**\nPlains of Eidolon: " + reformat(worldState.getCetusCycle().getShortString())
                 + "\nOrb Vallis: " + reformat(worldState.getVallisCycle().getShortString()), event::complete);
     }

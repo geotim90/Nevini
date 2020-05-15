@@ -17,4 +17,7 @@ public class WfsWorldState {
     @SerializedName("vallisCycle")
     WfsVallisCycle vallisCycle;
 
+    @SerializedName("sortie")
+    WfsSortie sortie;
+
 }
