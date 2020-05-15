@@ -235,6 +235,6 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-osu!stats | osu!user
+osu!stats | osu!user<br>osu!profile
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --mode | //mode
