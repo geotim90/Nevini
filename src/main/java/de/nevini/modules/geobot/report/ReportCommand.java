@@ -78,6 +78,14 @@ public class ReportCommand extends Command {
             playingTimeoutsInDays.keySet().forEach(gameId -> memberDetails.getLastPlayed().put(gameId,
                     event.getActivityService().getActivityPlaying(member, gameId)));
 
+            // additional information for initiates
+            if (memberDetails.isInitiate()) {
+                long contributionDelayInDays = ObjectUtils.defaultIfNull(
+                        event.getTributeService().getDelay(member), 0L);
+                memberDetails.setDeadline(OffsetDateTime.ofInstant(Instant.ofEpochMilli(memberDetails.getJoined()),
+                        ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays));
+            }
+
             // check inactivity thresholds
             if (onlineThreshold != null) {
                 if (memberDetails.getLastOnline() == null || memberDetails.getLastOnline() < onlineThreshold) {
@@ -110,54 +118,48 @@ public class ReportCommand extends Command {
         if (contributionTimeoutInDays != null) {
             List<MemberReportDetails> contributors = reportDetails.stream()
                     .filter(member -> member.isInitiate() && member.getJoined() != null && member.isContribution())
-                    .sorted(Comparator.comparing(MemberReportDetails::getJoined))
+                    .sorted(Comparator.comparing(MemberReportDetails::getDeadline))
                     .collect(Collectors.toList());
             if (!contributors.isEmpty()) {
-                builder.append("\n__**Initiates that have made a contribution**__\n");
+                builder.append("\n__**Initiates that have made a contribution**__ - ")
+                        .append(contributors.size()).append("\n");
                 for (MemberReportDetails e : contributors) {
-                    long contributionDelayInDays = ObjectUtils.defaultIfNull(
-                            event.getTributeService().getDelay(e.getMember()), 0L);
-                    OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(e.getJoined()),
-                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays);
-                    if (deadline.isAfter(now)) {
+                    if (e.getDeadline().isAfter(now)) {
                         builder.append(CommandReaction.DEFAULT_OK.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** has contributed and is due to be promoted in **")
-                                .append(Formatter.formatLargestUnitBetween(now, deadline))
-                                .append("** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
+                                .append(Formatter.formatLargestUnitBetween(now, e.getDeadline()))
+                                .append("** (").append(Formatter.formatTimestamp(e.getDeadline())).append(")\n");
                     } else {
                         builder.append(CommandReaction.OK.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** has contributed and was due to be promoted **")
-                                .append(Formatter.formatLargestUnitBetween(deadline, now))
-                                .append(" ago** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
+                                .append(Formatter.formatLargestUnitBetween(e.getDeadline(), now))
+                                .append(" ago** (").append(Formatter.formatTimestamp(e.getDeadline())).append(")\n");
                     }
                 }
             }
 
             List<MemberReportDetails> nonContributors = reportDetails.stream()
                     .filter(member -> member.isInitiate() && member.getJoined() != null && !member.isContribution())
-                    .sorted(Comparator.comparing(MemberReportDetails::getJoined))
+                    .sorted(Comparator.comparing(MemberReportDetails::getDeadline))
                     .collect(Collectors.toList());
             if (!nonContributors.isEmpty()) {
-                builder.append("\n__**Initiates that have not made a contribution**__\n");
+                builder.append("\n__**Initiates that have not made a contribution**__ - ")
+                        .append(nonContributors.size()).append("\n");
                 for (MemberReportDetails e : nonContributors) {
-                    long contributionDelayInDays = ObjectUtils.defaultIfNull(
-                            event.getTributeService().getDelay(e.getMember()), 0L);
-                    OffsetDateTime deadline = OffsetDateTime.ofInstant(Instant.ofEpochMilli(e.getJoined()),
-                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays);
-                    if (deadline.isAfter(now)) {
+                    if (e.getDeadline().isAfter(now)) {
                         builder.append(CommandReaction.WARNING.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** needs to contribute in **")
-                                .append(Formatter.formatLargestUnitBetween(now, deadline))
-                                .append("** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
+                                .append(Formatter.formatLargestUnitBetween(now, e.getDeadline()))
+                                .append("** (").append(Formatter.formatTimestamp(e.getDeadline())).append(")\n");
                     } else {
                         builder.append(CommandReaction.ERROR.getUnicode()).append(" **")
                                 .append(e.getMember().getEffectiveName())
                                 .append("** should have contributed **")
-                                .append(Formatter.formatLargestUnitBetween(deadline, now))
-                                .append(" ago** (").append(Formatter.formatTimestamp(deadline)).append(")\n");
+                                .append(Formatter.formatLargestUnitBetween(e.getDeadline(), now))
+                                .append(" ago** (").append(Formatter.formatTimestamp(e.getDeadline())).append(")\n");
                     }
                 }
             }
@@ -168,7 +170,8 @@ public class ReportCommand extends Command {
                 .sorted(Comparator.comparing(e -> e.getMember().getTimeJoined()))
                 .collect(Collectors.toList());
         if (!completelyInactive.isEmpty()) {
-            builder.append("\n__**Members that are completely inactive**__\n");
+            builder.append("\n__**Members that are completely inactive**__ - ")
+                    .append(completelyInactive.size()).append("\n");
             for (MemberReportDetails e : completelyInactive) {
                 builder.append(CommandReaction.ERROR.getUnicode()).append(" **")
                         .append(e.getMember().getEffectiveName())
@@ -194,6 +197,7 @@ public class ReportCommand extends Command {
         final Map<Long, Long> lastPlayed = new HashMap<>();
         boolean anyActivity;
         boolean anyInactivity;
+        OffsetDateTime deadline;
     }
 
     public void doMemberReport(CommandEvent event, Member member) {
