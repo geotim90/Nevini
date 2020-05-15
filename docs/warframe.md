@@ -4,12 +4,21 @@ These commands are related to [Warframe](https://www.warframe.com/).
 
 Command | Description
 --------|------------
+[arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
-[sortie](#command-sortie) | display the currently active sorties using data from warframestat.us
+[sortie](#command-sortie) | displays the currently active sorties using data from warframestat.us
+
+## Command: `arbitration`
+
+Displays the currently active arbitration using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.sortie**.
 
 ## Command: `baro`
 
@@ -90,7 +99,7 @@ riven | rivens
 
 ## Command: `sortie`
 
-Display the currently active sorties using data from warframestat.us.
+Displays the currently active sorties using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 

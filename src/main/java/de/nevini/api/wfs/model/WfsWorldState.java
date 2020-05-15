@@ -20,4 +20,7 @@ public class WfsWorldState {
     @SerializedName("sortie")
     WfsSortie sortie;
 
+    @SerializedName("arbitration")
+    WfsArbitration arbitration;
+
 }

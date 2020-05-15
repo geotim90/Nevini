@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.format.DateTimeFormatter;
 
 public class WfsWorldStateTest extends WfsApiProvider {
 
@@ -37,6 +38,12 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Ara (Mars)", result.getSortie().getVariants().get(0).getNode());
         Assert.assertEquals("Rescue", result.getSortie().getVariants().get(0).getMissionType());
         Assert.assertEquals("Environmental Hazard: Radiation Pockets", result.getSortie().getVariants().get(0).getModifier());
+
+        // Arbitration
+        Assert.assertEquals("Tycho (Lua)", result.getArbitration().getNode());
+        Assert.assertEquals("Survival", result.getArbitration().getType());
+        Assert.assertEquals("Corpus", result.getArbitration().getEnemy());
+        Assert.assertEquals("2020-05-12T08:04:00Z", result.getArbitration().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     }
 
     @Test
