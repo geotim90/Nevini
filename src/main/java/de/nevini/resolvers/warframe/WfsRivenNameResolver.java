@@ -24,8 +24,8 @@ public class WfsRivenNameResolver extends OptionResolver<WfsRiven> {
     @Override
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
-                .syntax(argument ? "[--riven] <type>" : "--riven <type>")
-                .description("Refers to " + (list ? "all riven mods" : "a riven mod") + " with a matching name."
+                .syntax(argument ? "[--riven] <weapon>" : "--riven <weapon>")
+                .description("Refers to " + (list ? "all riven mods" : "a riven mod") + " for a matching weapon."
                         + (argument ? "\nThe `--riven` flag is optional if this option is provided first." : ""))
                 .keyword("--riven")
                 .aliases(new String[]{"//riven"})

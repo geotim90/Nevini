@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Builder
@@ -13,8 +14,8 @@ public class WfsSortie {
     @SerializedName("boss")
     String boss;
 
-    @SerializedName("eta")
-    String eta;
+    @SerializedName("expiry")
+    OffsetDateTime expiry;
 
     @SerializedName("variants")
     List<WfsSortieVariant> variants;

@@ -7,6 +7,7 @@ Command | Description
 [arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
+[fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
@@ -18,7 +19,7 @@ Displays the currently active arbitration using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.sortie**.
+Permission overrides may be applied on node **warframe.arbitration**.
 
 ## Command: `baro`
 
@@ -43,6 +44,14 @@ Permission overrides may be applied on node **warframe.cycle**.
 Keyword | Aliases
 --------|--------
 cycle | cycles<br>world-cycle<br>world-cycles
+
+## Command: `fissures`
+
+Displays the currently active fissures using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.fissures**.
 
 ## Command: `order-book`
 
@@ -90,7 +99,7 @@ Permission overrides may be applied on node **warframe.riven**.
 
 Option | Description
 -------|------------
-\[--riven\] \<type\> | Refers to a riven mod with a matching name.<br>The `--riven` flag is optional if this option is provided first.
+\[--riven\] \<weapon\> | Refers to a riven mod for a matching weapon.<br>The `--riven` flag is optional if this option is provided first.
 
 Keyword | Aliases
 --------|--------

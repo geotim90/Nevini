@@ -1,6 +1,7 @@
 package de.nevini.modules.warframe.sortie;
 
 import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -33,7 +34,8 @@ public class SortieCommand extends Command {
             return;
         }
 
-        event.reply("**" + worldState.getSortie().getBoss() + "** - " + worldState.getSortie().getEta()
+        event.reply("**" + worldState.getSortie().getBoss() + "** - "
+                        + WfsFormatter.formatEta(worldState.getSortie().getExpiry())
                         + "\n\n**" + worldState.getSortie().getVariants().get(0).getNode()
                         + "** Level 50-60\nMission: **" + worldState.getSortie().getVariants().get(0).getMissionType()
                         + "**\nConditions: **" + worldState.getSortie().getVariants().get(0).getModifier()

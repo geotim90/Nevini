@@ -2,6 +2,7 @@ package de.nevini.modules.warframe.baro;
 
 import de.nevini.api.wfs.model.WfsInventory;
 import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -37,8 +38,9 @@ public class BaroCommand extends Command {
         }
 
         if (Boolean.TRUE.equals(worldState.getVoidTrader().getActive())) {
+            // Void Trader active
             StringBuilder builder = new StringBuilder("**Void Trader**: " + worldState.getVoidTrader().getLocation()
-                    + " - " + worldState.getVoidTrader().getEndString() + "\n");
+                    + " - " + WfsFormatter.formatEta(worldState.getVoidTrader().getExpiry()) + "\n");
             for (WfsInventory inventory : worldState.getVoidTrader().getInventory()) {
                 builder.append("\n**").append(inventory.getItem()).append("** (")
                         .append(inventory.getDucats()).append(" ducats, ")
@@ -48,7 +50,7 @@ public class BaroCommand extends Command {
         } else {
             // Void Trader inactive
             event.reply("**Void Trader**: " + worldState.getVoidTrader().getLocation() + " - "
-                    + worldState.getVoidTrader().getStartString(), event::complete);
+                    + WfsFormatter.formatEta(worldState.getVoidTrader().getActivation()), event::complete);
         }
     }
 
