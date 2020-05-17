@@ -8,6 +8,7 @@ Command | Description
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
+[invasions](#command-invasions) | displays the currently active invasions using data from warframestat.us
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
@@ -52,6 +53,14 @@ Displays the currently active fissures using data from warframestat.us.
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **warframe.fissures**.
+
+## Command: `invasions`
+
+Displays the currently active invasions using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.invasions**.
 
 ## Command: `order-book`
 

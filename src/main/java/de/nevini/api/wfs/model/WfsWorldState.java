@@ -28,4 +28,7 @@ public class WfsWorldState {
     @SerializedName("fissures")
     List<WfsFissure> fissures;
 
+    @SerializedName("invasions")
+    List<WfsInvasion> invasions;
+
 }
