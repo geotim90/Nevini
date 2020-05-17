@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class OsuApi {
 
-    private final static boolean disabled = true;
-
     private final TokenBucket rateLimit = new TokenBucket(60, 60, 1200, TimeUnit.MINUTES);
     private final TokenBucket replayRateLimit = new TokenBucket(10, 10, 10, TimeUnit.MINUTES);
 
