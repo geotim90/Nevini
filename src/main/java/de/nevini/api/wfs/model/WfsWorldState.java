@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.List;
+
 @Builder
 @Value
 public class WfsWorldState {
@@ -16,5 +18,17 @@ public class WfsWorldState {
 
     @SerializedName("vallisCycle")
     WfsVallisCycle vallisCycle;
+
+    @SerializedName("sortie")
+    WfsSortie sortie;
+
+    @SerializedName("arbitration")
+    WfsArbitration arbitration;
+
+    @SerializedName("fissures")
+    List<WfsFissure> fissures;
+
+    @SerializedName("invasions")
+    List<WfsInvasion> invasions;
 
 }

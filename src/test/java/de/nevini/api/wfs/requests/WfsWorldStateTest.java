@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.format.DateTimeFormatter;
 
 public class WfsWorldStateTest extends WfsApiProvider {
 
@@ -23,13 +24,44 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // make sure all data was parsed correctly
 
         // Void Trader
-        Assert.assertEquals("10d 5h 4m 30s", result.getVoidTrader().getStartString());
+        Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         Assert.assertEquals(Boolean.FALSE, result.getVoidTrader().getActive());
         Assert.assertEquals("Orcus Relay (Pluto)", result.getVoidTrader().getLocation());
+        // TODO inventory
+        Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // World Cycles
         Assert.assertEquals("30m to Night", result.getCetusCycle().getShortString());
         Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
+
+        // Sortie
+        Assert.assertEquals("Lech Kril", result.getSortie().getBoss());
+        Assert.assertEquals("2020-05-12T16:00:00Z", result.getSortie().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("Ara (Mars)", result.getSortie().getVariants().get(0).getNode());
+        Assert.assertEquals("Rescue", result.getSortie().getVariants().get(0).getMissionType());
+        Assert.assertEquals("Environmental Hazard: Radiation Pockets", result.getSortie().getVariants().get(0).getModifier());
+
+        // Arbitration
+        Assert.assertEquals("Tycho (Lua)", result.getArbitration().getNode());
+        Assert.assertEquals("Survival", result.getArbitration().getType());
+        Assert.assertEquals("Corpus", result.getArbitration().getEnemy());
+        Assert.assertEquals("2020-05-12T08:04:00Z", result.getArbitration().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+        // Fissures
+        Assert.assertEquals("Cassini (Saturn)", result.getFissures().get(0).getNode());
+        Assert.assertEquals("Capture", result.getFissures().get(0).getMissionType());
+        Assert.assertEquals("Grineer", result.getFissures().get(0).getEnemy());
+        Assert.assertEquals("Meso", result.getFissures().get(0).getTier());
+        Assert.assertEquals(Integer.valueOf(2), result.getFissures().get(0).getTierNum());
+        Assert.assertEquals("2020-05-12T08:40:04.263Z", result.getFissures().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+        // Invasions
+        Assert.assertEquals("Ludi (Ceres)", result.getInvasions().get(0).getNode());
+        Assert.assertEquals("Corpus Siege", result.getInvasions().get(0).getDesc());
+        Assert.assertEquals("Corpus", result.getInvasions().get(0).getAttackingFaction());
+        Assert.assertEquals("Snipetron Vandal Blueprint", result.getInvasions().get(0).getAttackerReward().getItemString());
+        Assert.assertEquals("Grineer", result.getInvasions().get(0).getDefendingFaction());
+        Assert.assertEquals("Sheev Heatsink", result.getInvasions().get(0).getDefenderReward().getItemString());
     }
 
     @Test

@@ -4,14 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Builder
 @Value
 public class WfsVoidTrader {
 
-    @SerializedName("startString")
-    String startString;
+    @SerializedName("activation")
+    OffsetDateTime activation;
 
     @SerializedName("active")
     Boolean active;
@@ -22,7 +23,7 @@ public class WfsVoidTrader {
     @SerializedName("inventory")
     List<WfsInventory> inventory;
 
-    @SerializedName("endString")
-    String endString;
+    @SerializedName("expiry")
+    OffsetDateTime expiry;
 
 }
