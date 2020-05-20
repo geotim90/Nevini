@@ -17,10 +17,8 @@ public class WfsWorldState {
     @SerializedName("news")
     List<WfsNews> news;
 
-    /*
     @SerializedName("events")
     List<WfsEvent> events;
-    */
 
     /*
     @SerializedName("alerts")

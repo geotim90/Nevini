@@ -32,6 +32,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("[90d 12h 42m 29s ago] [Oberon Prime & Nekros Prime Are Back!](http://www.warframe.com/prime-vault?utm_source=in-game&utm_medium=ign)", result.getNews().get(0).getAsString());
 
         // Events
+        Assert.assertEquals("Thermia Fractures : undefined\nHeat Fissures Event Score : 100\nRewards:\nOpticor Vandal\n\nBattle on Orb Vallis (Venus)\n44% Remaining", result.getEvents().get(0).getAsString());
 
         // Alerts
 

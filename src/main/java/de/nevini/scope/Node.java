@@ -81,6 +81,7 @@ public enum Node {
     WARFRAME_ARBITRATION("warframe.arbitration", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_BARO("warframe.baro", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_CYCLE("warframe.cycle", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_EVENTS("warframe.events", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_FISSURES("warframe.fissures", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_INVASIONS("warframe.invasions", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_NEWS("warframe.news", Module.WARFRAME, Permissions.EVERYONE),

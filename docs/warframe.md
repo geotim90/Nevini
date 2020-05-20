@@ -7,6 +7,7 @@ Command | Description
 [arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
+[events](#command-events) | displays ongoing events using data from warframestat.us
 [fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
 [invasions](#command-invasions) | displays the currently active invasions using data from warframestat.us
 [news](#command-news) | displays the currently active news using data from warframestat.us
@@ -46,6 +47,18 @@ Permission overrides may be applied on node **warframe.cycle**.
 Keyword | Aliases
 --------|--------
 cycle | cycles<br>world-cycle<br>world-cycles
+
+## Command: `events`
+
+Displays ongoing events using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.events**.
+
+Keyword | Aliases
+--------|--------
+events | event
 
 ## Command: `fissures`
 
