@@ -1,5 +1,6 @@
-package de.nevini.modules.warframe.syndicate;
+package de.nevini.modules.warframe.bounties;
 
+import de.nevini.api.wfs.model.WfsJob;
 import de.nevini.api.wfs.model.WfsSyndicateMissions;
 import de.nevini.api.wfs.model.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
@@ -11,28 +12,29 @@ import de.nevini.scope.Node;
 import de.nevini.services.warframe.WarframeStatsService;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class SyndicateCommand extends Command {
+public class BountiesCommand extends Command {
 
-    public SyndicateCommand() {
+    public BountiesCommand() {
         super(CommandDescriptor.builder()
-                .keyword("syndicate")
+                .keyword("bounties")
                 .guildOnly(false)
-                .node(Node.WARFRAME_SYNDICATE)
-                .description("displays syndicate nodes for a syndicate using data from warframestat.us")
+                .node(Node.WARFRAME_BOUNTIES)
+                .description("displays active bounties using data from warframestat.us")
                 .options(new CommandOptionDescriptor[]{
-                        WarframeResolvers.SYNDICATE_FACTION.describe(false, true)
+                        WarframeResolvers.BOUNTIES_FACTION.describe(false, true)
                 })
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        WarframeResolvers.SYNDICATE_FACTION.resolveArgumentOrOptionOrInput(event,
+        WarframeResolvers.BOUNTIES_FACTION.resolveArgumentOrOptionOrInput(event,
                 faction -> acceptFaction(event, faction));
     }
 
@@ -48,13 +50,16 @@ public class SyndicateCommand extends Command {
         }
 
         Optional<WfsSyndicateMissions> result = worldState.getSyndicateMissions().stream()
-                .filter(e -> e.getSyndicate().equals(faction)).findAny();
+                .filter(e -> faction.startsWith(e.getSyndicate())).findAny();
         if (result.isPresent()) {
             WfsSyndicateMissions missions = result.get();
             StringBuilder builder = new StringBuilder("**" + missions.getSyndicate() + "** - "
-                    + WfsFormatter.formatEta(missions.getExpiry()) + "\n");
-            for (String node : missions.getNodes()) {
-                builder.append('\n').append(node);
+                    + WfsFormatter.formatEta(missions.getExpiry()));
+            for (WfsJob job : missions.getJobs()) {
+                builder.append("\n\n**").append(job.getType()).append("** - Level ").append(job.getEnemyLevels().get(0))
+                        .append('-').append(job.getEnemyLevels().get(1)).append('\n')
+                        .append(StringUtils.join(job.getStandingStages(), " + ")).append(" standing\n")
+                        .append(StringUtils.join(job.getRewardPool(), " / "));
             }
             event.reply(builder.toString(), event::complete);
         }

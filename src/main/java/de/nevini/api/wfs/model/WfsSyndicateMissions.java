@@ -20,4 +20,7 @@ public class WfsSyndicateMissions {
     @SerializedName("nodes")
     List<String> nodes;
 
+    @SerializedName("jobs")
+    List<WfsJob> jobs;
+
 }

@@ -48,6 +48,10 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-12T15:59:00Z", result.getSyndicateMissions().get(3).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         Assert.assertEquals("Arbiters of Hexis", result.getSyndicateMissions().get(3).getSyndicate());
         Assert.assertEquals("Gaia (Earth)", result.getSyndicateMissions().get(3).getNodes().get(0));
+        Assert.assertEquals("Redirection", result.getSyndicateMissions().get(0).getJobs().get(0).getRewardPool().get(0));
+        Assert.assertEquals("Capture Their Leader", result.getSyndicateMissions().get(0).getJobs().get(0).getType());
+        Assert.assertEquals(Integer.valueOf(5), result.getSyndicateMissions().get(0).getJobs().get(0).getEnemyLevels().get(0));
+        Assert.assertEquals(Integer.valueOf(470), result.getSyndicateMissions().get(0).getJobs().get(0).getStandingStages().get(0));
 
         // Fissures
         Assert.assertEquals("Cassini (Saturn)", result.getFissures().get(0).getNode());

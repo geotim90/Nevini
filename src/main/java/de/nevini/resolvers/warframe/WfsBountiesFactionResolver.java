@@ -12,19 +12,15 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class WfsFactionSyndicateResolver extends OptionResolver<String> {
+public class WfsBountiesFactionResolver extends OptionResolver<String> {
 
-    private static final List<String> FACTION_SYNDICATES = Arrays.asList(
-            "Arbiters of Hexis",
-            "Cephalon Suda",
-            "New Loka",
-            "Perrin Sequence",
-            "Red Veil",
-            "Steel Meridian"
+    private static final List<String> FACTIONS = Arrays.asList(
+            "Ostrons (Cetus / Plains of Eidolon, Earth)",
+            "Solaris United (Solaris / Orb Vallis, Venus)"
     );
 
-    WfsFactionSyndicateResolver() {
-        super("faction syndicate", new Pattern[]{
+    WfsBountiesFactionResolver() {
+        super("faction", new Pattern[]{
                 Pattern.compile("(?i)(?:--|//)faction(?:\\s+(.+))?")
         });
     }
@@ -33,7 +29,7 @@ public class WfsFactionSyndicateResolver extends OptionResolver<String> {
     public CommandOptionDescriptor describe(boolean list, boolean argument) {
         return CommandOptionDescriptor.builder()
                 .syntax(argument ? "[--faction] <name>" : "--faction <name>")
-                .description("Refers to " + (list ? "all faction syndicates" : "a faction syndicate") + " with a matching name."
+                .description("Refers to " + (list ? "all factions" : "a faction") + " with a matching name."
                         + (argument ? "\nThe `--faction` flag is optional if this option is provided first." : ""))
                 .keyword("--faction")
                 .aliases(new String[]{"//faction"})
@@ -42,7 +38,7 @@ public class WfsFactionSyndicateResolver extends OptionResolver<String> {
 
     @Override
     public List<String> findSorted(@NonNull CommandEvent event, String query) {
-        return Finder.findAnyLenient(FACTION_SYNDICATES, item -> new String[]{item}, query)
+        return Finder.findAnyLenient(FACTIONS, item -> new String[]{item}, query)
                 .stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
     }
 

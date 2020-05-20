@@ -6,6 +6,7 @@ Command | Description
 --------|------------
 [arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
+[bounties](#command-bounties) | displays active bounties using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [events](#command-events) | displays ongoing events using data from warframestat.us
 [fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
@@ -36,6 +37,22 @@ Permission overrides may be applied on node **warframe.baro**.
 Keyword | Aliases
 --------|--------
 baro | void-trader
+
+## Command: `bounties`
+
+Displays active bounties using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.bounties**.
+
+Option | Description
+-------|------------
+\[--faction\] \<name\> | Refers to a faction with a matching name.<br>The `--faction` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--faction | //faction
 
 ## Command: `cycle`
 
@@ -153,3 +170,11 @@ Displays syndicate nodes for a syndicate using data from warframestat.us.
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **warframe.syndicate**.
+
+Option | Description
+-------|------------
+\[--faction\] \<name\> | Refers to a faction with a matching name.<br>The `--faction` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+--faction | //faction
