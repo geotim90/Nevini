@@ -88,7 +88,8 @@ public enum Node {
     WARFRAME_ORDER_BOOK("warframe.order-book", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_PRICE_CHECK("warframe.price-check", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_RIVEN("warframe.riven", Module.WARFRAME, Permissions.EVERYONE),
-    WARFRAME_SORTIE("warframe.sortie", Module.WARFRAME, Permissions.EVERYONE);
+    WARFRAME_SORTIE("warframe.sortie", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_SYNDICATE("warframe.syndicate", Module.WARFRAME, Permissions.EVERYONE);
 
     private final String node;
     private final Module module;

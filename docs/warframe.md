@@ -15,6 +15,7 @@ Command | Description
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
 [sortie](#command-sortie) | displays the currently active sorties using data from warframestat.us
+[syndicate](#command-syndicate) | displays syndicate nodes for a syndicate using data from warframestat.us
 
 ## Command: `arbitration`
 
@@ -144,3 +145,11 @@ Displays the currently active sorties using data from warframestat.us.
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **warframe.sortie**.
+
+## Command: `syndicate`
+
+Displays syndicate nodes for a syndicate using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.syndicate**.

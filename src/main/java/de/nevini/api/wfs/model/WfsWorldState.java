@@ -28,10 +28,8 @@ public class WfsWorldState {
     @SerializedName("sortie")
     WfsSortie sortie;
 
-    /*
     @SerializedName("syndicateMissions")
-    List<WfsSyndicateMission> syndicateMissions;
-    */
+    List<WfsSyndicateMissions> syndicateMissions;
 
     @SerializedName("fissures")
     List<WfsFissure> fissures;

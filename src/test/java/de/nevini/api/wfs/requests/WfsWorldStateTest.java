@@ -35,6 +35,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Thermia Fractures : undefined\nHeat Fissures Event Score : 100\nRewards:\nOpticor Vandal\n\nBattle on Orb Vallis (Venus)\n44% Remaining", result.getEvents().get(0).getAsString());
 
         // Alerts
+        // N/A
 
         // Sortie
         Assert.assertEquals("Lech Kril", result.getSortie().getBoss());
@@ -44,6 +45,9 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Environmental Hazard: Radiation Pockets", result.getSortie().getVariants().get(0).getModifier());
 
         // Syndicate Missions
+        Assert.assertEquals("2020-05-12T15:59:00Z", result.getSyndicateMissions().get(3).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("Arbiters of Hexis", result.getSyndicateMissions().get(3).getSyndicate());
+        Assert.assertEquals("Gaia (Earth)", result.getSyndicateMissions().get(3).getNodes().get(0));
 
         // Fissures
         Assert.assertEquals("Cassini (Saturn)", result.getFissures().get(0).getNode());
