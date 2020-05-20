@@ -1,7 +1,6 @@
 package de.nevini.api.wfs.requests;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.WfsInfo;
 import de.nevini.api.wfs.model.WfsRiven;
 import de.nevini.api.wfs.model.WfsRivenData;
 import org.junit.Assert;
@@ -41,7 +40,7 @@ public class WfsRivensTest extends WfsApiProvider {
 
     @Test
     public void testBlankRequest() {
-        ApiResponse<WfsInfo> response = getWfsApi().getInfo(WfsInfoRequest.builder().build());
+        ApiResponse<Map<String, Map<String, WfsRiven>>> response = getWfsApi().getRivens(WfsRivensRequest.builder().build());
         Assert.assertTrue(response.toString(), response.isOk());
     }
 
