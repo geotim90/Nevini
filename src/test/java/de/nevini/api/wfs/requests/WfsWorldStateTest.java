@@ -83,6 +83,15 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Daily Deals
+        Assert.assertEquals("Greater Madurai Lens", result.getDailyDeals().get(0).getItem());
+        Assert.assertEquals("2020-05-13T07:00:00Z", result.getDailyDeals().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-12T05:00:00Z", result.getDailyDeals().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals(Integer.valueOf(40), result.getDailyDeals().get(0).getOriginalPrice());
+        Assert.assertEquals(Integer.valueOf(32), result.getDailyDeals().get(0).getSalePrice());
+        Assert.assertEquals(Integer.valueOf(125), result.getDailyDeals().get(0).getTotal());
+        Assert.assertEquals(Integer.valueOf(48), result.getDailyDeals().get(0).getSold());
+        Assert.assertEquals("23h 4m 30s", result.getDailyDeals().get(0).getEta());
+        Assert.assertEquals(Integer.valueOf(20), result.getDailyDeals().get(0).getDiscount());
 
         // Simaris
 

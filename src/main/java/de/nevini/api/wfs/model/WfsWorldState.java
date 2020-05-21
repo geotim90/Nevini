@@ -55,10 +55,8 @@ public class WfsWorldState {
     @SerializedName("voidTrader")
     WfsVoidTrader voidTrader;
 
-    /*
     @SerializedName("dailyDeals")
     List<WfsDailyDeal> dailyDeals;
-    */
 
     /*
     @SerializedName("simaris")

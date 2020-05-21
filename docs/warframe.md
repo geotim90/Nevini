@@ -8,6 +8,7 @@ Command | Description
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [bounties](#command-bounties) | displays active bounties using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
+[darvo](#command-darvo) | displays the currently active Darvo Deal using data from warframestat.us
 [events](#command-events) | displays ongoing events using data from warframestat.us
 [fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
 [invasions](#command-invasions) | displays the currently active invasions using data from warframestat.us
@@ -65,6 +66,18 @@ Permission overrides may be applied on node **warframe.cycle**.
 Keyword | Aliases
 --------|--------
 cycle | cycles<br>world-cycle<br>world-cycles
+
+## Command: `darvo`
+
+Displays the currently active Darvo Deal using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe.darvo**.
+
+Keyword | Aliases
+--------|--------
+darvo | darvo-deal<br>daily-deal
 
 ## Command: `events`
 
