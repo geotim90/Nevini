@@ -80,13 +80,18 @@ public enum Node {
     UTIL_UNICODE_URL("util.unicode.url", Module.UTIL, Permissions.EVERYONE),
     WARFRAME_ARBITRATION("warframe.arbitration", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_BARO("warframe.baro", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_BOUNTIES("warframe.bounties", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_CYCLE("warframe.cycle", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_DARVO("warframe.darvo", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_EVENTS("warframe.events", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_FISSURES("warframe.fissures", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_INVASIONS("warframe.invasions", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_NEWS("warframe.news", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_ORDER_BOOK("warframe.order-book", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_PRICE_CHECK("warframe.price-check", Module.WARFRAME, Permissions.EVERYONE),
     WARFRAME_RIVEN("warframe.riven", Module.WARFRAME, Permissions.EVERYONE),
-    WARFRAME_SORTIE("warframe.sortie", Module.WARFRAME, Permissions.EVERYONE);
+    WARFRAME_SORTIE("warframe.sortie", Module.WARFRAME, Permissions.EVERYONE),
+    WARFRAME_SYNDICATE("warframe.syndicate", Module.WARFRAME, Permissions.EVERYONE);
 
     private final String node;
     private final Module module;
