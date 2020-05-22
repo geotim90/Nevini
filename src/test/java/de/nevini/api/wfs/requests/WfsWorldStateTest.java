@@ -153,6 +153,15 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals(Integer.valueOf(50), result.getVoidTrader().getInventory().get(0).getDucats());
         Assert.assertEquals(Integer.valueOf(50000), result.getVoidTrader().getInventory().get(0).getCredits());
         Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+        // Nightwave
+        Assert.assertEquals("2020-05-20T00:00:00Z", result.getNightwave().getActiveChallenges().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-23T00:00:00Z", result.getNightwave().getActiveChallenges().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals(Boolean.TRUE, result.getNightwave().getActiveChallenges().get(0).getIsDaily());
+        Assert.assertEquals(Boolean.FALSE, result.getNightwave().getActiveChallenges().get(0).getIsElite());
+        Assert.assertEquals("Kill 150 Enemies with Viral Damage", result.getNightwave().getActiveChallenges().get(0).getDesc());
+        Assert.assertEquals("Sharing is Caring", result.getNightwave().getActiveChallenges().get(0).getTitle());
+        Assert.assertEquals(Integer.valueOf(1000), result.getNightwave().getActiveChallenges().get(0).getReputation());
     }
 
     @Test

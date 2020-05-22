@@ -16,6 +16,7 @@ Command | Description
 [fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
 [invasions](#command-invasions) | displays the currently active invasions using data from warframestat.us
 [news](#command-news) | displays the currently active news using data from warframestat.us
+[nightwave](#command-nightwave) | displays the currently active Nightwave challenges using data from warframestat.us
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
@@ -146,6 +147,14 @@ Permission overrides may be applied on node **warframestat.us**.
 ## Command: `news`
 
 Displays the currently active news using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframestat.us**.
+
+## Command: `nightwave`
+
+Displays the currently active Nightwave challenges using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 

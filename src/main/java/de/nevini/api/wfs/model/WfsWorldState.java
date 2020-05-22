@@ -53,6 +53,9 @@ public class WfsWorldState {
     @SerializedName("vallisCycle")
     WfsVallisCycle vallisCycle;
 
+    @SerializedName("nightwave")
+    WfsNightwave nightwave;
+
     @SerializedName("arbitration")
     WfsArbitration arbitration;
 
