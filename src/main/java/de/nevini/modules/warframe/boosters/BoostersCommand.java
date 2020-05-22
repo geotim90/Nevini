@@ -1,7 +1,7 @@
-package de.nevini.modules.warframe.arbitration;
+package de.nevini.modules.warframe.boosters;
 
+import de.nevini.api.wfs.model.WfsGlobalUpgrade;
 import de.nevini.api.wfs.model.WfsWorldState;
-import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -11,20 +11,21 @@ import de.nevini.util.command.CommandReaction;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ArbitrationCommand extends Command {
+public class BoostersCommand extends Command {
 
-    public ArbitrationCommand() {
+    public BoostersCommand() {
         super(CommandDescriptor.builder()
-                .keyword("arbitration")
+                .keyword("boosters")
+                .aliases(new String[]{"upgrades", "global-upgrades"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_STAT_US)
-                .description("displays the currently active arbitration using data from warframestat.us")
+                .description("displays the currently active boosters using data from warframestat.us")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // retrieve arbitration data from service
+        // retrieve global upgrade data from service
         WarframeStatsService service = event.locate(WarframeStatsService.class);
         WfsWorldState worldState = service.getWorldState();
 
@@ -34,9 +35,15 @@ public class ArbitrationCommand extends Command {
             return;
         }
 
-        event.reply("**" + worldState.getArbitration().getNode() + "** Level 60-80\n**"
-                + worldState.getArbitration().getType() + "** - **" + worldState.getArbitration().getEnemy()
-                + "** (Arbitration)\n" + WfsFormatter.formatEta(worldState.getArbitration().getExpiry()), event::complete);
+        StringBuilder builder = new StringBuilder();
+        for (WfsGlobalUpgrade booster : worldState.getGlobalUpgrades()) {
+            builder.append(booster.getDesc()).append('\n');
+        }
+        if (builder.length() == 0) {
+            event.reply("No currently active boosters", event::complete);
+        } else {
+            event.reply(builder.toString(), event::complete);
+        }
     }
 
 }

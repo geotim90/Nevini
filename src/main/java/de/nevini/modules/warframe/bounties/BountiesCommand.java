@@ -24,7 +24,7 @@ public class BountiesCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("bounties")
                 .guildOnly(false)
-                .node(Node.WARFRAME_BOUNTIES)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays active bounties using data from warframestat.us")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.BOUNTIES_FACTION.describe(false, true)

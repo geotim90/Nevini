@@ -17,7 +17,7 @@ public class EventsCommand extends Command {
                 .keyword("events")
                 .aliases(new String[]{"event"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_EVENTS)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays ongoing events using data from warframestat.us")
                 .build());
     }

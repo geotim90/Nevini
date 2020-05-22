@@ -34,9 +34,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // Events
         Assert.assertEquals("Thermia Fractures : undefined\nHeat Fissures Event Score : 100\nRewards:\nOpticor Vandal\n\nBattle on Orb Vallis (Venus)\n44% Remaining", result.getEvents().get(0).getAsString());
 
-        // Alerts
-        // N/A
-
         // Sortie
         Assert.assertEquals("Lech Kril", result.getSortie().getBoss());
         Assert.assertEquals("2020-05-12T16:00:00Z", result.getSortie().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -62,6 +59,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-12T08:40:04.263Z", result.getFissures().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Global Upgrades
+        Assert.assertEquals("2x Credit Drop chance for 1d 8h 4m 30s", result.getGlobalUpgrades().get(0).getDesc());
 
         // Flash Sales
 
@@ -79,7 +77,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         Assert.assertEquals(Boolean.FALSE, result.getVoidTrader().getActive());
         Assert.assertEquals("Orcus Relay (Pluto)", result.getVoidTrader().getLocation());
-        // TODO inventory
+        Assert.assertTrue(result.getVoidTrader().getInventory().isEmpty());
         Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Daily Deals
@@ -94,6 +92,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals(Integer.valueOf(20), result.getDailyDeals().get(0).getDiscount());
 
         // Simaris
+        Assert.assertEquals("Simaris's previous objective was Guardsman", result.getSimaris().getAsString());
 
         // Conclave Challenges
 
@@ -111,8 +110,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // Vallis Cycle
         Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
 
-        // Kuva
-
         // Arbitration
         Assert.assertEquals("Tycho (Lua)", result.getArbitration().getNode());
         Assert.assertEquals("Survival", result.getArbitration().getType());
@@ -120,8 +117,31 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-12T08:04:00Z", result.getArbitration().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Sentient Outposts
+        Assert.assertEquals("Ganalen's Grave (Veil Proxima)", result.getSentientOutposts().getMission().getNode());
+        Assert.assertEquals("Grineer", result.getSentientOutposts().getMission().getFaction());
+        Assert.assertEquals("Skirmish", result.getSentientOutposts().getMission().getType());
+        Assert.assertEquals("2020-05-12T07:39:53Z", result.getSentientOutposts().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-12T08:09:53Z", result.getSentientOutposts().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+    }
 
-        // Twitter
+    @Test
+    public void testParser2() throws IOException {
+        WfsWorldStateRequest request = WfsWorldStateRequest.builder().build();
+        WfsWorldState result;
+        try (InputStreamReader reader = new InputStreamReader(
+                getClass().getResourceAsStream("worldState2.json")
+        )) {
+            result = request.parseStream(reader);
+        }
+
+        // Void Trader
+        Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals(Boolean.TRUE, result.getVoidTrader().getActive());
+        Assert.assertEquals("Orcus Relay (Pluto)", result.getVoidTrader().getLocation());
+        Assert.assertEquals("Prisma Lotus Emblem", result.getVoidTrader().getInventory().get(0).getItem());
+        Assert.assertEquals(Integer.valueOf(50), result.getVoidTrader().getInventory().get(0).getDucats());
+        Assert.assertEquals(Integer.valueOf(50000), result.getVoidTrader().getInventory().get(0).getCredits());
+        Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     }
 
     @Test

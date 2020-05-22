@@ -4,8 +4,10 @@ These commands are related to [Warframe](https://www.warframe.com/).
 
 Command | Description
 --------|------------
+[anomalies](#command-anomalies) | displays the currently active anomalies using data from warframestat.us
 [arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
+[boosters](#command-boosters) | displays the currently active boosters using data from warframestat.us
 [bounties](#command-bounties) | displays active bounties using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [darvo](#command-darvo) | displays the currently active Darvo Deal using data from warframestat.us
@@ -16,8 +18,21 @@ Command | Description
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
+[simaris](#command-simaris) | displays current Sanctuary status using data from warframestat.us
 [sortie](#command-sortie) | displays the currently active sorties using data from warframestat.us
 [syndicate](#command-syndicate) | displays syndicate nodes for a syndicate using data from warframestat.us
+
+## Command: `anomalies`
+
+Displays the currently active anomalies using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframestat.us**.
+
+Keyword | Aliases
+--------|--------
+anomalies | anomaly<br>sentient-anomaly<br>sentient<br>sentient-outpost<br>outpost<br>murex
 
 ## Command: `arbitration`
 
@@ -25,7 +40,7 @@ Displays the currently active arbitration using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.arbitration**.
+Permission overrides may be applied on node **warframestat.us**.
 
 ## Command: `baro`
 
@@ -33,11 +48,23 @@ Displays the current status of the Void Trader using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.baro**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Keyword | Aliases
 --------|--------
 baro | void-trader
+
+## Command: `boosters`
+
+Displays the currently active boosters using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframestat.us**.
+
+Keyword | Aliases
+--------|--------
+boosters | upgrades<br>global-upgrades
 
 ## Command: `bounties`
 
@@ -45,7 +72,7 @@ Displays active bounties using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.bounties**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Option | Description
 -------|------------
@@ -61,7 +88,7 @@ Displays the current world cycles using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.cycle**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Keyword | Aliases
 --------|--------
@@ -73,7 +100,7 @@ Displays the currently active Darvo Deal using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.darvo**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Keyword | Aliases
 --------|--------
@@ -85,7 +112,7 @@ Displays ongoing events using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.events**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Keyword | Aliases
 --------|--------
@@ -97,7 +124,7 @@ Displays the currently active fissures using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.fissures**.
+Permission overrides may be applied on node **warframestat.us**.
 
 ## Command: `invasions`
 
@@ -105,7 +132,7 @@ Displays the currently active invasions using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.invasions**.
+Permission overrides may be applied on node **warframestat.us**.
 
 ## Command: `news`
 
@@ -113,7 +140,7 @@ Displays the currently active news using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.news**.
+Permission overrides may be applied on node **warframestat.us**.
 
 ## Command: `order-book`
 
@@ -157,7 +184,7 @@ Displays trading statistics for rivens using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.riven**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Option | Description
 -------|------------
@@ -168,13 +195,25 @@ Keyword | Aliases
 riven | rivens
 --riven | //riven
 
+## Command: `simaris`
+
+Displays current Sanctuary status using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframestat.us**.
+
+Keyword | Aliases
+--------|--------
+simaris | sanctuary
+
 ## Command: `sortie`
 
 Displays the currently active sorties using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.sortie**.
+Permission overrides may be applied on node **warframestat.us**.
 
 ## Command: `syndicate`
 
@@ -182,7 +221,7 @@ Displays syndicate nodes for a syndicate using data from warframestat.us.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **warframe.syndicate**.
+Permission overrides may be applied on node **warframestat.us**.
 
 Option | Description
 -------|------------

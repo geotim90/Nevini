@@ -1,7 +1,6 @@
-package de.nevini.modules.warframe.arbitration;
+package de.nevini.modules.warframe.simaris;
 
 import de.nevini.api.wfs.model.WfsWorldState;
-import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -11,20 +10,21 @@ import de.nevini.util.command.CommandReaction;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ArbitrationCommand extends Command {
+public class SimarisCommand extends Command {
 
-    public ArbitrationCommand() {
+    public SimarisCommand() {
         super(CommandDescriptor.builder()
-                .keyword("arbitration")
+                .keyword("simaris")
+                .aliases(new String[]{"sanctuary"})
                 .guildOnly(false)
                 .node(Node.WARFRAME_STAT_US)
-                .description("displays the currently active arbitration using data from warframestat.us")
+                .description("displays current Sanctuary status using data from warframestat.us")
                 .build());
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        // retrieve arbitration data from service
+        // retrieve Simaris data from service
         WarframeStatsService service = event.locate(WarframeStatsService.class);
         WfsWorldState worldState = service.getWorldState();
 
@@ -34,9 +34,7 @@ public class ArbitrationCommand extends Command {
             return;
         }
 
-        event.reply("**" + worldState.getArbitration().getNode() + "** Level 60-80\n**"
-                + worldState.getArbitration().getType() + "** - **" + worldState.getArbitration().getEnemy()
-                + "** (Arbitration)\n" + WfsFormatter.formatEta(worldState.getArbitration().getExpiry()), event::complete);
+        event.reply(worldState.getSimaris().getAsString(), event::complete);
     }
 
 }
