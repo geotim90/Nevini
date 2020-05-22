@@ -6,7 +6,6 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.scope.Permissions;
 import de.nevini.util.command.CommandReaction;
-import de.nevini.util.message.MessageCleaner;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,10 +24,7 @@ public class ShutdownCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        event.reply(CommandReaction.OK, message -> {
-            MessageCleaner.tryDelete(message);
-            event.getJDA().shutdown();
-        });
+        event.reply(CommandReaction.OK, message -> event.getJDA().shutdown());
     }
 
 }
