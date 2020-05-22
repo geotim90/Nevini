@@ -7,6 +7,7 @@ Command | Description
 [anomalies](#command-anomalies) | displays the currently active anomalies using data from warframestat.us
 [arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
+[boosters](#command-boosters) | displays the currently active boosters using data from warframestat.us
 [bounties](#command-bounties) | displays active bounties using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [darvo](#command-darvo) | displays the currently active Darvo Deal using data from warframestat.us
@@ -17,6 +18,7 @@ Command | Description
 [order-book](#command-order-book) | displays the top five rows of the order book for a tradeable Warframe item using data from warframe.market
 [price-check](#command-price-check) | performs a price check on a tradeable Warframe item using data from warframe.market
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
+[simaris](#command-simaris) | displays current Sanctuary status using data from warframestat.us
 [sortie](#command-sortie) | displays the currently active sorties using data from warframestat.us
 [syndicate](#command-syndicate) | displays syndicate nodes for a syndicate using data from warframestat.us
 
@@ -51,6 +53,18 @@ Permission overrides may be applied on node **warframe.baro**.
 Keyword | Aliases
 --------|--------
 baro | void-trader
+
+## Command: `boosters`
+
+Displays the currently active boosters using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe**.
+
+Keyword | Aliases
+--------|--------
+boosters | upgrades<br>global-upgrades
 
 ## Command: `bounties`
 
@@ -180,6 +194,18 @@ Keyword | Aliases
 --------|--------
 riven | rivens
 --riven | //riven
+
+## Command: `simaris`
+
+Displays current Sanctuary status using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe**.
+
+Keyword | Aliases
+--------|--------
+simaris | sanctuary
 
 ## Command: `sortie`
 

@@ -56,7 +56,7 @@ public class AnomaliesCommand extends Command {
             }
         } else {
             // inactive
-            event.reply("No current anomalies", event::complete);
+            event.reply("No currently active anomalies", event::complete);
         }
 
     }

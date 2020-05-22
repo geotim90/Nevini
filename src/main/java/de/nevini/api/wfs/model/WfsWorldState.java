@@ -29,10 +29,8 @@ public class WfsWorldState {
     @SerializedName("fissures")
     List<WfsFissure> fissures;
 
-    /*
     @SerializedName("globalUpgrades")
     List<WfsGlobalUpgrade> globalUpgrades;
-    */
 
     /*
     @SerializedName("flashSales")

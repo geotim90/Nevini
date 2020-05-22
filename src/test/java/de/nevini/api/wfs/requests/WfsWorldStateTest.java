@@ -59,6 +59,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-12T08:40:04.263Z", result.getFissures().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Global Upgrades
+        Assert.assertEquals("2x Credit Drop chance for 1d 8h 4m 30s", result.getGlobalUpgrades().get(0).getDesc());
 
         // Flash Sales
 
