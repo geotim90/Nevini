@@ -134,6 +134,17 @@ public class WfsWorldStateTest extends WfsApiProvider {
             result = request.parseStream(reader);
         }
 
+        // Alerts
+        Assert.assertEquals("2020-05-22T19:00:00Z", result.getAlerts().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-23T19:00:00Z", result.getAlerts().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("Gift From The Lotus", result.getAlerts().get(0).getMission().getDescription());
+        Assert.assertEquals("Kiliken (Venus)", result.getAlerts().get(0).getMission().getNode());
+        Assert.assertEquals("Excavation", result.getAlerts().get(0).getMission().getType());
+        Assert.assertEquals("Corpus", result.getAlerts().get(0).getMission().getFaction());
+        Assert.assertEquals("Orokin Catalyst Blueprint + 15000cr", result.getAlerts().get(0).getMission().getReward().getAsString());
+        Assert.assertEquals(Integer.valueOf(10), result.getAlerts().get(0).getMission().getMinEnemyLevel());
+        Assert.assertEquals(Integer.valueOf(15), result.getAlerts().get(0).getMission().getMaxEnemyLevel());
+
         // Void Trader
         Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         Assert.assertEquals(Boolean.TRUE, result.getVoidTrader().getActive());

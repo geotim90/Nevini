@@ -20,6 +20,9 @@ public class WfsWorldState {
     @SerializedName("events")
     List<WfsEvent> events;
 
+    @SerializedName("alerts")
+    List<WfsAlert> alerts;
+
     @SerializedName("sortie")
     WfsSortie sortie;
 
