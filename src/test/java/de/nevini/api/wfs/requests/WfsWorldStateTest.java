@@ -91,6 +91,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals(Integer.valueOf(20), result.getDailyDeals().get(0).getDiscount());
 
         // Simaris
+        Assert.assertEquals("Simaris's previous objective was Guardsman", result.getSimaris().getAsString());
 
         // Conclave Challenges
 
@@ -107,8 +108,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
 
         // Vallis Cycle
         Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
-
-        // Kuva
 
         // Arbitration
         Assert.assertEquals("Tycho (Lua)", result.getArbitration().getNode());

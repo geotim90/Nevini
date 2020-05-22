@@ -53,10 +53,8 @@ public class WfsWorldState {
     @SerializedName("dailyDeals")
     List<WfsDailyDeal> dailyDeals;
 
-    /*
     @SerializedName("simaris")
     WfsSimaris simaris;
-    */
 
     /*
     @SerializedName("conclaveChallenges")
@@ -88,11 +86,6 @@ public class WfsWorldState {
 
     @SerializedName("vallisCycle")
     WfsVallisCycle vallisCycle;
-
-    /*
-    @SerializedName("kuva")
-    List<WfsKuva> kuva;
-    */
 
     @SerializedName("arbitration")
     WfsArbitration arbitration;
