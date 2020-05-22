@@ -10,6 +10,10 @@ public class FormatterTest {
         Assert.assertEquals("1234", Formatter.formatLargeInteger(1234));
         Assert.assertEquals("12k", Formatter.formatLargeInteger(12345));
         Assert.assertEquals("123m", Formatter.formatLargeInteger(123456789));
+        // issue #94
+        Assert.assertEquals("1m", Formatter.formatLargeInteger(1000000));
+        Assert.assertEquals("1b", Formatter.formatLargeInteger(1000000000));
+        Assert.assertEquals("1k", Formatter.formatLargeInteger(1000));
     }
 
     @Test
