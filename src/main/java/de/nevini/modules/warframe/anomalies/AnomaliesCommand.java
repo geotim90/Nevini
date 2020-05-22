@@ -22,7 +22,7 @@ public class AnomaliesCommand extends Command {
                 .keyword("anomalies")
                 .aliases(new String[]{"anomaly", "sentient-anomaly", "sentient", "sentient-outpost", "outpost", "murex"})
                 .guildOnly(false)
-                .node(Node.WARFRAME)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays the currently active anomalies using data from warframestat.us")
                 .build());
     }

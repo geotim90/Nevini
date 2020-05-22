@@ -20,7 +20,7 @@ public class NewsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("news")
                 .guildOnly(false)
-                .node(Node.WARFRAME_NEWS)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays the currently active news using data from warframestat.us")
                 .build());
     }

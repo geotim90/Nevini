@@ -18,7 +18,7 @@ public class InvasionsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("invasions")
                 .guildOnly(false)
-                .node(Node.WARFRAME_INVASIONS)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays the currently active invasions using data from warframestat.us")
                 .build());
     }

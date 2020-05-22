@@ -18,7 +18,7 @@ public class BoostersCommand extends Command {
                 .keyword("boosters")
                 .aliases(new String[]{"upgrades", "global-upgrades"})
                 .guildOnly(false)
-                .node(Node.WARFRAME)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays the currently active boosters using data from warframestat.us")
                 .build());
     }

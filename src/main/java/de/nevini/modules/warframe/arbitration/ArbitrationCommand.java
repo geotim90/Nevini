@@ -17,7 +17,7 @@ public class ArbitrationCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("arbitration")
                 .guildOnly(false)
-                .node(Node.WARFRAME_ARBITRATION)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays the currently active arbitration using data from warframestat.us")
                 .build());
     }

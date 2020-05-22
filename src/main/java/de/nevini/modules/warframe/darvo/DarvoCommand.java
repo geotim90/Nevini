@@ -19,7 +19,7 @@ public class DarvoCommand extends Command {
                 .keyword("darvo")
                 .aliases(new String[]{"darvo-deal", "daily-deal"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_DARVO)
+                .node(Node.WARFRAME_STAT_US)
                 .description("displays the currently active Darvo Deal using data from warframestat.us")
                 .build());
     }
