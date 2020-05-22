@@ -34,9 +34,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // Events
         Assert.assertEquals("Thermia Fractures : undefined\nHeat Fissures Event Score : 100\nRewards:\nOpticor Vandal\n\nBattle on Orb Vallis (Venus)\n44% Remaining", result.getEvents().get(0).getAsString());
 
-        // Alerts
-        // N/A
-
         // Sortie
         Assert.assertEquals("Lech Kril", result.getSortie().getBoss());
         Assert.assertEquals("2020-05-12T16:00:00Z", result.getSortie().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -120,8 +117,11 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-12T08:04:00Z", result.getArbitration().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Sentient Outposts
-
-        // Twitter
+        Assert.assertEquals("Ganalen's Grave (Veil Proxima)", result.getSentientOutposts().getMission().getNode());
+        Assert.assertEquals("Grineer", result.getSentientOutposts().getMission().getFaction());
+        Assert.assertEquals("Skirmish", result.getSentientOutposts().getMission().getType());
+        Assert.assertEquals("2020-05-12T07:39:53Z", result.getSentientOutposts().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-12T08:09:53Z", result.getSentientOutposts().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     }
 
     @Test

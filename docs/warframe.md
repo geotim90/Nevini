@@ -4,6 +4,7 @@ These commands are related to [Warframe](https://www.warframe.com/).
 
 Command | Description
 --------|------------
+[anomalies](#command-anomalies) | displays the currently active anomalies using data from warframestat.us
 [arbitration](#command-arbitration) | displays the currently active arbitration using data from warframestat.us
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [bounties](#command-bounties) | displays active bounties using data from warframestat.us
@@ -18,6 +19,18 @@ Command | Description
 [riven](#command-riven) | displays trading statistics for rivens using data from warframestat.us
 [sortie](#command-sortie) | displays the currently active sorties using data from warframestat.us
 [syndicate](#command-syndicate) | displays syndicate nodes for a syndicate using data from warframestat.us
+
+## Command: `anomalies`
+
+Displays the currently active anomalies using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe**.
+
+Keyword | Aliases
+--------|--------
+anomalies | anomaly<br>sentient-anomaly<br>sentient<br>sentient-outpost<br>outpost<br>murex
 
 ## Command: `arbitration`
 

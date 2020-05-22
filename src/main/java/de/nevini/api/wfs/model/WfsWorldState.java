@@ -20,11 +20,6 @@ public class WfsWorldState {
     @SerializedName("events")
     List<WfsEvent> events;
 
-    /*
-    @SerializedName("alerts")
-    List<WfsAlert> alerts;
-    */
-
     @SerializedName("sortie")
     WfsSortie sortie;
 
@@ -102,14 +97,7 @@ public class WfsWorldState {
     @SerializedName("arbitration")
     WfsArbitration arbitration;
 
-    /*
     @SerializedName("sentientOutposts")
     WfsSentientOutposts sentientOutposts;
-    */
-
-    /*
-    @SerializedName("twitter")
-    List<WfsTwitter> twitter;
-    */
 
 }
