@@ -79,7 +79,7 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         Assert.assertEquals(Boolean.FALSE, result.getVoidTrader().getActive());
         Assert.assertEquals("Orcus Relay (Pluto)", result.getVoidTrader().getLocation());
-        // TODO inventory
+        Assert.assertTrue(result.getVoidTrader().getInventory().isEmpty());
         Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
         // Daily Deals
@@ -122,6 +122,26 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // Sentient Outposts
 
         // Twitter
+    }
+
+    @Test
+    public void testParser2() throws IOException {
+        WfsWorldStateRequest request = WfsWorldStateRequest.builder().build();
+        WfsWorldState result;
+        try (InputStreamReader reader = new InputStreamReader(
+                getClass().getResourceAsStream("worldState2.json")
+        )) {
+            result = request.parseStream(reader);
+        }
+
+        // Void Trader
+        Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals(Boolean.TRUE, result.getVoidTrader().getActive());
+        Assert.assertEquals("Orcus Relay (Pluto)", result.getVoidTrader().getLocation());
+        Assert.assertEquals("Prisma Lotus Emblem", result.getVoidTrader().getInventory().get(0).getItem());
+        Assert.assertEquals(Integer.valueOf(50), result.getVoidTrader().getInventory().get(0).getDucats());
+        Assert.assertEquals(Integer.valueOf(50000), result.getVoidTrader().getInventory().get(0).getCredits());
+        Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
     }
 
     @Test
