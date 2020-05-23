@@ -20,6 +20,9 @@ public class WfsWorldState {
     @SerializedName("events")
     List<WfsEvent> events;
 
+    @SerializedName("alerts")
+    List<WfsAlert> alerts;
+
     @SerializedName("sortie")
     WfsSortie sortie;
 
@@ -44,11 +47,20 @@ public class WfsWorldState {
     @SerializedName("simaris")
     WfsSimaris simaris;
 
+    @SerializedName("conclaveChallenges")
+    List<WfsConclaveChallenge> conclaveChallenges;
+
     @SerializedName("cetusCycle")
     WfsCetusCycle cetusCycle;
 
+    @SerializedName("constructionProgress")
+    WfsConstructionProgress constructionProgress;
+
     @SerializedName("vallisCycle")
     WfsVallisCycle vallisCycle;
+
+    @SerializedName("nightwave")
+    WfsNightwave nightwave;
 
     @SerializedName("arbitration")
     WfsArbitration arbitration;

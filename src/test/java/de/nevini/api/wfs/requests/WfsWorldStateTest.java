@@ -61,8 +61,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // Global Upgrades
         Assert.assertEquals("2x Credit Drop chance for 1d 8h 4m 30s", result.getGlobalUpgrades().get(0).getDesc());
 
-        // Flash Sales
-
         // Invasions
         Assert.assertEquals("Ludi (Ceres)", result.getInvasions().get(0).getNode());
         Assert.assertEquals("Corpus Siege", result.getInvasions().get(0).getDesc());
@@ -70,8 +68,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Snipetron Vandal Blueprint", result.getInvasions().get(0).getAttackerReward().getItemString());
         Assert.assertEquals("Grineer", result.getInvasions().get(0).getDefendingFaction());
         Assert.assertEquals("Sheev Heatsink", result.getInvasions().get(0).getDefenderReward().getItemString());
-
-        // Dark Sectors
 
         // Void Trader
         Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -95,17 +91,18 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Simaris's previous objective was Guardsman", result.getSimaris().getAsString());
 
         // Conclave Challenges
-
-        // Persistent Enemies
-
-        // Earth Cycle
+        Assert.assertEquals("2020-05-15T10:40:02.053Z", result.getConclaveChallenges().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-08T10:40:02.053Z", result.getConclaveChallenges().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("Any Mode", result.getConclaveChallenges().get(0).getMode());
+        Assert.assertEquals(Boolean.FALSE, result.getConclaveChallenges().get(0).getRootChallenge());
+        Assert.assertEquals("Win a timed match on Any Mode 6 times in a week", result.getConclaveChallenges().get(0).getAsString());
 
         // Cetus Cycle
         Assert.assertEquals("30m to Night", result.getCetusCycle().getShortString());
 
-        // Weekly Challenges
-
         // Construction Progress
+        Assert.assertEquals("14.73", result.getConstructionProgress().getFomorianProgress());
+        Assert.assertEquals("5.57", result.getConstructionProgress().getRazorbackProgress());
 
         // Vallis Cycle
         Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
@@ -134,6 +131,17 @@ public class WfsWorldStateTest extends WfsApiProvider {
             result = request.parseStream(reader);
         }
 
+        // Alerts
+        Assert.assertEquals("2020-05-22T19:00:00Z", result.getAlerts().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-23T19:00:00Z", result.getAlerts().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("Gift From The Lotus", result.getAlerts().get(0).getMission().getDescription());
+        Assert.assertEquals("Kiliken (Venus)", result.getAlerts().get(0).getMission().getNode());
+        Assert.assertEquals("Excavation", result.getAlerts().get(0).getMission().getType());
+        Assert.assertEquals("Corpus", result.getAlerts().get(0).getMission().getFaction());
+        Assert.assertEquals("Orokin Catalyst Blueprint + 15000cr", result.getAlerts().get(0).getMission().getReward().getAsString());
+        Assert.assertEquals(Integer.valueOf(10), result.getAlerts().get(0).getMission().getMinEnemyLevel());
+        Assert.assertEquals(Integer.valueOf(15), result.getAlerts().get(0).getMission().getMaxEnemyLevel());
+
         // Void Trader
         Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         Assert.assertEquals(Boolean.TRUE, result.getVoidTrader().getActive());
@@ -142,6 +150,15 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals(Integer.valueOf(50), result.getVoidTrader().getInventory().get(0).getDucats());
         Assert.assertEquals(Integer.valueOf(50000), result.getVoidTrader().getInventory().get(0).getCredits());
         Assert.assertEquals("2020-05-24T13:00:00Z", result.getVoidTrader().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+        // Nightwave
+        Assert.assertEquals("2020-05-20T00:00:00Z", result.getNightwave().getActiveChallenges().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-23T00:00:00Z", result.getNightwave().getActiveChallenges().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals(Boolean.TRUE, result.getNightwave().getActiveChallenges().get(0).getIsDaily());
+        Assert.assertEquals(Boolean.FALSE, result.getNightwave().getActiveChallenges().get(0).getIsElite());
+        Assert.assertEquals("Kill 150 Enemies with Viral Damage", result.getNightwave().getActiveChallenges().get(0).getDesc());
+        Assert.assertEquals("Sharing is Caring", result.getNightwave().getActiveChallenges().get(0).getTitle());
+        Assert.assertEquals(Integer.valueOf(1000), result.getNightwave().getActiveChallenges().get(0).getReputation());
     }
 
     @Test
