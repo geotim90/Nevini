@@ -10,6 +10,7 @@ Command | Description
 [baro](#command-baro) | displays the current status of the Void Trader using data from warframestat.us
 [boosters](#command-boosters) | displays the currently active boosters using data from warframestat.us
 [bounties](#command-bounties) | displays active bounties using data from warframestat.us
+[conclave](#command-conclave) | displays the currently active Conclave challenges using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [darvo](#command-darvo) | displays the currently active Darvo Deal using data from warframestat.us
 [events](#command-events) | displays ongoing events using data from warframestat.us
@@ -91,6 +92,14 @@ Option | Description
 Keyword | Aliases
 --------|--------
 --faction | //faction
+
+## Command: `conclave`
+
+Displays the currently active Conclave challenges using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframestat.us**.
 
 ## Command: `cycle`
 

@@ -95,6 +95,11 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Simaris's previous objective was Guardsman", result.getSimaris().getAsString());
 
         // Conclave Challenges
+        Assert.assertEquals("2020-05-15T10:40:02.053Z", result.getConclaveChallenges().get(0).getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-05-08T10:40:02.053Z", result.getConclaveChallenges().get(0).getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("Any Mode", result.getConclaveChallenges().get(0).getMode());
+        Assert.assertEquals(Boolean.FALSE, result.getConclaveChallenges().get(0).getRootChallenge());
+        Assert.assertEquals("Win a timed match on Any Mode 6 times in a week", result.getConclaveChallenges().get(0).getAsString());
 
         // Persistent Enemies
 

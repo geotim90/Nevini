@@ -47,6 +47,9 @@ public class WfsWorldState {
     @SerializedName("simaris")
     WfsSimaris simaris;
 
+    @SerializedName("conclaveChallenges")
+    List<WfsConclaveChallenge> conclaveChallenges;
+
     @SerializedName("cetusCycle")
     WfsCetusCycle cetusCycle;
 
