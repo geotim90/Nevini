@@ -61,8 +61,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         // Global Upgrades
         Assert.assertEquals("2x Credit Drop chance for 1d 8h 4m 30s", result.getGlobalUpgrades().get(0).getDesc());
 
-        // Flash Sales
-
         // Invasions
         Assert.assertEquals("Ludi (Ceres)", result.getInvasions().get(0).getNode());
         Assert.assertEquals("Corpus Siege", result.getInvasions().get(0).getDesc());
@@ -70,8 +68,6 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals("Snipetron Vandal Blueprint", result.getInvasions().get(0).getAttackerReward().getItemString());
         Assert.assertEquals("Grineer", result.getInvasions().get(0).getDefendingFaction());
         Assert.assertEquals("Sheev Heatsink", result.getInvasions().get(0).getDefenderReward().getItemString());
-
-        // Dark Sectors
 
         // Void Trader
         Assert.assertEquals("2020-05-22T13:00:00Z", result.getVoidTrader().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -101,16 +97,12 @@ public class WfsWorldStateTest extends WfsApiProvider {
         Assert.assertEquals(Boolean.FALSE, result.getConclaveChallenges().get(0).getRootChallenge());
         Assert.assertEquals("Win a timed match on Any Mode 6 times in a week", result.getConclaveChallenges().get(0).getAsString());
 
-        // Persistent Enemies
-
-        // Earth Cycle
-
         // Cetus Cycle
         Assert.assertEquals("30m to Night", result.getCetusCycle().getShortString());
 
-        // Weekly Challenges
-
         // Construction Progress
+        Assert.assertEquals("14.73", result.getConstructionProgress().getFomorianProgress());
+        Assert.assertEquals("5.57", result.getConstructionProgress().getRazorbackProgress());
 
         // Vallis Cycle
         Assert.assertEquals("18m to Warm", result.getVallisCycle().getShortString());
