@@ -32,6 +32,7 @@ public class OsuBeatmapService {
     private final OsuBeatmapDifficultyRepository difficultyRepository;
     private final OsuScoreService scoreService;
     private final OsuAsyncService asyncService;
+    private final OsuPruneService pruneService;
 
     public OsuBeatmapService(
             @Autowired OsuApiProvider apiProvider,
@@ -39,7 +40,8 @@ public class OsuBeatmapService {
             @Autowired OsuBeatmapsetRepository beatmapsetRepository,
             @Autowired OsuBeatmapDifficultyRepository difficultyRepository,
             @Autowired OsuScoreService scoreService,
-            @Autowired OsuAsyncService asyncService
+            @Autowired OsuAsyncService asyncService,
+            @Autowired OsuPruneService pruneService
     ) {
         this.requestCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
         this.cache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(1)).build();
@@ -49,6 +51,7 @@ public class OsuBeatmapService {
         this.difficultyRepository = difficultyRepository;
         this.scoreService = scoreService;
         this.asyncService = asyncService;
+        this.pruneService = pruneService;
     }
 
     public @NonNull ApiResponse<List<OsuBeatmap>> get(@NonNull OsuApiGetBeatmapsRequest request) {
@@ -80,6 +83,10 @@ public class OsuBeatmapService {
             repository.saveAll(response.getResult().stream().map(OsuBeatmapDataWrapper::getBeatmap).collect(Collectors.toList()));
             beatmapsetRepository.saveAll(response.getResult().stream().map(OsuBeatmapDataWrapper::getBeatmapset).collect(Collectors.toList()));
             difficultyRepository.saveAll(response.getResult().stream().map(OsuBeatmapDataWrapper::getDifficulty).collect(Collectors.toList()));
+        } else if (result.isOk() && request.getBeatmapId() != null) {
+            pruneService.pruneBeatmap(request.getBeatmapId());
+        } else if (result.isOk() && request.getBeatmapsetId() != null) {
+            pruneService.pruneBeatmapset(request.getBeatmapsetId());
         }
         return result;
     }
