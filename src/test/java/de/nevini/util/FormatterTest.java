@@ -14,6 +14,8 @@ public class FormatterTest {
         Assert.assertEquals("1m", Formatter.formatLargeInteger(1000000));
         Assert.assertEquals("1b", Formatter.formatLargeInteger(1000000000));
         Assert.assertEquals("1k", Formatter.formatLargeInteger(1000));
+        // issue #98
+        Assert.assertEquals("0", Formatter.formatLargeInteger(0));
     }
 
     @Test
