@@ -44,7 +44,7 @@ public class Formatter {
             return "-" + formatLargeInteger(-value);
         }
 
-        if (value < 10000 && value % 1000 > 0) {
+        if (value < 1000 || (value < 10000 && value % 1000 > 0)) {
             return Long.toString(value);
         } else if (value < 10000000 && value % 1000000 > 0) {
             return (value / 1000) + "k";
