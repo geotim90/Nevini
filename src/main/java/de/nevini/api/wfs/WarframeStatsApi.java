@@ -3,11 +3,9 @@ package de.nevini.api.wfs;
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfs.model.drops.WfsDrops;
 import de.nevini.api.wfs.model.rivens.WfsRiven;
+import de.nevini.api.wfs.model.weapons.WfsWeapon;
 import de.nevini.api.wfs.model.worldstate.WfsWorldState;
-import de.nevini.api.wfs.requests.WfsApiRequest;
-import de.nevini.api.wfs.requests.WfsDropsRequest;
-import de.nevini.api.wfs.requests.WfsRivensRequest;
-import de.nevini.api.wfs.requests.WfsWorldStateRequest;
+import de.nevini.api.wfs.requests.*;
 import de.nevini.util.concurrent.TokenBucket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -15,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +24,7 @@ public class WarframeStatsApi {
     // no rate limit restrictions documentation found - limit to 1/min per endpoint
     private final TokenBucket rateLimitDrops = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
     private final TokenBucket rateLimitRivens = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
+    private final TokenBucket rateLimitWeapons = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
     private final TokenBucket rateLimitWorldState = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
 
     @NonNull
@@ -59,6 +59,10 @@ public class WarframeStatsApi {
 
     public ApiResponse<Map<String, Map<String, WfsRiven>>> getRivens(WfsRivensRequest request) {
         return call(request, rateLimitRivens);
+    }
+
+    public ApiResponse<List<WfsWeapon>> getWeapons(WfsWeaponsRequest request) {
+        return call(request, rateLimitWeapons);
     }
 
     public ApiResponse<WfsWorldState> getWorldState(WfsWorldStateRequest request) {
