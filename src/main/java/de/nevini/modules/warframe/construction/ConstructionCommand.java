@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.construction;
 
-import de.nevini.api.wfs.model.WfsConstructionProgress;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsConstructionProgress;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;

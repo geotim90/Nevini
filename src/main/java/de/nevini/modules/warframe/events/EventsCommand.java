@@ -1,6 +1,6 @@
 package de.nevini.modules.warframe.events;
 
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import de.nevini.api.wfs.adapters.OffsetDateTimeAdapter;
 import de.nevini.api.wfs.adapters.WfsNceFloatAdapter;
 import de.nevini.api.wfs.adapters.WfsRewardsDeserializer;
-import de.nevini.api.wfs.model.WfsRewards;
+import de.nevini.api.wfs.model.drops.WfsRewards;
 import lombok.Getter;
 
 import java.time.OffsetDateTime;

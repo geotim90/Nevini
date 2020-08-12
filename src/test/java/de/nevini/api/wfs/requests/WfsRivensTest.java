@@ -1,8 +1,8 @@
 package de.nevini.api.wfs.requests;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.WfsRiven;
-import de.nevini.api.wfs.model.WfsRivenData;
+import de.nevini.api.wfs.model.rivens.WfsRiven;
+import de.nevini.api.wfs.model.rivens.WfsRivenData;
 import org.junit.Assert;
 import org.junit.Test;
 

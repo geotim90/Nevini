@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.news;
 
-import de.nevini.api.wfs.model.WfsNews;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsNews;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;

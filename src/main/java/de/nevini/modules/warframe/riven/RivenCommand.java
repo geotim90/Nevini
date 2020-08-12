@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.riven;
 
-import de.nevini.api.wfs.model.WfsRiven;
-import de.nevini.api.wfs.model.WfsRivenData;
+import de.nevini.api.wfs.model.rivens.WfsRiven;
+import de.nevini.api.wfs.model.rivens.WfsRivenData;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;

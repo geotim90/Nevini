@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.conclave;
 
-import de.nevini.api.wfs.model.WfsConclaveChallenge;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsConclaveChallenge;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;

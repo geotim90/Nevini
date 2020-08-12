@@ -1,9 +1,9 @@
 package de.nevini.api.wfs;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.WfsDrops;
-import de.nevini.api.wfs.model.WfsRiven;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.drops.WfsDrops;
+import de.nevini.api.wfs.model.rivens.WfsRiven;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.requests.WfsApiRequest;
 import de.nevini.api.wfs.requests.WfsDropsRequest;
 import de.nevini.api.wfs.requests.WfsRivensRequest;
