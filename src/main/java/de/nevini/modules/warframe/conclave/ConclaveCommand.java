@@ -22,7 +22,7 @@ public class ConclaveCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("conclave")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active Conclave challenges using data from warframestat.us")
                 .build());
     }

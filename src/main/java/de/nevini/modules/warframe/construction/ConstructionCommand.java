@@ -18,7 +18,7 @@ public class ConstructionCommand extends Command {
                 .keyword("construction")
                 .aliases(new String[]{"fomorian", "razorback"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the current construction progress using data from warframestat.us")
                 .build());
     }

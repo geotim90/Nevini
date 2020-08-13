@@ -22,7 +22,7 @@ public class SyndicateCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("syndicate")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays syndicate nodes for a syndicate using data from warframestat.us")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.SYNDICATE_FACTION.describe(false, true)

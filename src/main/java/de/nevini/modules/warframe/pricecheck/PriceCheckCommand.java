@@ -27,7 +27,7 @@ public class PriceCheckCommand extends Command {
                 .keyword("price-check")
                 .aliases(new String[]{"pc"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_PRICE_CHECK)
+                .node(Node.WARFRAME)
                 .description("performs a price check on a tradeable Warframe item using data from warframe.market")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.ITEM.describe(false, true)

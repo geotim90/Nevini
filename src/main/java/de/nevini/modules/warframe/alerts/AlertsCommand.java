@@ -23,7 +23,7 @@ public class AlertsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("alerts")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active alerts using data from warframestat.us")
                 .build());
     }

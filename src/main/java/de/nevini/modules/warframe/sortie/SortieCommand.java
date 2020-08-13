@@ -17,7 +17,7 @@ public class SortieCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("sortie")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active sorties using data from warframestat.us")
                 .build());
     }

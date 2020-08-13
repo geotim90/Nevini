@@ -20,7 +20,7 @@ public class RivenCommand extends Command {
                 .keyword("riven")
                 .aliases(new String[]{"rivens"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays trading statistics for rivens using data from warframestat.us")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.RIVEN.describe(false, true)

@@ -20,7 +20,7 @@ public class BaroCommand extends Command {
                 .keyword("baro")
                 .aliases(new String[]{"void-trader"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the current status of the Void Trader using data from warframestat.us")
                 .build());
     }

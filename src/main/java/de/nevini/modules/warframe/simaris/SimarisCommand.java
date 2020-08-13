@@ -17,7 +17,7 @@ public class SimarisCommand extends Command {
                 .keyword("simaris")
                 .aliases(new String[]{"sanctuary"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays current Sanctuary status using data from warframestat.us")
                 .build());
     }
