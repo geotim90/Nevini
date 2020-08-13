@@ -11,33 +11,33 @@ import java.time.OffsetDateTime;
 public class WfmOrder {
 
     @SerializedName("visible")
-    private Boolean visible;
+    Boolean visible;
 
     @SerializedName("quantity")
-    private Integer quantity;
+    Integer quantity;
 
     @SerializedName("creation_date")
-    private OffsetDateTime creationDate;
+    OffsetDateTime creationDate;
 
     @SerializedName("user")
-    private WfmUser user;
+    WfmUser user;
 
     @SerializedName("last_update")
-    private OffsetDateTime lastUpdate;
+    OffsetDateTime lastUpdate;
 
     @SerializedName("platinum")
-    private Integer platinum;
+    Integer platinum;
 
     @SerializedName("order_type")
-    private String orderType;
+    String orderType;
 
     @SerializedName("region")
-    private String region;
+    String region;
 
     @SerializedName("platform")
-    private String platform;
+    String platform;
 
     @SerializedName("id")
-    private String id;
+    String id;
 
 }

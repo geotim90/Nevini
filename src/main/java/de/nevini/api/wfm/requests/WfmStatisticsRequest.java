@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 public class WfmStatisticsRequest implements WfmApiRequest<WfmStatisticsResponse> {
 
     @NonNull
-    private final String itemUrlName;
+    String itemUrlName;
 
     @Override
     public @NonNull String getEndpoint() {

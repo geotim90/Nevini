@@ -20,28 +20,28 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class CommandContext {
 
-    private final boolean lockdown;
-    private final String ownerId;
-    private final String serverId;
-    private final String serverInvite;
+    boolean lockdown;
+    String ownerId;
+    String serverId;
+    String serverInvite;
 
-    private final Map<String, Command> commands;
-    private final EventDispatcher eventDispatcher;
+    Map<String, Command> commands;
+    EventDispatcher eventDispatcher;
 
-    private final ActivityService activityService;
-    private final AutoRoleService autoRoleService;
-    private final FeedService feedService;
-    private final GameService gameService;
-    private final IgnService ignService;
-    private final InactivityService inactivityService;
-    private final ModuleService moduleService;
-    private final PermissionService permissionService;
-    private final PrefixService prefixService;
-    private final TributeService tributeService;
-    private final VersionService versionService;
+    ActivityService activityService;
+    AutoRoleService autoRoleService;
+    FeedService feedService;
+    GameService gameService;
+    IgnService ignService;
+    InactivityService inactivityService;
+    ModuleService moduleService;
+    PermissionService permissionService;
+    PrefixService prefixService;
+    TributeService tributeService;
+    VersionService versionService;
 
     @Getter(AccessLevel.PRIVATE)
-    private final ApplicationContext applicationContext;
+    ApplicationContext applicationContext;
 
     public CommandContext(
             @Value("${bot.lockdown:true}") boolean lockdown,

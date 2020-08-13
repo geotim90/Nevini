@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 public class WfmOrdersRequest implements WfmApiRequest<WfmOrdersResponse> {
 
     @NonNull
-    private final String itemUrlName;
+    String itemUrlName;
 
     @Override
     public @NonNull String getEndpoint() {

@@ -47,8 +47,8 @@ public class GhostPingMessageListener {
 
     @Value
     private static class CachedMessage {
-        private final Message message;
-        private final List<IMentionable> mentions;
+        Message message;
+        List<IMentionable> mentions;
     }
 
     public GhostPingMessageListener(

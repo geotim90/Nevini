@@ -7,10 +7,10 @@ import java.util.List;
 @Value
 public class OsuMatch {
 
-    private final Integer matchId;
-    private final String name;
-    private final Long startTime;
-    private final Long endTime;
-    private final List<OsuGame> games;
+    Integer matchId;
+    String name;
+    Long startTime;
+    Long endTime;
+    List<OsuGame> games;
 
 }

@@ -9,18 +9,18 @@ import java.util.Date;
 public class OsuApiUserEvent {
 
     @SerializedName("display_html")
-    private final String displayHtml;
+    String displayHtml;
 
     @SerializedName("beatmap_id")
-    private final Integer beatmapId;
+    Integer beatmapId;
 
     @SerializedName("beatmapset_id")
-    private final Integer beatmapsetId;
+    Integer beatmapsetId;
 
     @SerializedName("date")
-    private final Date date;
+    Date date;
 
     @SerializedName("epicfactor")
-    private final Integer epicFactor;
+    Integer epicFactor;
 
 }

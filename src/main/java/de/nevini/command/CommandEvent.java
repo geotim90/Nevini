@@ -37,12 +37,12 @@ public class CommandEvent {
     private static final Pattern RM_FLAG = Pattern.compile("(?i)(?:--|//)rm");
 
     @Delegate
-    private final CommandContext context;
+    CommandContext context;
 
     @Delegate(types = {MessageReceivedEvent.class, GenericMessageEvent.class, Event.class})
-    private final MessageReceivedEvent event;
+    MessageReceivedEvent event;
 
-    private final CommandOptions options;
+    CommandOptions options;
 
     public CommandEvent(
             @NonNull CommandContext context, @NonNull MessageReceivedEvent event, @NonNull CommandOptions options

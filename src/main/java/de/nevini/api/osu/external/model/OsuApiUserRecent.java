@@ -9,45 +9,45 @@ import java.util.Date;
 public class OsuApiUserRecent {
 
     @SerializedName("beatmap_id")
-    private final Integer beatmapId;
+    Integer beatmapId;
 
     @SerializedName("score")
-    private final Integer score;
+    Integer score;
 
     @SerializedName("maxcombo")
-    private final Integer maxCombo;
+    Integer maxCombo;
 
     @SerializedName("count50")
-    private final Integer count50;
+    Integer count50;
 
     @SerializedName("count100")
-    private final Integer count100;
+    Integer count100;
 
     @SerializedName("count300")
-    private final Integer count300;
+    Integer count300;
 
     @SerializedName("countmiss")
-    private final Integer countMiss;
+    Integer countMiss;
 
     @SerializedName("countkatu")
-    private final Integer countKatu;
+    Integer countKatu;
 
     @SerializedName("countgeki")
-    private final Integer countGeki;
+    Integer countGeki;
 
     @SerializedName("perfect")
-    private final Boolean perfect;
+    Boolean perfect;
 
     @SerializedName("enabled_mods")
-    private final Integer mods;
+    Integer mods;
 
     @SerializedName("user_id")
-    private final Integer userId;
+    Integer userId;
 
     @SerializedName("date")
-    private final Date date;
+    Date date;
 
     @SerializedName("rank")
-    private final String rank;
+    String rank;
 
 }

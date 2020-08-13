@@ -9,9 +9,9 @@ import java.util.List;
 public class OsuApiMatch {
 
     @SerializedName("match")
-    private final OsuApiMatchMatch match;
+    OsuApiMatchMatch match;
 
     @SerializedName("games")
-    private final List<OsuApiMatchGame> games;
+    List<OsuApiMatchGame> games;
 
 }

@@ -5,27 +5,27 @@ import lombok.Value;
 @Value
 public class OsuUser {
 
-    private final Integer userId;
-    private final OsuMode mode;
-    private final String userName;
-    private final Long joinDate;
-    private final Integer count300;
-    private final Integer count100;
-    private final Integer count50;
-    private final Integer playCount;
-    private final Long rankedScore;
-    private final Long totalScore;
-    private final Integer ppRank;
-    private final Double level;
-    private final Double ppRaw;
-    private final Double accuracy;
-    private final Integer countRankSs;
-    private final Integer countRankSsh;
-    private final Integer countRankS;
-    private final Integer countRankSh;
-    private final Integer countRankA;
-    private final String country;
-    private final Integer totalSecondsPlayed;
-    private final Integer ppCountryRank;
+    Integer userId;
+    OsuMode mode;
+    String userName;
+    Long joinDate;
+    Integer count300;
+    Integer count100;
+    Integer count50;
+    Integer playCount;
+    Long rankedScore;
+    Long totalScore;
+    Integer ppRank;
+    Double level;
+    Double ppRaw;
+    Double accuracy;
+    Integer countRankSs;
+    Integer countRankSsh;
+    Integer countRankS;
+    Integer countRankSh;
+    Integer countRankA;
+    String country;
+    Integer totalSecondsPlayed;
+    Integer ppCountryRank;
 
 }

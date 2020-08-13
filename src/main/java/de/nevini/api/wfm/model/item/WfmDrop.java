@@ -9,9 +9,9 @@ import lombok.Value;
 public class WfmDrop {
 
     @SerializedName("name")
-    private String name;
+    String name;
 
     @SerializedName("link")
-    private String link;
+    String link;
 
 }

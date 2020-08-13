@@ -17,13 +17,13 @@ import java.io.Reader;
 public class OsuApiGetReplayRequest implements OsuApiRequest<OsuApiReplay> {
 
     @NonNull
-    private final Integer mode;
+    Integer mode;
     @NonNull
-    private final Integer beatmapId;
+    Integer beatmapId;
     @NonNull
-    private final String user;
-    private final OsuUserType userType;
-    private final Integer mods;
+    String user;
+    OsuUserType userType;
+    Integer mods;
 
     @Override
     public @NonNull String getEndpoint() {

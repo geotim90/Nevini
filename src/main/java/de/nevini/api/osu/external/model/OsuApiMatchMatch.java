@@ -9,15 +9,15 @@ import java.util.Date;
 public class OsuApiMatchMatch {
 
     @SerializedName("match_id")
-    private final Integer matchId;
+    Integer matchId;
 
     @SerializedName("name")
-    private final String name;
+    String name;
 
     @SerializedName("start_time")
-    private final Date startTime;
+    Date startTime;
 
     @SerializedName("end_time")
-    private final Date endTime;
+    Date endTime;
 
 }

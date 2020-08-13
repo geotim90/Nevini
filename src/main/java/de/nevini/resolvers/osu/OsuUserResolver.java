@@ -20,9 +20,9 @@ public class OsuUserResolver extends OptionResolver<OsuUserResolver.OsuUserOrMem
 
     @Value
     public static class OsuUserOrMember {
-        private final String osuUser;
-        private final User user;
-        private final Member member;
+        String osuUser;
+        User user;
+        Member member;
 
         public OsuUserOrMember(@NonNull Member member) {
             this.member = member;

@@ -9,6 +9,6 @@ import lombok.Value;
 public class WfmItemPayload {
 
     @SerializedName("item")
-    private WfmItemSet item;
+    WfmItemSet item;
 
 }

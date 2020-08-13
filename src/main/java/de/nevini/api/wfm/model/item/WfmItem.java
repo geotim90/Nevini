@@ -11,39 +11,39 @@ import java.util.List;
 public class WfmItem {
 
     @SerializedName("id")
-    private String id;
+    String id;
 
     @SerializedName("set_root")
-    private Boolean setRoot;
+    Boolean setRoot;
 
     @SerializedName("mastery_level")
-    private Integer masteryLevel;
+    Integer masteryLevel;
 
     @SerializedName("sub_icon")
-    private String subIcon;
+    String subIcon;
 
     @SerializedName("en")
-    private WfmItemInformation en;
+    WfmItemInformation en;
 
     @SerializedName("icon_format")
-    private String iconFormat;
+    String iconFormat;
 
     @SerializedName("url_name")
-    private String urlName;
+    String urlName;
 
     @SerializedName("thumb")
-    private String thumb;
+    String thumb;
 
     @SerializedName("ducats")
-    private Integer ducats;
+    Integer ducats;
 
     @SerializedName("icon")
-    private String icon;
+    String icon;
 
     @SerializedName("trading_tax")
-    private Integer tradingTax;
+    Integer tradingTax;
 
     @SerializedName("tags")
-    private List<String> tags;
+    List<String> tags;
 
 }

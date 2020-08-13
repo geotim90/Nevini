@@ -231,11 +231,11 @@ public class EventDispatcher {
     private static class Subscription<T> {
 
         @NonNull
-        private final Class<T> eventType;
-        private final Predicate<T> condition;
+        Class<T> eventType;
+        Predicate<T> condition;
         @NonNull
-        private final Consumer<T> callback;
-        private final boolean onlyOnce;
+        Consumer<T> callback;
+        boolean onlyOnce;
 
         /**
          * Notifies this {@link Subscription} about a new, potentially matching event.

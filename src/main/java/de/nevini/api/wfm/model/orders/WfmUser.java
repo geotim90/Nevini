@@ -11,27 +11,27 @@ import java.time.OffsetDateTime;
 public class WfmUser {
 
     @SerializedName("ingame_name")
-    private String name;
+    String name;
 
     @SerializedName("last_seen")
-    private OffsetDateTime lastSeen;
+    OffsetDateTime lastSeen;
 
     @SerializedName("reputation_bonus")
-    private Integer reputationBonus;
+    Integer reputationBonus;
 
     @SerializedName("reputation")
-    private Integer reputation;
+    Integer reputation;
 
     @SerializedName("region")
-    private String region;
+    String region;
 
     @SerializedName("status")
-    private String status;
+    String status;
 
     @SerializedName("id")
-    private String id;
+    String id;
 
     @SerializedName("avatar")
-    private String avatar;
+    String avatar;
 
 }

@@ -20,10 +20,10 @@ import java.util.List;
 public class OsuApiGetUserBestRequest implements OsuApiRequest<List<OsuApiUserBest>> {
 
     @NonNull
-    private final String user;
-    private final OsuUserType userType;
-    private final Integer mode;
-    private final Integer limit;
+    String user;
+    OsuUserType userType;
+    Integer mode;
+    Integer limit;
 
     @Override
     public @NonNull String getEndpoint() {

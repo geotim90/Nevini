@@ -7,9 +7,9 @@ import lombok.Value;
 public class OsuApiReplay {
 
     @SerializedName("content")
-    private final String content;
+    String content;
 
     @SerializedName("encoding")
-    private final String encoding;
+    String encoding;
 
 }

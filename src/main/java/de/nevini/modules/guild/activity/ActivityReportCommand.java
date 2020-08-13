@@ -230,9 +230,9 @@ class ActivityReportCommand extends Command {
 
     @Value
     private static class GuildReportEntry {
-        private final Member member;
-        private final long overtime;
-        private final String text;
+        Member member;
+        long overtime;
+        String text;
     }
 
 }
