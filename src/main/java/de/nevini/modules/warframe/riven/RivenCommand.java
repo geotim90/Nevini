@@ -18,7 +18,6 @@ public class RivenCommand extends Command {
     public RivenCommand() {
         super(CommandDescriptor.builder()
                 .keyword("riven")
-                .aliases(new String[]{"rivens"})
                 .guildOnly(false)
                 .node(Node.WARFRAME)
                 .description("displays trading statistics for rivens using data from warframestat.us")
