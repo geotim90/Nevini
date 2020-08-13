@@ -93,6 +93,7 @@ public class WfsWeaponsTest extends WfsApiProvider {
         Assert.assertEquals(70, weapon.getFlight(), 0);
         Assert.assertEquals(240, weapon.getMarketCost(), 0);
         Assert.assertArrayEquals(new String[]{"Naramon"}, weapon.getPolarities());
+        Assert.assertNull(weapon.getStancePolarity());
         Assert.assertEquals("Projectile", weapon.getProjectile());
         Assert.assertArrayEquals(new String[]{"Tenno"}, weapon.getTags());
         Assert.assertEquals("https://vignette.wikia.nocookie.net/warframe/images/1/19/Acceltra.png/revision/latest?cb=20190831102245", weapon.getWikiaThumbnail());

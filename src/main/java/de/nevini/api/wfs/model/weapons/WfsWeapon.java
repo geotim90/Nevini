@@ -122,6 +122,9 @@ public class WfsWeapon {
     @SerializedName("polarities")
     String[] polarities;
 
+    @SerializedName("stancePolarity")
+    String stancePolarity;
+
     @SerializedName("projectile")
     String projectile;
 

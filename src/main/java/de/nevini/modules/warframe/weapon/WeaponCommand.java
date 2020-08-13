@@ -75,6 +75,9 @@ public class WeaponCommand extends Command {
         if (item.getReloadTime() != null && item.getReloadTime() > 0) {
             embedBuilder.addField("Reload", Formatter.formatDecimal(item.getReloadTime()) + "s", true);
         }
+        if (StringUtils.isNotEmpty(item.getStancePolarity())) {
+            embedBuilder.addField("Stance Polarity", item.getStancePolarity(), true);
+        }
         if (item.getProcChance() != null && item.getProcChance() > 0) {
             embedBuilder.addField("Status", Formatter.formatPercent(item.getProcChance()), true);
         }
