@@ -2,13 +2,13 @@ package de.nevini.api.wfs.model.weapons;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
 
 @Builder
-@Value
+@Data
 public class WfsWeapon {
 
     @SerializedName("name")
