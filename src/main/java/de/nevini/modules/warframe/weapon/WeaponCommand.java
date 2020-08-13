@@ -37,8 +37,8 @@ public class WeaponCommand extends Command {
     private void acceptWeapon(CommandEvent event, WfsWeapon item) {
         EmbedBuilder embedBuilder = event.createEmbedBuilder().setAuthor(null)
                 .setTitle(item.getName(), item.getWikiaUrl())
-                .setImage(item.getWikiaThumbnail())
-                .setDescription(item.getType() + " [MR" + item.getMasteryReq() + "]\n\n" + item.getDescription());
+                .setDescription("MR " + item.getMasteryReq() + " " + item.getType() + "\n\n" + item.getDescription())
+                .setThumbnail(item.getWikiaThumbnail());
         if (item.getAccuracy() != null && item.getAccuracy() > 0) {
             embedBuilder.addField("Accuracy", Formatter.formatDecimal(item.getAccuracy()), true);
         }
@@ -54,12 +54,11 @@ public class WeaponCommand extends Command {
                     e -> Formatter.formatDecimal(e.getValue()) + " " + e.getKey()
             ).collect(Collectors.joining("\n")), true);
         }
-        if (item.getDisposition() != null && item.getOmegaAttenuation() != null) {
-            embedBuilder.addField("Disposition", item.getDisposition() + " / 5 ("
-                    + Formatter.formatDecimal(item.getOmegaAttenuation()) + ")", true);
+        if (item.getDisposition() != null) {
+            embedBuilder.addField("Disposition", item.getDisposition() + " / 5", true);
         }
         if (item.getFireRate() != null && item.getFireRate() > 0) {
-            embedBuilder.addField("Fire rate", Formatter.formatDecimal(item.getFireRate()), true);
+            embedBuilder.addField("Fire rate", Formatter.formatDecimal(item.getFireRate()) + "/s", true);
         }
         if (item.getMagazineSize() != null && item.getMagazineSize() > 0) {
             embedBuilder.addField("Magazine", Formatter.formatInteger(item.getMagazineSize()), true);
@@ -74,7 +73,7 @@ public class WeaponCommand extends Command {
             embedBuilder.addField("Polarities", StringUtils.join(item.getPolarities(), "\n"), true);
         }
         if (item.getReloadTime() != null && item.getReloadTime() > 0) {
-            embedBuilder.addField("Reload", Formatter.formatDecimal(item.getReloadTime()), true);
+            embedBuilder.addField("Reload", Formatter.formatDecimal(item.getReloadTime()) + "s", true);
         }
         if (item.getProcChance() != null && item.getProcChance() > 0) {
             embedBuilder.addField("Status", Formatter.formatPercent(item.getProcChance()), true);
