@@ -55,7 +55,7 @@ public class WeaponCommand extends Command {
             ).collect(Collectors.joining("\n")), true);
         }
         if (item.getDisposition() != null) {
-            embedBuilder.addField("Disposition", item.getDisposition() + " / 5", true);
+            embedBuilder.addField("Disposition", item.getDisposition() + "/5", true);
         }
         if (item.getFireRate() != null && item.getFireRate() > 0) {
             embedBuilder.addField("Fire rate", Formatter.formatDecimal(item.getFireRate()) + "/s", true);

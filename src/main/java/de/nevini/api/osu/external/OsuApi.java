@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,11 +26,15 @@ public class OsuApi {
     @NonNull
     private final OkHttpClient httpClient;
 
-    @NonNull
     private final String token;
 
     private <T> @NonNull ApiResponse<T> call(@NonNull OsuApiRequest<T> apiRequest) {
         log.debug("Request: {}", apiRequest);
+        // check token
+        if (StringUtils.isEmpty(token)) {
+            log.debug("Ignoring request due to missing token");
+            return ApiResponse.empty();
+        }
         // check rate limits
         if ((!(apiRequest instanceof OsuApiGetReplayRequest) || replayRateLimit.requestToken())
                 && rateLimit.requestToken()
