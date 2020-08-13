@@ -41,7 +41,7 @@ Server owners and administrators are not restricted by permissions.
 
 ## Support
 
-For additional help and support, join [Geozone](https://discord.gg/jKVZFhD) and feel free to ask any questions in the
+For additional help and support, join [Geozone](https://discord.gg/Tw3WEvP) and feel free to ask any questions in the
 support channel there.
 
 ## License
