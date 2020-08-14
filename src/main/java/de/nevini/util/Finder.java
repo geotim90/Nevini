@@ -1,5 +1,8 @@
 package de.nevini.util;
 
+import org.simmetrics.StringMetric;
+import org.simmetrics.metrics.StringMetrics;
+
 import java.util.*;
 import java.util.function.Function;
 
@@ -234,6 +237,10 @@ public class Finder {
         LinkedHashSet<T> matchesStartsWith = new LinkedHashSet<>();
         LinkedHashSet<T> matchesContains = new LinkedHashSet<>();
         LinkedHashSet<T> matchesContainsLenient = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesMostSimilar = new LinkedHashSet<>();
+        // prepare string metrics
+        float mostSimilarScore = 0;
+        StringMetric stringMetric = StringMetrics.jaroWinkler();
         // get the lower case query for comparisons that ignore case
         String lowerQuery = query.toLowerCase();
         // iterate over all values in order
@@ -260,6 +267,16 @@ public class Finder {
                                 // check for matches using containsLenient if no "better" matches were already found
                                 if (containsLenient(lowerIdentifier, lowerQuery)) {
                                     matchesContainsLenient.add(e);
+                                } else if (matchesContainsLenient.isEmpty()) {
+                                    // look for most similar matches if no "better" matches were already found
+                                    float score = stringMetric.compare(lowerIdentifier, lowerQuery);
+                                    if (score > mostSimilarScore) {
+                                        matchesMostSimilar.clear();
+                                        matchesMostSimilar.add(e);
+                                        mostSimilarScore = score;
+                                    } else if (score == mostSimilarScore) {
+                                        matchesMostSimilar.add(e);
+                                    }
                                 }
                             }
                         }
@@ -276,8 +293,10 @@ public class Finder {
             return new ArrayList<>(matchesStartsWith);
         } else if (!matchesContains.isEmpty()) {
             return new ArrayList<>(matchesContains);
-        } else {
+        } else if (!matchesContainsLenient.isEmpty()) {
             return new ArrayList<>(matchesContainsLenient);
+        } else {
+            return new ArrayList<>(matchesMostSimilar);
         }
     }
 

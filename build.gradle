@@ -41,6 +41,8 @@ dependencies {
 	implementation 'net.dv8tion:JDA:4.2.0_189'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.4'
 	implementation 'org.discordbots:DBL-Java-Library:2.0.1'
+	// other libs
+	implementation 'com.github.mpkorstanje:simmetrics-core:4.1.1'
 	// database
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
