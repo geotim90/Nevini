@@ -25,7 +25,7 @@ public class PriceCheckCommand extends Command {
     public PriceCheckCommand() {
         super(CommandDescriptor.builder()
                 .keyword("price-check")
-                .aliases(new String[]{"pc"})
+                .aliases(new String[]{"pc", "wtb", "wts"})
                 .guildOnly(false)
                 .node(Node.WARFRAME)
                 .description("performs a price check on a tradeable Warframe item using data from warframe.market")
