@@ -60,8 +60,7 @@ public class OsuRecentCommand extends Command {
             event.reply("No scores found.", event::complete);
         } else {
             event.notifyLongTaskStart();
-            EmbedBuilder embed = event.createEmbedBuilder();
-            embed.setAuthor(game.getName(), null, game.getIcon());
+            EmbedBuilder embed = event.createGameEmbedBuilder(game);
             int userId = recent.get(0).getUserId();
             String userName = osuService.getUserName(userId);
             embed.setTitle(userName, "https://osu.ppy.sh/u/" + userId);

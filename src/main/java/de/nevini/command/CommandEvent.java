@@ -1,5 +1,6 @@
 package de.nevini.command;
 
+import de.nevini.jpa.game.GameData;
 import de.nevini.scope.Permissions;
 import de.nevini.util.command.CommandOptions;
 import de.nevini.util.command.CommandReaction;
@@ -12,15 +13,11 @@ import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Emote;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.awt.*;
 import java.time.Instant;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -85,7 +82,6 @@ public class CommandEvent {
     /**
      * Provides a new {@link EmbedBuilder} with some default customisations.
      * <ul>
-     * <li>The guild name and icon will be used as the "author".</li>
      * <li>The self-member color, effective name and icon will be used as the "footer".</li>
      * <li>The current system time will be used as the "timestamp".</li>
      * </ul>
@@ -93,15 +89,74 @@ public class CommandEvent {
     public EmbedBuilder createEmbedBuilder() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if (isFromGuild()) {
-            embedBuilder.setAuthor(getGuild().getName(), null, getGuild().getIconUrl());
             embedBuilder.setColor(getGuild().getSelfMember().getColor());
             embedBuilder.setFooter(getGuild().getSelfMember().getEffectiveName(),
                     getJDA().getSelfUser().getAvatarUrl());
         } else {
-            embedBuilder.setAuthor(getJDA().getSelfUser().getName(), null, getJDA().getSelfUser().getAvatarUrl());
-            embedBuilder.setColor(Color.WHITE);
+            embedBuilder.setFooter(getJDA().getSelfUser().getName(), getJDA().getSelfUser().getAvatarUrl());
         }
         embedBuilder.setTimestamp(Instant.now());
+        return embedBuilder;
+    }
+
+    /**
+     * Provides a new {@link EmbedBuilder} with some customisations.
+     * <ul>
+     * <li>The game name and icon will be used as the "author".</li>
+     * <li>The self-member color, effective name and icon will be used as the "footer".</li>
+     * <li>The current system time will be used as the "timestamp".</li>
+     * </ul>
+     */
+    public EmbedBuilder createGameEmbedBuilder(GameData game) {
+        EmbedBuilder embedBuilder = createEmbedBuilder();
+        if (isFromGuild()) {
+            embedBuilder.setAuthor(game.getName(), null, game.getIcon());
+        }
+        return embedBuilder;
+    }
+
+    /**
+     * Provides a new {@link EmbedBuilder} with some customisations.
+     * <ul>
+     * <li>The guild name and icon will be used as the "author".</li>
+     * <li>The self-member color, effective name and icon will be used as the "footer".</li>
+     * <li>The current system time will be used as the "timestamp".</li>
+     * </ul>
+     */
+    public EmbedBuilder createGuildEmbedBuilder() {
+        EmbedBuilder embedBuilder = createEmbedBuilder();
+        if (isFromGuild()) {
+            embedBuilder.setAuthor(getGuild().getName(), null, getGuild().getIconUrl());
+        }
+        return embedBuilder;
+    }
+
+    /**
+     * Provides a new {@link EmbedBuilder} with some customisations.
+     * <ul>
+     * <li>The member color, effective name and icon will be used as the "author".</li>
+     * <li>The self-member effective name and icon will be used as the "footer".</li>
+     * <li>The current system time will be used as the "timestamp".</li>
+     * </ul>
+     */
+    public EmbedBuilder createMemberEmbedBuilder() {
+        return createMemberEmbedBuilder(getMember());
+    }
+
+    /**
+     * Provides a new {@link EmbedBuilder} with some customisations.
+     * <ul>
+     * <li>The member color, effective name and icon will be used as the "author".</li>
+     * <li>The self-member effective name and icon will be used as the "footer".</li>
+     * <li>The current system time will be used as the "timestamp".</li>
+     * </ul>
+     */
+    public EmbedBuilder createMemberEmbedBuilder(Member member) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        if (isFromGuild()) {
+            embedBuilder.setAuthor(member.getEffectiveName(), null, member.getUser().getEffectiveAvatarUrl());
+            embedBuilder.setColor(member.getColor());
+        }
         return embedBuilder;
     }
 

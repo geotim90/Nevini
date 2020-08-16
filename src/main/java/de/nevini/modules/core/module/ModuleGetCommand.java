@@ -41,7 +41,7 @@ class ModuleGetCommand extends Command {
     }
 
     private void listModules(CommandEvent event, List<Module> modules) {
-        EmbedBuilder builder = event.createEmbedBuilder();
+        EmbedBuilder builder = event.createGuildEmbedBuilder();
         for (Module module : modules) {
             builder.addField(module.getName(), event.getModuleService().isModuleActive(event.getGuild(), module)
                     ? CommandReaction.OK.getUnicode()

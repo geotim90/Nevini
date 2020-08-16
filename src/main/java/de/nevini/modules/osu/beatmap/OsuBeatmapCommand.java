@@ -91,8 +91,7 @@ public class OsuBeatmapCommand extends Command {
                         // update information - beatmap information may be outdated
                         OsuBeatmap beatmap = ObjectUtils.defaultIfNull(osuService.getBeatmap(item.getBeatmapId()), item);
 
-                        EmbedBuilder embed = event.createEmbedBuilder();
-                        embed.setAuthor(game.getName(), null, game.getIcon());
+                        EmbedBuilder embed = event.createGameEmbedBuilder(game);
                         embed.setTitle(Formatter.formatOsuBeatmap(beatmap), "https://osu.ppy.sh/b/" + beatmap.getBeatmapId());
                         embed.setDescription("Mapped by " + beatmap.getCreatorName());
                         embed.addField("Status", beatmap.getApproved().getName(), true);

@@ -35,7 +35,7 @@ public class WeaponCommand extends Command {
     }
 
     private void acceptWeapon(CommandEvent event, WfsWeapon item) {
-        EmbedBuilder embedBuilder = event.createEmbedBuilder().setAuthor(null)
+        EmbedBuilder embedBuilder = event.createEmbedBuilder()
                 .setTitle(item.getName(), item.getWikiaUrl())
                 .setDescription("MR " + item.getMasteryReq() + " " + item.getType() + "\n\n" + item.getDescription())
                 .setThumbnail(item.getWikiaThumbnail());

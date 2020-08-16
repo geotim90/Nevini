@@ -59,8 +59,7 @@ class IgnGetCommand extends Command {
         if (igns.isEmpty()) {
             event.reply("I have no in-game names for " + member.getEffectiveName() + ".", event::complete);
         } else {
-            EmbedBuilder builder = event.createEmbedBuilder();
-            builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
+            EmbedBuilder builder = event.createMemberEmbedBuilder(member);
             igns.forEach((game, ign) -> builder.addField(game, ign, true));
             event.reply(builder, event::complete);
         }
@@ -75,8 +74,7 @@ class IgnGetCommand extends Command {
         if (igns.isEmpty()) {
             event.reply("I have no in-game names for " + game.getName() + ".", event::complete);
         } else {
-            EmbedBuilder builder = event.createEmbedBuilder();
-            builder.setAuthor(game.getName(), null, game.getIcon());
+            EmbedBuilder builder = event.createGameEmbedBuilder(game);
             igns.forEach((member, ign) -> builder.addField(member, ign, true));
             event.reply(builder, event::complete);
         }
