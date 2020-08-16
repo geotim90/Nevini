@@ -18,6 +18,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -85,9 +86,11 @@ public class TributeRoleListener {
                 memberDetails.setJoined(tributeService.getStart(member));
                 memberDetails.setContribution(tributeService.getTribute(member));
                 long contributionDelayInDays = ObjectUtils.defaultIfNull(tributeService.getDelay(member), 0L);
-                memberDetails.setDeadline(OffsetDateTime.ofInstant(Instant.ofEpochMilli(memberDetails.getJoined()),
-                        ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays).toInstant()
-                        .toEpochMilli());
+                if (memberDetails.getJoined() != null) {
+                    memberDetails.setDeadline(OffsetDateTime.ofInstant(Instant.ofEpochMilli(memberDetails.getJoined()),
+                            ZoneOffset.UTC).plusDays(contributionTimeoutInDays + contributionDelayInDays).toInstant()
+                            .toEpochMilli());
+                }
                 return memberDetails;
             }).filter(member -> member.getDeadline() > uts && member.getDeadline() <= now).forEach(member -> {
                 if (member.isContribution()) {
@@ -114,7 +117,8 @@ public class TributeRoleListener {
     @Data
     private static class MemberReportDetails {
         Member member;
-        long joined;
+        @Nullable
+        Long joined;
         boolean contribution;
         long deadline;
     }
