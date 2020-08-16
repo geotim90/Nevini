@@ -15,7 +15,7 @@ You need to be the owner of the Discord server or have the "Administrator" or "M
 You can grant or restrict permissions for Nevini as you wish.
 Nevini will default to direct messages if everything else fails.
 
-[https://discordapp.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392](https://discordapp.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392)
+[https://discord.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392](https://discord.com/oauth2/authorize?scope=bot&client_id=570972920692736002&permissions=355392).
 
 ## Commands
 
