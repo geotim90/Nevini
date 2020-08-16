@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +46,7 @@ public class Application implements JdaProvider {
                     GatewayIntent.GUILD_MESSAGE_REACTIONS, // needed for pagination
                     GatewayIntent.DIRECT_MESSAGES, // needed for DM commands
                     GatewayIntent.DIRECT_MESSAGE_REACTIONS // needed for DM pagination
-            );
+            ).disableCache(CacheFlag.EMOTE);
 
             log.info("Registering event dispatcher");
             shardBuilder.addEventListeners(eventDispatcher);
