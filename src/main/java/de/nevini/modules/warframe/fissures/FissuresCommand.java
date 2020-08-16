@@ -9,9 +9,13 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.services.warframe.WarframeStatsService;
 import de.nevini.util.command.CommandReaction;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class FissuresCommand extends Command {
@@ -37,14 +41,26 @@ public class FissuresCommand extends Command {
             return;
         }
 
-        StringBuilder builder = new StringBuilder();
-        worldState.getFissures().stream()
+        // collect data
+        List<WfsFissure> fissures = worldState.getFissures().stream()
+                .filter(fissure -> fissure.getExpiry().isAfter(OffsetDateTime.now()))
                 .sorted(Comparator.comparing(WfsFissure::getTierNum).thenComparing(WfsFissure::getExpiry))
-                .forEach(fissure -> builder.append("\n\n**").append(fissure.getNode()).append("**\n**")
-                        .append(fissure.getMissionType()).append("** - **").append(fissure.getEnemy())
-                        .append("**\n").append(fissure.getTier()).append(" Fissure\n")
-                        .append(WfsFormatter.formatEta(fissure.getExpiry())));
-        event.reply(builder.toString(), event::complete);
+                .collect(Collectors.toList());
+        List<String> tiers = fissures.stream().map(WfsFissure::getTier).distinct().collect(Collectors.toList());
+
+        // build embed
+        EmbedBuilder embed = event.createEmbedBuilder()
+                .setTitle("Void Fissures")
+                .setFooter("warframestat.us", "https://warframestat.us/wfcd_logo_color.png");
+        for (String tier : tiers) {
+            StringBuilder builder = new StringBuilder();
+            fissures.stream().filter(fissure -> tier.equals(fissure.getTier())).forEach(fissure -> builder
+                    .append("[").append(WfsFormatter.formatEta(fissure.getExpiry())).append("] ")
+                    .append(fissure.getEnemy()).append(" **").append(fissure.getMissionType()).append("** ")
+                    .append(fissure.getNode()).append("\n"));
+            embed.addField(tier, builder.toString(), false);
+        }
+        event.reply(embed, event::complete);
     }
 
 }
