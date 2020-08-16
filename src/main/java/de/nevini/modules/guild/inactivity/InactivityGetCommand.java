@@ -24,7 +24,7 @@ class InactivityGetCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        EmbedBuilder builder = event.createEmbedBuilder();
+        EmbedBuilder builder = event.createGuildEmbedBuilder();
         Integer onlineThreshold = event.getInactivityService().getOnlineThreshold(event.getGuild());
         builder.addField("Discord",
                 onlineThreshold == null ? "(not configured)" : onlineThreshold + " days", true);

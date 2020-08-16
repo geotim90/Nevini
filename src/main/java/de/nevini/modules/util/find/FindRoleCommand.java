@@ -34,7 +34,7 @@ class FindRoleCommand extends Command {
         if (roles.isEmpty()) {
             event.reply("I could not find any roles that matched your input.", event::complete);
         } else {
-            EmbedBuilder embed = event.createEmbedBuilder();
+            EmbedBuilder embed = event.createGuildEmbedBuilder();
             roles.forEach(role -> embed.addField(role.getName(), role.getId(), true));
             event.reply(embed, event::complete);
         }

@@ -56,8 +56,7 @@ public class OsuStatsCommand extends Command {
         if (user == null) {
             event.reply("User not found.", event::complete);
         } else {
-            EmbedBuilder embed = event.createEmbedBuilder();
-            embed.setAuthor(game.getName(), null, game.getIcon());
+            EmbedBuilder embed = event.createGameEmbedBuilder(game);
             embed.setTitle(user.getUserName(), "https://osu.ppy.sh/u/" + user.getUserId());
 
             embed.addField("Country", user.getCountry(), true);

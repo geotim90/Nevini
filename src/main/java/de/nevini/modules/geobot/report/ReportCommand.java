@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.apache.commons.lang3.ObjectUtils;
 
+import javax.annotation.Nullable;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -79,7 +80,7 @@ public class ReportCommand extends Command {
                     event.getActivityService().getActivityPlaying(member, gameId)));
 
             // additional information for initiates
-            if (memberDetails.isInitiate()) {
+            if (memberDetails.isInitiate() && memberDetails.getJoined() != null) {
                 long contributionDelayInDays = ObjectUtils.defaultIfNull(
                         event.getTributeService().getDelay(member), 0L);
                 memberDetails.setDeadline(OffsetDateTime.ofInstant(Instant.ofEpochMilli(memberDetails.getJoined()),
@@ -190,6 +191,7 @@ public class ReportCommand extends Command {
     private static class MemberReportDetails {
         Member member;
         boolean initiate;
+        @Nullable
         Long joined;
         boolean contribution;
         Long lastOnline;

@@ -34,7 +34,7 @@ class FindUserCommand extends Command {
         if (members.isEmpty()) {
             event.reply("I could not find any users that matched your input.", event::complete);
         } else {
-            EmbedBuilder embed = event.createEmbedBuilder();
+            EmbedBuilder embed = event.createGuildEmbedBuilder();
             members.forEach(member -> embed.addField(
                     member.getEffectiveName(),
                     member.getUser().getId() + '\n' + member.getUser().getAsTag(),

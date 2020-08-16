@@ -64,7 +64,7 @@ class ActivityGetCommand extends Command {
         if (lastPlayed.isEmpty()) {
             event.reply("Nobody with that role has played this game recently.", event::complete);
         } else {
-            EmbedBuilder builder = event.createEmbedBuilder();
+            EmbedBuilder builder = event.createGuildEmbedBuilder();
             builder.setAuthor(game.getName(), null, game.getIcon());
             lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
                     Formatter.formatLargestUnitAgo(timestamp), true));
@@ -98,8 +98,7 @@ class ActivityGetCommand extends Command {
     }
 
     private void reportUserActivity(CommandEvent event, Member member) {
-        EmbedBuilder builder = event.createEmbedBuilder();
-        builder.setAuthor(member.getEffectiveName(), null, member.getUser().getAvatarUrl());
+        EmbedBuilder builder = event.createMemberEmbedBuilder(member);
         builder.addField("Discord", Formatter.formatLargestUnitAgo(
                 ObjectUtils.defaultIfNull(event.getActivityService().getActivityOnline(member), 0L)
         ), true);
@@ -123,8 +122,7 @@ class ActivityGetCommand extends Command {
         if (lastPlayed.isEmpty()) {
             event.reply("Nobody here has played this game recently.", event::complete);
         } else {
-            EmbedBuilder builder = event.createEmbedBuilder();
-            builder.setAuthor(game.getName(), null, game.getIcon());
+            EmbedBuilder builder = event.createGameEmbedBuilder(game);
             lastPlayed.forEach((member, timestamp) -> builder.addField(member.getEffectiveName(),
                     Formatter.formatLargestUnitAgo(timestamp), true));
             event.reply(builder, event::complete);

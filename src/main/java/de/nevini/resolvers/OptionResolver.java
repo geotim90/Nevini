@@ -155,7 +155,7 @@ public abstract class OptionResolver<T> extends FlagResolver {
                 replyAmbiguous(event);
             } else if (results.size() > 1) {
                 new PickerEmbed<>(
-                        event.getChannel(), event.getAuthor(), event.createEmbedBuilder(),
+                        event.getChannel(), event.getAuthor(), event.createMemberEmbedBuilder(),
                         results, this::getFieldNameForPicker, this::getFieldValueForPicker,
                         event.getEventDispatcher(), callback, () -> replyExpired(event)
                 ).display();

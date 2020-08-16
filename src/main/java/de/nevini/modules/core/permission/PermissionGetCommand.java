@@ -66,7 +66,7 @@ class PermissionGetCommand extends Command {
     }
 
     private void displayServerPermissions(CommandEvent event, PermissionOptions options) {
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription("Effective server permissions:");
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
@@ -83,7 +83,7 @@ class PermissionGetCommand extends Command {
 
     private void displayPermissionPermissions(CommandEvent event, PermissionOptions options) {
         Permission permission = options.getPermission();
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription("Effective server permissions for **" + permission.getName() + "**:");
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
@@ -101,7 +101,7 @@ class PermissionGetCommand extends Command {
 
     private void displayRolePermissions(CommandEvent event, PermissionOptions options) {
         Role role = options.getRole();
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription("Effective server permissions for **" + role.getName() + "**:");
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
@@ -118,7 +118,7 @@ class PermissionGetCommand extends Command {
 
     private void displayUserPermissions(CommandEvent event, PermissionOptions options) {
         Member member = options.getMember();
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription("Effective server permissions for **" + member.getEffectiveName() + "**:");
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
@@ -135,7 +135,7 @@ class PermissionGetCommand extends Command {
 
     private void displayChannelPermissions(CommandEvent event, PermissionOptions options) {
         TextChannel channel = options.getChannel();
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription("Effective permissions for **" + channel.getName() + "**:");
         for (Node node : options.getNodes()) {
             if (!event.getModuleService().isModuleActive(event.getGuild(), node.getModule())) {
@@ -153,7 +153,7 @@ class PermissionGetCommand extends Command {
     private void displayChannelPermissionPermissions(CommandEvent event, PermissionOptions options) {
         Permission permission = options.getPermission();
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription(
                 "Effective permissions for **" + permission.getName() + "** in **" + channel.getName() + "**:");
         for (Node node : options.getNodes()) {
@@ -173,7 +173,7 @@ class PermissionGetCommand extends Command {
     private void displayChannelRolePermissions(CommandEvent event, PermissionOptions options) {
         Role role = options.getRole();
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription(
                 "Effective permissions for **" + role.getName() + "** in **" + channel.getName() + "**:"
         );
@@ -193,7 +193,7 @@ class PermissionGetCommand extends Command {
     private void displayChannelUserPermissions(CommandEvent event, PermissionOptions options) {
         Member member = ObjectUtils.defaultIfNull(options.getMember(), event.getMember());
         TextChannel channel = ObjectUtils.defaultIfNull(options.getChannel(), event.getTextChannel());
-        EmbedBuilder embedBuilder = event.createEmbedBuilder();
+        EmbedBuilder embedBuilder = event.createGuildEmbedBuilder();
         embedBuilder.setDescription(
                 "Effective permissions for **" + member.getEffectiveName() + "** in **" + channel.getName() + "**:"
         );

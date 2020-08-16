@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Nullable;
+
 @Slf4j
 @Service
 public class TributeService {
@@ -37,7 +39,8 @@ public class TributeService {
         this.timeoutRepository = timeoutRepository;
     }
 
-    public Long getStart(@NonNull Member member) {
+    public @Nullable
+    Long getStart(@NonNull Member member) {
         return memberRepository.findById(new TributeMemberId(member.getGuild().getIdLong(), member.getIdLong()))
                 .map(TributeMemberData::getStart).orElse(null);
     }

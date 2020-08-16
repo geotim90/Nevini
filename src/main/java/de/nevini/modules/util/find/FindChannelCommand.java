@@ -34,7 +34,7 @@ class FindChannelCommand extends Command {
         if (channels.isEmpty()) {
             event.reply("I could not find any channels that matched your input.", event::complete);
         } else {
-            EmbedBuilder embed = event.createEmbedBuilder();
+            EmbedBuilder embed = event.createGuildEmbedBuilder();
             channels.forEach(channel -> embed.addField(channel.getName(), channel.getId(), true));
             event.reply(embed, event::complete);
         }

@@ -30,7 +30,7 @@ class AutoRoleGetCommand extends Command {
         if (autoRoles.isEmpty()) {
             event.reply("There are currently no auto-roles configured for this server.", event::complete);
         } else {
-            EmbedBuilder builder = event.createEmbedBuilder();
+            EmbedBuilder builder = event.createGuildEmbedBuilder();
             builder.setTitle("Active auto-roles");
             for (AutoRoleData autoRole : autoRoles) {
                 Role role = event.getGuild().getRoleById(autoRole.getRole());

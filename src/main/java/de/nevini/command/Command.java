@@ -196,7 +196,7 @@ public abstract class Command {
         new PickerEmbed<>(
                 event.getTextChannel(),
                 event.getAuthor(),
-                event.createEmbedBuilder(),
+                event.createMemberEmbedBuilder(),
                 Arrays.asList(getChildren()),
                 Command::getKeyword,
                 Command::getDescription,

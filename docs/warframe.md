@@ -216,7 +216,7 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-price-check | pc
+price-check | pc<br>wtb<br>wts
 --item | //item
 
 ## Command: `riven`

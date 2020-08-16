@@ -53,8 +53,7 @@ class IgnMissingCommand extends Command {
         if (members.isEmpty()) {
             event.reply("No users missing in-game names for " + game.getName() + ".", event::complete);
         } else {
-            EmbedBuilder builder = event.createEmbedBuilder();
-            builder.setAuthor(game.getName(), null, game.getIcon());
+            EmbedBuilder builder = event.createGameEmbedBuilder(game);
             members.stream().sorted(Comparator.comparing(Member::getEffectiveName))
                     .forEach(member -> builder.addField(member.getEffectiveName(),
                             member.getUser().getId() + '\n' + member.getUser().getAsTag(), true));

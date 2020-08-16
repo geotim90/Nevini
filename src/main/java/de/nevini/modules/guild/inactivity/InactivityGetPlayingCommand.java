@@ -30,7 +30,7 @@ public class InactivityGetPlayingCommand extends Command {
 
     private void acceptGame(CommandEvent event, GameData game) {
         if (game == null) {
-            EmbedBuilder builder = event.createEmbedBuilder();
+            EmbedBuilder builder = event.createGuildEmbedBuilder();
             event.getInactivityService().getPlayingThresholds(event.getGuild()).forEach((g, days) ->
                     builder.addField(event.getGameService().getGameName(g), days + " days", true));
             event.reply(builder, event::complete);

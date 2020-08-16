@@ -77,8 +77,7 @@ public class OsuDiagCommand extends Command {
                 }
             }
             // output statistics
-            EmbedBuilder embed = event.createEmbedBuilder();
-            embed.setAuthor(game.getName(), null, game.getIcon());
+            EmbedBuilder embed = event.createGameEmbedBuilder(game);
             int userId = best.get(0).getUserId();
             String userName = osuService.getUserName(userId);
             embed.setTitle(userName, "https://osu.ppy.sh/u/" + userId);
