@@ -8,7 +8,6 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.services.warframe.WarframeStatsService;
 import de.nevini.util.command.CommandReaction;
-import net.dv8tion.jda.api.EmbedBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -41,8 +40,8 @@ public class NewsCommand extends Command {
         worldState.getNews().stream().sorted(Comparator.comparing(WfsNews::getDate).reversed())
                 .forEach(news -> builder.append(news.getAsString()).append('\n'));
 
-        event.reply(new EmbedBuilder().setTitle("Warframe News", "https://www.warframe.com/")
-                .setColor(event.getGuild().getSelfMember().getColor())
+        event.reply(event.createEmbedBuilder()
+                .setTitle("Warframe News", "https://www.warframe.com/")
                 .setFooter("warframestat.us", "https://warframestat.us/wfcd_logo_color.png")
                 .setTimestamp(worldState.getTimestamp())
                 .setDescription(builder.toString()), event::complete);

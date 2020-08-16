@@ -38,7 +38,8 @@ public class WeaponCommand extends Command {
         EmbedBuilder embedBuilder = event.createEmbedBuilder()
                 .setTitle(item.getName(), item.getWikiaUrl())
                 .setDescription("MR " + item.getMasteryReq() + " " + item.getType() + "\n\n" + item.getDescription())
-                .setThumbnail(item.getWikiaThumbnail());
+                .setThumbnail(item.getWikiaThumbnail())
+                .setFooter("warframestat.us", "https://warframestat.us/wfcd_logo_color.png");
         if (item.getAccuracy() != null && item.getAccuracy() > 0) {
             embedBuilder.addField("Accuracy", Formatter.formatDecimal(item.getAccuracy()), true);
         }
