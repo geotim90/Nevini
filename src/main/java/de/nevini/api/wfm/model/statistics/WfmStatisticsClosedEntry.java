@@ -11,40 +11,40 @@ import java.time.OffsetDateTime;
 public class WfmStatisticsClosedEntry {
 
     @SerializedName("datetime")
-    private OffsetDateTime dateTime;
+    OffsetDateTime dateTime;
 
     @SerializedName("volume")
-    private Integer volume;
+    Integer volume;
 
     @SerializedName("min_price")
-    private Integer minPrice;
+    Integer minPrice;
 
     @SerializedName("max_price")
-    private Integer maxPrice;
+    Integer maxPrice;
 
     @SerializedName("open_price")
-    private Integer openPrice;
+    Integer openPrice;
 
     @SerializedName("closed_price")
-    private Integer closedPrice;
+    Integer closedPrice;
 
     @SerializedName("avg_price")
-    private Float avgPrice;
+    Float avgPrice;
 
     @SerializedName("wa_price")
-    private Float waPrice;
+    Float waPrice;
 
     // note: not true median!
     @SerializedName("median")
-    private Float median;
+    Float median;
 
     @SerializedName("donch_top")
-    private Integer donchTop;
+    Integer donchTop;
 
     @SerializedName("donch_bot")
-    private Integer donchBot;
+    Integer donchBot;
 
     @SerializedName("id")
-    private String id;
+    String id;
 
 }

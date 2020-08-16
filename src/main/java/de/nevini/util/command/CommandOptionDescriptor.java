@@ -15,25 +15,25 @@ public class CommandOptionDescriptor {
      * The full syntax for this command option (required).
      */
     @NonNull
-    private final String syntax;
+    String syntax;
 
     /**
      * A short description of this command option (required).
      */
     @NonNull
-    private final String description;
+    String description;
 
     /**
      * The keyword for this command option (required).
      */
     @NonNull
-    private final String keyword;
+    String keyword;
 
     /**
      * Alternative keywords for this command option (empty by default).
      */
     @NonNull
     @Builder.Default
-    private final String[] aliases = {};
+    String[] aliases = {};
 
 }

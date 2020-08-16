@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.darvo;
 
-import de.nevini.api.wfs.model.WfsDailyDeal;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsDailyDeal;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -19,7 +19,7 @@ public class DarvoCommand extends Command {
                 .keyword("darvo")
                 .aliases(new String[]{"darvo-deal", "daily-deal"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active Darvo Deal using data from warframestat.us")
                 .build());
     }

@@ -37,22 +37,14 @@ public class Application implements JdaProvider {
         if (active && token != null && shards > 0) {
             log.info("Configuring JDABuilder");
             log.info("Authenticating using token");
-            JDABuilder shardBuilder = JDABuilder.create(token,
-                    // GatewayIntent.GUILDS, // always enabled by JDA
+            JDABuilder shardBuilder = JDABuilder.createDefault(token,
                     GatewayIntent.GUILD_MEMBERS, // needed for member join events
-                    // GatewayIntent.GUILD_BANS, // unused
-                    GatewayIntent.GUILD_EMOJIS, // CacheFlag.EMOTE
-                    // GatewayIntent.GUILD_INTEGRATIONS, // unused
-                    // GatewayIntent.GUILD_WEBHOOKS, // unused
-                    // GatewayIntent.GUILD_INVITES, // unused
                     GatewayIntent.GUILD_VOICE_STATES, // needed for voice activity tracking
                     GatewayIntent.GUILD_PRESENCES, // needed for activity tracking
                     GatewayIntent.GUILD_MESSAGES, // needed for commands and ghost-ping detection
                     GatewayIntent.GUILD_MESSAGE_REACTIONS, // needed for pagination
-                    // GatewayIntent.GUILD_MESSAGE_TYPING, // unused
                     GatewayIntent.DIRECT_MESSAGES, // needed for DM commands
                     GatewayIntent.DIRECT_MESSAGE_REACTIONS // needed for DM pagination
-                    // GatewayIntent.DIRECT_MESSAGE_TYPING // unused
             );
 
             log.info("Registering event dispatcher");

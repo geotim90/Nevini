@@ -21,16 +21,16 @@ import java.util.List;
 @Value
 public class OsuApiGetBeatmapsRequest implements OsuApiRequest<List<OsuApiBeatmap>> {
 
-    private final Date since;
-    private final Integer beatmapsetId;
-    private final Integer beatmapId;
-    private final String user;
-    private final OsuUserType userType;
-    private final Integer mode;
-    private final Boolean includeConvertedBeatmaps;
-    private final String beatmapHash;
-    private final Integer limit;
-    private final Integer mods;
+    Date since;
+    Integer beatmapsetId;
+    Integer beatmapId;
+    String user;
+    OsuUserType userType;
+    Integer mode;
+    Boolean includeConvertedBeatmaps;
+    String beatmapHash;
+    Integer limit;
+    Integer mods;
 
     @Override
     public @NonNull String getEndpoint() {

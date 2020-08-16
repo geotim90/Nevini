@@ -1,6 +1,6 @@
 package de.nevini.modules.warframe.events;
 
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -17,7 +17,7 @@ public class EventsCommand extends Command {
                 .keyword("events")
                 .aliases(new String[]{"event"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays ongoing events using data from warframestat.us")
                 .build());
     }

@@ -20,12 +20,12 @@ import java.util.List;
 public class OsuApiGetScoresRequest implements OsuApiRequest<List<OsuApiScore>> {
 
     @NonNull
-    private final Integer beatmapId;
-    private final String user;
-    private final OsuUserType userType;
-    private final Integer mode;
-    private final Integer mods;
-    private final Integer limit;
+    Integer beatmapId;
+    String user;
+    OsuUserType userType;
+    Integer mode;
+    Integer mods;
+    Integer limit;
 
     @Override
     public @NonNull String getEndpoint() {

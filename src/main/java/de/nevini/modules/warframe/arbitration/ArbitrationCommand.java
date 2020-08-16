@@ -1,6 +1,6 @@
 package de.nevini.modules.warframe.arbitration;
 
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -17,7 +17,7 @@ public class ArbitrationCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("arbitration")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active arbitration using data from warframestat.us")
                 .build());
     }

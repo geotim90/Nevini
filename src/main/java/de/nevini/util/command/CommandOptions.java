@@ -38,10 +38,10 @@ public class CommandOptions {
      * Contains a list of all options, flags, mentions and arguments as raw strings.
      */
     @NonNull
-    private final List<String> arguments;
+    List<String> arguments;
 
-    private final Lazy<String> argument = Lazy.of(this::supplyArgument);
-    private final Lazy<List<String>> options = Lazy.of(this::supplyOptions);
+    Lazy<String> argument = Lazy.of(this::supplyArgument);
+    Lazy<List<String>> options = Lazy.of(this::supplyOptions);
 
     /**
      * Returns the argument (any text after the command keyword and before the first option, flag or mention).

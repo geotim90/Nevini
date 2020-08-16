@@ -1,7 +1,7 @@
 package de.nevini.api.wfs.requests;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 package de.nevini.modules.warframe.sortie;
 
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -17,7 +17,7 @@ public class SortieCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("sortie")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active sorties using data from warframestat.us")
                 .build());
     }

@@ -9,114 +9,114 @@ import java.util.Date;
 public class OsuApiBeatmap {
 
     @SerializedName("approved")
-    private final Integer approved;
+    Integer approved;
 
     @SerializedName("submit_date")
-    private final Date submitDate;
+    Date submitDate;
 
     @SerializedName("approved_date")
-    private final Date approvedDate;
+    Date approvedDate;
 
     @SerializedName("last_update")
-    private final Date lastUpdate;
+    Date lastUpdate;
 
     @SerializedName("artist")
-    private final String artist;
+    String artist;
 
     @SerializedName("beatmap_id")
-    private final Integer beatmapId;
+    Integer beatmapId;
 
     @SerializedName("beatmapset_id")
-    private final Integer beatmapsetId;
+    Integer beatmapsetId;
 
     @SerializedName("bpm")
-    private final Double bpm;
+    Double bpm;
 
     @SerializedName("creator")
-    private final String creatorName;
+    String creatorName;
 
     @SerializedName("creator_id")
-    private final Integer creatorId;
+    Integer creatorId;
 
     @SerializedName("difficultyrating")
-    private final Double difficultyRating;
+    Double difficultyRating;
 
     @SerializedName("diff_aim")
-    private final Double difficultyAim;
+    Double difficultyAim;
 
     @SerializedName("diff_speed")
-    private final Double difficultySpeed;
+    Double difficultySpeed;
 
     @SerializedName("diff_size")
-    private final Double difficultySize;
+    Double difficultySize;
 
     @SerializedName("diff_overall")
-    private final Double difficultyOverall;
+    Double difficultyOverall;
 
     @SerializedName("diff_approach")
-    private final Double difficultyApproach;
+    Double difficultyApproach;
 
     @SerializedName("diff_drain")
-    private final Double difficultyDrain;
+    Double difficultyDrain;
 
     @SerializedName("hit_length")
-    private final Integer hitLength;
+    Integer hitLength;
 
     @SerializedName("source")
-    private final String source;
+    String source;
 
     @SerializedName("genre_id")
-    private final Integer genre;
+    Integer genre;
 
     @SerializedName("language_id")
-    private final Integer language;
+    Integer language;
 
     @SerializedName("title")
-    private final String title;
+    String title;
 
     @SerializedName("total_length")
-    private final Integer totalLength;
+    Integer totalLength;
 
     @SerializedName("version")
-    private final String version;
+    String version;
 
     @SerializedName("file_md5")
-    private final String fileMd5;
+    String fileMd5;
 
     @SerializedName("mode")
-    private final Integer mode;
+    Integer mode;
 
     @SerializedName("tags")
-    private final String tags;
+    String tags;
 
     @SerializedName("favourite_count")
-    private final Integer favouriteCount;
+    Integer favouriteCount;
 
     @SerializedName("rating")
-    private final Double rating;
+    Double rating;
 
     @SerializedName("playcount")
-    private final Integer playCount;
+    Integer playCount;
 
     @SerializedName("passcount")
-    private final Integer passCount;
+    Integer passCount;
 
     @SerializedName("count_normal")
-    private final Integer countNormal;
+    Integer countNormal;
 
     @SerializedName("count_slider")
-    private final Integer countSlider;
+    Integer countSlider;
 
     @SerializedName("count_spinner")
-    private final Integer countSpinner;
+    Integer countSpinner;
 
     @SerializedName("max_combo")
-    private final Integer maxCombo;
+    Integer maxCombo;
 
     @SerializedName("download_unavailable")
-    private final Boolean downloadUnavailable;
+    Boolean downloadUnavailable;
 
     @SerializedName("audio_unavailable")
-    private final Boolean audioUnavailable;
+    Boolean audioUnavailable;
 
 }

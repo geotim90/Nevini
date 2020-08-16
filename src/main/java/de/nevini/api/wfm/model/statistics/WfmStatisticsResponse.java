@@ -9,6 +9,6 @@ import lombok.Value;
 public class WfmStatisticsResponse {
 
     @SerializedName("payload")
-    private WfmStatisticsPayload payload;
+    WfmStatisticsPayload payload;
 
 }

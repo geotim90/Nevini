@@ -11,6 +11,6 @@ import java.util.List;
 public class WfmOrdersPayload {
 
     @SerializedName("orders")
-    private List<WfmOrder> orders;
+    List<WfmOrder> orders;
 
 }

@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.boosters;
 
-import de.nevini.api.wfs.model.WfsGlobalUpgrade;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsGlobalUpgrade;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -18,7 +18,7 @@ public class BoostersCommand extends Command {
                 .keyword("boosters")
                 .aliases(new String[]{"upgrades", "global-upgrades"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active boosters using data from warframestat.us")
                 .build());
     }

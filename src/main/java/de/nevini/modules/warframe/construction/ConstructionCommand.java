@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.construction;
 
-import de.nevini.api.wfs.model.WfsConstructionProgress;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsConstructionProgress;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -18,7 +18,7 @@ public class ConstructionCommand extends Command {
                 .keyword("construction")
                 .aliases(new String[]{"fomorian", "razorback"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the current construction progress using data from warframestat.us")
                 .build());
     }

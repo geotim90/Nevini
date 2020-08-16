@@ -6,12 +6,12 @@ import lombok.Value;
 @Value
 public class OsuReplay {
 
-    private final OsuMode mode;
-    private final Integer beatmapId;
-    private final String user;
-    private final OsuUserType userType;
-    private final OsuMod[] mods;
-    private final String content;
-    private final String encoding;
+    OsuMode mode;
+    Integer beatmapId;
+    String user;
+    OsuUserType userType;
+    OsuMod[] mods;
+    String content;
+    String encoding;
 
 }

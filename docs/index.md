@@ -4,7 +4,7 @@
 # Nevini
 
 Nevini is an open-source multi-purpose Discord bot.
-Its primary instance is hosted by [Geotim](https://github.com/geotim90), who is also the owner of the [GitHub repository](https://github.com/geotim90/Nevini).
+It is hosted in Germany by [Geotim](https://github.com/geotim90), who is also the owner of the [GitHub repository](https://github.com/geotim90/Nevini).
 Feel free to make suggestions in the [Issues](https://github.com/geotim90/Nevini/issues) section or even submit you own pull requests.
 The code is licensed under [Apache License Version 2.0](#license).
 
@@ -44,9 +44,40 @@ Server owners and administrators are not restricted by permissions.
 For additional help and support, join [Geozone](https://discord.gg/Tw3WEvP) and feel free to ask any questions in the
 support channel there.
 
+## Privacy
+
+Nevini uses the following gateway intents.
+
+Intent | Purpose
+------ | -------
+`GUILDS` | to know which servers the bot is in
+`GUILD_MEMBERS` | to know which users are in a server
+`GUILD_VOICE_STATES` | to know when a user joins and leaves a voice channel for auto-roles
+`GUILD_PRESENCES` | to know when a user is online and when a user is playing a game
+`GUILD_MESSAGES` | to see messages in server channels
+`GUILD_MESSAGE_REACTIONS` | to see reactions in server channels
+`DIRECT_MESSAGES` | to see message in direct messages to the bot
+`DIRECT_MESSAGE_REACTIONS` | to see reactions in direct messages to the bot
+
+All interactions with the bot are logged. These logs are discarded after 90 days.
+
+Nevini uses a database to persist certain information.
+
+Information | Purpose
+----------- | -------
+Discord user activity | record of when a user was last online, last sent a message, and last played a game
+Game metadata | persistent cache of application IDs, names and icon URLs
+Nevini configuration | record of settings and parameters configured via commands
+Nevini data | record of data entered via commands
+osu! beatmap metadata | persistent cache to reduce the number of osu!api calls
+osu! score metadata | persistent cache to reduce the number of osu!api calls
+osu! user metadata | persistent cache to reduce the number of osu!api calls 
+
+Information about Discord users can only be retrieved in servers that user is currently part of.
+
 ## License
 
-Copyright &copy; 2019 [Geotim](https://github.com/geotim90)
+Copyright &copy; 2019-2020 [Geotim](https://github.com/geotim90)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use files in this repository except in
 compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.

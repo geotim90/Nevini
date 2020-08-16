@@ -30,5 +30,6 @@ HELP.md
 .vscode/
 
 ### Nevini ###
+/logs/
 application.properties
 nevini.*.db

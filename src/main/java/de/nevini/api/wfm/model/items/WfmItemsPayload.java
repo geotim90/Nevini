@@ -11,6 +11,6 @@ import java.util.List;
 public class WfmItemsPayload {
 
     @SerializedName("items")
-    private List<WfmItemName> items;
+    List<WfmItemName> items;
 
 }

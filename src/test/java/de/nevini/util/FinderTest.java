@@ -82,6 +82,14 @@ public class FinderTest {
         Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "**D-V**"));
     }
 
+    @Test
+    public void testMostSimilar() {
+        // makes sure the "mostSimilar" values are returned
+        List<String> expected = new ArrayList<>(Collections.singleton("devalue"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "vedalu"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "vedalu"));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testEmptyQueryFindingStringInArray() {
         Finder.find(new String[]{"any"}, "");

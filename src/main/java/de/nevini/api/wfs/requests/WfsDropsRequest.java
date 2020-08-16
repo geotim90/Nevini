@@ -2,7 +2,7 @@ package de.nevini.api.wfs.requests;
 
 import com.google.gson.reflect.TypeToken;
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.WfsDrops;
+import de.nevini.api.wfs.model.drops.WfsDrops;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;

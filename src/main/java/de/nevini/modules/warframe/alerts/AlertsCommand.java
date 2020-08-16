@@ -1,8 +1,8 @@
 package de.nevini.modules.warframe.alerts;
 
-import de.nevini.api.wfs.model.WfsAlert;
-import de.nevini.api.wfs.model.WfsAlertMission;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsAlert;
+import de.nevini.api.wfs.model.worldstate.WfsAlertMission;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -23,7 +23,7 @@ public class AlertsCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("alerts")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active alerts using data from warframestat.us")
                 .build());
     }

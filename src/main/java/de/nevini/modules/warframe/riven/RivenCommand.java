@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.riven;
 
-import de.nevini.api.wfs.model.WfsRiven;
-import de.nevini.api.wfs.model.WfsRivenData;
+import de.nevini.api.wfs.model.rivens.WfsRiven;
+import de.nevini.api.wfs.model.rivens.WfsRivenData;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -18,9 +18,8 @@ public class RivenCommand extends Command {
     public RivenCommand() {
         super(CommandDescriptor.builder()
                 .keyword("riven")
-                .aliases(new String[]{"rivens"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays trading statistics for rivens using data from warframestat.us")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.RIVEN.describe(false, true)

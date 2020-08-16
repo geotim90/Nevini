@@ -5,10 +5,10 @@ import lombok.Value;
 @Value
 public class OsuUserEvent {
 
-    private final String displayHtml;
-    private final Integer beatmapId;
-    private final Integer beatmapsetId;
-    private final Long date;
-    private final Integer epicFactor;
+    String displayHtml;
+    Integer beatmapId;
+    Integer beatmapsetId;
+    Long date;
+    Integer epicFactor;
 
 }

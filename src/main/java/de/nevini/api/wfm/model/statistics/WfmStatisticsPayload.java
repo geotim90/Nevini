@@ -9,9 +9,9 @@ import lombok.Value;
 public class WfmStatisticsPayload {
 
     @SerializedName("statistics_closed")
-    private WfmStatisticsClosed closed;
+    WfmStatisticsClosed closed;
 
     @SerializedName("statistics_live")
-    private WfmStatisticsLive live;
+    WfmStatisticsLive live;
 
 }

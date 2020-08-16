@@ -11,6 +11,6 @@ import java.util.List;
 public class WfmItemSet {
 
     @SerializedName("items_in_set")
-    private List<WfmItem> itemsInSet;
+    List<WfmItem> itemsInSet;
 
 }

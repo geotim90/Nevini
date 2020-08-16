@@ -1,6 +1,6 @@
 package de.nevini.modules.warframe.cycle;
 
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -20,7 +20,7 @@ public class CycleCommand extends Command {
                 .keyword("cycle")
                 .aliases(new String[]{"cycles", "world-cycle", "world-cycles"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the current world cycles using data from warframestat.us")
                 .build());
     }

@@ -1,6 +1,6 @@
 package de.nevini.modules.warframe.simaris;
 
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
@@ -17,7 +17,7 @@ public class SimarisCommand extends Command {
                 .keyword("simaris")
                 .aliases(new String[]{"sanctuary"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays current Sanctuary status using data from warframestat.us")
                 .build());
     }

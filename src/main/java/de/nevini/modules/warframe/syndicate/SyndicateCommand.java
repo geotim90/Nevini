@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.syndicate;
 
-import de.nevini.api.wfs.model.WfsSyndicateMissions;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsSyndicateMissions;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -22,7 +22,7 @@ public class SyndicateCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("syndicate")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays syndicate nodes for a syndicate using data from warframestat.us")
                 .options(new CommandOptionDescriptor[]{
                         WarframeResolvers.SYNDICATE_FACTION.describe(false, true)

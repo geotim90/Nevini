@@ -11,15 +11,15 @@ import java.util.List;
 public class WfmItemInformation {
 
     @SerializedName("item_name")
-    private String itemName;
+    String itemName;
 
     @SerializedName("description")
-    private String description;
+    String description;
 
     @SerializedName("wiki_link")
-    private String wikiLink;
+    String wikiLink;
 
     @SerializedName("drop")
-    private List<WfmDrop> drop;
+    List<WfmDrop> drop;
 
 }

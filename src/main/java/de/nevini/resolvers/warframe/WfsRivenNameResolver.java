@@ -1,6 +1,6 @@
 package de.nevini.resolvers.warframe;
 
-import de.nevini.api.wfs.model.WfsRiven;
+import de.nevini.api.wfs.model.rivens.WfsRiven;
 import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.OptionResolver;
 import de.nevini.services.warframe.WarframeStatsService;

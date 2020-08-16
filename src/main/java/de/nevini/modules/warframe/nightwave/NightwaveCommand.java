@@ -1,7 +1,7 @@
 package de.nevini.modules.warframe.nightwave;
 
-import de.nevini.api.wfs.model.WfsActiveChallenge;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsActiveChallenge;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -22,7 +22,7 @@ public class NightwaveCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("nightwave")
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active Nightwave challenges using data from warframestat.us")
                 .build());
     }

@@ -9,15 +9,15 @@ import lombok.Value;
 public class WfmItemName {
 
     @SerializedName("item_name")
-    private String itemName;
+    String itemName;
 
     @SerializedName("thumb")
-    private String thumb;
+    String thumb;
 
     @SerializedName("id")
-    private String id;
+    String id;
 
     @SerializedName("url_name")
-    private String urlName;
+    String urlName;
 
 }

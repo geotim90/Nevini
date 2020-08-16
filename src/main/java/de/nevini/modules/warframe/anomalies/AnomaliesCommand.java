@@ -1,8 +1,8 @@
 package de.nevini.modules.warframe.anomalies;
 
-import de.nevini.api.wfs.model.WfsSentientOutposts;
-import de.nevini.api.wfs.model.WfsSentientOutpostsMission;
-import de.nevini.api.wfs.model.WfsWorldState;
+import de.nevini.api.wfs.model.worldstate.WfsSentientOutposts;
+import de.nevini.api.wfs.model.worldstate.WfsSentientOutpostsMission;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.api.wfs.util.WfsFormatter;
 import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
@@ -22,7 +22,7 @@ public class AnomaliesCommand extends Command {
                 .keyword("anomalies")
                 .aliases(new String[]{"anomaly", "sentient-anomaly", "sentient", "sentient-outpost", "outpost", "murex"})
                 .guildOnly(false)
-                .node(Node.WARFRAME_STAT_US)
+                .node(Node.WARFRAME)
                 .description("displays the currently active anomalies using data from warframestat.us")
                 .build());
     }

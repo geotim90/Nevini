@@ -11,9 +11,9 @@ import java.util.List;
 public class WfmStatisticsLive {
 
     @SerializedName("48hours")
-    private List<WfmStatisticsLiveEntry> last48hours;
+    List<WfmStatisticsLiveEntry> last48hours;
 
     @SerializedName("90days")
-    private List<WfmStatisticsLiveEntry> last90days;
+    List<WfmStatisticsLiveEntry> last90days;
 
 }

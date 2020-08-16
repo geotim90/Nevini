@@ -17,7 +17,7 @@ import java.io.Reader;
 public class OsuApiGetMatchRequest implements OsuApiRequest<OsuApiMatch> {
 
     @NonNull
-    private final Integer matchId;
+    Integer matchId;
 
     @Override
     public @NonNull String getEndpoint() {

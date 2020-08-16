@@ -57,19 +57,19 @@ public class ApiResponse<T> {
      * The result of the API call.
      * Will be {@code null} if not {@link #isOk()}, although {@code null} can still be a valid result.
      */
-    private final T result;
+    T result;
 
     /**
      * The {@link Throwable} if one was caught.
      * Will be {@code null} if not {@link #isError()} or no {@link Throwable} was caught.
      */
-    private final Throwable throwable;
+    Throwable throwable;
 
     /**
      * Returns {@code true} if the request was rate limited and thus not processed.
      * Returns {@code false} if {@link #isOk()} or {@link #isError()}.
      */
-    private final boolean rateLimited;
+    boolean rateLimited;
 
     /**
      * Returns {@code true} if the API call was successful.
