@@ -37,7 +37,7 @@ public class Application implements JdaProvider {
         if (active && token != null && shards > 0) {
             log.info("Configuring JDABuilder");
             log.info("Authenticating using token");
-            JDABuilder shardBuilder = JDABuilder.createDefault(token,
+            JDABuilder shardBuilder = JDABuilder.create(token,
                     GatewayIntent.GUILD_MEMBERS, // needed for member join events
                     GatewayIntent.GUILD_VOICE_STATES, // needed for voice activity tracking
                     GatewayIntent.GUILD_PRESENCES, // needed for activity tracking
