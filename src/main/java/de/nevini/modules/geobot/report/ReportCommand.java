@@ -254,7 +254,7 @@ public class ReportCommand extends Command {
                 builder.append(CommandReaction.ERROR.getUnicode());
             }
             builder.append(" Contribution: **").append(contribution ? "yes" : "no").append("**");
-            if (isInitiate) {
+            if (isInitiate && joined != null) {
                 builder.append(" (").append(Formatter.formatLargestUnitBetween(now, deadline))
                         .append(deadline.isAfter(now) ? " left" : " overdue").append(')');
             }
