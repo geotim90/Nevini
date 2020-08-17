@@ -25,7 +25,9 @@ Command | Description
 [simaris](#command-simaris) | displays current Sanctuary status using data from warframestat.us
 [sortie](#command-sortie) | displays the currently active sorties using data from warframestat.us
 [syndicate](#command-syndicate) | displays syndicate nodes for a syndicate using data from warframestat.us
+[unstuck](#command-unstuck) | will attempt to teleport the player to their last good position
 [weapon](#command-weapon) | displays weapon information using data from warframestat.us
+[wikia](#command-wikia) | searches for articles on warframe.fandom.com by page name
 
 ## Command: `alerts`
 
@@ -271,6 +273,14 @@ Keyword | Aliases
 --------|--------
 --faction | //faction
 
+## Command: `unstuck`
+
+Will attempt to teleport the player to their last good position.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe**.
+
 ## Command: `weapon`
 
 Displays weapon information using data from warframestat.us.
@@ -286,3 +296,20 @@ Option | Description
 Keyword | Aliases
 --------|--------
 --weapon | //weapon
+
+## Command: `wikia`
+
+Searches for articles on warframe.fandom.com by page name.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe**.
+
+Option | Description
+-------|------------
+\[--page\] \<name\> | Refers to an article with a matching name.<br>The `--page` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+wikia | wiki
+--page | //page<br>--article<br>//article

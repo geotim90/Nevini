@@ -75,14 +75,6 @@ public class FinderTest {
     }
 
     @Test
-    public void testContainsLenient() {
-        // make sure the "containsLenient" values are returned
-        List<String> expected = new ArrayList<>(Collections.singleton("devalue"));
-        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "**D-V**"));
-        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "**D-V**"));
-    }
-
-    @Test
     public void testMostSimilar() {
         // makes sure the "mostSimilar" values are returned
         List<String> expected = new ArrayList<>(Collections.singleton("devalue"));

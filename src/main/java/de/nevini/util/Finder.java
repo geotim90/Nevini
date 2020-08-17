@@ -236,7 +236,6 @@ public class Finder {
         LinkedHashSet<T> matchesIgnoreCase = new LinkedHashSet<>();
         LinkedHashSet<T> matchesStartsWith = new LinkedHashSet<>();
         LinkedHashSet<T> matchesContains = new LinkedHashSet<>();
-        LinkedHashSet<T> matchesContainsLenient = new LinkedHashSet<>();
         LinkedHashSet<T> matchesMostSimilar = new LinkedHashSet<>();
         // prepare string metrics
         float mostSimilarScore = 0;
@@ -264,19 +263,14 @@ public class Finder {
                             if (lowerIdentifier.contains(lowerQuery)) {
                                 matchesContains.add(e);
                             } else if (matchesContains.isEmpty()) {
-                                // check for matches using containsLenient if no "better" matches were already found
-                                if (containsLenient(lowerIdentifier, lowerQuery)) {
-                                    matchesContainsLenient.add(e);
-                                } else if (matchesContainsLenient.isEmpty()) {
-                                    // look for most similar matches if no "better" matches were already found
-                                    float score = stringMetric.compare(lowerIdentifier, lowerQuery);
-                                    if (score > mostSimilarScore) {
-                                        matchesMostSimilar.clear();
-                                        matchesMostSimilar.add(e);
-                                        mostSimilarScore = score;
-                                    } else if (score == mostSimilarScore) {
-                                        matchesMostSimilar.add(e);
-                                    }
+                                // look for most similar matches if no "better" matches were already found
+                                float score = stringMetric.compare(lowerIdentifier, lowerQuery);
+                                if (score > mostSimilarScore) {
+                                    matchesMostSimilar.clear();
+                                    matchesMostSimilar.add(e);
+                                    mostSimilarScore = score;
+                                } else if (score == mostSimilarScore) {
+                                    matchesMostSimilar.add(e);
                                 }
                             }
                         }
@@ -293,34 +287,9 @@ public class Finder {
             return new ArrayList<>(matchesStartsWith);
         } else if (!matchesContains.isEmpty()) {
             return new ArrayList<>(matchesContains);
-        } else if (!matchesContainsLenient.isEmpty()) {
-            return new ArrayList<>(matchesContainsLenient);
         } else {
             return new ArrayList<>(matchesMostSimilar);
         }
-    }
-
-    /**
-     * Returns {@code true} if all alphanumeric characters of {@code sequence} appear in {@code subject} in the same
-     * order but not necessarily adjacent to each other.
-     *
-     * @see Character#isLetterOrDigit(char)
-     */
-    private static boolean containsLenient(String subject, String sequence) {
-        int subjectIndex = 0;
-        int sequenceIndex = 0;
-        while (subjectIndex < subject.length() && sequenceIndex < sequence.length()) {
-            char c = sequence.charAt(sequenceIndex);
-            if (!Character.isLetterOrDigit(c)) {
-                sequenceIndex++;
-            } else if (subject.charAt(subjectIndex) == c) {
-                subjectIndex++;
-                sequenceIndex++;
-            } else {
-                subjectIndex++;
-            }
-        }
-        return subjectIndex > 0 && sequenceIndex >= sequence.length();
     }
 
 }
