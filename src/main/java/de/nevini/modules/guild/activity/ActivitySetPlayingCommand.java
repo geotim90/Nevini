@@ -47,7 +47,7 @@ public class ActivitySetPlayingCommand extends Command {
     private void acceptMemberGameTimestamp(CommandEvent event, Member member, GameData game, OffsetDateTime timestamp) {
         // validate timestamp
         if (timestamp.isAfter(OffsetDateTime.now())) {
-            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in future!", event::complete);
+            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in the future!", event::complete);
             return;
         }
 

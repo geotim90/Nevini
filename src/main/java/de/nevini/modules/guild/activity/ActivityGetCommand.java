@@ -27,7 +27,8 @@ class ActivityGetCommand extends Command {
                 .children(new Command[]{
                         new ActivityGetMessageCommand(),
                         new ActivityGetOnlineCommand(),
-                        new ActivityGetPlayingCommand()
+                        new ActivityGetPlayingCommand(),
+                        new ActivityGetAwayCommand()
                 })
                 .node(Node.GUILD_ACTIVITY_GET)
                 .description("displays user, role and/or game activity information")

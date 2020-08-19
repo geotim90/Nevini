@@ -42,7 +42,7 @@ public class ActivitySetMessageCommand extends Command {
     private void acceptMemberAndTimestamp(CommandEvent event, Member member, OffsetDateTime timestamp) {
         // validate timestamp
         if (timestamp.isAfter(OffsetDateTime.now())) {
-            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in future!", event::complete);
+            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in the future!", event::complete);
             return;
         }
 

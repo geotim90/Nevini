@@ -78,9 +78,10 @@ public class ReportCommand extends Command {
             memberDetails.setLastMessage(event.getActivityService().getActivityMessage(member));
             playingTimeoutsInDays.keySet().forEach(gameId -> memberDetails.getLastPlayed().put(gameId,
                     event.getActivityService().getActivityPlaying(member, gameId)));
+            memberDetails.setAway(event.getActivityService().getActivityAway(member));
 
             // additional information for initiates
-            if (memberDetails.isInitiate() && memberDetails.getJoined() != null) {
+            if (memberDetails.isInitiate() && memberDetails.getJoined() != null && contributionTimeoutInDays != null) {
                 long contributionDelayInDays = ObjectUtils.defaultIfNull(
                         event.getTributeService().getDelay(member), 0L);
                 memberDetails.setDeadline(OffsetDateTime.ofInstant(Instant.ofEpochMilli(memberDetails.getJoined()),
@@ -180,6 +181,18 @@ public class ReportCommand extends Command {
             }
         }
 
+        List<MemberReportDetails> away = reportDetails.stream()
+                .filter(member -> member.getAway() != null && member.getAway() > now.toInstant().toEpochMilli())
+                .sorted(Comparator.comparing(MemberReportDetails::getAway))
+                .collect(Collectors.toList());
+        if (!away.isEmpty()) {
+            builder.append("\n__**Members that are absent**__ - ").append(away.size()).append("\n");
+            for (MemberReportDetails e : away) {
+                builder.append(CommandReaction.OK.getUnicode()).append(" **").append(e.getMember().getEffectiveName())
+                        .append("** is absent until ").append(Formatter.formatTimestamp(e.getAway())).append("\n");
+            }
+        }
+
         if (builder.length() == 0) {
             event.reply("Nothing to report.", event::complete);
         } else {
@@ -200,6 +213,7 @@ public class ReportCommand extends Command {
         boolean anyActivity;
         boolean anyInactivity;
         OffsetDateTime deadline;
+        Long away;
     }
 
     public void doMemberReport(CommandEvent event, Member member) {
@@ -340,6 +354,14 @@ public class ReportCommand extends Command {
                         .append(Formatter.formatTimestamp(lastPlayed)).append(")\n");
             }
         });
+
+        // away
+        Long activityAway = event.getActivityService().getActivityAway(member);
+        if (activityAway != null && activityAway > 0) {
+            builder.append(activityAway > System.currentTimeMillis() ? CommandReaction.OK.getUnicode()
+                    : CommandReaction.DEFAULT_OK.getUnicode()).append(" Away until: ")
+                    .append(Formatter.formatTimestamp(activityAway)).append("\n");
+        }
 
         event.reply(builder.toString(), event::complete);
     }

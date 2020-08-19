@@ -11,20 +11,17 @@ import net.dv8tion.jda.api.entities.Member;
 
 import java.time.OffsetDateTime;
 
-public class ActivitySetOnlineCommand extends Command {
+public class ActivitySetAwayCommand extends Command {
 
-    public ActivitySetOnlineCommand() {
+    public ActivitySetAwayCommand() {
         super(CommandDescriptor.builder()
-                .keyword("online")
-                .aliases(new String[]{"last-online", "lastonline"})
+                .keyword("away")
                 .node(Node.GUILD_ACTIVITY_SET)
-                .description("configures user activity information for when they were last online on Discord")
+                .description("configures user absence")
                 .options(new CommandOptionDescriptor[]{
                         Resolvers.MEMBER.describe(false, true),
                         Resolvers.TIMESTAMP.describe()
                 })
-                .details("Note that timestamps provided via this command do not override *real* activity information. "
-                        + "Instead, they just provided a manual minimum value for activity reports on this server.")
                 .build());
     }
 
@@ -40,13 +37,13 @@ public class ActivitySetOnlineCommand extends Command {
 
     private void acceptMemberAndTimestamp(CommandEvent event, Member member, OffsetDateTime timestamp) {
         // validate timestamp
-        if (timestamp.isAfter(OffsetDateTime.now())) {
-            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in the future!", event::complete);
+        if (timestamp.isBefore(OffsetDateTime.now())) {
+            event.reply(CommandReaction.WARNING, "You cannot use a timestamp in the past!", event::complete);
             return;
         }
 
         // set activity
-        event.getActivityService().manualActivityOnline(member, timestamp);
+        event.getActivityService().manualActivityAway(member, timestamp);
         event.reply(CommandReaction.OK, event::complete);
     }
 
