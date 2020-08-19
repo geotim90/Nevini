@@ -79,6 +79,7 @@ class ActivityReportCommand extends Command {
         Long activityOnline = event.getActivityService().getActivityOnline(member);
         Long activityMessage = event.getActivityService().getActivityMessage(member);
         Map<Long, Long> activityPlaying = event.getActivityService().getActivityPlaying(member);
+        Long activityAway = event.getActivityService().getActivityAway(member);
 
         StringBuilder builder = new StringBuilder("Activity report for **" + member.getEffectiveName() + "**\n\n");
 
@@ -134,6 +135,12 @@ class ActivityReportCommand extends Command {
             }
         });
 
+        if (activityAway != null && activityAway > 0) {
+            builder.append(activityAway > System.currentTimeMillis() ? CommandReaction.OK.getUnicode()
+                    : CommandReaction.DEFAULT_OK.getUnicode()).append(" Away until: ")
+                    .append(Formatter.formatTimestamp(activityAway)).append("\n");
+        }
+
         event.reply(builder.toString(), event::complete);
     }
 
@@ -158,57 +165,66 @@ class ActivityReportCommand extends Command {
                 Long activityOnline = event.getActivityService().getActivityOnline(member);
                 Long activityMessage = event.getActivityService().getActivityMessage(member);
                 Map<Long, Long> activityPlaying = event.getActivityService().getActivityPlaying(member);
+                Long activityAway = event.getActivityService().getActivityAway(member);
 
-                if (onlineThreshold != null) {
-                    if (activityOnline == null) {
-                        // no "online" data
-                        merge(reportEntries, new GuildReportEntry(member, 0,
-                                CommandReaction.WARNING.getUnicode() + " **" + member.getEffectiveName()
-                                        + "** was last online **unknown**\n"));
-                    } else if (activityOnline < onlineTimeout) {
-                        // "online" inactivity
-                        merge(reportEntries, new GuildReportEntry(member, onlineTimeout - activityOnline,
-                                CommandReaction.ERROR.getUnicode() + " **" + member.getEffectiveName()
-                                        + "** was last online **" + Formatter.formatLargestUnitAgo(activityOnline)
-                                        + "** (" + Formatter.formatTimestamp(activityOnline) + ")\n"));
+                if (activityAway != null && activityAway > System.currentTimeMillis()) {
+                    merge(reportEntries, new GuildReportEntry(member, 0,
+                            CommandReaction.OK.getUnicode() + " **" + member.getEffectiveName() + "** is absent until "
+                                    + Formatter.formatTimestamp(activityAway) + "\n"
+                    ));
+                } else {
+                    if (onlineThreshold != null) {
+                        if (activityOnline == null) {
+                            // no "online" data
+                            merge(reportEntries, new GuildReportEntry(member, 0,
+                                    CommandReaction.WARNING.getUnicode() + " **" + member.getEffectiveName()
+                                            + "** was last online **unknown**\n"));
+                        } else if (activityOnline < onlineTimeout) {
+                            // "online" inactivity
+                            merge(reportEntries, new GuildReportEntry(member, onlineTimeout - activityOnline,
+                                    CommandReaction.ERROR.getUnicode() + " **" + member.getEffectiveName()
+                                            + "** was last online **" + Formatter.formatLargestUnitAgo(activityOnline)
+                                            + "** (" + Formatter.formatTimestamp(activityOnline) + ")\n"));
+                        }
                     }
+
+                    if (messageThreshold != null) {
+                        if (activityMessage == null) {
+                            // no "message" data
+                            merge(reportEntries, new GuildReportEntry(member, 0,
+                                    CommandReaction.WARNING.getUnicode() + " **" + member.getEffectiveName()
+                                            + "** last messaged **unknown**\n"
+                            ));
+                        } else if (activityMessage < messageTimeout) {
+                            // "message" inactivity
+                            merge(reportEntries, new GuildReportEntry(member, messageTimeout - activityMessage,
+                                    CommandReaction.ERROR.getUnicode() + " **" + member.getEffectiveName()
+                                            + "** last messaged **" + Formatter.formatLargestUnitAgo(activityMessage)
+                                            + "** (" + Formatter.formatTimestamp(activityMessage) + ")\n"));
+                        }
+                    }
+
+                    playingThresholds.forEach((gameId, gameThreshold) -> {
+                        String gameName = event.getGameService().getGameName(gameId);
+                        Long gameTimeout = OffsetDateTime.now(ZoneOffset.UTC).minusDays(gameThreshold).toInstant()
+                                .toEpochMilli();
+                        Long activityGame = activityPlaying.get(gameId);
+                        if (activityGame == null) {
+                            // no "playing" data
+                            merge(reportEntries, new GuildReportEntry(member, 0,
+                                    CommandReaction.WARNING.getUnicode() + " **" + member.getEffectiveName()
+                                            + "** last played **" + gameName + "** (" + Long.toUnsignedString(gameId)
+                                            + ") **unknown**\n"));
+                        } else if (activityGame < gameTimeout) {
+                            merge(reportEntries, new GuildReportEntry(member, gameTimeout - activityGame,
+                                    CommandReaction.ERROR.getUnicode() + " **" + member.getEffectiveName()
+                                            + "** last played **" + gameName + "** (" + Long.toUnsignedString(gameId)
+                                            + ") **" + Formatter.formatLargestUnitAgo(activityGame) + "** ("
+                                            + Formatter.formatTimestamp(activityGame) + ")\n"
+                            ));
+                        }
+                    });
                 }
-
-                if (messageThreshold != null) {
-                    if (activityMessage == null) {
-                        // no "message" data
-                        merge(reportEntries, new GuildReportEntry(member, 0,
-                                CommandReaction.WARNING.getUnicode() + " **" + member.getEffectiveName()
-                                        + "** last messaged **unknown**\n"
-                        ));
-                    } else if (activityMessage < messageTimeout) {
-                        // "message" inactivity
-                        merge(reportEntries, new GuildReportEntry(member, messageTimeout - activityMessage,
-                                CommandReaction.ERROR.getUnicode() + " **" + member.getEffectiveName()
-                                        + "** last messaged **" + Formatter.formatLargestUnitAgo(activityMessage)
-                                        + "** (" + Formatter.formatTimestamp(activityMessage) + ")\n"));
-                    }
-                }
-
-                playingThresholds.forEach((gameId, gameThreshold) -> {
-                    String gameName = event.getGameService().getGameName(gameId);
-                    Long gameTimeout = OffsetDateTime.now(ZoneOffset.UTC).minusDays(gameThreshold).toInstant().toEpochMilli();
-                    Long activityGame = activityPlaying.get(gameId);
-                    if (activityGame == null) {
-                        // no "playing" data
-                        merge(reportEntries, new GuildReportEntry(member, 0,
-                                CommandReaction.WARNING.getUnicode() + " **" + member.getEffectiveName()
-                                        + "** last played **" + gameName + "** (" + Long.toUnsignedString(gameId)
-                                        + ") **unknown**\n"));
-                    } else if (activityGame < gameTimeout) {
-                        merge(reportEntries, new GuildReportEntry(member, gameTimeout - activityGame,
-                                CommandReaction.ERROR.getUnicode() + " **" + member.getEffectiveName()
-                                        + "** last played **" + gameName + "** (" + Long.toUnsignedString(gameId) + ") **"
-                                        + Formatter.formatLargestUnitAgo(activityGame) + "** ("
-                                        + Formatter.formatTimestamp(activityGame) + ")\n"
-                        ));
-                    }
-                });
             }
         }
 

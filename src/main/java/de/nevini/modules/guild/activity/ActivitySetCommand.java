@@ -13,6 +13,7 @@ class ActivitySetCommand extends Command {
                         new ActivitySetOnlineCommand(),
                         new ActivitySetMessageCommand(),
                         new ActivitySetPlayingCommand(),
+                        new ActivitySetAwayCommand()
                 })
                 .description("configures user activity information")
                 .build());

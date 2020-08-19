@@ -22,6 +22,7 @@ public class ActivityService {
     private static final byte ACTIVITY_TYPE_ONLINE = 1;
     private static final byte ACTIVITY_TYPE_MESSAGE = 2;
     private static final byte ACTIVITY_TYPE_PLAYING = 3;
+    private static final byte ACTIVITY_TYPE_AWAY = 4;
 
     private final ActivityDataService dataService;
 
@@ -130,6 +131,17 @@ public class ActivityService {
     ) {
         dataService.put(new ActivityData(member.getUser().getIdLong(), ACTIVITY_TYPE_PLAYING, game.getId(),
                 member.getGuild().getIdLong(), timestamp.toInstant().toEpochMilli()));
+    }
+
+    public Long getActivityAway(@NonNull Member member) {
+        ActivityData data = dataService.get(new ActivityId(member.getUser().getIdLong(), ACTIVITY_TYPE_AWAY,
+                member.getGuild().getIdLong(), member.getGuild().getIdLong()));
+        return data == null ? null : data.getUts();
+    }
+
+    public void manualActivityAway(@NonNull Member member, @NonNull OffsetDateTime timestamp) {
+        dataService.put(new ActivityData(member.getUser().getIdLong(), ACTIVITY_TYPE_AWAY,
+                member.getGuild().getIdLong(), member.getGuild().getIdLong(), timestamp.toInstant().toEpochMilli()));
     }
 
 }

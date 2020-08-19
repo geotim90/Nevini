@@ -52,6 +52,7 @@ Command | Description
 [activity get message](#command-activity-get-message) | displays user activity information for when they last posted a message in this Discord server
 [activity get online](#command-activity-get-online) | displays user activity information for when they were last online on Discord
 [activity get playing](#command-activity-get-playing) | displays user game activity information
+[activity get away](#command-activity-get-away) | displays user absence
 
 #### Command: `activity get message`
 
@@ -106,6 +107,22 @@ playing | played<br>last-played<br>lastplayed
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
 
+#### Command: `activity get away`
+
+Displays user absence.
+
+This command can only be executed in a text channel and not via direct message.
+
+Permission overrides may be applied on node **guild.activity.get**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+
 ### Command: `activity set`
 
 Configures user activity information.
@@ -117,6 +134,7 @@ Command | Description
 [activity set online](#command-activity-set-online) | configures user activity information for when they were last online on Discord
 [activity set message](#command-activity-set-message) | configures user activity information for when they last posted a message in this Discord server
 [activity set playing](#command-activity-set-playing) | configures user game activity information
+[activity set away](#command-activity-set-away) | configures user absence
 
 #### Command: `activity set online`
 
@@ -186,6 +204,25 @@ playing | played<br>last-played<br>lastplayed
 --game | //game
 --time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
 
+#### Command: `activity set away`
+
+Configures user absence.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.activity.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+--time \<timestamp\> | A valid ISO 8601 UTC timestamp (e.g. `1999-12-31T23:59:59.999`).<br>`now` can be used as a shortcut for the current date and time.<br>Relative input such as `5 days ago` or `-24h` can also be used.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
+--time | //time<br>--timestamp<br>//timestamp<br>-t<br>/t
+
 ### Command: `activity unset`
 
 Configures user activity information.
@@ -197,6 +234,7 @@ Command | Description
 [activity unset online](#command-activity-unset-online) | configures user activity information for when they were last online on Discord
 [activity unset message](#command-activity-unset-message) | configures user activity information for when they last posted a message in this Discord server
 [activity unset playing](#command-activity-unset-playing) | configures user game activity information
+[activity unset away](#command-activity-unset-away) | configures user absence
 
 #### Command: `activity unset online`
 
@@ -261,6 +299,23 @@ Keyword | Aliases
 playing | played<br>last-played<br>lastplayed
 --user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 --game | //game
+
+#### Command: `activity unset away`
+
+Configures user absence.
+
+This command can only be executed in a text channel and not via direct message.
+
+By default, you need the **Manage Server** permission to execute this command.<br>
+Permission overrides may be applied on node **guild.activity.set**.
+
+Option | Description
+-------|------------
+\[--user\] \[\<user\>\] | Refers to a specific user with a matching mention, id, name, nickname or in-game name.<br>The `--user` flag is optional if a user mention is used or this option is provided first.<br>Refers to the current user if only the `--user` flag is provided.
+
+Keyword | Aliases
+--------|--------
+--user | //user<br>--member<br>//member<br>-u<br>/u<br>-m<br>/m
 
 ### Command: `activity report`
 

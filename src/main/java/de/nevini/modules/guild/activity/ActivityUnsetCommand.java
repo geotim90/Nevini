@@ -13,6 +13,7 @@ class ActivityUnsetCommand extends Command {
                         new ActivityUnsetOnlineCommand(),
                         new ActivityUnsetMessageCommand(),
                         new ActivityUnsetPlayingCommand(),
+                        new ActivityUnsetAwayCommand()
                 })
                 .description("configures user activity information")
                 .build());
