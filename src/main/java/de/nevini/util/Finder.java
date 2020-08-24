@@ -197,6 +197,128 @@ public class Finder {
     }
 
     /**
+     * Finds matches within the provided {@link String} array.
+     * This method will return more matches than {@link #find(String[], String)}
+     *
+     * @param values an array of {@link String} values
+     * @param query  the query {@link String}
+     * @return a list of matches
+     * @throws IllegalArgumentException if {@code query} is empty
+     * @throws NullPointerException     if {@code values} or {@code query} is {@code null}
+     */
+    public static List<String> findLenient(String[] values, String query) {
+        return findLenient(values, Function.identity(), query);
+    }
+
+    /**
+     * Finds matches within the provided {@link String} {@link Collection}.
+     * This method will return more matches than {@link #find(Collection, String)}
+     *
+     * @param values a {@link Collection} of {@link String} values
+     * @param query  the query {@link String}
+     * @return a list of matches
+     * @throws IllegalArgumentException if {@code query} is empty
+     * @throws NullPointerException     if {@code values} or {@code query} is {@code null}
+     */
+    public static List<String> findLenient(Collection<String> values, String query) {
+        return findLenient(values, Function.identity(), query);
+    }
+
+    /**
+     * Finds matches within the provided array of values by checking each {@link String} identifier.
+     * This method will return more matches than {@link #find(Object[], Function, String)}.
+     *
+     * @param values     an array of values
+     * @param identifier a {@link Function} that returns the {@link String} identifier for a given value
+     * @param query      the query {@link String}
+     * @param <T>        the value type
+     * @return a list of lenient matches
+     * @throws IllegalArgumentException if {@code query} is empty
+     * @throws NullPointerException     if {@code values}, {@code identifier} or {@code query} is {@code null}
+     *                                  or if any value returned by {@code identifier} is {@code null}
+     */
+    public static <T> List<T> findLenient(T[] values, Function<T, String> identifier, String query) {
+        return findLenient(Arrays.asList(values), identifier, query);
+    }
+
+    /**
+     * Finds matches within the provided {@link Collection} of values by checking each {@link String} identifier.
+     * This method will return more matches than {@link #find(Collection, Function, String)}.
+     *
+     * @param values             a {@link Collection} of values
+     * @param identifierFunction a {@link Function} that returns the {@link String} identifier for a given value
+     * @param query              the query {@link String}
+     * @param <T>                the value type
+     * @return a list of lenient matches
+     * @throws IllegalArgumentException if {@code query} is empty
+     * @throws NullPointerException     if {@code values}, {@code identifiers} or {@code query} is {@code null}
+     *                                  or if any value returned by {@code identifierFunction} is {@code null}
+     */
+    public static <T> List<T> findLenient(Collection<T> values, Function<T, String> identifierFunction, String query) {
+        // check arguments
+        if (query.isEmpty()) {
+            throw new IllegalArgumentException("query must not be empty!");
+        }
+        // create insert-ordered sets for matches
+        ArrayList<T> matchesEquals = new ArrayList<>();
+        ArrayList<T> matchesIgnoreCase = new ArrayList<>();
+        ArrayList<T> matchesStartsWith = new ArrayList<>();
+        ArrayList<T> matchesContains = new ArrayList<>();
+        ArrayList<T> matchesMostSimilar = new ArrayList<>();
+        // prepare string metrics
+        float mostSimilarScore = 0;
+        StringMetric stringMetric = StringMetrics.jaroWinkler();
+        // get the lower case query for comparisons that ignore case
+        String lowerQuery = query.toLowerCase();
+        // iterate over all values in order
+        for (T e : values) {
+            String identifier = identifierFunction.apply(e);
+            // check for matches using equals
+            if (identifier.equals(query)) {
+                matchesEquals.add(e);
+            } else if (matchesEquals.isEmpty()) {
+                // check for matches using equalsIgnoreCase if no "better" matches were already found
+                String lowerIdentifier = identifier.toLowerCase();
+                if (lowerIdentifier.equals(lowerQuery)) {
+                    matchesIgnoreCase.add(e);
+                } else if (matchesIgnoreCase.isEmpty()) {
+                    // check for matches using startsWith if no "better" matches were already found
+                    if (lowerIdentifier.startsWith(lowerQuery)) {
+                        matchesStartsWith.add(e);
+                    } else if (matchesStartsWith.isEmpty()) {
+                        // check for matches using contains if no "better" matches were already found
+                        if (lowerIdentifier.contains(lowerQuery)) {
+                            matchesContains.add(e);
+                        } else if (matchesContains.isEmpty()) {
+                            // look for most similar matches if no "better" matches were already found
+                            float score = stringMetric.compare(lowerIdentifier, lowerQuery);
+                            if (score > mostSimilarScore) {
+                                matchesMostSimilar.clear();
+                                matchesMostSimilar.add(e);
+                                mostSimilarScore = score;
+                            } else if (score == mostSimilarScore) {
+                                matchesMostSimilar.add(e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // return the "best" list of matches
+        if (!matchesEquals.isEmpty()) {
+            return matchesEquals;
+        } else if (!matchesIgnoreCase.isEmpty()) {
+            return matchesIgnoreCase;
+        } else if (!matchesStartsWith.isEmpty()) {
+            return matchesStartsWith;
+        } else if (!matchesContains.isEmpty()) {
+            return matchesContains;
+        } else {
+            return matchesMostSimilar;
+        }
+    }
+
+    /**
      * Finds matches within the provided array of values by checking each {@link String} identifier.
      * This method will return more matches than {@link #findAny(Object[], Function, String)}.
      *

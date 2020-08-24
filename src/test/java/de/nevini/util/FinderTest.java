@@ -24,6 +24,12 @@ public class FinderTest {
         Assert.assertTrue(Finder.find(Collections.emptyList(), Object::toString, "any").isEmpty());
         Assert.assertTrue(Finder.findAny(new Object[0], Object__toStringArray, "any").isEmpty());
         Assert.assertTrue(Finder.findAny(Collections.emptyList(), Object__toStringArray, "any").isEmpty());
+        Assert.assertTrue(Finder.findLenient(new String[0], "any").isEmpty());
+        Assert.assertTrue(Finder.findLenient(Collections.emptyList(), "any").isEmpty());
+        Assert.assertTrue(Finder.findLenient(new Object[0], Object::toString, "any").isEmpty());
+        Assert.assertTrue(Finder.findLenient(Collections.emptyList(), Object::toString, "any").isEmpty());
+        Assert.assertTrue(Finder.findAnyLenient(new Object[0], Object__toStringArray, "any").isEmpty());
+        Assert.assertTrue(Finder.findAnyLenient(Collections.emptyList(), Object__toStringArray, "any").isEmpty());
     }
 
     @Test
@@ -36,6 +42,12 @@ public class FinderTest {
         Assert.assertEquals(expected, Finder.find(objectCollection, Object::toString, "value"));
         Assert.assertEquals(expected, Finder.findAny(objectArray, Object__toStringArray, "value"));
         Assert.assertEquals(expected, Finder.findAny(objectCollection, Object__toStringArray, "value"));
+        Assert.assertEquals(expected, Finder.findLenient(stringArray, "value"));
+        Assert.assertEquals(expected, Finder.findLenient(stringCollection, "value"));
+        Assert.assertEquals(expected, Finder.findLenient(objectArray, Object::toString, "value"));
+        Assert.assertEquals(expected, Finder.findLenient(objectCollection, Object::toString, "value"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "value"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "value"));
     }
 
     @Test
@@ -48,6 +60,12 @@ public class FinderTest {
         Assert.assertEquals(expected, Finder.find(objectCollection, Object::toString, "Value"));
         Assert.assertEquals(expected, Finder.findAny(objectArray, Object__toStringArray, "Value"));
         Assert.assertEquals(expected, Finder.findAny(objectCollection, Object__toStringArray, "Value"));
+        Assert.assertEquals(expected, Finder.findLenient(stringArray, "Value"));
+        Assert.assertEquals(expected, Finder.findLenient(stringCollection, "Value"));
+        Assert.assertEquals(expected, Finder.findLenient(objectArray, Object::toString, "Value"));
+        Assert.assertEquals(expected, Finder.findLenient(objectCollection, Object::toString, "Value"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "Value"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "Value"));
     }
 
     @Test
@@ -60,6 +78,12 @@ public class FinderTest {
         Assert.assertEquals(expected, Finder.find(objectCollection, Object::toString, "val"));
         Assert.assertEquals(expected, Finder.findAny(objectArray, Object__toStringArray, "val"));
         Assert.assertEquals(expected, Finder.findAny(objectCollection, Object__toStringArray, "val"));
+        Assert.assertEquals(expected, Finder.findLenient(stringArray, "val"));
+        Assert.assertEquals(expected, Finder.findLenient(stringCollection, "val"));
+        Assert.assertEquals(expected, Finder.findLenient(objectArray, Object::toString, "val"));
+        Assert.assertEquals(expected, Finder.findLenient(objectCollection, Object::toString, "val"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "val"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "val"));
     }
 
     @Test
@@ -72,12 +96,22 @@ public class FinderTest {
         Assert.assertEquals(expected, Finder.find(objectCollection, Object::toString, "lu"));
         Assert.assertEquals(expected, Finder.findAny(objectArray, Object__toStringArray, "lu"));
         Assert.assertEquals(expected, Finder.findAny(objectCollection, Object__toStringArray, "lu"));
+        Assert.assertEquals(expected, Finder.findLenient(stringArray, "lu"));
+        Assert.assertEquals(expected, Finder.findLenient(stringCollection, "lu"));
+        Assert.assertEquals(expected, Finder.findLenient(objectArray, Object::toString, "lu"));
+        Assert.assertEquals(expected, Finder.findLenient(objectCollection, Object::toString, "lu"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "lu"));
+        Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "lu"));
     }
 
     @Test
     public void testMostSimilar() {
         // makes sure the "mostSimilar" values are returned
         List<String> expected = new ArrayList<>(Collections.singleton("devalue"));
+        Assert.assertEquals(expected, Finder.findLenient(stringArray, "vedalu"));
+        Assert.assertEquals(expected, Finder.findLenient(stringCollection, "vedalu"));
+        Assert.assertEquals(expected, Finder.findLenient(objectArray, Object::toString, "vedalu"));
+        Assert.assertEquals(expected, Finder.findLenient(objectCollection, Object::toString, "vedalu"));
         Assert.assertEquals(expected, Finder.findAnyLenient(objectArray, Object__toStringArray, "vedalu"));
         Assert.assertEquals(expected, Finder.findAnyLenient(objectCollection, Object__toStringArray, "vedalu"));
     }
