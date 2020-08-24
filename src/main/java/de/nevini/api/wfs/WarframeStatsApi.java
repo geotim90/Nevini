@@ -1,7 +1,7 @@
 package de.nevini.api.wfs;
 
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.model.drops.WfsDrops;
+import de.nevini.api.wfs.model.drops.WfsDrop;
 import de.nevini.api.wfs.model.rivens.WfsRiven;
 import de.nevini.api.wfs.model.weapons.WfsWeapon;
 import de.nevini.api.wfs.model.worldstate.WfsWorldState;
@@ -53,7 +53,7 @@ public class WarframeStatsApi {
         }
     }
 
-    public ApiResponse<WfsDrops> getDrops(WfsDropsRequest request) {
+    public ApiResponse<List<WfsDrop>> getDrops(WfsDropsRequest request) {
         return call(request, rateLimitDrops);
     }
 
