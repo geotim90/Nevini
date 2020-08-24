@@ -10,6 +10,7 @@ import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +53,7 @@ public class DropsCommand extends Command {
         List<String> items = drops.stream().map(WfsDrop::getItem).distinct().collect(Collectors.toList());
 
         if (drops.isEmpty()) {
-            event.reply(CommandReaction.WARNING, "I could not find any drops that matched your input!",
+            event.reply(CommandReaction.WARNING, "I could not find any item locations that matched your input!",
                     event::complete);
             return;
         }
@@ -65,9 +66,14 @@ public class DropsCommand extends Command {
             drops.stream().filter(drop -> item.equals(drop.getItem())).forEach(drop -> builder
                     .append(drop.getPlace()).append(" - ").append(drop.getRarity()).append(" (")
                     .append(Formatter.formatPercent(drop.getChance() / 100)).append(")\n"));
-            embed.addField(item, builder.toString(), false);
+            embed.addField(item, StringUtils.abbreviate(builder.toString(), MessageEmbed.VALUE_MAX_LENGTH), false);
         }
-        event.reply(embed, event::complete);
+        try {
+            event.reply(embed, event::complete);
+        } catch (IllegalStateException e) {
+            event.reply(CommandReaction.WARNING,
+                    "Too many item locations matched your input! Please check the wiki instead.", event::complete);
+        }
     }
 
 }
