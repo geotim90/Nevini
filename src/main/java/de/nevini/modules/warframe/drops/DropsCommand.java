@@ -63,7 +63,7 @@ public class DropsCommand extends Command {
                 .setFooter("warframestat.us", "https://warframestat.us/wfcd_logo_color.png");
         for (String item : items) {
             StringBuilder builder = new StringBuilder();
-            drops.stream().filter(drop -> item.equals(drop.getItem())).forEach(drop -> builder
+            drops.stream().filter(drop -> item.equals(drop.getItem())).distinct().forEach(drop -> builder
                     .append(drop.getPlace()).append(" - ").append(drop.getRarity()).append(" (")
                     .append(Formatter.formatPercent(drop.getChance() / 100)).append(")\n"));
             embed.addField(item, StringUtils.abbreviate(builder.toString(), MessageEmbed.VALUE_MAX_LENGTH), false);
