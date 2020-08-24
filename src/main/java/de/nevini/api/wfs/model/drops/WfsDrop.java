@@ -6,13 +6,13 @@ import lombok.Value;
 
 @Builder
 @Value
-public class WfsReward {
+public class WfsDrop {
 
-    @SerializedName("_id")
-    String id;
+    @SerializedName("item")
+    String item;
 
-    @SerializedName("itemName")
-    String itemName;
+    @SerializedName("place")
+    String place;
 
     @SerializedName("rarity")
     String rarity;

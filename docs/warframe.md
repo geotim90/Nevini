@@ -14,6 +14,7 @@ Command | Description
 [construction](#command-construction) | displays the current construction progress using data from warframestat.us
 [cycle](#command-cycle) | displays the current world cycles using data from warframestat.us
 [darvo](#command-darvo) | displays the currently active Darvo Deal using data from warframestat.us
+[drops](#command-drops) | displays item locations using data from warframestat.us
 [events](#command-events) | displays ongoing events using data from warframestat.us
 [fissures](#command-fissures) | displays the currently active fissures using data from warframestat.us
 [invasions](#command-invasions) | displays the currently active invasions using data from warframestat.us
@@ -141,6 +142,23 @@ Keyword | Aliases
 --------|--------
 darvo | darvo-deal<br>daily-deal
 
+## Command: `drops`
+
+Displays item locations using data from warframestat.us.
+
+This command can be executed in a text channel or via direct message.
+
+Permission overrides may be applied on node **warframe**.
+
+Option | Description
+-------|------------
+\[--item\] \<name\> | Refers to all items with a matching name.<br>The `--item` flag is optional if this option is provided first.
+
+Keyword | Aliases
+--------|--------
+drops | drop
+--item | //item
+
 ## Command: `events`
 
 Displays ongoing events using data from warframestat.us.
@@ -160,6 +178,10 @@ Displays the currently active fissures using data from warframestat.us.
 This command can be executed in a text channel or via direct message.
 
 Permission overrides may be applied on node **warframe**.
+
+Keyword | Aliases
+--------|--------
+fissures | fissure
 
 ## Command: `invasions`
 

@@ -2,7 +2,7 @@ package de.nevini.services.warframe;
 
 import de.nevini.api.ApiResponse;
 import de.nevini.api.wfs.WarframeStatsApi;
-import de.nevini.api.wfs.model.drops.WfsDrops;
+import de.nevini.api.wfs.model.drops.WfsDrop;
 import de.nevini.api.wfs.model.rivens.WfsRiven;
 import de.nevini.api.wfs.model.weapons.WfsWeapon;
 import de.nevini.api.wfs.model.worldstate.WfsWorldState;
@@ -13,13 +13,11 @@ import de.nevini.api.wfs.requests.WfsWorldStateRequest;
 import de.nevini.locators.Locatable;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -27,14 +25,15 @@ public class WarframeStatsService implements Locatable {
 
     private final WarframeStatsApi api = new WarframeStatsApi(new OkHttpClient.Builder().build());
 
-    private WfsDrops drops = null;
     private Collection<WfsRiven> rivens = null;
     private List<WfsWeapon> weapons = null;
     private WfsWorldState worldState = null;
 
-    public synchronized WfsDrops getDrops() {
-        ApiResponse<WfsDrops> response = api.getDrops(WfsDropsRequest.builder().build());
-        return drops = response.orElse(ApiResponse.ok(drops)).getResult();
+    public Collection<WfsDrop> getDrops(String query) {
+        return ObjectUtils.defaultIfNull(
+                api.getDrops(WfsDropsRequest.builder().query(query).build()).getResult(),
+                Collections.emptyList()
+        );
     }
 
     public synchronized Collection<WfsRiven> getRivens() {
