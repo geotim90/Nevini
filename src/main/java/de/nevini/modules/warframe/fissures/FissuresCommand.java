@@ -23,6 +23,7 @@ public class FissuresCommand extends Command {
     public FissuresCommand() {
         super(CommandDescriptor.builder()
                 .keyword("fissures")
+                .aliases(new String[]{"fissure"})
                 .guildOnly(false)
                 .node(Node.WARFRAME)
                 .description("displays the currently active fissures using data from warframestat.us")
