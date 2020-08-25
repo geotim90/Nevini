@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @AllArgsConstructor
-public class WarframeWikiaApi {
+public class WarframeWikiApi {
 
     // no rate limit restrictions documentation found - limit to 1/hour
     private final TokenBucket rateLimit = new TokenBucket(1, 1, 1, TimeUnit.HOURS);

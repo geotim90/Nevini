@@ -10,12 +10,12 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WikiaCommand extends Command {
+public class WikiCommand extends Command {
 
-    public WikiaCommand() {
+    public WikiCommand() {
         super(CommandDescriptor.builder()
-                .keyword("wikia")
-                .aliases(new String[]{"wiki"})
+                .keyword("wiki")
+                .aliases(new String[]{"wikia"})
                 .guildOnly(false)
                 .node(Node.WARFRAME)
                 .description("searches for articles on warframe.fandom.com by page name")

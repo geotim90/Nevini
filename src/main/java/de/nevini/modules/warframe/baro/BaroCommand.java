@@ -7,7 +7,7 @@ import de.nevini.command.Command;
 import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
-import de.nevini.services.warframe.WarframeStatsService;
+import de.nevini.services.warframe.WarframeStatusService;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandReaction;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class BaroCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         // retrieve Void Trader data from service
-        WarframeStatsService service = event.locate(WarframeStatsService.class);
+        WarframeStatusService service = event.locate(WarframeStatusService.class);
         WfsWorldState worldState = service.getWorldState();
 
         // abort if no data is available

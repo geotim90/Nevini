@@ -28,7 +28,7 @@ Command | Description
 [syndicate](#command-syndicate) | displays syndicate nodes for a syndicate using data from warframestat.us
 [unstuck](#command-unstuck) | will attempt to teleport the player to their last good position
 [weapon](#command-weapon) | displays weapon information using data from warframestat.us
-[wikia](#command-wikia) | searches for articles on warframe.fandom.com by page name
+[wiki](#command-wiki) | searches for articles on warframe.fandom.com by page name
 
 ## Command: `alerts`
 
@@ -319,7 +319,7 @@ Keyword | Aliases
 --------|--------
 --weapon | //weapon
 
-## Command: `wikia`
+## Command: `wiki`
 
 Searches for articles on warframe.fandom.com by page name.
 
@@ -333,5 +333,5 @@ Option | Description
 
 Keyword | Aliases
 --------|--------
-wikia | wiki
+wiki | wikia
 --page | //page<br>--article<br>//article

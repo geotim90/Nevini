@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @AllArgsConstructor
-public class WarframeStatsApi {
+public class WarframeStatusApi {
 
     // no rate limit restrictions documentation found - limit to 1/min per cached endpoint
     private final TokenBucket rateLimitDrops = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);

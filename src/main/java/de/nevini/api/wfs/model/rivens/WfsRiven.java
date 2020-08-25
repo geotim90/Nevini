@@ -20,7 +20,7 @@ public class WfsRiven {
         if (data != null && data.getCompatibility() != null && !data.getCompatibility().startsWith("Veiled")) {
             return data.getCompatibility() + " " + data.getItemType();
         } else {
-            return data == null ? null : data.getCompatibility();
+            return data == null ? "" : data.getCompatibility();
         }
     }
 
