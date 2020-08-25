@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -34,7 +36,25 @@ public class WarframeStatsService implements Locatable {
 
     public Collection<WfsDrop> getDrops() {
         ApiResponse<List<WfsDrop>> response = api.getDrops(WfsDropsRequest.builder().build());
-        return drops = response.orElse(ApiResponse.ok(drops)).getResult();
+        return drops = repairDropData(response.orElse(ApiResponse.ok(drops)).getResult());
+    }
+
+    private List<WfsDrop> repairDropData(List<WfsDrop> data) {
+        Pattern primePartPattern = Pattern.compile("(\\w+) P\\. (\\w+ )?BP");
+        Pattern blueprintPattern = Pattern.compile("(.*) BP");
+        for (WfsDrop drop : data) {
+            Matcher primePartMatcher = primePartPattern.matcher(drop.getItem());
+            if (primePartMatcher.matches()) {
+                drop.setItem(primePartMatcher.group(1) + " Prime "
+                        + StringUtils.defaultString(primePartMatcher.group(2), "") + "Blueprint");
+            } else {
+                Matcher blueprintMatcher = blueprintPattern.matcher(drop.getItem());
+                if (blueprintMatcher.matches()) {
+                    drop.setItem(blueprintMatcher.group(1) + " Blueprint");
+                }
+            }
+        }
+        return data;
     }
 
     public synchronized Collection<WfsRiven> getRivens() {

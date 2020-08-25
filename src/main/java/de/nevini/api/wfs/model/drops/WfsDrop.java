@@ -2,10 +2,10 @@ package de.nevini.api.wfs.model.drops;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 @Builder
-@Value
+@Data
 public class WfsDrop {
 
     @SerializedName("item")
