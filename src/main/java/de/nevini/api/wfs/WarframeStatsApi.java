@@ -22,12 +22,10 @@ import java.util.concurrent.TimeUnit;
 public class WarframeStatsApi {
 
     // no rate limit restrictions documentation found - limit to 1/min per cached endpoint
+    private final TokenBucket rateLimitDrops = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
     private final TokenBucket rateLimitRivens = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
     private final TokenBucket rateLimitWeapons = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
     private final TokenBucket rateLimitWorldState = new TokenBucket(1, 1, 1, TimeUnit.MINUTES);
-
-    // no rate limit restrictions documentation found - limit to 1/sec per uncached endpoint
-    private final TokenBucket rateLimitDrops = new TokenBucket(1, 1, 1, TimeUnit.SECONDS);
 
     @NonNull
     private final OkHttpClient httpClient;

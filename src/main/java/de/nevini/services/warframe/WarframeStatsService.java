@@ -13,11 +13,13 @@ import de.nevini.api.wfs.requests.WfsWorldStateRequest;
 import de.nevini.locators.Locatable;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -25,15 +27,14 @@ public class WarframeStatsService implements Locatable {
 
     private final WarframeStatsApi api = new WarframeStatsApi(new OkHttpClient.Builder().build());
 
+    private List<WfsDrop> drops = null;
     private Collection<WfsRiven> rivens = null;
     private List<WfsWeapon> weapons = null;
     private WfsWorldState worldState = null;
 
-    public Collection<WfsDrop> getDrops(String query) {
-        return ObjectUtils.defaultIfNull(
-                api.getDrops(WfsDropsRequest.builder().query(query).build()).getResult(),
-                Collections.emptyList()
-        );
+    public Collection<WfsDrop> getDrops() {
+        ApiResponse<List<WfsDrop>> response = api.getDrops(WfsDropsRequest.builder().build());
+        return drops = response.orElse(ApiResponse.ok(drops)).getResult();
     }
 
     public synchronized Collection<WfsRiven> getRivens() {

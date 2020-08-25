@@ -81,10 +81,10 @@ public class Finder {
             throw new IllegalArgumentException("query must not be empty!");
         }
         // create lists for matches
-        ArrayList<T> matchesEquals = new ArrayList<>();
-        ArrayList<T> matchesIgnoreCase = new ArrayList<>();
-        ArrayList<T> matchesStartsWith = new ArrayList<>();
-        ArrayList<T> matchesContains = new ArrayList<>();
+        LinkedHashSet<T> matchesEquals = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesIgnoreCase = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesStartsWith = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesContains = new LinkedHashSet<>();
         // get the lower case query for comparisons that ignore case
         String lowerQuery = query.toLowerCase();
         // iterate over all values in order
@@ -111,13 +111,13 @@ public class Finder {
         }
         // return the "best" list of matches
         if (!matchesEquals.isEmpty()) {
-            return matchesEquals;
+            return new ArrayList<>(matchesEquals);
         } else if (!matchesIgnoreCase.isEmpty()) {
-            return matchesIgnoreCase;
+            return new ArrayList<>(matchesIgnoreCase);
         } else if (!matchesStartsWith.isEmpty()) {
-            return matchesStartsWith;
+            return new ArrayList<>(matchesStartsWith);
         } else {
-            return matchesContains;
+            return new ArrayList<>(matchesContains);
         }
     }
 
@@ -260,11 +260,11 @@ public class Finder {
             throw new IllegalArgumentException("query must not be empty!");
         }
         // create insert-ordered sets for matches
-        ArrayList<T> matchesEquals = new ArrayList<>();
-        ArrayList<T> matchesIgnoreCase = new ArrayList<>();
-        ArrayList<T> matchesStartsWith = new ArrayList<>();
-        ArrayList<T> matchesContains = new ArrayList<>();
-        ArrayList<T> matchesMostSimilar = new ArrayList<>();
+        LinkedHashSet<T> matchesEquals = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesIgnoreCase = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesStartsWith = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesContains = new LinkedHashSet<>();
+        LinkedHashSet<T> matchesMostSimilar = new LinkedHashSet<>();
         // prepare string metrics
         float mostSimilarScore = 0;
         StringMetric stringMetric = StringMetrics.jaroWinkler();
@@ -306,15 +306,15 @@ public class Finder {
         }
         // return the "best" list of matches
         if (!matchesEquals.isEmpty()) {
-            return matchesEquals;
+            return new ArrayList<>(matchesEquals);
         } else if (!matchesIgnoreCase.isEmpty()) {
-            return matchesIgnoreCase;
+            return new ArrayList<>(matchesIgnoreCase);
         } else if (!matchesStartsWith.isEmpty()) {
-            return matchesStartsWith;
+            return new ArrayList<>(matchesStartsWith);
         } else if (!matchesContains.isEmpty()) {
-            return matchesContains;
+            return new ArrayList<>(matchesContains);
         } else {
-            return matchesMostSimilar;
+            return new ArrayList<>(matchesMostSimilar);
         }
     }
 
