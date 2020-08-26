@@ -119,7 +119,7 @@ class ActivityReportCommand extends Command {
 
         playingThresholds.forEach((gameId, gameThreshold) -> {
             String gameName = event.getGameService().getGameName(gameId);
-            Long gameTimeout = OffsetDateTime.now(ZoneOffset.UTC).minusDays(gameThreshold).toInstant().toEpochMilli();
+            long gameTimeout = OffsetDateTime.now(ZoneOffset.UTC).minusDays(gameThreshold).toInstant().toEpochMilli();
             Long activityGame = activityPlaying.get(gameId);
             if (activityGame == null) {
                 // no "playing" data

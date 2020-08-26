@@ -15,7 +15,7 @@ import java.util.Map;
 @Component
 public class SmallCapsCommand extends Command {
 
-    private Map<Character, Character> map;
+    private final Map<Character, Character> map;
 
     public SmallCapsCommand() {
         super(CommandDescriptor.builder()

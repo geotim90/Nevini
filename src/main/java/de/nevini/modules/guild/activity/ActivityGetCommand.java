@@ -153,7 +153,7 @@ class ActivityGetCommand extends Command {
     }
 
     private Comparator<Map.Entry<Long, Long>> comparingValueReversed() {
-        Comparator<Map.Entry<Long, Long>> comparator = Comparator.comparing(Map.Entry::getValue);
+        Comparator<Map.Entry<Long, Long>> comparator = Map.Entry.comparingByValue();
         return comparator.reversed();
     }
 

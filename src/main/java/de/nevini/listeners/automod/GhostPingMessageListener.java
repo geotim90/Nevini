@@ -165,7 +165,7 @@ public class GhostPingMessageListener {
             messageBuilder.setContent(member.getAsMention() + " Please do not ghost ping.");
         }
         messageBuilder.setEmbed(embedBuilder.build());
-        messageBuilder.sendTo(channel).queue();
+        channel.sendMessage(messageBuilder.build()).queue();
     }
 
 }
