@@ -51,13 +51,13 @@ public class CommandEvent {
 
     public String getLogId() {
         if (isFromGuild()) {
-            return "G" + getGuild().getId()
-                    + "|C" + getChannel().getId()
-                    + "|U" + getAuthor().getId()
-                    + "|M" + getMessageId();
+            return "G:" + getGuild().getId()
+                    + "|C:" + getChannel().getId()
+                    + "|U:" + getAuthor().getId()
+                    + "|M:" + getMessageId();
         } else {
-            return "U" + getAuthor().getId()
-                    + "|M" + getMessageId();
+            return "U:" + getAuthor().getId()
+                    + "|M:" + getMessageId();
         }
     }
 
