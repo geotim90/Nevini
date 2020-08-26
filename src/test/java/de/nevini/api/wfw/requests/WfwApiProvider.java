@@ -1,16 +1,16 @@
 package de.nevini.api.wfw.requests;
 
-import de.nevini.api.wfw.WarframeWikiaApi;
+import de.nevini.api.wfw.WarframeWikiApi;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
 
 class WfwApiProvider {
 
     @Getter
-    private final WarframeWikiaApi wfwApi;
+    private final WarframeWikiApi wfwApi;
 
     WfwApiProvider() {
-        wfwApi = new WarframeWikiaApi(new OkHttpClient.Builder().build());
+        wfwApi = new WarframeWikiApi(new OkHttpClient.Builder().build());
     }
 
 }

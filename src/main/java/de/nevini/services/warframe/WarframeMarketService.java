@@ -4,7 +4,7 @@ import de.nevini.api.wfm.model.items.WfmItemName;
 import de.nevini.api.wfm.model.orders.WfmOrder;
 import de.nevini.api.wfm.model.statistics.WfmStatisticsPayload;
 import de.nevini.data.wfm.WfmItemNameDataService;
-import de.nevini.data.wfm.WfmOrdersDataService;
+import de.nevini.data.wfm.WfmOrderDataService;
 import de.nevini.data.wfm.WfmStatisticsDataService;
 import de.nevini.locators.Locatable;
 import lombok.NonNull;
@@ -17,12 +17,12 @@ import java.util.Collection;
 public class WarframeMarketService implements Locatable {
 
     private final WfmItemNameDataService itemNameDataService;
-    private final WfmOrdersDataService orderDataService;
+    private final WfmOrderDataService orderDataService;
     private final WfmStatisticsDataService statisticsDataService;
 
     public WarframeMarketService(
             @Autowired WfmItemNameDataService itemNameDataService,
-            @Autowired WfmOrdersDataService orderDataService,
+            @Autowired WfmOrderDataService orderDataService,
             @Autowired WfmStatisticsDataService statisticsDataService
     ) {
         this.itemNameDataService = itemNameDataService;

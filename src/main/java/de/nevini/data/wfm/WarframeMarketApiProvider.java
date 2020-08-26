@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class WarframeMarketApiProvider {
 
-    private final WarframeMarketApi api;
-
-    public WarframeMarketApiProvider() {
-        api = new WarframeMarketApi(new OkHttpClient.Builder().build());
-    }
+    private final WarframeMarketApi api = new WarframeMarketApi(new OkHttpClient.Builder().build());
 
 }

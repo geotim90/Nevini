@@ -3,21 +3,17 @@ package de.nevini.resolvers.warframe;
 import de.nevini.api.wfw.model.UnexpandedArticle;
 import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.OptionResolver;
-import de.nevini.services.warframe.WarframeWikiaService;
+import de.nevini.services.warframe.WarframeWikiService;
 import de.nevini.util.Finder;
 import de.nevini.util.command.CommandOptionDescriptor;
 import lombok.NonNull;
-import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class WfwArticleResolver extends OptionResolver<UnexpandedArticle> {
-
-    private List<UnexpandedArticle> articlesCache = Collections.emptyList();
 
     WfwArticleResolver() {
         super("page name", new Pattern[]{
@@ -38,13 +34,9 @@ public class WfwArticleResolver extends OptionResolver<UnexpandedArticle> {
 
     @Override
     public List<UnexpandedArticle> findSorted(@NonNull CommandEvent event, String query) {
-        WarframeWikiaService service = event.locate(WarframeWikiaService.class);
-        synchronized (this) {
-            articlesCache = ObjectUtils.defaultIfNull(service.getArticles(), articlesCache);
-        }
-        return Finder.findAnyLenient(articlesCache, item -> new String[]{
-                item.getTitle()
-        }, query).stream().sorted(Comparator.comparing(UnexpandedArticle::getTitle)).collect(Collectors.toList());
+        WarframeWikiService service = event.locate(WarframeWikiService.class);
+        return Finder.findLenient(service.getArticles(), UnexpandedArticle::getTitle, query).stream()
+                .sorted(Comparator.comparing(UnexpandedArticle::getTitle)).collect(Collectors.toList());
     }
 
     @Override

@@ -8,7 +8,7 @@ import de.nevini.command.CommandDescriptor;
 import de.nevini.command.CommandEvent;
 import de.nevini.resolvers.warframe.WarframeResolvers;
 import de.nevini.scope.Node;
-import de.nevini.services.warframe.WarframeStatsService;
+import de.nevini.services.warframe.WarframeStatusService;
 import de.nevini.util.command.CommandOptionDescriptor;
 import de.nevini.util.command.CommandReaction;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class SyndicateCommand extends Command {
 
     private void acceptFaction(CommandEvent event, String faction) {
         // retrieve syndicate data from service
-        WarframeStatsService service = event.locate(WarframeStatsService.class);
+        WarframeStatusService service = event.locate(WarframeStatusService.class);
         WfsWorldState worldState = service.getWorldState();
 
         // abort if no data is available

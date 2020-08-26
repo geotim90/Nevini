@@ -1,57 +1,61 @@
-package de.nevini.services.warframe;
+package de.nevini.data.wfs;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfs.WarframeStatsApi;
-import de.nevini.api.wfs.model.drops.WfsDrop;
-import de.nevini.api.wfs.model.rivens.WfsRiven;
+import de.nevini.api.wfs.WarframeStatusApi;
 import de.nevini.api.wfs.model.weapons.WfsWeapon;
-import de.nevini.api.wfs.model.worldstate.WfsWorldState;
-import de.nevini.api.wfs.requests.WfsDropsRequest;
-import de.nevini.api.wfs.requests.WfsRivensRequest;
 import de.nevini.api.wfs.requests.WfsWeaponsRequest;
-import de.nevini.api.wfs.requests.WfsWorldStateRequest;
-import de.nevini.locators.Locatable;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Slf4j
-public class WarframeStatsService implements Locatable {
+public class WfsWeaponDataService {
 
-    private final WarframeStatsApi api = new WarframeStatsApi(new OkHttpClient.Builder().build());
+    private static final String KEY = "pc|en";
 
-    private Collection<WfsRiven> rivens = null;
-    private List<WfsWeapon> weapons = null;
-    private WfsWorldState worldState = null;
+    private final Cache<String, List<WfsWeapon>> readCache;
+    private final WarframeStatusApi api;
+    private final Map<String, List<WfsWeapon>> backup;
 
-    public Collection<WfsDrop> getDrops(String query) {
-        return ObjectUtils.defaultIfNull(
-                api.getDrops(WfsDropsRequest.builder().query(query).build()).getResult(),
-                Collections.emptyList()
+    public WfsWeaponDataService(@Autowired WarframeStatusApiProvider apiProvider) {
+        this.readCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(Duration.ofMinutes(15))
+                .build();
+        this.api = apiProvider.getApi();
+        this.backup = new ConcurrentHashMap<>();
+    }
+
+    public List<WfsWeapon> get() {
+        log.trace("get()");
+        return getFromReadCache().orElseGet(() ->
+                getFromApi().orElse(getFromBackup())
         );
     }
 
-    public synchronized Collection<WfsRiven> getRivens() {
-        ApiResponse<Map<String, Map<String, WfsRiven>>> response = api.getRivens(WfsRivensRequest.builder().build());
-        return rivens = response.map(this::mapRivens).orElse(ApiResponse.ok(rivens)).getResult();
+    private @NonNull Optional<List<WfsWeapon>> getFromReadCache() {
+        log.trace("getFromReadCache()");
+        return Optional.ofNullable(readCache.getIfPresent(KEY));
     }
 
-    private Collection<WfsRiven> mapRivens(Map<String, Map<String, WfsRiven>> map) {
-        Collection<WfsRiven> collection = new ArrayList<>();
-        for (Map<String, WfsRiven> subMap : map.values()) {
-            collection.addAll(subMap.values());
-        }
-        return collection;
-    }
-
-    public synchronized Collection<WfsWeapon> getWeapons() {
+    private @NonNull Optional<List<WfsWeapon>> getFromApi() {
+        log.trace("getFromApi()");
         ApiResponse<List<WfsWeapon>> response = api.getWeapons(WfsWeaponsRequest.builder().build());
-        return weapons = repairWeaponData(response.orElse(ApiResponse.ok(weapons)).getResult());
+        List<WfsWeapon> result = response.getResult();
+        if (result != null && result.size() > 0) {
+            return Optional.of(cache(repairWeaponData(result)));
+        }
+        return Optional.empty();
     }
 
     private List<WfsWeapon> repairWeaponData(List<WfsWeapon> data) {
@@ -102,9 +106,16 @@ public class WarframeStatsService implements Locatable {
         }
     }
 
-    public synchronized WfsWorldState getWorldState() {
-        ApiResponse<WfsWorldState> response = api.getWorldState(WfsWorldStateRequest.builder().build());
-        return worldState = response.orElse(ApiResponse.ok(worldState)).getResult();
+    private @NonNull List<WfsWeapon> cache(@NonNull List<WfsWeapon> names) {
+        log.debug("Cache data: {}", names);
+        readCache.put(KEY, names);
+        backup.put(KEY, names);
+        return names;
+    }
+
+    private List<WfsWeapon> getFromBackup() {
+        log.trace("getFromBackup()");
+        return backup.get(KEY);
     }
 
 }

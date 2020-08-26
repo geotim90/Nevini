@@ -8,7 +8,7 @@ public class WarframeStatsServiceTest {
 
     @Test
     public void testRepairWeapons() {
-        WarframeStatsService service = new WarframeStatsService();
+        WarframeStatusService service = new WarframeStatusService();
         for (WfsWeapon weapon : service.getWeapons()) {
             Assert.assertNotNull(weapon.getWikiaThumbnail());
             Assert.assertNotNull(weapon.getWikiaUrl());

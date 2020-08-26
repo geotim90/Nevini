@@ -1,34 +1,32 @@
-package de.nevini.data.wfm;
+package de.nevini.data.wfs;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import de.nevini.api.ApiResponse;
-import de.nevini.api.wfm.WarframeMarketApi;
-import de.nevini.api.wfm.model.items.WfmItemName;
-import de.nevini.api.wfm.model.items.WfmItemsResponse;
-import de.nevini.api.wfm.requests.WfmItemsRequest;
+import de.nevini.api.wfs.WarframeStatusApi;
+import de.nevini.api.wfs.model.worldstate.WfsWorldState;
+import de.nevini.api.wfs.requests.WfsWorldStateRequest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 @Service
-public class WfmItemNameDataService {
+@Slf4j
+public class WfsWorldStateDataService {
 
     private static final String KEY = "pc|en";
 
-    private final Cache<String, Collection<WfmItemName>> readCache;
-    private final WarframeMarketApi api;
-    private final Map<String, Collection<WfmItemName>> backup;
+    private final Cache<String, WfsWorldState> readCache;
+    private final WarframeStatusApi api;
+    private final Map<String, WfsWorldState> backup;
 
-    public WfmItemNameDataService(@Autowired WarframeMarketApiProvider apiProvider) {
+    public WfsWorldStateDataService(@Autowired WarframeStatusApiProvider apiProvider) {
         this.readCache = CacheBuilder.newBuilder()
                 .expireAfterWrite(Duration.ofMinutes(15))
                 .build();
@@ -36,36 +34,36 @@ public class WfmItemNameDataService {
         this.backup = new ConcurrentHashMap<>();
     }
 
-    public Collection<WfmItemName> get() {
+    public WfsWorldState get() {
         log.trace("get()");
         return getFromReadCache().orElseGet(() ->
                 getFromApi().orElse(getFromBackup())
         );
     }
 
-    private @NonNull Optional<Collection<WfmItemName>> getFromReadCache() {
+    private @NonNull Optional<WfsWorldState> getFromReadCache() {
         log.trace("getFromReadCache()");
         return Optional.ofNullable(readCache.getIfPresent(KEY));
     }
 
-    private @NonNull Optional<Collection<WfmItemName>> getFromApi() {
+    private @NonNull Optional<WfsWorldState> getFromApi() {
         log.trace("getFromApi()");
-        ApiResponse<WfmItemsResponse> response = api.getItems(WfmItemsRequest.builder().build());
-        WfmItemsResponse result = response.getResult();
-        if (result != null && result.getPayload() != null && result.getPayload().getItems() != null) {
-            return Optional.of(cache(result.getPayload().getItems()));
+        ApiResponse<WfsWorldState> response = api.getWorldState(WfsWorldStateRequest.builder().build());
+        WfsWorldState result = response.getResult();
+        if (result != null) {
+            return Optional.of(cache(result));
         }
         return Optional.empty();
     }
 
-    private @NonNull Collection<WfmItemName> cache(@NonNull Collection<WfmItemName> names) {
+    private @NonNull WfsWorldState cache(@NonNull WfsWorldState names) {
         log.debug("Cache data: {}", names);
         readCache.put(KEY, names);
         backup.put(KEY, names);
         return names;
     }
 
-    private Collection<WfmItemName> getFromBackup() {
+    private WfsWorldState getFromBackup() {
         log.trace("getFromBackup()");
         return backup.get(KEY);
     }

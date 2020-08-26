@@ -38,8 +38,8 @@ public class WfsBountiesFactionResolver extends OptionResolver<String> {
 
     @Override
     public List<String> findSorted(@NonNull CommandEvent event, String query) {
-        return Finder.findAnyLenient(FACTIONS, item -> new String[]{item}, query)
-                .stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+        return Finder.findLenient(FACTIONS, query).stream().sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -17,12 +17,9 @@ import java.util.List;
 @Value
 public class WfsDropsRequest implements WfsApiRequest<List<WfsDrop>> {
 
-    @NonNull
-    String query;
-
     @Override
     public @NonNull String getEndpoint() {
-        return "https://api.warframestat.us/drops/search/" + query;
+        return "https://api.warframestat.us/drops";
     }
 
     @Override

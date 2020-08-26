@@ -18,12 +18,12 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class WfmOrdersDataService {
+public class WfmOrderDataService {
 
     private final Cache<String, Collection<WfmOrder>> readCache;
     private final WarframeMarketApi api;
 
-    public WfmOrdersDataService(@Autowired WarframeMarketApiProvider apiProvider) {
+    public WfmOrderDataService(@Autowired WarframeMarketApiProvider apiProvider) {
         this.readCache = CacheBuilder.newBuilder()
                 .expireAfterWrite(Duration.ofMinutes(1))
                 .maximumSize(300)
