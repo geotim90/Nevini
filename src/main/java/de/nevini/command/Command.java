@@ -56,7 +56,7 @@ public abstract class Command {
                 && checkBotPermission(event)
                 && checkUserPermission(event)
         ) {
-            log.info("{} - Executing {} called via {}", event.getMessageId(), getClass().getSimpleName(),
+            log.info("[{}] Executing {} called via {}", event.getLogId(), getClass().getSimpleName(),
                     summarize(event.getMessage().getContentRaw()));
             try {
                 execute(event);

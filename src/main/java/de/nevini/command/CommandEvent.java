@@ -49,6 +49,18 @@ public class CommandEvent {
         this.options = options;
     }
 
+    public String getLogId() {
+        if (isFromGuild()) {
+            return "G" + getGuild().getId()
+                    + "|C" + getChannel().getId()
+                    + "|U" + getAuthor().getId()
+                    + "|M" + getMessageId();
+        } else {
+            return "U" + getAuthor().getId()
+                    + "|M" + getMessageId();
+        }
+    }
+
     public String getArgument() {
         return options.getArgument().orElse(null);
     }
@@ -258,7 +270,7 @@ public class CommandEvent {
      * @see Message#addReaction(Emote)
      */
     private void addReaction(String unicode, Consumer<? super Message> callback) {
-        log.info("{} - reaction: {}", getMessageId(), unicode);
+        log.info("[{}] reaction: {}", getLogId(), unicode);
         getMessage().addReaction(unicode).queue(ignore -> callback.accept(getMessage()));
     }
 
@@ -272,7 +284,7 @@ public class CommandEvent {
      * @see MessageLineSplitter
      */
     private void sendMessage(MessageChannel channel, String content, Consumer<? super Message> callback) {
-        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(content));
+        log.info("[{}] {}: {}", getLogId(), channel.getType().name().toLowerCase(), summarize(content));
         MessageLineSplitter.sendMessage(channel, content, callback);
     }
 
@@ -286,7 +298,7 @@ public class CommandEvent {
      * @see PageableEmbed
      */
     private void sendMessage(MessageChannel channel, EmbedBuilder embed, Consumer<? super Message> callback) {
-        log.info("{} - {}: {}", getMessageId(), channel.getType().name().toLowerCase(), summarize(embed.toString()));
+        log.info("[{}] {}: {}", getLogId(), channel.getType().name().toLowerCase(), summarize(embed.toString()));
         new PageableEmbed(
                 channel, getAuthor(), getJDA().getSelfUser().getAvatarUrl(), embed, getEventDispatcher(), callback
         ).display();
