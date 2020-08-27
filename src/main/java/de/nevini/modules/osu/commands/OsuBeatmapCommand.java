@@ -27,7 +27,7 @@ public class OsuBeatmapCommand extends Command {
                 .aliases(new String[]{"osu!b", "osu!beatmaps", "osu!beatmapset", "osu!bm", "osu!bms", "osu!filter",
                         "osu!find", "osu!map", "osu!maps", "osu!mapset", "osu!s", "osu!search", "osu!set"})
                 .guildOnly(false)
-                .node(Node.OSU_BEATMAP)
+                .node(Node.OSU)
                 .description("displays general information of osu! beatmaps")
                 .options(new CommandOptionDescriptor[]{
                         OsuResolvers.BEATMAP.describe(true, true)

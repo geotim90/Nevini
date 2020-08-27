@@ -29,7 +29,7 @@ public class OsuRecentCommand extends Command {
                         new OsuRecentFeedCommand()
                 })
                 .guildOnly(false)
-                .node(Node.OSU_RECENT)
+                .node(Node.OSU)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays up to 50 most recent plays over the last 24 hours of an osu! user")
                 .options(new CommandOptionDescriptor[]{

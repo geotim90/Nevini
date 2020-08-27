@@ -27,7 +27,7 @@ public class OsuLeaderboardCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!leaderboard")
                 .aliases(new String[]{"osu!rank", "osu!ranks"})
-                .node(Node.OSU_LEADERBOARD)
+                .node(Node.OSU)
                 .description("displays the top 10 osu! users on this server")
                 .build());
     }

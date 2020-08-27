@@ -28,7 +28,7 @@ public class OsuDiagCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!diag")
                 .guildOnly(false)
-                .node(Node.OSU_BEST)
+                .node(Node.OSU)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("analyses the top 100 scores of an osu! user")
                 .options(new CommandOptionDescriptor[]{

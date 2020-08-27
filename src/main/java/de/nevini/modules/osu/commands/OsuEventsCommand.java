@@ -27,7 +27,7 @@ public class OsuEventsCommand extends Command {
                         new OsuEventsFeedCommand()
                 })
                 .guildOnly(false)
-                .node(Node.OSU_EVENTS)
+                .node(Node.OSU)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays osu! user events")
                 .options(new CommandOptionDescriptor[]{

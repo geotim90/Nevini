@@ -25,7 +25,7 @@ public class OsuBestCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!best")
                 .guildOnly(false)
-                .node(Node.OSU_BEST)
+                .node(Node.OSU)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays the top 100 scores of an osu! user")
                 .options(new CommandOptionDescriptor[]{

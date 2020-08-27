@@ -25,7 +25,7 @@ public class OsuStatsCommand extends Command {
                 .keyword("osu!stats")
                 .aliases(new String[]{"osu!user", "osu!profile"})
                 .guildOnly(false)
-                .node(Node.OSU_STATS)
+                .node(Node.OSU)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays general information of an osu! user")
                 .options(new CommandOptionDescriptor[]{

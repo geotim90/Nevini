@@ -27,7 +27,7 @@ public class OsuScoresCommand extends Command {
         super(CommandDescriptor.builder()
                 .keyword("osu!scores")
                 .guildOnly(false)
-                .node(Node.OSU_SCORES)
+                .node(Node.OSU)
                 .minimumBotPermissions(Permissions.BOT_EMBED_EXT)
                 .description("displays the top 100 scores of an osu! beatmap")
                 .options(new CommandOptionDescriptor[]{
