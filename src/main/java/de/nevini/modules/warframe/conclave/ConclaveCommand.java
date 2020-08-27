@@ -9,6 +9,7 @@ import de.nevini.command.CommandEvent;
 import de.nevini.scope.Node;
 import de.nevini.services.warframe.WarframeStatusService;
 import de.nevini.util.command.CommandReaction;
+import net.dv8tion.jda.api.EmbedBuilder;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -50,13 +51,20 @@ public class ConclaveCommand extends Command {
             return;
         }
 
-        StringBuilder builder = new StringBuilder();
-        for (WfsConclaveChallenge challenge : challenges) {
-            builder.append("\n\n**").append(challenge.getMode()).append("**\n")
-                    .append(challenge.getAsString()).append("\n")
-                    .append(WfsFormatter.formatEta(challenge.getExpiry()));
+        List<String> modes = challenges.stream().map(WfsConclaveChallenge::getMode).distinct()
+                .collect(Collectors.toList());
+
+        EmbedBuilder embed = event.createEmbedBuilder()
+                .setTitle("Conclave Challenges")
+                .setFooter("warframestat.us", "https://warframestat.us/wfcd_logo_color.png");
+        for (String mode : modes) {
+            StringBuilder builder = new StringBuilder();
+            challenges.stream().filter(e -> mode.equals(e.getMode())).forEach(challenge -> builder.append("[")
+                    .append(WfsFormatter.formatEta(challenge.getExpiry())).append("] ")
+                    .append(challenge.getAsString()).append("\n"));
+            embed.addField(mode, builder.toString(), false);
         }
-        event.reply(builder.toString(), event::complete);
+        event.reply(embed, event::complete);
     }
 
 }

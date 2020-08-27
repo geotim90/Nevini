@@ -1,6 +1,6 @@
 # Module: `util`
 
-These commands provide various utility functions. This modules is active by default but can be deactivated.
+These commands provide various utility functions. This module is active by default but can be deactivated.
 
 Command | Description
 --------|------------

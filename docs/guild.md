@@ -1,6 +1,6 @@
 # Module: `guild`
 
-These commands help manage a server (aka. guild) and monitor user (aka. member) activity. This modules is active by default but can be deactivated.
+These commands help manage a server (aka. guild) and monitor user (aka. member) activity. This module is active by default but can be deactivated.
 
 Command | Description
 --------|------------
