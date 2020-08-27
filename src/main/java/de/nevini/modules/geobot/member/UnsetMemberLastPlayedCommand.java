@@ -1,10 +1,10 @@
 package de.nevini.modules.geobot.member;
 
-import de.nevini.command.Command;
-import de.nevini.command.CommandDescriptor;
-import de.nevini.command.CommandEvent;
-import de.nevini.modules.guild.activity.ActivityUnsetPlayingCommand;
-import de.nevini.scope.Node;
+import de.nevini.core.command.Command;
+import de.nevini.core.command.CommandDescriptor;
+import de.nevini.core.command.CommandEvent;
+import de.nevini.core.scope.Node;
+import de.nevini.modules.guild.activity.commands.ActivityUnsetPlayingCommand;
 
 class UnsetMemberLastPlayedCommand extends Command {
 

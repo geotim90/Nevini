@@ -1,10 +1,10 @@
 package de.nevini.modules.geobot.timeout;
 
-import de.nevini.command.Command;
-import de.nevini.command.CommandDescriptor;
-import de.nevini.command.CommandEvent;
-import de.nevini.modules.guild.tribute.TributeTimeoutSetCommand;
-import de.nevini.scope.Node;
+import de.nevini.core.command.Command;
+import de.nevini.core.command.CommandDescriptor;
+import de.nevini.core.command.CommandEvent;
+import de.nevini.core.scope.Node;
+import de.nevini.modules.guild.tribute.commands.TributeTimeoutSetCommand;
 
 class SetTimeoutContributionCommand extends Command {
 

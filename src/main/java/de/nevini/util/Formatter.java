@@ -1,7 +1,7 @@
 package de.nevini.util;
 
-import de.nevini.api.osu.model.OsuBeatmap;
-import de.nevini.api.osu.model.OsuRank;
+import de.nevini.modules.osu.model.OsuBeatmap;
+import de.nevini.modules.osu.model.OsuRank;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
