@@ -1,6 +1,6 @@
 package de.nevini;
 
-import de.nevini.locators.JdaProvider;
+import de.nevini.core.locators.JdaProvider;
 import de.nevini.util.concurrent.EventDispatcher;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

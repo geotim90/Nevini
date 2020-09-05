@@ -1,10 +1,10 @@
 package de.nevini.modules.util.unicode.url;
 
-import de.nevini.command.Command;
-import de.nevini.command.CommandDescriptor;
-import de.nevini.command.CommandEvent;
-import de.nevini.scope.Node;
-import de.nevini.scope.Permissions;
+import de.nevini.core.command.Command;
+import de.nevini.core.command.CommandDescriptor;
+import de.nevini.core.command.CommandEvent;
+import de.nevini.core.scope.Node;
+import de.nevini.core.scope.Permissions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

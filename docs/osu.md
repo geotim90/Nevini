@@ -54,7 +54,7 @@ This command supports search criteria similar to the in-game search function (<h
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.beatmap**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
@@ -71,7 +71,7 @@ Displays the top 100 scores of an osu! user.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.best**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
@@ -89,7 +89,7 @@ Analyses the top 100 scores of an osu! user.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.best**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
@@ -107,7 +107,7 @@ Displays osu! user events.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.events**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
@@ -149,7 +149,7 @@ Displays the top 10 osu! users on this server.
 
 This command can only be executed in a text channel and not via direct message.
 
-Permission overrides may be applied on node **osu.leaderboard**.
+Permission overrides may be applied on node **osu**.
 
 Keyword | Aliases
 --------|--------
@@ -161,7 +161,7 @@ Displays up to 50 most recent plays over the last 24 hours of an osu! user.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.recent**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
@@ -204,7 +204,7 @@ Displays the top 100 scores of an osu! beatmap.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.scores**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
@@ -226,7 +226,7 @@ Displays general information of an osu! user.
 
 This command can be executed in a text channel or via direct message.
 
-Permission overrides may be applied on node **osu.stats**.
+Permission overrides may be applied on node **osu**.
 
 Option | Description
 -------|------------
