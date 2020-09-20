@@ -168,7 +168,7 @@ public class ReportCommand extends Command {
         }
 
         List<MemberReportDetails> completelyInactive = reportDetails.stream()
-                .filter(member -> member.isAnyInactivity() && !member.isAnyActivity())
+                .filter(member -> member.isAnyInactivity() && !member.isAnyActivity() && !member.isAway(now))
                 .sorted(Comparator.comparing(e -> e.getMember().getTimeJoined()))
                 .collect(Collectors.toList());
         if (!completelyInactive.isEmpty()) {
@@ -182,7 +182,7 @@ public class ReportCommand extends Command {
         }
 
         List<MemberReportDetails> away = reportDetails.stream()
-                .filter(member -> member.getAway() != null && member.getAway() > now.toInstant().toEpochMilli())
+                .filter(member -> member.isAway(now))
                 .sorted(Comparator.comparing(MemberReportDetails::getAway))
                 .collect(Collectors.toList());
         if (!away.isEmpty()) {
@@ -214,6 +214,10 @@ public class ReportCommand extends Command {
         boolean anyInactivity;
         OffsetDateTime deadline;
         Long away;
+
+        boolean isAway(OffsetDateTime now) {
+            return away != null && away > now.toInstant().toEpochMilli();
+        }
     }
 
     public void doMemberReport(CommandEvent event, Member member) {
