@@ -200,6 +200,35 @@ public class Formatter {
         return String.format("%d:%02d:%02d", hours, minutes % 60, seconds % 60);
     }
 
+    public static String formatShortUnitsBetween(@NonNull OffsetDateTime earlier, @NonNull OffsetDateTime later) {
+        if (earlier.isAfter(later)) {
+            return formatShortUnitsBetween(later, earlier);
+        }
+
+        String result = "";
+
+        long days = earlier.until(later, ChronoUnit.DAYS);
+        if (days > 0) {
+            result += days + "d ";
+        }
+
+        long hours = earlier.until(later, ChronoUnit.HOURS) % 24;
+        if (hours > 0) {
+            result += hours + "h ";
+        }
+
+        long minutes = earlier.until(later, ChronoUnit.MINUTES) % 60;
+        if (minutes > 0) {
+            result += minutes + "m ";
+        }
+
+        if (earlier.until(later, ChronoUnit.MINUTES) < 1) {
+            return "less than a minute";
+        }
+
+        return result.trim();
+    }
+
     public static String formatTimestamp(long epochMilli) {
         return formatTimestamp(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC));
     }

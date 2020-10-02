@@ -15,8 +15,9 @@ import java.util.stream.Collectors;
 public class WfsBountiesFactionResolver extends OptionResolver<String> {
 
     private static final List<String> FACTIONS = Arrays.asList(
-            "Ostrons (Cetus / Plains of Eidolon, Earth)",
-            "Solaris United (Solaris / Orb Vallis, Venus)"
+            "Ostron (Cetus / Plains of Eidolon, Earth)",
+            "Solaris United (Fortuna / Orb Vallis, Venus)",
+            "Entrati (Necralisk / Cambion Drift, Deimos)"
     );
 
     WfsBountiesFactionResolver() {
