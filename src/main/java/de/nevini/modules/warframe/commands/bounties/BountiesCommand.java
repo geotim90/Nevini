@@ -50,11 +50,11 @@ public class BountiesCommand extends Command {
         }
 
         Optional<WfsSyndicateMissions> result = worldState.getSyndicateMissions().stream()
-                .filter(e -> faction.startsWith(e.getSyndicate())).findAny();
+                .filter(e -> faction.startsWith(mapSyndicate(e.getSyndicate()))).findAny();
         if (result.isPresent()) {
             WfsSyndicateMissions missions = result.get();
-            StringBuilder builder = new StringBuilder("**" + missions.getSyndicate() + "** - "
-                    + WfsFormatter.formatEta(missions.getExpiry()));
+            StringBuilder builder = new StringBuilder("**" + mapSyndicate(missions.getSyndicate())
+                    + " Bounties ** - " + WfsFormatter.formatEta(missions.getExpiry()) + " remaining");
             for (WfsJob job : missions.getJobs()) {
                 builder.append("\n\n**").append(job.getType()).append("** - Level ").append(job.getEnemyLevels().get(0))
                         .append('-').append(job.getEnemyLevels().get(1)).append('\n')
@@ -62,6 +62,19 @@ public class BountiesCommand extends Command {
                         .append(StringUtils.join(job.getRewardPool(), " / "));
             }
             event.reply(builder.toString(), event::complete);
+        }
+    }
+
+    private String mapSyndicate(String syndicate) {
+        switch (syndicate) {
+            case "Ostrons":
+                return "Ostron";
+            case "Solaris United":
+                return "Solaris United";
+            case "EntratiSyndicate":
+                return "Entrati";
+            default:
+                return syndicate;
         }
     }
 

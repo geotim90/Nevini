@@ -162,6 +162,22 @@ public class WfsWorldStateTest extends WfsApiProvider {
     }
 
     @Test
+    public void testParser3() throws IOException {
+        WfsWorldStateRequest request = WfsWorldStateRequest.builder().build();
+        WfsWorldState result;
+        try (InputStreamReader reader = new InputStreamReader(
+                getClass().getResourceAsStream("worldState3.json")
+        )) {
+            result = request.parseStream(reader);
+        }
+
+        // Cambion Drift
+        Assert.assertEquals("2020-10-02T06:00:00Z", result.getCambionCycle().getActivation().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("2020-10-02T06:50:00Z", result.getCambionCycle().getExpiry().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        Assert.assertEquals("vome", result.getCambionCycle().getActive());
+    }
+
+    @Test
     public void testBlankRequest() {
         ApiResponse<WfsWorldState> response = getWfsApi().getWorldState(WfsWorldStateRequest.builder().build());
         Assert.assertTrue(response.toString(), response.isOk());

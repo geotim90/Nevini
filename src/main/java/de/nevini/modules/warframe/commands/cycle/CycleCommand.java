@@ -4,11 +4,14 @@ import de.nevini.core.command.Command;
 import de.nevini.core.command.CommandDescriptor;
 import de.nevini.core.command.CommandEvent;
 import de.nevini.core.scope.Node;
+import de.nevini.modules.warframe.api.wfs.model.worldstate.WfsCambionCycle;
 import de.nevini.modules.warframe.api.wfs.model.worldstate.WfsWorldState;
 import de.nevini.modules.warframe.services.WarframeStatusService;
+import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandReaction;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +41,8 @@ public class CycleCommand extends Command {
         }
 
         event.reply("**World Cycles**\nPlains of Eidolon: " + reformat(worldState.getCetusCycle().getShortString())
-                + "\nOrb Vallis: " + reformat(worldState.getVallisCycle().getShortString()), event::complete);
+                + "\nOrb Vallis: " + reformat(worldState.getVallisCycle().getShortString())
+                + "\nCambion Drift: " + formatCambion(worldState.getCambionCycle()), event::complete);
     }
 
     private static String reformat(String shortString) {
@@ -48,6 +52,11 @@ public class CycleCommand extends Command {
         } else {
             return shortString;
         }
+    }
+
+    private static String formatCambion(WfsCambionCycle data) {
+        String nextActive = "vome".equals(data.getActive()) ? "Fass" : "Vome";
+        return nextActive + " in " + Formatter.formatShortUnitsBetween(OffsetDateTime.now(), data.getExpiry());
     }
 
 }

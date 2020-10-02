@@ -53,6 +53,9 @@ public class WfsWorldState {
     @SerializedName("cetusCycle")
     WfsCetusCycle cetusCycle;
 
+    @SerializedName("cambionCycle")
+    WfsCambionCycle cambionCycle;
+
     @SerializedName("constructionProgress")
     WfsConstructionProgress constructionProgress;
 
