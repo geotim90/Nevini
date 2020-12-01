@@ -18,7 +18,11 @@ public enum OsuGenre implements OsuEnum {
     OTHER(6, "Other"),
     NOVELTY(7, "Novelty"),
     HIP_HOP(9, "Hip Hop"),
-    ELECTRONIC(10, "Electronic");
+    ELECTRONIC(10, "Electronic"),
+    METAL(11, "Metal"),
+    CLASSICAL(12, "Classical"),
+    FOLK(13, "Folk"),
+    JAZZ(14, "Jazz");
 
     private final int id;
     private final String name;

@@ -10,7 +10,7 @@ import lombok.ToString;
 public enum OsuLanguage implements OsuEnum {
 
     ANY(0, "Any"),
-    OTHER(1, "Other"),
+    UNSPECIFIED(1, "Unspecified"),
     ENGLISH(2, "English (EN)"),
     JAPANESE(3, "Japanese (JA)"),
     CHINESE(4, "Chinese (ZH)"),
@@ -20,7 +20,10 @@ public enum OsuLanguage implements OsuEnum {
     GERMAN(8, "German (DE)"),
     SWEDISH(9, "Swedish (SV)"),
     SPANISH(10, "Spanish (ES)"),
-    ITALIAN(11, "Italian (IT)");
+    ITALIAN(11, "Italian (IT)"),
+    RUSSIAN(12, "Russian (RU)"),
+    POLISH(13, "Polish (PL)"),
+    OTHER(14, "Other");
 
     private final int id;
     private final String name;
