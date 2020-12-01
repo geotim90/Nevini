@@ -133,9 +133,15 @@ public class OsuBeatmapCommand extends Command {
                         if (StringUtils.isNotEmpty(beatmap.getSource())) {
                             embed.addField("Source", beatmap.getSource(), true);
                         }
-                        embed.addField("Genre", beatmap.getGenre().getName(), true);
-                        embed.addField("Language", beatmap.getLanguage().getName(), true);
-                        embed.addField("Tags", beatmap.getTags(), true);
+                        if (beatmap.getGenre() != null) {
+                            embed.addField("Genre", beatmap.getGenre().getName(), true);
+                        }
+                        if (beatmap.getLanguage() != null) {
+                            embed.addField("Language", beatmap.getLanguage().getName(), true);
+                        }
+                        if (StringUtils.isNotEmpty(beatmap.getTags())) {
+                            embed.addField("Tags", beatmap.getTags(), true);
+                        }
                         return embed;
                     },
                     event.getEventDispatcher(),
