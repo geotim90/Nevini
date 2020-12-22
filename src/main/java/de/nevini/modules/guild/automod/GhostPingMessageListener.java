@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -68,8 +69,10 @@ public class GhostPingMessageListener {
         // get member
         Member member = event.getMember();
         if (member != null && !member.getUser().isBot()) {
-            // check for mentions
-            List<IMentionable> mentions = event.getMessage().getMentions(MENTIONS);
+            // check for mentions excluding self
+            List<IMentionable> mentions = event.getMessage().getMentions(MENTIONS).stream()
+                    .filter(e -> e.getIdLong() != member.getIdLong())
+                    .collect(Collectors.toList());
             if (!mentions.isEmpty()) {
                 // check immunity
                 if (moduleService.isModuleActive(event.getGuild(), IMMUNITY.getModule())
