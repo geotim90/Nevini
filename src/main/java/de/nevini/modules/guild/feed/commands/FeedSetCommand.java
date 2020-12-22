@@ -42,7 +42,7 @@ public class FeedSetCommand extends Command {
     }
 
     private void acceptFeed(CommandEvent event, Feed feed) {
-        Resolvers.CHANNEL.resolveOptionOrDefaultIfExists(event, event.getTextChannel(), channel ->
+        Resolvers.CHANNEL.resolveOptionOrDefault(event, event.getTextChannel(), channel ->
                 acceptFeedAndChannel(event, feed, channel));
     }
 
