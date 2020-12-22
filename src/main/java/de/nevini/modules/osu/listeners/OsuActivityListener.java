@@ -5,10 +5,7 @@ import de.nevini.modules.guild.feed.data.FeedData;
 import de.nevini.modules.guild.feed.services.FeedService;
 import de.nevini.modules.guild.ign.data.IgnData;
 import de.nevini.modules.guild.ign.services.IgnService;
-import de.nevini.modules.osu.model.OsuMode;
-import de.nevini.modules.osu.model.OsuRank;
-import de.nevini.modules.osu.model.OsuUserEvent;
-import de.nevini.modules.osu.model.OsuUserRecent;
+import de.nevini.modules.osu.model.*;
 import de.nevini.modules.osu.services.OsuService;
 import de.nevini.util.Formatter;
 import de.nevini.util.concurrent.EventDispatcher;
@@ -268,8 +265,10 @@ public class OsuActivityListener {
                             .forEach(e -> {
                                 String markdown = Formatter.formatOsuRank(e.getRank()) + " " + userName + " achieved "
                                         + Formatter.formatInteger(e.getScore()) + " points on "
-                                        + osuService.getBeatmapString(e.getBeatmapId()) + " at "
-                                        + Formatter.formatTimestamp(e.getDate());
+                                        + osuService.getBeatmapString(e.getBeatmapId())
+                                        + (e.getMods() != null && e.getMods().length > 0 ? " +"
+                                        + Arrays.stream(e.getMods()).map(OsuMod::getCode).collect(Collectors.joining())
+                                        : "") + " at " + Formatter.formatTimestamp(e.getDate());
                                 log.debug("Feed {} on {} in {}: {}",
                                         feed.getType(),
                                         channel.getGuild().getId(),

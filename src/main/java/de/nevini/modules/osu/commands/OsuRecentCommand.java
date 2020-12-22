@@ -6,6 +6,7 @@ import de.nevini.core.command.CommandEvent;
 import de.nevini.core.scope.Node;
 import de.nevini.core.scope.Permissions;
 import de.nevini.modules.admin.game.data.GameData;
+import de.nevini.modules.osu.model.OsuMod;
 import de.nevini.modules.osu.model.OsuMode;
 import de.nevini.modules.osu.model.OsuUserRecent;
 import de.nevini.modules.osu.resolvers.OsuResolvers;
@@ -16,7 +17,9 @@ import de.nevini.util.command.CommandOptionDescriptor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OsuRecentCommand extends Command {
@@ -68,7 +71,10 @@ public class OsuRecentCommand extends Command {
                                 + Formatter.formatInteger(score.getScore()) + " points - "
                                 + Formatter.formatLargestUnitAgo(score.getDate()),
                         "[" + osuService.getBeatmapString(score.getBeatmapId())
-                                + "](https://osu.ppy.sh/b/" + score.getBeatmapId() + ")",
+                                + "](https://osu.ppy.sh/b/" + score.getBeatmapId() + ")"
+                                + (score.getMods() != null && score.getMods().length > 0 ? " +**"
+                                + Arrays.stream(score.getMods()).map(OsuMod::getCode).collect(Collectors.joining())
+                                + "**" : ""),
                         false);
             }
             event.notifyLongTaskEnd();
