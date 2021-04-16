@@ -21,122 +21,6 @@ import java.util.Collections;
 @Slf4j
 class DebugPermissionCommand extends Command {
 
-    private final long[] masks = {
-            Permission.ADMINISTRATOR.getRawValue(),
-            Permission.VIEW_AUDIT_LOGS.getRawValue(),
-            Permission.MANAGE_SERVER.getRawValue(),
-            Permission.MANAGE_ROLES.getRawValue(),
-            Permission.MANAGE_CHANNEL.getRawValue(),
-            Permission.KICK_MEMBERS.getRawValue(),
-            Permission.BAN_MEMBERS.getRawValue(),
-            Permission.CREATE_INSTANT_INVITE.getRawValue(),
-            Permission.NICKNAME_CHANGE.getRawValue(),
-            Permission.NICKNAME_MANAGE.getRawValue(),
-            Permission.MANAGE_EMOTES.getRawValue(),
-            Permission.MANAGE_WEBHOOKS.getRawValue(),
-            Permission.MESSAGE_READ.getRawValue(),
-            Permission.MESSAGE_WRITE.getRawValue(),
-            Permission.MESSAGE_TTS.getRawValue(),
-            Permission.MESSAGE_MANAGE.getRawValue(),
-            Permission.MESSAGE_EMBED_LINKS.getRawValue(),
-            Permission.MESSAGE_ATTACH_FILES.getRawValue(),
-            Permission.MESSAGE_HISTORY.getRawValue(),
-            Permission.MESSAGE_MENTION_EVERYONE.getRawValue(),
-            Permission.MESSAGE_EXT_EMOJI.getRawValue(),
-            Permission.MESSAGE_ADD_REACTION.getRawValue(),
-            Permission.VOICE_CONNECT.getRawValue(),
-            Permission.VOICE_SPEAK.getRawValue(),
-            Permission.VOICE_STREAM.getRawValue(),
-            Permission.VOICE_MUTE_OTHERS.getRawValue(),
-            Permission.VOICE_DEAF_OTHERS.getRawValue(),
-            Permission.VOICE_MOVE_OTHERS.getRawValue(),
-            Permission.VOICE_USE_VAD.getRawValue(),
-            Permission.PRIORITY_SPEAKER.getRawValue()
-    };
-
-    private final long guildMask = Permission.ADMINISTRATOR.getRawValue()
-            | Permission.VIEW_AUDIT_LOGS.getRawValue()
-            | Permission.MANAGE_SERVER.getRawValue()
-            | Permission.MANAGE_ROLES.getRawValue()
-            | Permission.MANAGE_CHANNEL.getRawValue()
-            | Permission.KICK_MEMBERS.getRawValue()
-            | Permission.BAN_MEMBERS.getRawValue()
-            | Permission.CREATE_INSTANT_INVITE.getRawValue()
-            | Permission.NICKNAME_CHANGE.getRawValue()
-            | Permission.NICKNAME_MANAGE.getRawValue()
-            | Permission.MANAGE_EMOTES.getRawValue()
-            | Permission.MANAGE_WEBHOOKS.getRawValue()
-            | Permission.MESSAGE_READ.getRawValue()
-            | Permission.MESSAGE_WRITE.getRawValue()
-            | Permission.MESSAGE_TTS.getRawValue()
-            | Permission.MESSAGE_MANAGE.getRawValue()
-            | Permission.MESSAGE_EMBED_LINKS.getRawValue()
-            | Permission.MESSAGE_ATTACH_FILES.getRawValue()
-            | Permission.MESSAGE_HISTORY.getRawValue()
-            | Permission.MESSAGE_MENTION_EVERYONE.getRawValue()
-            | Permission.MESSAGE_EXT_EMOJI.getRawValue()
-            | Permission.MESSAGE_ADD_REACTION.getRawValue()
-            | Permission.VOICE_CONNECT.getRawValue()
-            | Permission.VOICE_SPEAK.getRawValue()
-            | Permission.VOICE_STREAM.getRawValue()
-            | Permission.VOICE_MUTE_OTHERS.getRawValue()
-            | Permission.VOICE_DEAF_OTHERS.getRawValue()
-            | Permission.VOICE_MOVE_OTHERS.getRawValue()
-            | Permission.VOICE_USE_VAD.getRawValue()
-            | Permission.PRIORITY_SPEAKER.getRawValue();
-
-    private final long categoryMask = Permission.CREATE_INSTANT_INVITE.getRawValue()
-            | Permission.MANAGE_CHANNEL.getRawValue()
-            | Permission.MANAGE_PERMISSIONS.getRawValue()
-            | Permission.MANAGE_WEBHOOKS.getRawValue()
-            | Permission.MESSAGE_READ.getRawValue()
-            | Permission.MESSAGE_WRITE.getRawValue()
-            | Permission.MESSAGE_TTS.getRawValue()
-            | Permission.MESSAGE_MANAGE.getRawValue()
-            | Permission.MESSAGE_EMBED_LINKS.getRawValue()
-            | Permission.MESSAGE_ATTACH_FILES.getRawValue()
-            | Permission.MESSAGE_HISTORY.getRawValue()
-            | Permission.MESSAGE_MENTION_EVERYONE.getRawValue()
-            | Permission.MESSAGE_EXT_EMOJI.getRawValue()
-            | Permission.MESSAGE_ADD_REACTION.getRawValue()
-            | Permission.VOICE_CONNECT.getRawValue()
-            | Permission.VOICE_SPEAK.getRawValue()
-            | Permission.VOICE_STREAM.getRawValue()
-            | Permission.VOICE_MUTE_OTHERS.getRawValue()
-            | Permission.VOICE_DEAF_OTHERS.getRawValue()
-            | Permission.VOICE_MOVE_OTHERS.getRawValue()
-            | Permission.VOICE_USE_VAD.getRawValue()
-            | Permission.PRIORITY_SPEAKER.getRawValue();
-
-    private final long textChannelMask = Permission.CREATE_INSTANT_INVITE.getRawValue()
-            | Permission.MANAGE_CHANNEL.getRawValue()
-            | Permission.MANAGE_PERMISSIONS.getRawValue()
-            | Permission.MANAGE_WEBHOOKS.getRawValue()
-            | Permission.MESSAGE_READ.getRawValue()
-            | Permission.MESSAGE_WRITE.getRawValue()
-            | Permission.MESSAGE_TTS.getRawValue()
-            | Permission.MESSAGE_MANAGE.getRawValue()
-            | Permission.MESSAGE_EMBED_LINKS.getRawValue()
-            | Permission.MESSAGE_ATTACH_FILES.getRawValue()
-            | Permission.MESSAGE_HISTORY.getRawValue()
-            | Permission.MESSAGE_MENTION_EVERYONE.getRawValue()
-            | Permission.MESSAGE_EXT_EMOJI.getRawValue()
-            | Permission.MESSAGE_ADD_REACTION.getRawValue();
-
-    private final long voiceChannelMask = Permission.CREATE_INSTANT_INVITE.getRawValue()
-            | Permission.MANAGE_CHANNEL.getRawValue()
-            | Permission.MANAGE_PERMISSIONS.getRawValue()
-            | Permission.MANAGE_WEBHOOKS.getRawValue()
-            | Permission.MESSAGE_READ.getRawValue()
-            | Permission.VOICE_CONNECT.getRawValue()
-            | Permission.VOICE_SPEAK.getRawValue()
-            | Permission.VOICE_STREAM.getRawValue()
-            | Permission.VOICE_MUTE_OTHERS.getRawValue()
-            | Permission.VOICE_DEAF_OTHERS.getRawValue()
-            | Permission.VOICE_MOVE_OTHERS.getRawValue()
-            | Permission.VOICE_USE_VAD.getRawValue()
-            | Permission.PRIORITY_SPEAKER.getRawValue();
-
     DebugPermissionCommand() {
         super(CommandDescriptor.builder()
                 .keyword("permission")
@@ -186,13 +70,13 @@ class DebugPermissionCommand extends Command {
             try (PrintWriter out = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(new FileOutputStream(export), StandardCharsets.UTF_8)
             ))) {
-                out.println("Type,Server,User,Channel,Role,Administrator,View Audit Log,Manage Server,"
-                        + "Manage Roles & Channel Permissions,Manage Channels,Kick Members,Ban Members,"
-                        + "Create Instant Invite,Change Nickname,Manage Nicknames,Manage Emojis,Manage Webhooks,"
-                        + "Read Text Channels & See Voice Channels,Send Messages,Send TTS Messages,Manage Messages,"
-                        + "Embed Links,Attach Files,Read Message History,Mention Everyone,Use External Emojis,"
-                        + "Add Reactions,Connect,Speak,Stream,Mute Members,Deafen Members,Move Members,"
-                        + "Use Voice Activity,Priority Speaker");
+                out.print("Type,Server,User,Channel,Role");
+                for (Permission p : Permission.values()) {
+                    if (p.getOffset() > -1) {
+                        out.print("," + p.getName());
+                    }
+                }
+                out.println();
 
                 final String server = event.getGuild().getName();
 
@@ -252,8 +136,10 @@ class DebugPermissionCommand extends Command {
         if (filteredPermissions != 0) {
             out.append(getTypeName(type)).append(',').append(server).append(',').append(user).append(',')
                     .append(channel).append(',').append(role);
-            for (long mask : masks) {
-                out.append(',').append((permissions & mask) > 0 ? "ON" : "");
+            for (Permission p : Permission.values()) {
+                if (p.getOffset() > -1) {
+                    out.append(',').append((permissions & p.getRawValue()) > 0 ? "ON" : "");
+                }
             }
             out.println();
         }
@@ -267,8 +153,10 @@ class DebugPermissionCommand extends Command {
         if (allowed != 0 || denied != 0) {
             out.append(getTypeName(type)).append(',').append(server).append(',').append(user).append(',')
                     .append(channel).append(',').append(role);
-            for (long mask : masks) {
-                out.append(',').append((allowed & mask) > 0 ? "ON" : (denied & mask) > 0 ? "NO" : "");
+            for (Permission p : Permission.values()) {
+                if (p.getOffset() > -1) {
+                    out.append(',').append((allowed & p.getRawValue()) > 0 ? "ON" : (denied & p.getRawValue()) > 0 ? "NO" : "");
+                }
             }
             out.println();
         }
@@ -276,13 +164,13 @@ class DebugPermissionCommand extends Command {
 
     private long getTypeMask(ISnowflake type) {
         if (type instanceof TextChannel) {
-            return textChannelMask;
+            return Permission.ALL_TEXT_PERMISSIONS;
         } else if (type instanceof VoiceChannel) {
-            return voiceChannelMask;
+            return Permission.ALL_VOICE_PERMISSIONS;
         } else if (type instanceof Category) {
-            return categoryMask;
+            return Permission.ALL_CHANNEL_PERMISSIONS;
         } else {
-            return guildMask;
+            return Permission.ALL_GUILD_PERMISSIONS;
         }
     }
 

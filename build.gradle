@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.4'
+	id 'org.springframework.boot' version '2.4.5'
 }
 
 apply plugin: 'java'
@@ -8,7 +8,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '5.0.15'
+version = '5.0.16'
 sourceCompatibility = '8'
 
 configurations {
@@ -39,7 +39,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 	// jda
-	implementation 'net.dv8tion:JDA:4.2.0_252'
+	implementation 'net.dv8tion:JDA:4.2.1_256'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
 	implementation 'org.discordbots:DBL-Java-Library:2.0.1'
 	// other libs
