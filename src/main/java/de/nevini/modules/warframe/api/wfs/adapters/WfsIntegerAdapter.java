@@ -27,6 +27,8 @@ public class WfsIntegerAdapter extends TypeAdapter<Integer> {
             String value = in.nextString();
             if (value.isEmpty() || "???".equals(value)) {
                 return null;
+            } else if ("Infinite".equals(value)) {
+                return Integer.MAX_VALUE;
             } else {
                 return Integer.parseInt(value);
             }
