@@ -9,6 +9,7 @@ import de.nevini.modules.warframe.api.wfs.model.rivens.WfsRivenData;
 import de.nevini.modules.warframe.resolvers.WarframeResolvers;
 import de.nevini.util.Formatter;
 import de.nevini.util.command.CommandOptionDescriptor;
+import de.nevini.util.command.CommandReaction;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,11 @@ public class RivenCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        WarframeResolvers.RIVEN.resolveArgumentOrOptionOrInput(event, item -> acceptRiven(event, item));
+        try {
+            WarframeResolvers.RIVEN.resolveArgumentOrOptionOrInput(event, item -> acceptRiven(event, item));
+        } catch (NullPointerException e) {
+            event.reply(CommandReaction.ERROR, "Unable to retrieve riven data from warframestat.us", event::complete);
+        }
     }
 
     private void acceptRiven(CommandEvent event, WfsRiven item) {
