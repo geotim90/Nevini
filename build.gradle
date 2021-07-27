@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.5'
+	id 'org.springframework.boot' version '2.5.3'
 }
 
 apply plugin: 'java'
@@ -8,7 +8,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.nevini'
-version = '5.0.17'
+version = '5.0.18'
 sourceCompatibility = '8'
 
 configurations {
@@ -19,7 +19,7 @@ configurations {
 
 repositories {
 	mavenCentral()
-	jcenter()
+	jcenter() // repository is deprecated but still required for jda-utilities
 	maven { url 'https://jitpack.io' }
 	maven { url 'https://m2.dv8tion.net/releases' }
 }
@@ -39,7 +39,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 	// jda
-	implementation 'net.dv8tion:JDA:4.2.1_264'
+	implementation 'net.dv8tion:JDA:4.3.0_298'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
 	implementation 'org.discordbots:DBL-Java-Library:2.0.1'
 	// other libs
@@ -48,9 +48,9 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	// test
-	testCompile 'junit:junit'
-	testCompile 'org.mockito:mockito-core'
-	testCompile 'org.mockito:mockito-inline'
+	testImplementation 'junit:junit'
+	testImplementation 'org.mockito:mockito-core'
+	testImplementation 'org.mockito:mockito-inline'
 }
 
 new File(new File(projectDir, "src/main/resources"), "version.txt").text = "$version"
